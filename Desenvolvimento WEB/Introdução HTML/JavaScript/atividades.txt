@@ -1,5 +1,5 @@
 /* Para as restrições de idade, verifique se as idades estejam entre 0 e 125 anos */
-/* Para as restrições de altura, verifique se a altura está entre 60 e 250 */
+/* Para as restrições de altura, verifique se a altura está entre 1m e 2.50m */
 
 1 - Em um determinado site é pedido para verificar se o usuário é menor de idade ou não,
 caso seja menor de idade exiba uma mensagem dizendo que não é permitido a entrada de menores de idade.
@@ -14,9 +14,17 @@ tenha entre 15 e 17 anos ele receberá uma msg dizendo que será redirecionado p
 juvenil, caso tenha entre 0 e 14 anos será redirecionado para a seção infantil, caso seja maior que 17
  será redirecionado para a seção adulto.
 
+// Usar o laço de repetição "For" com a estrutura de seleção "if"
+ Sintaxe for = for(var i = 0; i <= idade; i++) {};
  4 - Um determinado site de matemática foi pedido para criar um algoritmo onde o usuário
  entre com a idade e entre 0 e a idade informada, demostre todos os valores que são divisíveis por
  dois ou por três.
+
+
+
+
+
+
 
  5 - O mesmo site de matemática pediu para criar um algoritmo onde o usuário
  entre com a idade e que faça uma somatória de todos os valores entre o número 1 e a idade informada.
