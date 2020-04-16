@@ -11,7 +11,6 @@ BEGIN
   -- Entre 0 e 17 anos, fique estudando;
   
   idade1 := 10;
-  --idade2 := 105;
   
   IF NOT(idade1 <= 0 OR idade1 > 125) THEN
    IF idade1 >= 60 AND idade1 <= 125 THEN
@@ -27,6 +26,7 @@ BEGIN
   
   -- Operadores de comparação
   /*
+  -- Uma segunda solução
   IF idade1 <= 0 OR idade1 > 125 THEN
     dbms_output.put_line('Idade inválida!');
   ELSE
