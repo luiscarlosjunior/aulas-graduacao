@@ -2,8 +2,8 @@
 public class exemplos {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		// Exemplo de conversão de tipos
+		
 	}
 
 }
