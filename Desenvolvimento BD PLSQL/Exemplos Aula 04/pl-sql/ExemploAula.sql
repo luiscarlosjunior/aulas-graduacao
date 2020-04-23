@@ -43,7 +43,7 @@ DECLARE
   V_Total NUMBER;
   V_TUDO CONSTANT NUMBER := 1000;
 BEGIN
-  INSERT INTO ALUNO (ID, RA,NOME, SOBRENOME, NOTA, FALTAS, CURSO, GENERO, PERIODO) VALUES (304,V_RA,V_NOME,'Rotar', 9, 10, 'CC', 'Feminino', 'Matutino');
+  INSERT INTO ALUNO (ID, RA,NOME, SOBRENOME, NOTA, FALTAS, CURSO, GENERO, PERIODO) VALUES (305,V_RA,V_NOME,'Rotar', 9, 10, 'CC', 'Feminino', 'Matutino');
   
   if (V_Nota >= 7) THEN
     dbms_output.put_line('Parabéns pela nota ' || V_NOME);
