@@ -9,22 +9,14 @@ algoritmo que valide a altura do usuário de um determinado brinquedo. As condi�
 são, só pode entrar quem possui mais de 1.60m e recebera uma mensagem de entrada
 permitida.
 
-3 - Em um determinado site eles querem fazer uma série de verificações, caso o usuário
-tenha entre 15 e 17 anos ele receberá uma msg dizendo que será redirecionado para a seção
-juvenil, caso tenha entre 0 e 14 anos será redirecionado para a seção infantil, caso seja maior que 17
- será redirecionado para a seção adulto.
+3 - Em um determinado site eles querem fazer uma série de verificações,
+caso o usuário tenha entre 15 e 17 anos ele receberá uma msg dizendo que será
+redirecionado para a seção juvenil, caso tenha entre 0 e 14 anos será redirecionado
+para a seção infantil, caso seja maior que 17 será redirecionado para a seção adulto.
 
-// Usar o laço de repetição "For" com a estrutura de seleção "if"
- Sintaxe for = for(var i = 0; i <= idade; i++) {};
  4 - Um determinado site de matemática foi pedido para criar um algoritmo onde o usuário
  entre com a idade e entre 0 e a idade informada, demostre todos os valores que são divisíveis por
  dois ou por três.
-
-
-
-
-
-
 
  5 - O mesmo site de matemática pediu para criar um algoritmo onde o usuário
  entre com a idade e que faça uma somatória de todos os valores entre o número 1 e a idade informada.
