@@ -3,8 +3,7 @@ SET SERVEROUTPUT ON
 DECLARE
   -- Declara as tabelas
   TYPE AlunoArray
-    IS TABLE OF aluno.nome%TYPE
-    INDEX BY SIMPLE_INTEGER;
+    IS TABLE OF aluno.nome%TYPE;
     
   -- Declaro variavéis 
   Nomes AlunoArray;
@@ -12,14 +11,14 @@ DECLARE
 BEGIN
 
   SELECT NOME
-    INTO Nomes(100)
-  FROM alunos
-  WHERE ROWNUM <= 100;
+    INTO Nomes(1)
+  FROM aluno
+  WHERE ROWNUM <= 1;
 
   -- Looping
-  For I in 0..100 
-  LOOP
-    DBMS_OUTPUT.PUT_LINE('Nome: ' || Nomes(I));
-  END LOOP
+  --For I in 0..50 
+  --LOOP
+    DBMS_OUTPUT.PUT_LINE('Nome: ' || Nomes(1));
+  --END LOOP;
 
 END;
