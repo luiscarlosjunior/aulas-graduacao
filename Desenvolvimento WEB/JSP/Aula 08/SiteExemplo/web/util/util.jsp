@@ -3,7 +3,14 @@
     Created on : 10/05/2020, 20:40:01
     Author     : luisc
 --%>
+
+<%-- 
+    Aqui criamos um laço para preencher um select com os meses
+--%>
+
+<%-- Aqui importamos uma classe util --%>
 <%@page import="java.util.*"%>
+
     <%
     String mes[] = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", 
         "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};

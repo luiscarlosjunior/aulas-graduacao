@@ -13,11 +13,14 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Seja bem-vindo <%= request.getParameter("user") %></h1>
+        
+        <h2> Informações sobre o servidor </h2>
         <%= Util.deixeMaiusculo("Meu nome não é Jonny") %>
         <%= Util.deixeMinusculo("Meu nome não é Jonny") %>
-        
+        <br>
         <%= request.getHeader("User-Agent") %>
+        <br>
         <%= request.getLocale()%>
     </body>
 </html>

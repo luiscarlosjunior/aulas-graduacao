@@ -10,11 +10,13 @@ package exemplopoo;
  * @author luisc
  */
 public class Caninos {
+    
+    // Atributos
     private int peso;
     private String corOlhos;
     private int quantPatas;
     
-    
+    // Encapsulamento
     public int getQuantPatas() {
         return quantPatas;
     }

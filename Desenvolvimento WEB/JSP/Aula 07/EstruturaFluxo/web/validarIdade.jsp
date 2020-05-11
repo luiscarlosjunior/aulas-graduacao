@@ -5,7 +5,6 @@
 --%>
 
 <%@page import="com.sun.xml.internal.ws.util.HandlerAnnotationProcessor"%>
-<%@page import="com.sun.xml.internal.ws.handler.HandlerProcessor.RequestOrResponse"%>
 <%@page import="java.util.Calendar"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -31,7 +30,7 @@
             
             // Pego a diferença de idade
             int diferenca = anoAtual - ano;
-                        
+            
             // Verifico se a idade é maior que 18
             if(diferenca > idadeMinima) {
                  response.sendRedirect("Inicial.html");
@@ -49,14 +48,6 @@
             {
                  response.sendRedirect("index.html");
             }
-            
-           /* String strNome = "Ano recebido: " + request.getParameter("ano");
-            strNome += "\nMês recebido: " + request.getParameter("mes");
-            strNome += "\nDia  recebido: " + request.getParameter("dia");
-            out.print(strNome);*/
-            
-            
-            //if(diferenca)
             
         %>
         
