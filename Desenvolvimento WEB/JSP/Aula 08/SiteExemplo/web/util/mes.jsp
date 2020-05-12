@@ -9,13 +9,11 @@
 --%>
 
 <%-- Aqui importamos uma classe util --%>
-<%@page import="java.util.*"%>
-
     <%
     String mes[] = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", 
         "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
    %> <select name="mes"> <%
-    for(int i = 11; i >= 0; --i) {
+    for(int i = 0; i < mes.length; i++) {
         %> <option value="<%=i+1%>" selected="selected"><%=mes[i]%></option>
     <%}%> 
     </select>

@@ -4,16 +4,15 @@
     Author     : luisc
 --%>
 
-<%@page import="exemplo.util.VerificarLogin"%>
+<%@page import="com.meuapp.util.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="exemplo.util.VerificarLogin.*"%>
 <%
     // Recebeo o usuário e a senha
     String usuario = request.getParameter("usuario"); 
     String senha = request.getParameter("senha"); 
     
     // Cria uma instância da classe VerificarLogin
-    VerificarLogin userLicense = new VerificarLogin();
+    verificarLogin userLicense = new verificarLogin();
 
     // Passa por parâmetro as informações nescessárias
     userLicense.setUsuario(usuario);
@@ -21,9 +20,10 @@
     
     // Chama o método que está fazendo a validação
     if (userLicense.permissao()) {
-        response.sendRedirect("../telainicial.jsp?user=" + userLicense.getUsuario());
+        response.sendRedirect("apresentartexto.jsp?user=" + 
+                userLicense.getUsuario());
     }
     else {
-        response.sendRedirect("../index.jsp");
+        response.sendRedirect("index.jsp");
     }
 %>

@@ -1,6 +1,6 @@
-package exemplo.util;
+package com.meuapp.util;
 
-public class VerificarLogin {
+public class verificarLogin {
     // Atributos
     private String usuario; 
     private String senha;

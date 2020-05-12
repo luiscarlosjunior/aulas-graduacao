@@ -6,24 +6,34 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Entrar</title>
+        <title>Informe o seu acesso</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <style>
+            /*https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content*/
+             /*Forma simpels de centralizar algum componente no meio da tela*/
+            .flex-box {
+               display: flex;
+               align-items: center;
+               justify-content: center;
+             }
+
+            /*
             .centraliza {
                 position: absolute;
                 left: 40%;
                 top: 30%
             }
+            */
             
             label {
                 font-size: 22px;  
             }
             
             /*
-                Modificamos dois determinados tipos de inputs para deixar mais 
-                agradável.
+                Modificamos dois determinados tipos de inputs para deixar a 
+                aparência mais agradável.
                 Border-radius: arredondadar as pontas;
                 box-shadow: Cria sombra por volta do elemento
             */
@@ -67,11 +77,11 @@ and open the template in the editor.
                 font-weight: bold;
                 border-radius:10px;
             }
-            
         </style>
     </head>
     <body>
-        <div class="centraliza">
+        
+        <div class="flex-box">
             <form action="validation/validarLogin.jsp">
                 <h2>Entre com a sua conta</h2>
                 <label for="user">Usuário:</label><br>
@@ -80,11 +90,14 @@ and open the template in the editor.
                 <input type="password" id="senha" name="senha">
                 <br><br>
                 <center>
-                    <input style="margin-right: 10px;" type="submit" value="Enviar" id="btnEnviar" name="btnEnviar" >
+                    <input style="margin-right: 10px;" type="submit" 
+                           value="Enviar" id="btnEnviar" name="btnEnviar" >
                     <!-- Botão cancelar não está disponivel-->
-                    <input type="submit" value="Cancelar" id="btnCancelar" name="btnCancelar" >
+                    <input type="submit" value="Cancelar" id="btnCancelar" 
+                           name="btnCancelar" >
                 </center>
             </form>
         </div>
+        
     </body>
 </html>

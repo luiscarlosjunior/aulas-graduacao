@@ -23,15 +23,15 @@
 
     // Verifico se a idade é maior que 18
     if(diferenca > idadeMinima) {
-         response.sendRedirect("../Inicial.html");
+         response.sendRedirect("../telainicial.jsp");
     }
     else if (diferenca == idadeMinima) {
         if(mes < mesAtual) {
-             response.sendRedirect("../Inicial.html");
+             response.sendRedirect("../telainicial.jsp");
         } else if (mes == mesAtual && dia < diaAtual) {
-             response.sendRedirect("../Inicial.html");
+             response.sendRedirect("../telainicial.jsp");
         } else {
-             response.sendRedirect("../Inicial.html");
+             response.sendRedirect("../telainicial.jsp");
         }       
     }
     else
