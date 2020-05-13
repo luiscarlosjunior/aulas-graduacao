@@ -37,17 +37,17 @@
             
             // Verificação da idade
             if(diferenca > idadeMinima) {
-                response.sendRedirect("telaInicial.html");
+                response.sendRedirect("../inicial.jsp");
             } else if (diferenca == idadeMinima) {
                 if (mes < mesAtual) {
-                    response.sendRedirect("telaInicial.html");
+                    response.sendRedirect("../inicial.jsp");
                 } else if (mes == mesAtual) {
-                    response.sendRedirect("telaInicial.html");
+                    response.sendRedirect("../inicial.jsp");
                 } else {
-                    response.sendRedirect("index.html");
+                    response.sendRedirect("../index.jsp");
                 }
             } else {
-                response.sendRedirect("index.html");
+                response.sendRedirect("../index.jsp");
             }
         %>
         
