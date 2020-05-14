@@ -1,0 +1,11 @@
+
+BEGIN
+  FOR V_CONTADOR IN 1..20 LOOP
+    DBMS_OUTPUT.PUT_LINE('Contador: ' || V_CONTADOR);
+      IF V_CONTADOR = 10 THEN
+        GOTO FIM;
+      END IF;
+  END LOOP;
+  <<FIM>>
+ DBMS_OUTPUT.PUT_LINE('Fim do programa');
+END;
