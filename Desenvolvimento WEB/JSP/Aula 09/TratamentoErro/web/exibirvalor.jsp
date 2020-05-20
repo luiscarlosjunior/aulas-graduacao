@@ -12,7 +12,6 @@
         <title>Exibir IMC</title>
     </head>
     <body>
-        wrap classes
         <%
             float peso = Float.parseFloat(request.getParameter("peso"));
             float altura = Float.parseFloat(request.getParameter("altura"));
