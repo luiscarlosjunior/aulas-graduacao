@@ -1,9 +1,17 @@
+<%-- 
+    Document   : login
+    Created on : 02/06/2020, 21:10:57
+    Author     : luisc
+--%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <html>
     <head>
-         <style>
+        <title>Informe o seu acesso</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <style>
             /*https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content*/
              /*Forma simpels de centralizar algum componente no meio da tela*/
             .flex-box {
@@ -73,15 +81,50 @@
         </style>
     </head>
     <body>
-      <div class="flex-box">
-        <form action = "criandoCookie.jsp" method = "POST">
-            Primeiro nome: <input type = "text" name = "primeiroNome">
-            <br />
-            Último nome: <input type = "text" name = "ultimoNome" />
-            <input type = "submit" value = "Submit" />
-        </form>
-      </div>
-      
-      
-   </body>
+        
+        <%
+            if(session.getAttribute("login") == null) {
+        %>
+        
+        <div class="flex-box">
+            <form action="ServletLogin">
+                <h2>Entre com a sua conta</h2>
+                <label for="user">Usuário:</label><br>
+                <input type="text" id="user" name="login"><br><br>
+                <label for="senha">Senha:</label><br>
+                <input type="password" id="senha" name="senha">
+                <br><br>
+                <center>
+                    <input style="margin-right: 10px;" type="submit" 
+                           name="acao" value="login" >
+                    <!-- Botão cancelar não está disponivel-->
+                </center>
+            </form>
+        <%
+         } 
+            // Verificar se possui erros
+            if(request.getParameter("erro") != null) {
+        %>
+           <div>
+               <font color="red" style="font-size: 18px" > Login Inválido </font>
+           </div>
+        <%
+         }
+          //Se não houver erros, podemos pegar o usuário
+         if(session.getAttribute("login") != null) {
+        %>
+            <div>
+                <br>
+                <form method="POST" action="ServletLogin">
+                    <% out.print(session.getAttribute("login")); %>
+                    <input type="submit" name="acao" value="logout">
+                </form>
+                
+            </div>
+        <%
+        }
+        %>
+        </div>
+        
+    </body>
 </html>

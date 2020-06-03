@@ -1,9 +1,12 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-         <style>
+        <title>Informe o seus dados</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <style>
             /*https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content*/
              /*Forma simpels de centralizar algum componente no meio da tela*/
             .flex-box {
@@ -73,15 +76,22 @@
         </style>
     </head>
     <body>
-      <div class="flex-box">
-        <form action = "criandoCookie.jsp" method = "POST">
-            Primeiro nome: <input type = "text" name = "primeiroNome">
-            <br />
-            Último nome: <input type = "text" name = "ultimoNome" />
-            <input type = "submit" value = "Submit" />
-        </form>
-      </div>
-      
-      
-   </body>
+        
+        <div class="flex-box">
+            <form action="criandocookie.jsp" method="POST">
+                <h2>Informe seu nome e sobrenome</h2>
+                <label for="pnome">Primeiro nome:</label><br>
+                <input type="text" id="pnome" name="primeiroNome"><br><br>
+                <label for="unome">Último nome:</label><br>
+                <input type="text" id="unome" name="ultimoNome">
+                <br><br>
+                <center>
+                    <input style="margin-right: 10px;" type="submit" 
+                           value="Enviar" id="btnEnviar" name="btnEnviar" >
+                </center>
+            </form>
+        </div>
+        
+    </body>
 </html>
+
