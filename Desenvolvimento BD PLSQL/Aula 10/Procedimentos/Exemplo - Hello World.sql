@@ -18,5 +18,9 @@ BEGIN
 END HelloWorld;
 /
 
-execute HelloWorld
+
+
+execute HelloWorld;
+
+exec HelloWorld;
   
