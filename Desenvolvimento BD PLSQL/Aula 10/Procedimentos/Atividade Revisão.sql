@@ -1,0 +1,21 @@
+CREATE OR REPLACE FUNCTION FUNC_MEDIA (
+  V_1 IN NUMBER,
+  V_2 IN NUMBER,
+  V_3 IN NUMBER,
+  V_4 IN NUMBER
+)
+  RETURN VARCHAR2 IS
+  MEDIA NUMBER(3);
+BEGIN
+    MEDIA := (V_1 + V_2 + V_3 + V_4)/4;
+    
+    IF MEDIA > 8 THEN
+      RETURN 'Excelente';
+    ELSIF MEDIA > 6 THEN
+      RETURN 'Muito bem';
+    ELSE
+      RETURN 'Reprovou';
+    END IF;
+END;
+
+SELECT FUNC_MEDIA(10,5,6,8) FROM DUAL;

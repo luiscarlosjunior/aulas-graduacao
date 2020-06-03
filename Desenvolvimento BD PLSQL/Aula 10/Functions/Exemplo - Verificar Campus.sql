@@ -1,0 +1,23 @@
+--Na declaração de uma função ou procedure, 
+--não se deve restringir os parâmetros de CHAR ou VARCHAR2 
+--com um comprimento e os parâmetros de um NUMBER com uma precisão ou escala.
+
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE FUNCTION VERIFICAR_CAMPUS (
+ P_SIGLA IN CHAR)
+ RETURN VARCHAR2 IS
+ V_CAMPUS VARCHAR2(15);
+BEGIN
+ IF P_SIGLA = 'MM' THEN
+  RETURN 'MEMORIAL';
+ ELSIF P_SIGLA = 'VM' THEN
+  RETURN 'VILA MARIA';
+ ELSIF P_SIGLA = 'VG' THEN
+  RETURN 'VERGUEIRO';
+ ELSE
+  RETURN 'SANTO AMARO';
+ END IF;
+END VERIFICAR_CAMPUS;
+/
+SELECT VERIFICAR_CAMPUS('VG') FROM DUAL;
