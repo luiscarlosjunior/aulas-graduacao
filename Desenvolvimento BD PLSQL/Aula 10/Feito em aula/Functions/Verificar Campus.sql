@@ -1,0 +1,27 @@
+CREATE OR REPLACE FUNCTION VERIFICAR_CAMPUS (
+  V_SIGLA IN CHAR)
+  RETURN VARCHAR2 
+  IS
+BEGIN 
+  
+  IF V_SIGLA = 'VG' THEN
+    RETURN 'VERGUEIRO';
+  ELSIF V_SIGLA = 'MM' THEN
+    RETURN 'Memorial';
+  ELSIF V_SIGLA = 'VM' THEN
+    RETURN 'Vila Maria';
+  ELSIF V_SIGLA = 'VP' THEN
+    RETURN 'Vila Prudente';
+  ELSE
+    RETURN 'SANTO AMARO';
+  END IF;
+END VERIFICAR_CAMPUS;
+/
+
+BEGIN
+  dbms_output.put_line(VERIFICAR_CAMPUS('MM'));
+END;
+
+SELECT verificar_campus('VM') FROM DUAL;
+SELECT verificar_campus('MM') FROM DUAL;
+SELECT verificar_campus('SS') FROM DUAL;
