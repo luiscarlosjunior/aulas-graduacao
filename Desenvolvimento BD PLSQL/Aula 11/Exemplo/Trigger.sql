@@ -1,28 +1,28 @@
 -- Tabela de livros
-CREATE TABLE books (
+CREATE TABLE livros (
   id      NUMBER(10)    NOT NULL,
-  title   VARCHAR2(100) NOT NULL
+  titulo   VARCHAR2(100) NOT NULL
 );
 
 -- Cria uma restrição de PK para primary key
-ALTER TABLE books
+ALTER TABLE livros
   ADD (
-    CONSTRAINT books_pk PRIMARY KEY (id)
+    CONSTRAINT livros_pk PRIMARY KEY (id)
   );
 
 -- Cria um comando sequence para sequencia
-CREATE SEQUENCE books_sequence;
+CREATE SEQUENCE livros_sequencia;
 
 -- No nosso caso, vamos utilizar um trigger para ir atualizando 
-CREATE OR REPLACE TRIGGER books_on_insert
-  BEFORE INSERT ON books
+CREATE OR REPLACE TRIGGER livros_on_insert
+  BEFORE INSERT ON livros
   FOR EACH ROW
 BEGIN
-  SELECT books_sequence.nextval
+  SELECT livros_sequence.nextval
   INTO :new.id
   FROM dual;
 END;
 
-INSERT INTO books (title) VALUES ('Sherlock Holmes');
+INSERT INTO livros (titulo) VALUES ('Sherlock Holmes');
 
-select * from books;
+select * from livros;
