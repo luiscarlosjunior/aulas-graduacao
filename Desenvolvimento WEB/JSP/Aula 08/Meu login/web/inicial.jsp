@@ -33,6 +33,7 @@
                     <li><a href="#">Página inicial</a></li>
                     <li><a href="#">Sobre</a></li>
                     <li><a href="#">Membros</a></li>
+                    <li><a href="registro-user.html">Cadastrar usuário</a></li>
                     <li class="canto" style="text-align:center;">
                         <a href="login.html">Login</a>
                     </li>

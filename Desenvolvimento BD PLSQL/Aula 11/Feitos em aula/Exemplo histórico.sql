@@ -2,12 +2,13 @@ SET SERVEROUTPUT ON;
 
 -- Cria as tabelas
 CREATE TABLE historico_produto (
-  ID_PK NUMBER PRIMARY KEY,
   produto_id number not null,
   produto_nome varchar2(50),
   produto_desc varchar2(80),
   produto_preco_un number(7,2)
 );
+
+drop table historico_produto
 
 CREATE TABLE produto (
   ID_PK NUMBER PRIMARY KEY,
