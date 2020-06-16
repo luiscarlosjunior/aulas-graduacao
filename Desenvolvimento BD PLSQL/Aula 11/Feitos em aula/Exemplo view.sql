@@ -25,7 +25,6 @@ BEGIN
 END;
 /
 
-
 INSERT INTO ID_PESSOA_VW VALUES ('Guilherme', 'Hugo');
 
 

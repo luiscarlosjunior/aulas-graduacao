@@ -87,7 +87,7 @@
         %>
         
         <div class="flex-box">
-            <form action="ServletLogin">
+            <form action="ADO">
                 <h2>Entre com a sua conta</h2>
                 <label for="user">Usuário:</label><br>
                 <input type="text" id="user" name="login"><br><br>
