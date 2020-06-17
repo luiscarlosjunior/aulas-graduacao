@@ -1,0 +1,11 @@
+CREATE SEQUENCE pk_id_seq START WITH 311;
+/
+
+CREATE OR REPLACE TRIGGER trg_sequencia
+  BEFORE INSERT ON ALUNO
+  FOR EACH ROW
+BEGIN
+  SELECT pk_id_seq.nextval INTO :new.id FROM DUAL;
+END;
+
+SELECT pk_id_seq.nextval FROM DUAL;
