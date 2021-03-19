@@ -1,0 +1,77 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="ABECE919-1162-DC16-D39D-602E2797971B" name="Depto">
+<createdBy>luisc</createdBy>
+<createdTime>2021-03-19 18:41:56 UTC</createdTime>
+<generatorID>BA777895-FED8-F3C9-817E-075EE52C9548</generatorID>
+<ownerDesignName>EXEMPLO01</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="NRDEPTO" id="9122FA92-92B8-12CE-1849-D1D62183264F">
+<createdBy>luisc</createdBy>
+<createdTime>2021-03-19 18:41:56 UTC</createdTime>
+<generatorID>61430A34-D2E5-C1D8-1837-49227F325DCA</generatorID>
+<ownerDesignName>EXEMPLO01</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT018</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="NMDEPTO" id="5263ECD1-CE21-4BE6-B658-84D4C8631C5D">
+<createdBy>luisc</createdBy>
+<createdTime>2021-03-19 18:41:56 UTC</createdTime>
+<generatorID>29037107-AD2F-E0F3-0BF8-3E4FD1DE0C61</generatorID>
+<ownerDesignName>EXEMPLO01</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>20 BYTE</dataTypeSize>
+<ownDataTypeParameters>20 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="DSLOCAL" id="43E5D525-4B40-D500-E731-708641C4E151">
+<createdBy>luisc</createdBy>
+<createdTime>2021-03-19 18:41:56 UTC</createdTime>
+<generatorID>3C8776A7-2872-B98A-32EA-DBAA36EC81E0</generatorID>
+<ownerDesignName>EXEMPLO01</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 BYTE</dataTypeSize>
+<ownDataTypeParameters>20 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="VLORCAMENTO" id="0B1A00DD-B568-7228-724C-8F85FB744A4A">
+<createdBy>luisc</createdBy>
+<createdTime>2021-03-19 18:41:56 UTC</createdTime>
+<generatorID>69F5D7B6-3C78-C233-5980-42955A894A04</generatorID>
+<ownerDesignName>EXEMPLO01</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT021</logicalDatatype>
+<dataTypePrecision>0</dataTypePrecision>
+<dataTypeScale>12</dataTypeScale>
+<ownDataTypeParameters>,0,12</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="4614B847-16E8-3435-0269-6333A2F4F880" name="Depto_PK">
+<createdBy>luisc</createdBy>
+<createdTime>2021-03-19 18:41:56 UTC</createdTime>
+<generatorID>9227BD20-52B7-E09D-C576-5BCA830C4D5F</generatorID>
+<ownerDesignName>EXEMPLO01</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9122FA92-92B8-12CE-1849-D1D62183264F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
