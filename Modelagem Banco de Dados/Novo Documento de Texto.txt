@@ -1,0 +1,1 @@
+https://pt.stackoverflow.com/questions/294699/qual-a-diferen%C3%A7a-entre-modelagem-conceitual-l%C3%B3gica-e-f%C3%ADsica#:~:text=Modelagem%20l%C3%B3gica&text=Descreve%20como%20os%20dados%20ser%C3%A3o%20armazenados%20no%20banco%20e%20tamb%C3%A9m%20seus%20relacionamentos.&text=O%20DER%20l%C3%B3gico%20tamb%C3%A9m%20modela,tipos%20de%20coluna%20s%C3%A3o%20definidos.
