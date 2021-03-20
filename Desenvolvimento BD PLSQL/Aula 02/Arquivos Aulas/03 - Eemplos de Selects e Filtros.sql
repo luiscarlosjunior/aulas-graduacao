@@ -1,13 +1,15 @@
 SELECT * FROM Depto;
 SELECT * FROM Empregado;
 
+-- Cláusula Distinct serve para trazer todos os valores únicos
 SELECT DISTINCT dslocal FROM Depto;
 SELECT DISTINCT dscargo FROM Empregado;
 
+-- Podemos pegar determinadas tabelas
 SELECT vlorcamento FROM Depto;
 SELECT nrempregado, dscargo FROM Empregado;
 
--- SELEÇÃO COM FILTROS
+---- SELEÇÃO COM FILTROS --------
 SELECT * FROM EMPREGADO
     WHERE NRDEPTO > 1;
 
@@ -22,6 +24,7 @@ SELECT * FROM EMPREGADO
 
 SELECT * FROM EMPREGADO
     WHERE NRDEPTO = 1;
+------------------------------------
 
 -- SELEÇÃO COM FILTROS (MAIS DE UMA CONDIÇÃO)
 SELECT * FROM EMPREGADO
@@ -35,8 +38,9 @@ SELECT * FROM depto
 
 SELECT * FROM depto
     WHERE not DSLOCAL = 'São Paulo';
+---------------------------------------------------
 
--- Order by
+-- Uso do order by ---------------------------------
 
 SELECT * FROM depto;
 SELECT * FROM empregado;
@@ -52,8 +56,6 @@ SELECT * FROM empregado
 
 SELECT * FROM empregado 
     ORDER BY vlsalario desc, dtadmissao desc;
-    
--- Null
 
 SELECT * FROM empregado 
     WHERE nrgerente is null 
@@ -62,15 +64,16 @@ SELECT * FROM empregado
 SELECT * FROM empregado 
     WHERE nrgerente is not null 
     ORDER BY vlsalario desc, dtadmissao desc;
+-------------------------------------------------
 
--- Limite de linhas
+-------- Limite de linhas -----------------------
 SELECT * FROM Empregado
     WHERE ROWNUM <= 5;
 
 SELECT * FROM Empregado
     WHERE nrgerente is null and ROWNUM <= 5;
-    
--- Like
+---------------------------------------------------
+------------- Uso do Like -------------------------
 
 SELECT * FROM Empregado
     WHERE dscargo LIKE 'Gerente';
@@ -80,13 +83,13 @@ SELECT * FROM Empregado
 
 SELECT * FROM Empregado
     WHERE nmempregado LIKE '%Caeta__%';
+--------------------------------------------------
 
--- CONSULTA COM IN--------------------------------
-
+---------- CONSULTA COM IN -----------------------
 SELECT * FROM Empregado
     WHERE dscargo IN ('Gerente', 'Presidente');
 
--- Subconsulta
+---------- SUBCONSULTA --------------------------
 SELECT nrdepto FROM depto;
     
 SELECT * FROM Empregado
@@ -101,7 +104,6 @@ SELECT distinct dscargo FROM Empregado
             where nrdepto > 20
         );
 
-
 select * from depto;
 
 SELECT * FROM Empregado
@@ -112,7 +114,7 @@ SELECT * FROM Empregado
         );
 -----------------------------------------------------------------
 
------------------------ FUNÇÕES -------------
+----------------------- FUNÇÕES ---------------------
 select round(AVG(vlsalario), 2) from Empregado;
 select round(min(vlsalario), 2) from Empregado;
 select round(max(vlsalario), 2) from Empregado;
@@ -124,9 +126,9 @@ select
     round(max(vlsalario), 2) "Maior salário" ,
     round(sum(vlsalario), 2) "Soma salário" 
 from Empregado;
-------------------------------------------------
+--------------------------------------------------
 
---- Group by -----
+-------------- Uso do Group by ----------------
 -- A cláusula "HAVING" pode ser utilizada para especificar quais grupos deverão ser exibidos, 
 -- portanto, restringindo-os. 
 select * from empregado;
@@ -148,3 +150,4 @@ SELECT NrDepto, AVG(VlSalario)
     FROM Empregado 
     GROUP BY NrDepto
     having count(vlsalario) > 3;
+

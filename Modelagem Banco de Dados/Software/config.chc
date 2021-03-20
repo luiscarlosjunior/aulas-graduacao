@@ -1,6 +1,6 @@
 #Config
-#Mon Mar 15 23:02:18 BRT 2021
+#Sat Mar 20 11:47:07 BRT 2021
 cfg.tipodefault=0
-cfg.location.x=-8
-cfg.recentes=C\:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\Modelagem Banco de Dados\\Software\\Conceitual_2.brM3;C\:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\Modelagem Banco de Dados\\Software\\Conceitual_1.brM3;C\:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\Modelagem Banco de Dados\\Modelagem brModelo\\Diagrama_Livraria.brM3;C\:\\Users\\luisc\\Desktop\\Diagrama_Livraria_v004.brM3
-cfg.location.y=-8
+cfg.location.x=54
+cfg.recentes=C\:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\Modelagem Banco de Dados\\Software\\Conceitual_2.brM3;C\:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\Modelagem Banco de Dados\\Software\\L\u00F3gico_Empresa.brM3;C\:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\Modelagem Banco de Dados\\Modelagem brModelo\\Diagrama_Livraria.brM3;C\:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\Modelagem Banco de Dados\\Software\\Conceitual_1.brM3;C\:\\Users\\luisc\\Desktop\\Diagrama_Livraria_v004.brM3
+cfg.location.y=66
