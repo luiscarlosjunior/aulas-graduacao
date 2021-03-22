@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\POO UML\\Codigos\\c-sharp\\project-conta01\\project-conta01.csproj": {}
+    "C:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\POO UML\\Codigos\\Aula 1\\c-sharp\\project-conta01\\project-conta01.csproj": {}
   },
   "projects": {
-    "C:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\POO UML\\Codigos\\c-sharp\\project-conta01\\project-conta01.csproj": {
+    "C:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\POO UML\\Codigos\\Aula 1\\c-sharp\\project-conta01\\project-conta01.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\POO UML\\Codigos\\c-sharp\\project-conta01\\project-conta01.csproj",
+        "projectUniqueName": "C:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\POO UML\\Codigos\\Aula 1\\c-sharp\\project-conta01\\project-conta01.csproj",
         "projectName": "project-conta01",
-        "projectPath": "C:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\POO UML\\Codigos\\c-sharp\\project-conta01\\project-conta01.csproj",
+        "projectPath": "C:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\POO UML\\Codigos\\Aula 1\\c-sharp\\project-conta01\\project-conta01.csproj",
         "packagesPath": "C:\\Users\\luisc\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\POO UML\\Codigos\\c-sharp\\project-conta01\\obj\\",
+        "outputPath": "C:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\POO UML\\Codigos\\Aula 1\\c-sharp\\project-conta01\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\luisc\\AppData\\Roaming\\NuGet\\NuGet.Config",
