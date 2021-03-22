@@ -11,3 +11,16 @@ C:\Users\luisc\Documents\GitHub\aulas-graduacao\POO UML\Codigos\c-sharp\project-
 C:\Users\luisc\Documents\GitHub\aulas-graduacao\POO UML\Codigos\c-sharp\project-conta01\obj\Debug\netcoreapp3.1\project-conta01.dll
 C:\Users\luisc\Documents\GitHub\aulas-graduacao\POO UML\Codigos\c-sharp\project-conta01\obj\Debug\netcoreapp3.1\project-conta01.pdb
 C:\Users\luisc\Documents\GitHub\aulas-graduacao\POO UML\Codigos\c-sharp\project-conta01\obj\Debug\netcoreapp3.1\project-conta01.genruntimeconfig.cache
+C:\Users\luisc\Documents\GitHub\aulas-graduacao\POO UML\Codigos\Aula 1\c-sharp\project-conta01\bin\Debug\netcoreapp3.1\project-conta01.exe
+C:\Users\luisc\Documents\GitHub\aulas-graduacao\POO UML\Codigos\Aula 1\c-sharp\project-conta01\bin\Debug\netcoreapp3.1\project-conta01.deps.json
+C:\Users\luisc\Documents\GitHub\aulas-graduacao\POO UML\Codigos\Aula 1\c-sharp\project-conta01\bin\Debug\netcoreapp3.1\project-conta01.runtimeconfig.json
+C:\Users\luisc\Documents\GitHub\aulas-graduacao\POO UML\Codigos\Aula 1\c-sharp\project-conta01\bin\Debug\netcoreapp3.1\project-conta01.runtimeconfig.dev.json
+C:\Users\luisc\Documents\GitHub\aulas-graduacao\POO UML\Codigos\Aula 1\c-sharp\project-conta01\bin\Debug\netcoreapp3.1\project-conta01.dll
+C:\Users\luisc\Documents\GitHub\aulas-graduacao\POO UML\Codigos\Aula 1\c-sharp\project-conta01\bin\Debug\netcoreapp3.1\project-conta01.pdb
+C:\Users\luisc\Documents\GitHub\aulas-graduacao\POO UML\Codigos\Aula 1\c-sharp\project-conta01\obj\Debug\netcoreapp3.1\project-conta01.csprojAssemblyReference.cache
+C:\Users\luisc\Documents\GitHub\aulas-graduacao\POO UML\Codigos\Aula 1\c-sharp\project-conta01\obj\Debug\netcoreapp3.1\project-conta01.AssemblyInfoInputs.cache
+C:\Users\luisc\Documents\GitHub\aulas-graduacao\POO UML\Codigos\Aula 1\c-sharp\project-conta01\obj\Debug\netcoreapp3.1\project-conta01.AssemblyInfo.cs
+C:\Users\luisc\Documents\GitHub\aulas-graduacao\POO UML\Codigos\Aula 1\c-sharp\project-conta01\obj\Debug\netcoreapp3.1\project-conta01.csproj.CoreCompileInputs.cache
+C:\Users\luisc\Documents\GitHub\aulas-graduacao\POO UML\Codigos\Aula 1\c-sharp\project-conta01\obj\Debug\netcoreapp3.1\project-conta01.dll
+C:\Users\luisc\Documents\GitHub\aulas-graduacao\POO UML\Codigos\Aula 1\c-sharp\project-conta01\obj\Debug\netcoreapp3.1\project-conta01.pdb
+C:\Users\luisc\Documents\GitHub\aulas-graduacao\POO UML\Codigos\Aula 1\c-sharp\project-conta01\obj\Debug\netcoreapp3.1\project-conta01.genruntimeconfig.cache
