@@ -11,4 +11,6 @@ $texto = "Olá mundo";
 $verdadeiro = true;
 $falso = false;
 
-echo gettype($verdadeiro);
+//echo gettype($idade);
+echo var_dump($idade);
+
