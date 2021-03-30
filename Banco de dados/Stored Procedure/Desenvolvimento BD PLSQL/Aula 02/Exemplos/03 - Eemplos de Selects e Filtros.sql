@@ -1,7 +1,7 @@
 SELECT * FROM Depto;
 SELECT * FROM Empregado;
 
--- Cláusula Distinct serve para trazer todos os valores únicos
+-- Clausula Distinct serve para trazer todos os valores Ãºnicos
 SELECT DISTINCT dslocal FROM Depto;
 SELECT DISTINCT dscargo FROM Empregado;
 
@@ -9,7 +9,7 @@ SELECT DISTINCT dscargo FROM Empregado;
 SELECT vlorcamento FROM Depto;
 SELECT nrempregado, dscargo FROM Empregado;
 
----- SELEÇÃO COM FILTROS --------
+---- SeleÃ§Ã£o com filtros --------
 SELECT * FROM EMPREGADO
     WHERE NRDEPTO > 1;
 
@@ -26,21 +26,22 @@ SELECT * FROM EMPREGADO
     WHERE NRDEPTO = 1;
 ------------------------------------
 
--- SELEÇÃO COM FILTROS (MAIS DE UMA CONDIÇÃO)
+-- Selecao com filtros com mais de uma condicao
 SELECT * FROM EMPREGADO
     WHERE vlsalario > 1000 and vlcomissao <= 1000;
 
 SELECT * FROM depto
-    WHERE dslocal = 'São Paulo' or vlorcamento < 10000;
+    WHERE dslocal = 'Sao Paulo' or vlorcamento < 10000;
 
 SELECT * FROM depto
-    WHERE not (dslocal = 'São Paulo' or vlorcamento < 10000);
+    WHERE not (dslocal = 'Sao Paulo' or vlorcamento < 10000);
 
 SELECT * FROM depto
-    WHERE not DSLOCAL = 'São Paulo';
+    WHERE not DSLOCAL = 'Sao Paulo';
 ---------------------------------------------------
 
--- Uso do order by ---------------------------------
+-- Para ordenar como os informaÃ§Ãµes sao retornadas
+-- usamos a instrucao order by 
 
 SELECT * FROM depto;
 SELECT * FROM empregado;
@@ -114,40 +115,40 @@ SELECT * FROM Empregado
         );
 -----------------------------------------------------------------
 
------------------------ FUNÇÕES ---------------------
+----------------------- Funcoes ---------------------
 select round(AVG(vlsalario), 2) from Empregado;
 select round(min(vlsalario), 2) from Empregado;
 select round(max(vlsalario), 2) from Empregado;
 select round(sum(vlsalario), 2) from Empregado;
 
 select 
-    round(AVG(vlsalario), 2) as "Média Salario", 
-    round(min(vlsalario), 2) "Menor salário" ,
-    round(max(vlsalario), 2) "Maior salário" ,
-    round(sum(vlsalario), 2) "Soma salário" 
+    round(AVG(vlsalario), 2) as "Mï¿½dia Salario", 
+    round(min(vlsalario), 2) "Menor salï¿½rio" ,
+    round(max(vlsalario), 2) "Maior salï¿½rio" ,
+    round(sum(vlsalario), 2) "Soma salï¿½rio" 
 from Empregado;
 --------------------------------------------------
 
 -------------- Uso do Group by ----------------
--- A cláusula "HAVING" pode ser utilizada para especificar quais grupos deverão ser exibidos, 
+-- A clï¿½usula "HAVING" pode ser utilizada para especificar quais grupos deverï¿½o ser exibidos, 
 -- portanto, restringindo-os. 
 select * from empregado;
 select dscargo, vlsalario from empregado;
 select dscargo, vlsalario from empregado order by vlsalario asc, dscargo asc;
 select dscargo, vlsalario from empregado order by DSCARGO asc, VLSALARIO asc;
 
--- Group by ----
-select dscargo, avg(vlsalario) from empregado 
-    group by DSCARGO 
-    order by avg(vlsalario) desc, dscargo desc;
+-- Quando precisamos agrupar itens, usamos o Group by ----
+SELECT dscargo, avg(vlsalario) FROM empregado 
+    GROUP BY DSCARGO 
+    ORDER BY avg(vlsalario) DESC, dscargo DESC;
 
 SELECT 
     AVG(VlSalario) FROM empregado 
-    group by vlsalario 
-    having count(vlsalario) >= 1;
+    GROUP BY vlsalario 
+    HAVING count(vlsalario) >= 1;
 
 SELECT NrDepto, AVG(VlSalario) 
     FROM Empregado 
     GROUP BY NrDepto
-    having count(vlsalario) > 3;
+    HAVING count(vlsalario) > 3;
 
