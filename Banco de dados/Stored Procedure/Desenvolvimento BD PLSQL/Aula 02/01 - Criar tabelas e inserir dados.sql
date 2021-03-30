@@ -1,3 +1,5 @@
+-- Esses exemplos podem ser executados em sequência usando o banco oracle
+
 -- Criando a tabela para o departamento
 CREATE TABLE Depto 
  (
@@ -34,6 +36,7 @@ INSERT INTO Depto VALUES(30, 'Comercial', 'Sao Paulo',60000);
 INSERT INTO Depto VALUES(40, 'Informatica', 'Santo Andre',40000); 
 INSERT INTO Depto VALUES(50, 'Telemarketing', 'Sao Paulo',20000);
 
+-- Inserindo dados na tabela empregado
 INSERT INTO Empregado VALUES(100,'Jose Pereira ',null,'Presidente',01,TO_DATE('13/01/1998', 'dd/mm/yyyy'),20000,null); 
 INSERT INTO Empregado VALUES(101,'Ivete Sangalo',null,'Secretaria',20,TO_DATE('13/05/1978', 'dd/mm/yyyy'),1500,null); 
 INSERT INTO Empregado VALUES(110,'Marcos Souza',null,'Gerente',10, TO_DATE('13/03/1995', 'dd/mm/yyyy'),2500,0); 
@@ -54,5 +57,6 @@ INSERT INTO Empregado VALUES(150,'Zeca Cardoso Souza',null,'Gerente',50,TO_DATE(
 INSERT INTO Empregado VALUES(151,'Camila Oliveria',150,'Vendedora',50,TO_DATE('23/04/2005', 'dd/mm/yyyy'),600,1500); 
 INSERT INTO Empregado VALUES(152,'Deborah Barbara',150,'Vendedora',50,TO_DATE('19/03/2002', 'dd/mm/yyyy'),1200,1000);
 
+-- O SELECT exibe todos os dados registrados
 SELECT * FROM DEPTO;
 SELECT * FROM EMPREGADO;
