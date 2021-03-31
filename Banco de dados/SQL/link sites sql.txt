@@ -1,0 +1,1 @@
+https://www.sqlshack.com/how-to-update-from-a-select-statement-in-sql-server/
