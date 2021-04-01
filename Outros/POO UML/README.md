@@ -9,4 +9,4 @@ Pode-se utilizar qualquer software que consiga representar um modelo UML.
  
 ## Lista das aulas
 
-1. [Aula 01](https://github.com/luiscarlosjunior/aulas-graduacao/tree/master/Outros/POO%20UML/Aula%201)
+1.  Link para a aula [Aula 01](https://github.com/luiscarlosjunior/aulas-graduacao/tree/master/Outros/POO%20UML/Aula%201) em que foi tratado os diagramas de caso de uso e diagrama de classes. 
