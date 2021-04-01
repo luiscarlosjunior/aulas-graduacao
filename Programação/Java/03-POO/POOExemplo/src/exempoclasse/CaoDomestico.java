@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package pooexemplo;
+
+package exempoclasse;
 
 /**
- *
- * @author luisc
+ * @author luiscaparroz
+ * Esta classe representa de maneira simples um c�o domestico
  */
 public class CaoDomestico {
      
@@ -31,19 +27,19 @@ public class CaoDomestico {
     }
     
     public void falar(){
-        //MÉTODO FALAR
+        //TODO FALAR
     }
      
     public void andar(){
-        //MÉTODO ANDAR
+        //TODO ANDAR
     } 
      
     public void comer(){
-        //MÉTODO COMER
+        //TODO COMER
     }
      
     public void dormir(){
-        //MÉTODO DORMIR
+        //TODO DORMIR
     }
     
     void latir(){
