@@ -1,4 +1,4 @@
-## Welcome to GitHub Pages
+## Bem-vindo ao site das disciplinas de informática
 
 You can use the [editor on GitHub](https://github.com/luiscarlosjunior/aulas-graduacao/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
