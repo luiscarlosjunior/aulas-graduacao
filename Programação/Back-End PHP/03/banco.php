@@ -4,8 +4,8 @@ require_once 'src/Conta.php';
 require_once 'src/Titular.php';
 require_once 'src/CPF.php';
 
-$vinicius = new Titular(new CPF('123.456.789-10'), 'Vinicius Dias');
-$primeiraConta = new Conta($vinicius);
+$cliente1 = new Titular(new CPF('123.456.789-10'), 'Luis Carlos');
+$primeiraConta = new Conta($cliente1);
 $primeiraConta->deposita(500);
 $primeiraConta->saca(300); // isso é ok
 
