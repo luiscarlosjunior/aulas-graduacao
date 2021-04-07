@@ -21,12 +21,13 @@ public class Gol extends Veiculo {
 		*/
 	}
 	
+	// Polimorfismo
 	public void acelera() throws InterruptedException
 	{
 		if (velocidade<velocidadeMaxima) {
 			velocidade++;
 			if (velocidade % 10 == 0) {
-				Thread.sleep(500);
+				Thread.sleep(1000);
 				System.out.println(velocidade);				
 			}
 		}
