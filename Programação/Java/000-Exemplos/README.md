@@ -1,6 +1,6 @@
-# Repositório programação Java
+# Repositório de exemplos de programação Java
 
-### As pastas estão separadas por aula
+### Os arquivos estão separadas por aula
 
 1. [Introdução à linguagem Java](https://github.com/luiscarlosjunior/aulas-graduacao/blob/master/Programa%C3%A7%C3%A3o/Java/000-Exemplos/01-Introdu%C3%A7%C3%A3o%20%C3%A0%20linguagem%20Java)
 2. [Tipos de dados, literais e variáveis](https://github.com/luiscarlosjunior/aulas-graduacao/blob/master/Programa%C3%A7%C3%A3o/Java/000-Exemplos/02-Tipos%20de%20dados%2C%20literais%20e%20vari%C3%A1veis)
