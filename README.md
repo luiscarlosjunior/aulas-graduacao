@@ -11,3 +11,6 @@ Neste repositório os tópicos principais estão categorizados em:
 3. **[Data Science](https://github.com/luiscarlosjunior/aulas-graduacao/tree/master/Data%20science)**
 4.  **[Outros](https://github.com/luiscarlosjunior/aulas-graduacao/tree/master/Outros)**.
 
+## Como contribuir
+- Página do projeto de como [contribuir](https://github.com/luiscarlosjunior/aulas-graduacao/wiki/Como-contribuir)
+- Guia de estilo para os [colaboradores](https://github.com/luiscarlosjunior/aulas-graduacao/blob/master/contributing.md)
