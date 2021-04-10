@@ -1,11 +1,11 @@
 01. Estruturas de desvios condicionais
   01.01 if / else
-    Sintaxe: 
+    • Sintaxe: 
       if (<teste condicional>){        
         Comandos;
       }
       
-    Exemplo:
+    • Exemplo:
       public class EstruturaCondicionalIf {
         public static void main (String args []){
           int x = 1;
@@ -16,14 +16,14 @@
         }
       } 
 
-    Sintaxe: 
+    • Sintaxe: 
       if (<teste condicional>) {        
         comandos;
        } else {        
         comandos;
       }
 
-    Exemplo:
+    • Exemplo:
       public class EstruturaCondicionalIfElse {
         public static void main (String args []){
           int x = 10;
@@ -37,7 +37,7 @@
         }
       } 
  
-    Sintaxe: 
+    • Sintaxe: 
       if (<teste condicional um>) {        
         comandos;
       } else if (<teste condicional dois>) {        
@@ -48,7 +48,7 @@
         comandos;
       }
       
-    Exemplo:
+    • Exemplo:
       public class EstruturaEmCascataIfElseIfElse {
         public static void main (String args []){
           int hora = 12;
@@ -63,7 +63,7 @@
       }
 
   01.02 switch
-    Sintaxe: 
+    • Sintaxe: 
       switch (<variável>){
         case <opção 1>: <operação 1>; break;
         case <opção 2>: <operação 2>; break;
@@ -71,7 +71,7 @@
         default: <operação default>;
        }
 
-    Exemplo:
+    • Exemplo:
       public class EstruturaCondicionalSwitchCase {
         public static void main (String args []){
           int semana = 6;
@@ -90,12 +90,12 @@
   
 02. Estruturas de repetição
   01.01 while
-    Sintaxe:    
+    • Sintaxe:    
       while (<teste condicional>){
         comandos;
       }
 
-    Exemplo:
+    • Exemplo:
       public class EstruturaCondicionalSwitchCaseRepeticaoWhile {
         public static void main (String args []){
           int x = 0;
@@ -107,12 +107,12 @@
       } 
 
   01.02 Do / while
-    Sintaxe: 
+    • Sintaxe: 
       do {        
         comandos;
       } while(condição);
 
-    Exemplo:
+    • Exemplo:
       public class EstruturaRepeticaoDoWhile {
         public static void main (String args []){
           int x = 15;
@@ -124,21 +124,21 @@
       }
       
   01.02 For     
-    Sintaxe For: 
+    • Sintaxe For: 
       for (inicialização; condição; iteração){
         instrução do corpo do laço for;
       }
-    Exemplo:
+    • Exemplo:
       for (int x = 1; x < 20; x++){
         System.out.println("Valor x: "+ x);
       }
 
-    Sintaxe For each (utilizado para percorrer os elementos de uma lista): 
+    • Sintaxe For each (utilizado para percorrer os elementos de uma lista): 
       for (T elemento : lista) {
         // instruções
       }
 
-    Sintaxe Semelhante:
+    • Sintaxe Semelhante:
       Iterator<T> iterator = lista.iterator(); // Ocorre NullPointerException caso a lista for null, assim como no caso do foreach
         while (iterator.hasNext()) {
           T elemento = iterator.next();
@@ -147,7 +147,7 @@
       
 07. Outros comandos
   07.01 Break
-    Exemplo:
+    • Exemplo:
       public class ComandoBreak {
         public static void main (String args []){
           for(int x=1; x < 20; ++x){
@@ -161,8 +161,7 @@
       }
       
   07.02 Continue
-    Exemplo:
-    Exemplo:
+    • Exemplo:
       public class ComandoContinue {
         public static void main (String args []){
           int x = 0;
