@@ -1,0 +1,78 @@
+01. Operador de atribuição (=)
+  • <tipo> <nomeConstanteOuVariável> = <valorAtribuição>; //int x = 10 //Atribuir mesmo um valor a uma variavel ou constante
+  • <nomeConstanteOuVariávelUm> = <nomeConstanteOuVariávelDois> = <valorAtribuição>; 
+    // x = y = 10; //Atribuir mesmo valor a mais de uma variavel ou constante de mesmo tipo
+      
+02. Operadores aritméticos (+, -, *, /, %)
+  • + Adição
+  • - Subtração
+  • * Multiplicação
+  • / Divisão
+  • % Módulo (resto da divisão)
+  
+  02.01 Operadores aritméticos de atribuição reduzida
+    Operador aritmético // Operação equivalente // Descrição  
+                x += 10 //      x = x + 10      // Mais igual
+                x -= 10 //      x = x - 10      // Menos igual
+                x *= 10 //      x = x * 10      // Vezes igual
+                x /= 10 //      x = x / 10      // Dividido igual
+                x %= 10 //      x = x % 10      // Módulo igual
+
+03. Operadores incrementais e decrementais
+  • Incremental (++)
+    • Pré-incremental ou prefixo ( ++x )
+    • Pós-incremental ou sufixo  ( x++ )
+
+  • Decremental (--)
+    • Pré-decremental ou prefixo ( --x )
+    • Pós-decremental ou sufixo  ( x-- )
+
+  • Exemplo:
+    public class IncrementalDecremental{
+      public static void main (String args[]){
+        int x = 5;
+        System.out.println ( x++ ); //Resultado: ?
+        System.out.println ( ++x ); //Resultado: ?
+        System.out.println ( x-- ); //Resultado: ?
+        System.out.println ( --x ); //Resultado: ?
+      }
+    }
+    
+04. Operadores relacionais
+  • == Igual a
+  • != Diferente de
+  • > Maior que
+  • < Menor que
+  • >= Maior ou igual a
+  • <= Menor ou igual 
+
+05. Operadores lógicos
+  • && ou & oprador logico AND (conjunção)
+  • || ou | oprador logico OR (disjunção)
+  • ^ oprador logico XOR (disjunção exclusiva)
+  • ! oprador logico NOT (negação)
+
+06. Operador ternário
+  • <variávelOuConstante> = <testeLogico> ? <valorSeVerdadeiro> : <valorSeFalso>;
+  
+  • Semelhante na estrutura de desvio condicional: 
+    if (<teste lógico>) {        
+      <variavelOuConstante> = <valorSeVerdadeiro>;
+    } else {        
+      <variavelOuConstante> = <valorSeFalso>
+    }
+    
+07. Precedência dos operadores
+  • ( )     [ ]     .
+  • ++     --     ~   !
+  • *     /    %
+  • +    -
+  • >    >=    <     <=
+  • ==    !=
+  • &
+  • ^
+  • |
+  • &&
+  • ||
+  • ?    :
+  • =  +=  -=  *=  /=  %=
