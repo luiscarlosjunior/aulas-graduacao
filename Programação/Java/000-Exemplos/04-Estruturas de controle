@@ -89,7 +89,7 @@
       } 
   
 02. Estruturas de repetição
-  01.02 while
+  01.01 while
     Sintaxe:    
       while (<teste condicional>){
         comandos;
@@ -106,38 +106,74 @@
         }
       } 
 
-  01.03 Do / while
+  01.02 Do / while
     Sintaxe: 
-      if (<teste condicional um>) {        
+      do {        
         comandos;
-      } else if (<teste condicional dois>) {        
-        comandos;
-      } else if (<teste condicional três>) {        
-        comandos;
-      } else {   // caso não passe nos testes condicionais anteriores     
-        comandos;
+      } while(condição);
+
+    Exemplo:
+      public class EstruturaRepeticaoDoWhile {
+        public static void main (String args []){
+          int x = 15;
+          do{
+            System.out.println("Valor de x é: " + x);
+            x++;
+            }while(x < 20);
+        }
       }
       
+  01.02 For     
+    Sintaxe For: 
+      for (inicialização; condição; iteração){
+        instrução do corpo do laço for;
+      }
     Exemplo:
-      public class EstruturaEmCascataIfElseIfElse {
+      for (int x = 1; x < 20; x++){
+        System.out.println("Valor x: "+ x);
+      }
+
+    Sintaxe For each (utilizado para percorrer os elementos de uma lista): 
+      for (T elemento : lista) {
+        // instruções
+      }
+
+    Sintaxe Semelhante:
+      Iterator<T> iterator = lista.iterator(); // Ocorre NullPointerException caso a lista for null, assim como no caso do foreach
+        while (iterator.hasNext()) {
+          T elemento = iterator.next();
+            // instruções
+        }
+      
+07. Outros comandos
+  07.01 Break
+    Exemplo:
+      public class ComandoBreak {
         public static void main (String args []){
-          int hora = 12;
-          if (hora < 12){
-            System.out.println("Hora do café da manhã");
-          } else if (hora == 12){
-            System.out.println("Hora do almoço");
-          } else {
-            System.out.println("Hora do janta");
+          for(int x=1; x < 20; ++x){
+            if(x==5){
+              break;
+            }
+            System.out.println("Valor de x: " + x);
+          }
+          System.out.println("Nova linha após estrutura de repetição");          
+        }
+      }
+      
+  07.02 Continue
+    Exemplo:
+    Exemplo:
+      public class ComandoContinue {
+        public static void main (String args []){
+          int x = 0;
+          while(x<20){
+            ++x;
+            if(x==10){
+              continue;
+            }
+            System.out.println("Valor de x: " + x);
           }
         }
       }
 
 
-
-
-
-
-
-
-
-01. Outros comandos
