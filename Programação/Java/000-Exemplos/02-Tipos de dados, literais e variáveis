@@ -1,1 +1,24 @@
-Versão Inicial
+01. Tipos de dados primitivos
+  - Numéricos (byte, short, int, long, floate e double) 
+  - Textuais (char)
+  - Booleanos (boolean)
+  
+02. Tipos de dados de referência
+
+03. Literais
+  03.01 Literais inteiros
+    - Binária  (base  2), int binario = 0b1100100; //equivalente a 100 em base decimal; 
+    - Octal  (base  8), int octal = 0144; //equivalente a 100 em base decimal;
+    - Decimal  (base  10), int decimal = 100;
+    - Hexadecimal (base 16), int hexadecimal = 0x64; //equivalente a 100 em base decimal;
+    
+  03.02 Literais de ponto flutuante
+    - Ponto flutuante, double pontoFlutuante = 123e-3; //equivalente a 0.123 em base decimal;
+    
+    
+  03.02 Literais booleanos
+    - boolean conexaoInternet = true;
+    - boolean conexaoInternet = false;
+
+03.02 Literais booleanos
+    Literais de caracteres
