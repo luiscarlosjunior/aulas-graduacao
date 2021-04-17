@@ -1,1 +1,178 @@
-Versão Inicial
+01. Estruturas de desvios condicionais
+  01.01 if / else
+    • Sintaxe: 
+      if (<teste condicional>){        
+        Comandos;
+      }
+      
+    • Exemplo:
+      public class EstruturaCondicionalIf {
+        public static void main (String args []){
+          int x = 1;
+          if(x < 5){
+            System.out.println("Valor de x: " + x);
+            System.out.println("x é menor que 5");
+          }
+        }
+      } 
+
+    • Sintaxe: 
+      if (<teste condicional>) {        
+        comandos;
+       } else {        
+        comandos;
+      }
+
+    • Exemplo:
+      public class EstruturaCondicionalIfElse {
+        public static void main (String args []){
+          int x = 10;
+          if(x < 5){
+            System.out.println("Valor de x: " + x);
+            System.out.println("x é menor que 5");
+          } else {
+            System.out.println("Valor de x: " + x);
+            System.out.println("x é maior ou igual a 5");          
+          }
+        }
+      } 
+ 
+    • Sintaxe: 
+      if (<teste condicional um>) {        
+        comandos;
+      } else if (<teste condicional dois>) {        
+        comandos;
+      } else if (<teste condicional três>) {        
+        comandos;
+      } else {   // caso não passe nos testes condicionais anteriores     
+        comandos;
+      }
+      
+    • Exemplo:
+      public class EstruturaEmCascataIfElseIfElse {
+        public static void main (String args []){
+          int hora = 12;
+          if (hora < 12){
+            System.out.println("Hora do café da manhã");
+          } else if (hora == 12){
+            System.out.println("Hora do almoço");
+          } else {
+            System.out.println("Hora do janta");
+          }
+        }
+      }
+
+  01.02 switch
+    • Sintaxe: 
+      switch (<variável>){
+        case <opção 1>: <operação 1>; break;
+        case <opção 2>: <operação 2>; break;
+        case <opção 3>: <operação 3>; break;
+        default: <operação default>;
+       }
+
+    • Exemplo:
+      public class EstruturaCondicionalSwitchCase {
+        public static void main (String args []){
+          int semana = 6;
+          switch(semana){
+            case 1: System.out.println("Segunda"); Break;		
+            case 2: System.out.println("Terça"); Break;
+            case 3: System.out.println("Quarta"); Break;
+            case 4: System.out.println("Quinta"); Break;
+            case 5: System.out.println("Sexta"); Break;
+            case 6: System.out.println("Sabado"); Break;
+            case 7: System.out.println("Domingo"); Break;
+            default: System.out.println("Não sei qual é o dia, to de ferias!"); Break;
+          }	
+        }
+      } 
+  
+02. Estruturas de repetição
+  01.01 while
+    • Sintaxe:    
+      while (<teste condicional>){
+        comandos;
+      }
+
+    • Exemplo:
+      public class EstruturaCondicionalSwitchCaseRepeticaoWhile {
+        public static void main (String args []){
+          int x = 0;
+          while(x < 20){
+            x++;
+            System.out.println("Valor de x é "+ x);
+          }
+        }
+      } 
+
+  01.02 Do / while
+    • Sintaxe: 
+      do {        
+        comandos;
+      } while(condição);
+
+    • Exemplo:
+      public class EstruturaRepeticaoDoWhile {
+        public static void main (String args []){
+          int x = 15;
+          do{
+            System.out.println("Valor de x é: " + x);
+            x++;
+            }while(x < 20);
+        }
+      }
+      
+  01.02 For     
+    • Sintaxe For: 
+      for (inicialização; condição; iteração){
+        instrução do corpo do laço for;
+      }
+    • Exemplo:
+      for (int x = 1; x < 20; x++){
+        System.out.println("Valor x: "+ x);
+      }
+
+    • Sintaxe For each (utilizado para percorrer os elementos de uma lista): 
+      for (T elemento : lista) {
+        // instruções
+      }
+
+    • Sintaxe Semelhante:
+      Iterator<T> iterator = lista.iterator(); // Ocorre NullPointerException caso a lista for null, assim como no caso do foreach
+        while (iterator.hasNext()) {
+          T elemento = iterator.next();
+            // instruções
+        }
+      
+07. Outros comandos
+  07.01 Break
+    • Exemplo:
+      public class ComandoBreak {
+        public static void main (String args []){
+          for(int x=1; x < 20; ++x){
+            if(x==5){
+              break;
+            }
+            System.out.println("Valor de x: " + x);
+          }
+          System.out.println("Nova linha após estrutura de repetição");          
+        }
+      }
+      
+  07.02 Continue
+    • Exemplo:
+      public class ComandoContinue {
+        public static void main (String args []){
+          int x = 0;
+          while(x<20){
+            ++x;
+            if(x==10){
+              continue;
+            }
+            System.out.println("Valor de x: " + x);
+          }
+        }
+      }
+
+
