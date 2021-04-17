@@ -20,13 +20,11 @@ END;
 
 
 DECLARE 
-      v_id number(3);
-      v_descricao varchar2(20);        
-    
+      -- nome_variavel nome_tabela.nome_campo%type
+      v_id segmercado.id%type := 56;
+      v_descricao segmercado.descricao%type;
 BEGIN
-
-    v_id := 5;
-    v_descricao := 'Cozinha';
+    v_descricao := 'Jardinagem';
 
     INSERT INTO SEGMERCADO (ID, DESCRICAO)
     VALUES (v_id, v_descricao); 
