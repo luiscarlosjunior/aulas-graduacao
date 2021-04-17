@@ -1,16 +1,76 @@
+/*
+ INSERT INTO SEGMERCADO (ID, DESCRICAO)
+    VALUES (1, 'Esportes');
+    INSERT INTO SEGMERCADO (ID, DESCRICAO)
+    VALUES (2, 'Atacado');
 
+DECLARE 
+
+BEGIN
+    INSERT INTO SEGMERCADO (ID, DESCRICAO)
+    VALUES (3, 'Esportes');
+    INSERT INTO SEGMERCADO (ID, DESCRICAO)
+    VALUES (4, 'Camo e Banho');
+            
+    UPDATE SEGMERCADO SET DESCRICAO = 'Cama e Banho' WHERE ID = 4;    
+END;
+*/
+
+--select * from segmercado;
+
+
+DECLARE 
+      v_id number(3);
+      v_descricao varchar2(20);        
+    
+BEGIN
+
+    v_id := 5;
+    v_descricao := 'Cozinha';
+
+    INSERT INTO SEGMERCADO (ID, DESCRICAO)
+    VALUES (v_id, v_descricao); 
+END;
+
+
+select * from segmercado;
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 CREATE TABLE SegMercado
-(ID NUMBER(5), Descricao VARCHAR2(100));
+(
+    ID NUMBER(5), 
+    Descricao VARCHAR2(100)
+);
 
 CREATE TABLE Cliente
-(ID NUMBER(5), Razao_Social VARCHAR2(100),
-CNPJ VARCHAR2(20), SegMercado_id NUMBER(5),
-Data_Inclusao DATE, Faturamento_Previsto NUMBER(10,2),
-Categoria VARCHAR2(20));
+(
+    ID NUMBER(5), 
+    Razao_Social VARCHAR2(100),
+    CNPJ VARCHAR2(20), 
+    SegMercado_id NUMBER(5),
+    Data_Inclusao DATE, 
+    Faturamento_Previsto NUMBER(10,2),
+    Categoria VARCHAR2(20)
+);
 
-ALTER TABLE SegMercado ADD CONSTRAINT SegMercado_id_pk  PRIMARY KEY (ID);
+ALTER TABLE SegMercado ADD CONSTRAINT PK_SegMercado_id  PRIMARY KEY (ID);
 
-ALTER TABLE Cliente ADD CONSTRAINT Cliente_id_pk PRIMARY KEY (ID);
+ALTER TABLE Cliente ADD CONSTRAINT PK_Cliente_id PRIMARY KEY (ID);
 
-ALTER TABLE Cliente ADD CONSTRAINT Cliente_SegMercado_fk FOREIGN KEY (SegMercado_id) REFERENCES SegMercado (ID);
+ALTER TABLE Cliente ADD CONSTRAINT Cliente_SegMercado_fk 
+    FOREIGN KEY (SegMercado_id) REFERENCES SegMercado (ID);
+*/
+
 
