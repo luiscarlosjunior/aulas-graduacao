@@ -67,7 +67,7 @@
           m.peso = 60;
 	  f.altura = 1.60;
 	
-	  f=m;
+	  f = m;
 	  System.out.println("Peso de Flavio é: " + f.peso);
 	  System.out.println("Altura de Flavio é: " + f.altura);
         }
@@ -144,7 +144,7 @@
       }
     }
     
-  07.01. Tipos de Pacotes
+  07.01. Exemplo de pacotes
     • java.applet: Pacote utilizado para construção de applets.
     • java.awt: Pacote utilizado para construção de inteface grafica
     • java.nio: Pacote utilizado para construção de recursos de entrada e saída de dados, além de recursos externos.
