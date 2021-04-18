@@ -1,1 +1,35 @@
-Versão Inicial
+01. Interface
+ •Exemplo:
+  public interface Deletavel{
+    //Variavel public static final
+    int ID = 11;
+    
+    //Metodo abstrato
+    void delete(int arg0);
+    
+    //Metodo default 
+    default void existe(int arg0){
+      if(arg0) == ID){
+         System.out.println ("Existe!!");
+      }
+    }
+    
+    //Metodo estatico
+    static void check(){
+      System.out.println ("Metodo estatico!!");
+    }
+  }
+  
+  public class Usuario implements Deletavel{
+    String nome;
+    Usuario(String nome){
+      this.nome = nome;
+    }
+    void delete(int arg0){
+      if(arg0) == Deletavel.ID){
+        this.nome = " "
+      } else{
+        System.out.println ("Invalido!!");
+      }
+    }
+  }
