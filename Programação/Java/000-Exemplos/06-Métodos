@@ -136,21 +136,104 @@
 
 06. Modificadores de métodos
 
-06.01. Tipo modificadores de métodos
-  • static
-  • abstract
-  • final
-  • native
-  • synchronized
-  • strictfp
+  06.01. Tipo modificadores de métodos
+    • static
+    • abstract
+    • final
+    • native
+    • synchronized
+    • strictfp
 
-06.02. exemplo static
+  06.02. Atributos estáticos
+    • Exemplo:
+      public classe Statico{
+        static int valor;
+      }
 
+      public classe ExemploStatico{
+        public static void main(String []args){
+          Statico x = new Statico();
+          Statico y = new Statico();
 
+          x.valor = 10;
+          System.out.println(y.valor);
+	}
+      } 
 
-06.03. exemplo static
+  06.03. Métodos estáticos
+    • Exemplo:
+      public class ExemploMetodoEstatico(){
+        public static void exemploEstatico(){
+          System.out.println("Estático");
+        }
 
+        public void exemploNaoEstatico(){
+	  System.out.println("Não Estático");
+	}
+      }
 
+      public class TestaExemploMetodoEstatico(){
+        public static void main(String []args){
+	  ExemploMetodoEstatico.exemploEstatico(); //Não é necessario ser instanciado
+          new ExemploMetodoEstatico.exemploNaoEstatico(); //instanciamdo
+	}
+      }
+      
+07. Método main
+  • Exemplo:
+    public class TestaMetodoPrincipal(){
+      static void metodoDois(){
+        System.out.println("Metodo Dois, ok!");
+      }
+      
+      static void metodoUm(){
+        System.out.println("Metodo Um, ok!");
+        metodoDois();
+      }
+    
+      public static void main(String []args){
+        System.out.println("Chamando Metodo Um");
+	metodoUm();
+      }
+    }
 
+08. Sobrecarga de métodos
+  • Exemplo:
+    public class Calculadora{
+      public int calcularSoma(int a, int b) {
+        return a + b;       
+      }
 
+      public int calcularSoma(int a, int b, int c) {
+        return a + b + c;       
+      }
 
+      public int calcularSoma(int a, int b, int c, int d) {
+        return a + b + c + d;       
+      }
+
+      public int calcularSoma(String texto) {
+        System.out.println("Informado Texto: " + texto);     
+      }
+    }
+
+    public class TestaCalcular {
+      public static void main(String []args){
+        Calculadora c = new Calculadora ();
+	      int resultado;
+	      int lista[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+	      resultado = c.calcularSoma(lista);
+	      System.out.println("Resultado: " + resultado);
+
+	      resultado = c.calcularSoma(1, 2);
+	      System.out.println("Resultado: " + resultado);
+
+	      resultado = c.calcularSoma(1, 2, 3);
+	      System.out.println("Resultado: " + resultado);
+
+	      resultado = c.calcularSoma(1, 2, 3, 4);
+	      System.out.println("Resultado: " + resultado);
+
+	      c.calcularSoma("1 mais 1 e igual a 2");
+    }
