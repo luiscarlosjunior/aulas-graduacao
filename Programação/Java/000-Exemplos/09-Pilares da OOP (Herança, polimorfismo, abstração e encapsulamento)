@@ -1,3 +1,50 @@
+0X.Estabelecendo herança entre classes
+ •Exemplo:
+  public class Funcionario{
+    String nome;
+    String email;
+    int idade;
+  }
+  
+  public class Programador extends Funcionario{ // a palavra chave extends é usada estabelecer herança
+    String linguagem;
+  }
+  
+0X.Acesso aos membros da superclasse
+ •Exemplo:
+  public class Funcionario{
+    public String nome;
+    private String email;
+    protected int idade;
+    
+    public Funcionario(String nome, String email, int idade){
+      this.nome = nome;
+      this.email = email;
+      this.idade = idade;
+    }
+    
+    public String getEmail(){
+      return this.email;
+    }
+    public void setEmail(String email){
+      this.email = email;
+    }
+  }
+  
+  public class Programador extends Funcionario{ // a palavra chave extends é usada estabelecer herança
+    String linguagem;
+    public Programador(String nome, String email, int email, String linguagem){
+      this.linguagem = linguagem;
+      super(nome, email, email)
+    }
+    public void consultar(){
+      System.out.println (this.linguagem);
+      System.out.println (super.nome);
+      System.out.println (super.getEmail());
+      System.out.println (super.idade);
+    }
+  }
+ 
 0X.Classes finais
  •Exemplo:
   public final class Usuario{ // essa classe não pode ser herdada
@@ -5,7 +52,7 @@
     int id;
   }
   
-  //public class UsuarioBeta extendsUsuario{} a tentativa de estender uma classe final não compilaria
+  //public class UsuarioBeta extends Usuario{} a tentativa de estender uma classe final não compilaria
   
 0X.Classe Object
  •Exemplo:
