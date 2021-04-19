@@ -7,6 +7,20 @@
   
   //public class UsuarioBeta extendsUsuario{} a tentativa de estender uma classe final não compilaria
   
+0X.Classe Object
+ •Exemplo:
+  public class Usuario{ // essa classe implementa automatica mente a classe Object
+    String nome;
+    int id;
+  }
+  
+  public class LoginChecker{
+    Usuario usuario;
+    public boolean checkLogin(Usuario usuario){
+      return this.usuario.equals(usuario); // é posivel utilizar metodos da classe Object 
+    }
+  }
+  
 0X.Operador instanceof
  •Exemplo:
   public class InstanManeger{
