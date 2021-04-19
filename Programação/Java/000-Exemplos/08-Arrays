@@ -1,0 +1,81 @@
+01. Array unidimensional
+ • Exemplo:
+  public class Clima{
+  String[] estacoes;
+    Clima(){
+      this.estacoes =  new String[]{"Verão", "Outono", "Inverno", "Primavera"};
+      System.out.println (estacoes[0]); // saida: Verão
+      System.out.println (estacoes[1]); // saida: Outono
+      System.out.println (estacoes[2]); // saida: Inverno
+      System.out.println (estacoes[3]); // saida: Primavera
+    }
+  }
+  
+02. Array bidimensional
+ • Exemplo:
+ public class Clima{
+  int[][] temperaturaMaxima;
+  //[ano][dia]
+    Clima(){
+      temperaturaMaxima = new int[20][365];
+      temperaturaMaxima[0][0] = 30;
+      temperaturaMaxima[0][1] = 31;
+      temperaturaMaxima[0][2] = 32;
+      temperaturaMaxima[1][0] = 33;
+      temperaturaMaxima[1][1] = 32;
+      //...
+    }
+  }
+  
+03. Array multidimensional
+ • Exemplo:
+ public class Clima{
+  int[][] temperatura;
+  //[ano][dia][hora]
+    Clima(){
+      temperatura = new int[20][365][24];
+      temperatura[0][0][0] = 30;
+      temperatura[0][1][0] = 31;
+      temperatura[0][2][0] = 32;
+      temperatura[1][0][0] = 33;
+      temperatura[1][1][0] = 32;
+      temperatura[1][1][1] = 29;
+      //...
+    }
+  }
+ 
+04. Percorrendo array com foreach
+ • Exemplo:
+ public class Clima{
+  String[] estacoes;
+    Clima(){
+      this.estacoes = {"Verão", "Outono", "Inverno", "Primavera"};
+      for(String s : estacoes){ // saida: conteúdo do array
+        System.out.println (s);
+      }
+    }
+    
+  }
+ 
+05. Inicialização
+ • Exemplo:
+ ...
+  {
+    /*
+    int[][] temperaturaMaxima;
+    temperaturaMaxima = new int[20][365];
+    for(int i; i < temperaturaMaxima.lenght; i++){
+      for(int j; j < temperaturaMaxima.lenght; j++)
+         int[i][j] = 0;
+     }
+    */
+    
+    //String[] estacoes = {"Verão", "Outono", "Inverno", "Primavera"};
+    
+    //String[] estacoes;
+    //estacoes =  new String[]{"Verão", "Outono", "Inverno", "Primavera"};
+    
+    //int numeros[][] = {{1,2,3},{2,1,3},{3,2,1}};
+  }
+ ...
+ 

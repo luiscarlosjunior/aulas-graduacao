@@ -1,0 +1,59 @@
+Versão Inicial
+01.Construtor
+ •Exemplo:
+  public class Hello{
+  int arg0, arg1;
+    Hello(int arg0, int arg1){
+      System.out.println ("Hello!!");
+      this.arg0 = arg0;
+      this.arg1 = arg1;
+    }
+  }
+  public class Hi{
+    new Hello(arg0, arg1); //saida: Hello!!
+  }
+  
+02.Construtor padrão
+ •Exemplo:
+  public class Hello{
+  int arg0, arg1;
+    metodo(){
+      System.out.println (arg0); // saida: 0
+      System.out.println (arg1); // saida: 0
+    }
+  }
+03.Construtor sobrescrita
+ •Exemplo:
+  public class Hello{
+  int arg0, arg1;
+    Hello(int arg0){
+      System.out.println ("Hello!!");
+      this.arg0 = arg0;
+      this.arg1 = 0;
+    }
+    Hello(int arg1){
+      System.out.println ("Hello!!");
+      this.arg0 = 0;
+      this.arg1 = arg1;
+    }
+    Hello(int arg0, int arg1){
+      System.out.println ("Hello!!");
+      this.arg0 = arg0;
+      this.arg1 = arg1;
+    }
+  }
+04.Construtor em Herança
+•Exemplo:
+  public class Hello{
+  int arg0, arg1;
+    Hello(int arg0, int arg1){
+      System.out.println ("Hello!!");
+      this.arg0 = arg0;
+      this.arg1 = arg1;
+    }
+  }
+  public class HelloWorld extends Hello{
+    HelloWorld(int arg0, int arg1){
+      super(arg0, arg1);
+    }
+  }
