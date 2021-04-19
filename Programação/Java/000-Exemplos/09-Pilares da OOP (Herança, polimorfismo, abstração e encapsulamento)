@@ -1,5 +1,14 @@
+0X.Classes finais
+ •Exemplo:
+  public final class Usuario{ // essa classe não pode ser herdada
+    String nome;
+    int id;
+  }
+  
+  //public class UsuarioBeta extendsUsuario{} a tentativa de estender uma classe final não compilaria
+  
 0X.Operador instanceof
-•Exemplo:
+ •Exemplo:
   public class InstanManeger{
     public void isInstanceOf(String nome){
       if(nome instanceof String){
