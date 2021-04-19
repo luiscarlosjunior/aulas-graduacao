@@ -1,0 +1,3 @@
+ALTER PROCEDURE raise_salary COMPILE;
+
+ALTER FUNCTION salary_valid COMPILE;
