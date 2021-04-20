@@ -1,1 +1,165 @@
-Versão Inicial
+01. Herança e generalização
+  01.01 Estabelecendo herança entre classes
+    •Exemplo:
+      public class Funcionario{
+      String nome;
+      String email;
+      int idade;
+    }
+  
+      public class Programador extends Funcionario{ // a palavra chave extends é usada estabelecer herança
+        String linguagem;
+      }
+  
+  01.02 Acesso aos membros da superclasse
+    •Exemplo:
+      public class Funcionario{
+        public String nome;
+        private String email;
+        protected int idade;
+    
+      public Funcionario(String nome, String email, int idade){
+        this.nome = nome;
+        this.email = email;
+        this.idade = idade;
+      }
+    
+      public String getEmail(){
+        return this.email;
+      }
+      public void setEmail(String email){
+        this.email = email;
+      }
+    }
+  
+    public class Programador extends Funcionario{ // a palavra chave extends é usada estabelecer herança
+      String linguagem;
+      public Programador(String nome, String email, int email, String linguagem){
+        this.linguagem = linguagem;
+        super(nome, email, email)
+      }
+      public void consultar(){
+        System.out.println (this.linguagem);
+        System.out.println (super.nome);
+        System.out.println (super.getEmail());
+        System.out.println (super.idade);
+      }
+   }
+ 
+02. Classes finais
+ •Exemplo:
+  public final class Usuario{ // essa classe não pode ser herdada
+    String nome;
+    int id;
+  }
+  
+  //public class UsuarioBeta extends Usuario{} a tentativa de estender uma classe final não compilaria
+  
+03. Classe object
+ •Exemplo:
+  public class Usuario{ // essa classe implementa automatica mente a classe Object
+    String nome;
+    int id;
+  }
+  
+  public class LoginChecker{
+    Usuario usuario;
+    public boolean checkLogin(Usuario usuario){
+      return this.usuario.equals(usuario); // é posivel utilizar metodos da classe Object 
+    }
+  }
+
+04. Classes e Métodos abstratos
+  •Sintaxe:
+    <modificadores> abstract <tipoRetorno> <nomeMetodo>(listaParametros);
+
+  •Exemplo:
+    public abstract class Figura {
+      public abstract double area();
+    }
+
+    public class FiguraQuadrada extends Figura{
+      private double lado;
+
+      public FiguraQuadrada(double lado){
+        this.lado = lado;
+      }
+      
+      public double area(){
+        double resultado = lado*lado;
+        System.out.println("Resultado da area quadrada é: " + resultado);
+        return resultado
+      }
+  }
+  
+  public class FiguraTriangular extends Figura{
+    private double base;
+    private double altura;
+
+    public FiguraTriangular(double base, double altura){
+      this.base = base;
+      this.altura = altura;
+    }
+    public double area(){
+      double resultado = (base*altura)/2;
+      System.out.println("Resultado da area triangular é: " + resultado);
+      return resultado
+    }
+  }
+
+  public class CalcularAreaFigura {
+    public static void main(String []args){
+	     FiguraQuadrada q = new FiguraQuadrada(20);
+	     FiguraTriangular t = new FiguraTriangular(120, 160);
+      q.area();
+	     t.area();
+    }
+  }
+
+05. OHerança e generalização
+  public class AnimalEstimacao{
+    public void emiteSom(){
+      System.out.println("Animal grita")
+    }
+  }
+
+  public class Cachorro extends AnimalEstimacao{
+    public void emiteSom(){
+      System.out.println("Cachorro lati")
+    }
+  }
+
+  public class Gato extends AnimalEstimacao{
+    public void emiteSom(){
+      System.out.println("Gato mia");
+    }
+  }
+
+  public class Casa {
+    Animal a = new Animal();
+    a.emiteSom();
+
+    Cachorro c = new Cachorro();
+    c.emiteSom();
+
+    Gato g = new Gato();
+    g.emiteSom();
+  }
+  
+06. Operador instanceof
+ •Exemplo:
+  public class InstanManeger{
+    public void isInstanceOf(String nome){
+      if(nome instanceof String){
+        System.out.println ("nome é uma String");
+      }
+      else{
+        System.out.println ("nome não é uma String");
+      }
+    }
+  }
+
+
+
+
+
