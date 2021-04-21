@@ -14,5 +14,5 @@ Neste repositório os tópicos principais estão categorizados em:
 ## Como contribuir
 - Página do projeto de como [contribuir](https://github.com/luiscarlosjunior/aulas-graduacao/wiki/Como-contribuir)
 - Guia de estilo para os [colaboradores](https://github.com/luiscarlosjunior/aulas-graduacao/blob/master/contributing.md)
-- [Guia para revisores](https://www.perforce.com/blog/qac/9-best-practices-for-code-review)
+- Guia de estilo para os [revisores](https://www.perforce.com/blog/qac/9-best-practices-for-code-review)
 - Comandos [Git](https://gist.github.com/leocomelli/2545add34e4fec21ec16)
