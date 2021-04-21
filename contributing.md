@@ -43,7 +43,9 @@ Exemplo de título de commit: Caso este commit seja aceito, será adicionada uma
 - Informe as etiqueta (labels), projeto (se houver), milestone (se houver) e qual issue está relacionada (se for o caso); 
 - Envie para a branch a sua branch especifica ou em caso de duvídas envie para a branch **development**; 
 - **Evite enviar para a branch master**;
--
+
+> Observaçao: Ao realizar o PR utilize-se dos recursos de [markdown](https://guides.github.com/features/mastering-markdown/)
+
 ## Ambiente de desenvolvimento
 Para manter o ensino padronizado e permitir que o conteúdo alcance mais pessoas descartando a necessidade de instalar software pesados ou de complexidade média/alta de configuração, segue uma lista de sugestões IDE e editores utilizados nesse projeto:
 
@@ -54,6 +56,9 @@ Para mais detalhes sobre o COLAB acesse o site https://www.tutorialspoint.com/go
 ### Desenvolvimento Java
 Para as disciplinas relacinadas a linguagem **Java** é aconselhavel usar a IDE [eclipse](https://www.eclipse.org/downloads/)
 Para saber mais detalhes sobre o eclipse acesse este site https://www.devmedia.com.br/conhecendo-o-eclipse-uma-apresentacao-detalhada-da-ide/25589
+
+> obs: Para realizar a documentação java, utilize-se dos resursos de [markdown](https://guides.github.com/features/mastering-markdown/)
+> Exemplo de como pode ser feito nesse [link](https://github.com/luiscarlosjunior/aulas-graduacao/blob/master/Programa%C3%A7%C3%A3o/Java/TiposDados.md)
 
 ## Configuração do ambiente de desenvolvimento
 ### Verifique o arquivo [.gitignore](https://git-scm.com/docs/gitignore)
