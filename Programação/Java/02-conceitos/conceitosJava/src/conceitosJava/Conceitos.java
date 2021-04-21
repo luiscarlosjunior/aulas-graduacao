@@ -6,10 +6,18 @@ public class Conceitos {
 
 	/**
 	 * @author Prof. Luis Caparroz Santos
-	 * Exemplo de uso de variáveis
+	 * Exemplo de uso de: 
+	 * variáveis
+	 * Estruturas de fluxo
+	 * Estrutura de controle
+	 * Entrada de dados
+	 * 
 	 */
+	
 	// Para saber mais
 	// https://www.caelum.com.br/apostila-java-orientacao-objetos/variaveis-primitivas-e-controle-de-fluxo
+	// http://java.meritcampus.com/core-java-topics/java-data-types
+	// https://www.w3schools.com/java/default.asp
     public static void main(String[] args) {
     	/* Para pode usar chamar as funções, 
     	 * retire os comentários, salve e execute o
@@ -18,15 +26,14 @@ public class Conceitos {
     	*/
     	
     	exemploEntrada();
-    	//exemploBreak();
-    	//exemploArrayMultiInt();
-    	//exemploForContinue();
-    	//exemploForLoop();
-    	//exemploForEachLoop();
-    	//exemploWhileLoop();
-    	//exemploDoWhile();
-    	//exemplosVariaveis();
-    	//exemploSwitch();
+    	//TiposDados.exemplosVariaveis();
+    	//EstruturaRepeticao.exemploArrayMultiInt();
+    	//EstruturaRepeticao.exemploForContinue();
+    	//EstruturaRepeticao.exemploForLoop();
+    	//EstruturaRepeticao.exemploForEachLoop();
+    	//EstruturaRepeticao.exemploWhileLoop();
+    	//EstruturaRepeticao.exemploDoWhile();
+    	//EstruturaFluxo.exemploSwitch();
     	//exemploMedia();
     }
 	    
@@ -37,94 +44,6 @@ public class Conceitos {
             }
             System.out.println(i);
         }
-    }
-    
-    private static void exemploArrayMultiInt() {
-        int[][] myNumbers = { {1, 2, 3, 4}, {5, 6, 7} };
-        for (int i = 0; i < myNumbers.length; ++i) {
-          for(int j = 0; j < myNumbers[i].length; ++j) {
-            System.out.println(myNumbers[i][j]);
-          }
-        }
-    }
-    
-    private static void exemploForContinue() {
-        for (int i = 0; i < 10; i++) {
-            if (i == 4) {
-              continue;
-            }
-            System.out.println(i);
-        }
-    }
-    
-    private static void exemploForLoop() {
-        for (int i = 0; i < 5; i++) {
-            System.out.println(i);
-        }     
-    }
-    
-    private static void exemploForEachLoop() {
-        String[] cars = {"Volvo", "BMW", "Ford", "Mazda"};
-        for (String i : cars) {
-          System.out.println(i);
-        }
-    }
-    
-    private static void exemploWhileLoop() {
-        int i = 0;
-        while (i < 5) {
-          System.out.println(i);
-          i++;
-        }  
-    }
-    
-    private static void exemploDoWhile() {
-        int i = 0;
-        do {
-          System.out.println(i);
-          i++;
-        }
-        while (i < 5);
-    }
-    
-    private static void exemploSwitch(){
-        int day = 4;
-        switch (day) {
-          case 1:
-            System.out.println("Monday");
-            break;
-          case 2:
-            System.out.println("Tuesday");
-            break;
-          case 3:
-            System.out.println("Wednesday");
-            break;
-          case 4:
-            System.out.println("Thursday");
-            break;
-          case 5:
-            System.out.println("Friday");
-            break;
-          case 6:
-            System.out.println("Saturday");
-            break;
-          case 7:
-            System.out.println("Sunday");
-            break;
-        }
-    }
-    
-    private static void exemplosVariaveis(){
-        int meuNum = 5;               // integer (whole number)
-        float meuFloatNum = 5.99f;    // floating point number
-        char minhaLetra = 'D';         // character
-        boolean meuBool = true;       // boolean
-        String meuTexto = "Hello";     // String    
-        System.out.println(meuNum);
-        System.out.println(meuFloatNum);
-        System.out.println(minhaLetra);
-        System.out.println(meuBool);
-        System.out.println(meuTexto);
     }
     
     private static void exemploEntrada(){

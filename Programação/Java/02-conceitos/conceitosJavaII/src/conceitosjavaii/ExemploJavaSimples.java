@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package exemplojavasimples;
+//package exemplojavasimples;
 
 import java.util.Scanner;
 import javax.swing.JOptionPane;
@@ -18,12 +18,21 @@ public class ExemploJavaSimples {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Scanner sc = new Scanner(System.in);
        // exemploEntrada();
        // media();
        exemplosVariaveis();
        
     }
-    
+
+    private static void executarConceitos()
+    {
+      do
+      {
+
+      } while(true)
+    }
+
     private static void exemploBreak() {
         for (int i = 0; i < 10; i++) {
             if (i == 4) {
