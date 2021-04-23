@@ -4,10 +4,24 @@ Tipos de dados são especificados de diferentes tamanhos e valores que podem ser
 1. **Tipo de dado primitivo**: Incluem boolean, char, byte, short, int, long, float, e double.
 2. **Tipo de dado não primitivo**: Incluem classes, interfaces e arrays.
 
+## Tipos de dados primitivos em java
+|Tipo |Valores em bytes|Valores                            |
+|---  |---            |---                                |
+|boolean|1            |**true** ou **false**              |
+|char |1              |'\u0000' até '\uFFFF'              |
+|byte |1              |-128 até +127                      |
+|short|2             |'\u0000' até '\uFFFF'              |
+|int  |4             |-2.147.483.648 até +2.147.483.647  |
+|long |8             |-9,223,372,036,854,775,808 até 9,223,372,036,854,775,807                    |
+|float|4             |-3.402923E+38 até +3.402923E+38  |
+|double|8             |-1.79769313E+308 até +1.79769313E+308  |
+
+fonte: [Oracle documentation](https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html)
+
 ## Exemplo de tipos de dados
 
 <details>
-  <summary> Código fonte de exemplo </summary>  
+  <summary> Código fonte de alguns exemplos do uso de tipos de dados </summary>  
   
   ``` java
   public static void exemplosVariaveis() {
@@ -106,6 +120,11 @@ char letraA = 'A';
 ## Por que char usa 2 bytes em java e o que é \u0000?
 É porque o java usa o sistema unicode e não o sistema de código ASCII. O \u0000 é o intervalo mais baixo do sistema unicode. Para obter uma explicação detalhada sobre unicode, visite a próxima página.
 
-fonte: [Site java point](https://www.javatpoint.com/pt/tipo-de-dado-em-java#:~:text=Java%20%C3%A9%20uma%20linguagem%20de%20programa%C3%A7%C3%A3o%20estaticamente%20tipada.,%202%20byte%20%204%20more%20rows%20)
+## Material adicional
+[Documentação Oracle tipos](https://docs.oracle.com/javase/specs/jls/se7/html/jls-4.html#jls-4.2.3)
 
-fonte: [Site Java Merit Campus](http://java.meritcampus.com/core-java-topics/java-data-types)
+## Referências
+
+[Site java point](https://www.javatpoint.com/pt/tipo-de-dado-em-java#:~:text=Java%20%C3%A9%20uma%20linguagem%20de%20programa%C3%A7%C3%A3o%20estaticamente%20tipada.,%202%20byte%20%204%20more%20rows%20)
+[Documentação Oracle Java](https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html)
+[Site Java Merit Campus](http://java.meritcampus.com/core-java-topics/java-data-types)
