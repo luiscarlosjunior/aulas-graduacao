@@ -1,3 +1,4 @@
+SET SERVEROUTPUT ON;
 DECLARE
   -- Declarando constantes
   idadeMaxima CONSTANT NUMBER(3) := 125;
@@ -21,7 +22,7 @@ BEGIN
       dbms_output.put_line('Fique estudando!');
     END IF;
   ELSE
-   dbms_output.put_line('Idade inválida!');
+    dbms_output.put_line('Idade inválida!');
   END IF;
   
   -- Operadores de comparação
