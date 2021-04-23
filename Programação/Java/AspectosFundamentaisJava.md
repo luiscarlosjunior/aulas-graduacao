@@ -1,10 +1,14 @@
 
 # Tipo de Dado em Java
+
 Tipos de dados são especificados de diferentes tamanhos e valores que podem ser armazenados na variável. Existem dois tipos de dados em java:
 
 1. **Tipo de dado primitivo**: Incluem boolean, char, byte, short, int, long, float, e double.
 2. **Tipo de dado não primitivo**: Incluem classes, interfaces e arrays.
 
+<details>
+  <summary> Tipos de dados </summary>  
+  
 ## Tipos de dados primitivos em java
 |Tipo |Valores em bytes|Valores                            |
 |---  |---            |---                                |
@@ -123,6 +127,7 @@ char letraA = 'A';
 
 ## Material adicional
 [Documentação Oracle tipos](https://docs.oracle.com/javase/specs/jls/se7/html/jls-4.html#jls-4.2.3)
+</details>
 
 ## Referências
 
