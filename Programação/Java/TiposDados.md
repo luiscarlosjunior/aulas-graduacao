@@ -13,15 +13,15 @@ Tipos de dados são especificados de diferentes tamanhos e valores que podem ser
 |short|2             |'\u0000' até '\uFFFF'              |
 |int  |4             |-2.147.483.648 até +2.147.483.647  |
 |long |8             |-9,223,372,036,854,775,808 até 9,223,372,036,854,775,807                    |
-|float|4             |-2.147.483.648 até +2.147.483.647  |
-|double|8             |-2.147.483.648 até +2.147.483.647  |
+|float|4             |-3.402923E+38 até +3.402923E+38  |
+|double|8             |-1.79769313E+308 até +1.79769313E+308  |
 
 fonte: [Oracle documentation](https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html)
 
 ## Exemplo de tipos de dados
 
 <details>
-  <summary> Código fonte de exemplo </summary>  
+  <summary> Código fonte de alguns exemplos do uso de tipos de dados </summary>  
   
   ``` java
   public static void exemplosVariaveis() {
@@ -125,6 +125,6 @@ char letraA = 'A';
 
 ## Referências
 
-fonte: [Site java point](https://www.javatpoint.com/pt/tipo-de-dado-em-java#:~:text=Java%20%C3%A9%20uma%20linguagem%20de%20programa%C3%A7%C3%A3o%20estaticamente%20tipada.,%202%20byte%20%204%20more%20rows%20)
-
-fonte: [Site Java Merit Campus](http://java.meritcampus.com/core-java-topics/java-data-types)
+[Site java point](https://www.javatpoint.com/pt/tipo-de-dado-em-java#:~:text=Java%20%C3%A9%20uma%20linguagem%20de%20programa%C3%A7%C3%A3o%20estaticamente%20tipada.,%202%20byte%20%204%20more%20rows%20)
+[Documentação Oracle Java](https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html)
+[Site Java Merit Campus](http://java.meritcampus.com/core-java-topics/java-data-types)
