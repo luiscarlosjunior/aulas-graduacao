@@ -1,24 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package javaapplication1;
+package exericios;
 
 // Importar o pacote javauitil
 import java.util.Scanner;
 /**
  *
- * @author luisc
+ * @author luiscaparroz
  */
-public class JavaApplication1 {
 
-    /**
-     * @param args the command line arguments
-     */
+ public class Exercicios {
+
     public static void main(String[] args) {
         // Instanciar e criar um objeto Scanner usando padrão de entrada System.in
-       ativ03d();
+        //ativ01();
+        ativ03d();
         
     }
     
@@ -166,26 +160,6 @@ public class JavaApplication1 {
         for (int i = 0; i < 10; i++) {
             System.out.println(number + " X " + (i+1) + " = " + (number * (i+1)));
         }
-    }
-    
-    private static void ativ03b() {
-        int soma = 0;
-        
-        /*
-        for (int i = 1; i <= 500; i++) {
-            if (i%2 == 0) {
-                soma = soma + i;
-            }
-        }
-        */
-        
-        /*
-        for (int i = 0; i <= 500; i += 2) {
-                soma = soma + i;  
-        }
-        */
-        
-        System.out.println("A soma de 1 a 500 é de " + soma);
     }
     
     private static void ativ03c() {
