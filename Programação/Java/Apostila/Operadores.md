@@ -77,7 +77,7 @@ São operadores que permitem avaliar o resultado lógico de diferentes operaçõ
 |**Função**         | **Caractere(s) utilizados**   | **Exemplo** |
 |----               |----                           |----         |
 |E lógico ou AND    | &&                            | x && y      |
-|Ou lógico ou OR    | ||                            | x || y      |
+|Ou lógico ou OR    | \|\|                            | x \|\| y      |
 |Negação ou NOT     | !                             | !x          |
 
 ## Exemplo de declaração operadores lógicos
