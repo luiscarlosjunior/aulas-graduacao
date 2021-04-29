@@ -40,3 +40,23 @@ O RDBMS é a base para o SQL e para todos os sistemas de banco de dados modernos
 Os dados no RDBMS são armazenados em objetos de banco de dados chamados tabelas. Uma tabela é uma coleção de entradas de dados relacionadas e consiste em colunas e linhas.
 
 O texto acima foi retirado do site [w3schools](https://www.w3schools.com/sql/sql_intro.asp)
+
+# Comandos comuns em SQL
+
+|Comando           |Exemplo                                                  |Descrição
+|----              |----                                                    |----
+|ALTER table       |ALTER TABLE nome_tabela ADD nome_coluna tipo_dado       | Neste exemplo está sendo feito uma alteração na tabela, adicionando uma nova coluna
+|ALTER table       |ALTER TABLE nome_tabela ADD nome_coluna tipo_dado       | Neste exemplo está sendo feito uma alteração na tabela, adicionando uma nova coluna
+|ALTER table       |ALTER TABLE nome_tabela ADD nome_coluna tipo_dado       | Neste exemplo está sendo feito uma alteração na tabela, adicionando uma nova coluna
+|ALTER table       |ALTER TABLE nome_tabela ADD nome_coluna tipo_dado       | Neste exemplo está sendo feito uma alteração na tabela, adicionando uma nova coluna
+|ALTER table       |ALTER TABLE nome_tabela ADD nome_coluna tipo_dado       | Neste exemplo está sendo feito uma alteração na tabela, adicionando uma nova coluna
+|ALTER table       |ALTER TABLE nome_tabela ADD nome_coluna tipo_dado       | Neste exemplo está sendo feito uma alteração na tabela, adicionando uma nova coluna
+|ALTER table       |ALTER TABLE nome_tabela ADD nome_coluna tipo_dado       | Neste exemplo está sendo feito uma alteração na tabela, adicionando uma nova coluna
+|ALTER table       |ALTER TABLE nome_tabela ADD nome_coluna tipo_dado       | Neste exemplo está sendo feito uma alteração na tabela, adicionando uma nova coluna
+|ALTER table       |ALTER TABLE nome_tabela ADD nome_coluna tipo_dado       | Neste exemplo está sendo feito uma alteração na tabela, adicionando uma nova coluna
+|ALTER table       |ALTER TABLE nome_tabela ADD nome_coluna tipo_dado       | Neste exemplo está sendo feito uma alteração na tabela, adicionando uma nova coluna
+|ALTER table       |ALTER TABLE nome_tabela ADD nome_coluna tipo_dado       | Neste exemplo está sendo feito uma alteração na tabela, adicionando uma nova coluna
+|ALTER table       |ALTER TABLE nome_tabela ADD nome_coluna tipo_dado       | Neste exemplo está sendo feito uma alteração na tabela, adicionando uma nova coluna
+|ALTER table       |ALTER TABLE nome_tabela ADD nome_coluna tipo_dado       | Neste exemplo está sendo feito uma alteração na tabela, adicionando uma nova coluna
+
+
