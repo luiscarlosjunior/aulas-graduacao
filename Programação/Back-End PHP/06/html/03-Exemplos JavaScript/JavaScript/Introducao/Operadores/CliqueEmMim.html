@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+  <body>
+    <h1>JavaScript</h1>
+    <p>Vamos mudar o conteúdo desse parágrafo!</p>
+    <button>Clique em mim!</button>
+    <script>
+      var contador = 0;
+      var meuBotao = document.querySelector('button');
+      var meuParagrafo = document.querySelector('p');
+      meuButton.onclick = function() {
+        contador = contador + 1;
+        meuParagrafo.innerHTML = 'Quantidade de cliques: ' + contador;
+        meuBotao.innerHTML = 'Cliques: ' + contador;
+      }
+    </script>
+  </body>
+</html>
