@@ -62,6 +62,28 @@ boolean $falso = false;
 //echo gettype($idade);
 echo var_dump($idade);
 ```
-Referência
 
-(Documentação)[https://www.php.net/manual/pt_BR/language.types.intro.php]
+O mesmo exemplo acima pode ser descrito sem os tipos de dados passado anteriomente, vejo o exemplo:
+
+```php
+<?php
+
+$idade = 21;
+$salario = 1000.301s;
+$divisao = 10 / 3;
+
+$divisao = 3;
+
+$texto = "Olá mundo";
+
+$verdadeiro = true;
+$falso = false;
+
+//echo gettype($idade);
+echo var_dump($idade);
+```
+Isso acontece porque PHP é uma linguagem de tipagem dinâmica, logo, não é preciso passar de forma obrigatória o próprio compilador irá tratar disso.
+
+## Referência
+
+[Documentação](https://www.php.net/manual/pt_BR/language.types.intro.php)
