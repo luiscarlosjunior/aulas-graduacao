@@ -159,11 +159,11 @@ Como outras linguagens de programação, uma variável em PL/SQL deve seguir as 
 |prefixo	| tipo de dado |
 |----    |----
 |v_	   |VARCHAR2
-|n_	   |número
-|t_	   |mesa
-|r_	   |remar
-|d_	   |data
-|b_	   |booleano
+|n_	   |NUMBER
+|t_	   |TABLE
+|r_	   |ROW
+|d_	   |DATE
+|b_	   |BOOLEAN
 
 ## Declaração de Variáveis PL/SQL
    Para declarar uma variável, você usa um nome variável seguido do tipo de dados e rescindido por um ponto e vírgula ( ). Você também pode adicionar explicitamente uma restrição de comprimento ao tipo de dados entre parênteses. O seguinte ilustra alguns exemplos de declarações de variáveis em um bloco anônimoPL/SQL :;
@@ -178,3 +178,178 @@ BEGIN
    NULL;
 END;
 ``` 
+## Âncoras variáveis PL/SQL
+No programa PL/SQL, uma das tarefas mais comuns é selecionar valores de colunas em uma tabela em um conjunto de variáveis. Caso os tipos de dados das colunas da tabela mudem, você tem que alterar o programa PL/SQL para tornar os tipos das variáveis compatíveis com as novas alterações.
+
+O PL/SQL fornece um recurso muito útil chamado âncoras variáveis. Refere-se ao uso da palavra-chave para declarar que uma variável com o tipo de dados está associada ao tipo de dados de uma coluna de uma determinada coluna em uma tabela. %TYPE
+
+```sql
+DECLARE
+  v_primeiro_nome    TABELA_EMPREGADO.PRIMEIRO_NOME%TYPE;
+  v_sobre_name       TABELA_EMPREGADO.SOBRE_NOME%TYPE;
+  n_id               TABELA_EMPREGADO.ID%TYPE;
+  d_data_nascimento  TABELA_EMPREGADO.NASCIMENTO%TYPE;
+BEGIN
+  NULL;
+END;
+/
+```
+
+A variável tem um tipo de dados que é o mesmo que o tipo de dados da coluna na tabela. Caso o tipo de dados da coluna mude, o tipo da variável herda automaticamente o novo tipo de dados da coluna.
+
+# Atribuição variável PL/SQL
+Em PL/SQL, para atribuir um valor ou uma variável a outro, você usa o operador de atribuição ( ) que é um cólon( ) seguido pelo sinal igual( ).:=: =
+
+Por favor, veja a lista de códigos abaixo para obter uma melhor compreensão:
+
+```sql
+DECLARE
+  v_primeiro_nome    TABELA_EMPREGADO.PRIMEIRO_NOME%TYPE;
+  v_sobre_name       TABELA_EMPREGADO.SOBRE_NOME%TYPE;
+  n_id               TABELA_EMPREGADO.ID%TYPE;
+  d_data_nascimento  TABELA_EMPREGADO.NASCIMENTO%TYPE;
+BEGIN
+   v_primeiro_nome := 'Mary';
+   v_sobre_name := 'Junho';
+   d_data_nascimento := to_date('19700101','YYYYMMDD');
+END;
+/
+```
+
+No exemplo acima, atribuímos a variável, à variável e resultado da função à variável.Maryv_first_nameJanev_last_nameto_dated_hire_date
+
+Você pode usar a instrução para atribuir um valor a uma variável. A cláusula move os valores da lista de colunas da consulta para variáveis PL/SQL correspondentes. INTO SELECT INTO SELECT
+
+```sql
+SET SERVEROUTPUT ON SIZE 1000000;
+DECLARE
+  v_primeiro_nome    TABELA_EMPREGADO.PRIMEIRO_NOME%TYPE;
+  v_sobre_name       TABELA_EMPREGADO.SOBRE_NOME%TYPE;
+  n_id               TABELA_EMPREGADO.ID%TYPE;
+  d_data_nascimento  TABELA_EMPREGADO.NASCIMENTO%TYPE;
+BEGIN
+   SELECT employee_id,
+          primerio_nome,
+          sobre_nome,
+          nascimento
+   INTO n_employee_id,
+        v_primeiro_nome,
+        v_sobre_nome,
+        d_data_nascimento
+   FROM TABELA_EMPREGADO
+   WHERE id = 200;
+
+   DBMS_OUTPUT.PUT_LINE(v_primeiro_nome);
+   DBMS_OUTPUT.PUT_LINE(v_sobre_nome);
+   DBMS_OUTPUT.PUT_LINE(d_data_nascimento);
+END;
+/
+```
+
+## Variáveis de inicialização
+Quando você declara uma variável, seu valor é unnitializado e, portanto, é . Você pode inicializar uma variável de valor na seção de declaração usando atribuição variável.NULL
+
+Veja o exemplo a seguir:
+
+```sql
+DECLARE
+  n_id TABELA_EMPREGADO.ID%TYPE := 200;
+  d_data_nascimento TABELA_EMPREGADO.NASCIMENTO%TYPE := to_date('19700101','YYYYMMDD');
+BEGIN
+   NULL;
+END;
+/
+```
+
+Em PL/SQL, significa um valor desconhecido para que tenha algumas características especiais da seguinte forma:NULL
+
+* NULL não é igual a nada, mesmo a si mesmo.NULL
+* NULL não é maior do que ou menos do que qualquer outra coisa, mesmo .NULL
+* Você não pode usar operador lógico igual () ou ( ) com . Você deve usar o SQL IS NULL ou NÃO É NULO para testar os valores NULL \=\<\> \NULL
+
+Nesta seção, vimos como declarar, atribuir e inicializar variáveis PL/SQL. Também o percorremos como declarar variáveis PL/SQL usando âncoras variáveis para tornar seu código mais flexível e adaptável às alterações nas colunas das tabelas de banco de dados.
+
+----
+
+# PL/SQL - Operadores
+   O texto a seguir foi retirado do site: 
+   Iremos discutiremos **operadores em PL/SQL**. Um operador é um símbolo que diz ao compilador para realizar manipulação matemática ou lógica específica. A linguagem PL/SQL é rica em operadores incorporados e fornece os seguintes tipos de operadores. 
+
+* Operadores de aritmética
+* Operadores relacionais
+* Operadores de comparação
+* Operadores lógicos
+* Operadores de cordas
+
+Aqui, entenderemos os operadores aritméticos, relacionais, comparativos e lógicos um a um. Os operadores string serão discutidos em um capítulo posterior − PL/SQL - Strings.
+
+## Operadores de Aritmética
+A tabela a seguir mostra todos os operadores de aritmética apoiados pelo PL/SQL. Vamos assumir que a variável A detém 10 e a variável B contém 5, então
+
+|Operador   |	Descrição	                           |exemplo
+|----       |----                                     |----
+|+	         |Adiciona dois operandos	               |A + B dará 15
+|-	         |Subtrai segundo operando do primeiro	   |A - B vai dar 5
+|*	         |Multiplica as duas operações	            |A * B dará 50
+|/	         |Divide o numerador por de-numerador	   |A / B dará 2
+|**	      |Operador de exponenciação, eleva um operando ao poder de outro	|A ** B vai dar 100000
+
+## Operadores Relacionais
+Operadores relacionais comparam duas expressões ou valores e retornam um resultado booleano. A tabela a seguir mostra todos os operadores relacionais apoiados pelo PL/SQL. Vamos assumir que a variável A detém 10 e a variável B contém 20, então −
+
+### Mostrar exemplos
+
+|operador	|descrição	   |exemplo
+|----       |----          |----
+|=          |Verifica se os valores de dois operandos são iguais ou não, se sim, <br /> então a condição se torna verdadeira.|	(A = B) não é verdade.
+|!= <br /> <> <br /> ~= | Verifica se os valores de dois operandos são iguais ou não, se os <br /> valores não são iguais, então a condição se torna verdadeira.|	(A != B) é verdade.
+|>	|Verifica se o valor do operando esquerdo é maior do que o valor do operand direito, se sim, <br />então a condição se torna verdadeira.|	(A > B) não é verdade.
+|<	|Verifica se o valor do operand esquerdo é menor do que o valor do operand direito, se sim, <br />então a condição se torna verdadeira.|	(A < B) é verdade.
+|>=	|Verifica se o valor do operando esquerdo é maior ou igual ao valor do operand direito, se sim, <br />então a condição se torna verdadeira.|	(A >= B) não é verdade.
+|<=	|Verifica se o valor do operando esquerdo é menor ou igual ao valor do operand direito, se sim, <br />então a condição se torna verdadeira.|	(A <= B) é verdade
+
+
+## Operadores de Comparação
+Os operadores de comparação são usados para comparar uma expressão com outra. O resultado é sempre VERDADEIRO, FALSO ou NULO.
+
+### Exemplos
+
+|operador	|descrição	|exemplo
+|----       |----       |-----
+|LIKE       |O operador LIKE compara um valor de caractere, string ou CLOB a um padrão e retorna TRUE se o valor corresponder <br /> ao padrão e FALSO se não o fizer.	  | Se 'Zara Ali' LIKE 'Z% A_i' retorna verdadeiro, enquanto, 'Nuha Ali' LIKE 'Z% A_i' devolve um falso.
+|BETWEEN   |O operador BETWEEN testa se um valor está em uma faixa especificada. x ENTRE a E b significa que x >= a e x <= b.|Se x = 10 então, x entre 5 e 20 retorna verdadeiro, <br /> x entre 5 e 10 retorna verdadeiro, <br />mas x entre 11 e 20 retorna falso.
+|IN         |Os testes do operador IN definem a adesão. x IN (conjunto) significa que x é igual a qualquer membro do conjunto.|Se x = 'm' então, x em ('a', 'b', 'c') retorna falso, mas x em ('m', 'n', 'o') retorna verdadeiro.
+|IS NULL    |O operador **IS NULL** retorna o valor **BOOLEAN TRUE** se seu operando for NULO ou FALSO se não for NULO. <br />Comparações envolvendo valores NULL sempre rendem NULO.  |Se x = 'm', então 'x é nulo' retorna **falso**.
+
+## Operadores Lógicos
+A tabela a seguir mostra os operadores lógicos suportados pelo PL/SQL. Todos esses operadores trabalham em operações booleanas e produzem resultados booleanos. Vamos supor que a variável A é verdadeira e a variável B é falsa, então −
+
+### Exemplos
+
+|operador	|descrição	   |Exemplos
+|----|----|----
+|AND	|Chamado de operador lógico e. |Se ambos os operandos são verdadeiros, então a condição se torna verdadeira.	(A AND B) é falso.
+|OR   |Chamado de operador lógico. |Se algum dos dois operando é verdade, então a condição se torna verdadeira.	(A OR B) é verdade.
+|NOT  |Chamado de operador lógico NÃO. Usado para reverter o estado lógico de seu operando. |Se uma condição for verdadeira, então o operador Logical NOT o tornará falso.	NOT(A AND B) é verdade.
+
+## Precedência do operador PL/SQL
+
+A precedência do operador determina o agrupamento de termos em uma expressão. Isso afeta a forma como uma expressão é avaliada. Certos operadores têm maior precedência do que outros; por exemplo, o operador de multiplicação tem maior precedência do que o operador de adição.
+
+Por exemplo, **x = 7 + 3 * 2**; aqui, x é atribuído **13**, não **20** porque operador * tem maior precedência do que +, por isso primeiro é multiplicado com **3*2** e depois adiciona em 7.
+
+Aqui, operadores com maior precedência aparecem na parte superior da tabela, aqueles com os mais baixos aparecem na parte inferior. Dentro de uma expressão, operadores de maior precedência serão avaliados primeiro.
+
+A precedência dos operadores é a seguinte:** =, <, >, <=, >=, <>, !=, ~=, ^=, É NULO, LIKE, BETWEEN, IN**.
+
+### Exemplos
+
+|operador	|operação
+|----       |----
+|**	      |Exponenciação
+|+, -	      |identidade, negação
+|*, /	      |multiplicação, divisão
+|+, -, ||	|adição, subtração, concatenação, comparação	
+|NOT	      |negação lógica
+|AND	      |conjunção
+|OR	      |inclusão
