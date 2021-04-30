@@ -18,17 +18,17 @@ Assumimos que você tem o conhecimento fundamental de bancos de dados e SQL para
 
 Esta seção é direcionada como um bom ponto de partida para aqueles que são novos no PL/SQL. No entanto, se você está muito familiarizado com o idioma e também quer olhar através desses tutoriais como uma atualização, você pode até encontrar algo útil que você nunca viu antes.
 
-* Estrutura de blocos PL/SQL – apresenta a estrutura do bloco PL/SQL e mostra como desenvolver o primeiro programa PL/SQL em execução.
-* Variáveis PL/SQL – mostra como trabalhar com variáveis PL/SQL, incluindo declarar, nomear e atribuir variáveis.
-* Função PL/SQL – explica quais são as funções de PL/SQL e mostra como criar funções PL/SQL.
-* Procedimento PL/SQL – discute procedimentos PL/SQL e mostra como criar procedimentos PL/SQL.
-* PL/SQL Bloco Aninhado – explica o que é um bloco aninhado PL/SQL e como aplicá-lo na programação PL/SQL.
-* Declaração PL/SQL IF – apresenta-lhe várias formas da instrução PL/SQL IF, incluindo , e declaração.IF-THENIF-THEN-ELSEIF-THEN-ELSIF
-* Declaração de CASO PL/SQL – mostra como usar a instrução PL/SQL e a instrução pesquisada pl/SQL.CASE CASE
-* Declaração DE LOOP PL/SQL – orienta como usar a instrução PL/SQL para executar um bloco de código repetidamente.LOOP
-* PL/SQL WHILE Loop Statement – executa uma sequência de instruções com uma condição é verificada no início de cada iteração com a instrução loop.WHILE
-* PL/SQL FOR Loop Statement – mostra como executar uma sequência de instruções no número fixo de vezes com a instrução loop.FOR
-* Manipulação de exceções PL/SQL – ensina como lidar com exceção corretamente em PL/SQL, bem como mostra como definir sua própria exceção e elevá-la em seu código.
+* **Estrutura de blocos PL/SQL** – apresenta a estrutura do bloco PL/SQL e mostra como desenvolver o primeiro programa PL/SQL em execução.
+* **Variáveis PL/SQL** – mostra como trabalhar com variáveis PL/SQL, incluindo declarar, nomear e atribuir variáveis.
+* **Função PL/SQL** – explica quais são as funções de PL/SQL e mostra como criar funções PL/SQL.
+* **Procedimento PL/SQL** – discute procedimentos PL/SQL e mostra como criar procedimentos PL/SQL.
+* **PL/SQL Bloco Aninhado** – explica o que é um bloco aninhado PL/SQL e como aplicá-lo na programação PL/SQL.
+* **Declaração PL/SQL IF** – apresenta-lhe várias formas da instrução PL/SQL IF, incluindo , e declaração.IF-THENIF-THEN-ELSEIF-THEN-ELSIF
+* **Declaração de CASO PL/SQL** – mostra como usar a instrução PL/SQL e a instrução pesquisada pl/SQL.CASE CASE
+* **Declaração DE LOOP PL/SQL** – orienta como usar a instrução PL/SQL para executar um bloco de código repetidamente.LOOP
+* **PL/SQL WHILE Loop Statement** – executa uma sequência de instruções com uma condição é verificada no início de cada iteração com a instrução loop.WHILE
+* **PL/SQL FOR Loop Statement** – mostra como executar uma sequência de instruções no número fixo de vezes com a instrução loop.FOR
+* **Manipulação de exceções PL/SQL** – ensina como lidar com exceção corretamente em PL/SQL, bem como mostra como definir sua própria exceção e elevá-la em seu código.
 * PL/SQL Record – explica o registro PL/SQL e mostra como usar registros para gerenciar seus dados de forma mais eficaz.
 * PL/SQL Cursor – abrange o conceito de cursor PL/SQL e o percorre como usar um cursor para fazer loop através de um conjunto de linhas e processar cada linha individualmente.
 * Pacotes PL/SQL – mostra como criar um pacote PL/SQL que é um grupo de funções, procedimentos, tipos relacionados, etc.
@@ -80,3 +80,61 @@ O PL/SQL também permite definir gatilhos que podem ser invocados automaticament
 
 PL/SQL é uma linguagem de alto desempenho dentro dos bancos de dados Oracle
 A Oracle adiciona muitos aprimoramentos ao PL/SQL para torná-lo mais eficiente para interagir com os bancos de dados Oracle.
+
+----
+
+# Introdução da estrutura do bloco PL/SQL e do bloco anônimo
+
+As unidades do programa PL/SQL organizam o código em blocos. Um bloco sem nome é conhecido como um bloco anônimo. O bloco anônimo é a unidade mais simples em PL/SQL. Ele é chamado de bloco anônimo porque não é salvo no banco de dados Oracle.
+
+Um bloco anônimo é um uso único e útil em certas situações, como a criação de unidades de teste. O seguinte ilustra a sintaxe de bloco anônimo:
+
+```sql
+[DECLARE]
+   Declaration statements;
+BEGIN
+   Execution statements;
+  [EXCEPTION]
+      Exception handling statements;
+END;
+```
+/
+
+## Estrutura do bloco PL/SQL
+O bloco anônimo tem três seções básicas que são a declaração, execução e tratamento de exceção. Apenas a seção de execução é obrigatória e as outras são opcionais.
+
+* A **seção de declaração** permite definir tipos de dados, estruturas e variáveis. Muitas vezes, você declara variáveis na seção de declaração dando-lhes nomes, tipos de dados e valores iniciais.
+* A **seção de execução** é necessária em uma estrutura de bloco e deve ter pelo menos uma declaração. A seção de execução é o lugar onde você coloca o código de execução ou código lógico de negócios. Você pode usar declarações processuais e SQL dentro da seção de execução.
+* A **seção de tratamento de exceção** está começando com a palavra-chave EXCEÇÃO. A seção de exceção é o lugar que você coloca o código para lidar com exceções. Você pode pegar ou lidar com exceções na seção de exceção.
+
+## Exemplo de estrutura de bloco PL/SQL
+Vamos dar uma olhada no bloco PL/SQL mais simples que não faz nada.
+
+```sql
+BEGIN
+   NULL;
+END;
+```
+
+Se você executar o bloco anônimo acima, você verá que ele emite uma mensagem dizendo:
+
+>PL/SQL procedure successfully completed.
+Porque a declaração null não faz nada.
+
+### Para exibir a saída do banco de dados na tela, você precisa:
+
+Primeiro, use o comando **SET SERVEROUTPUT ON** para instruir o SQL Developer a ecoar a saída do banco de dados após a execução do bloco PL/SQL. O **SET SERVEROUTPUT ON** é o comando SQL\*Plus, que não está relacionado ao PL/SQL.
+
+Em segundo lugar, use o procedimento para produzir uma string na tela. DBMS_OUTPUT.PUT_LINE
+
+O exemplo a seguir exibe uma mensagem Hello PL/SQL em uma tela usando SQL*Plus:
+
+```sql
+SET SERVEROUTPUT ON SIZE 1000000
+BEGIN
+   DBMS_OUTPUT.PUT_LINE('Hello PL/SQL');
+END;
+/
+```
+
+Neste exemplo, basta usar a parte de execução para executar o código. Você aprenderá como declarar variáveis e lidar com exceções nos próximos tutoriais.
