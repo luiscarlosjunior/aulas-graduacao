@@ -138,3 +138,43 @@ END;
 ```
 
 Neste exemplo, basta usar a parte de execução para executar o código. Você aprenderá como declarar variáveis e lidar com exceções nos próximos tutoriais.
+
+----
+
+# Variáveis PL/SQL
+Resumo: neste tutorial, você aprenderá sobre variáveis PL/SQL que ajudam você a manipular dados em programas PL/SQL.
+
+Em PL/SQL, uma variável é um nome significativo de um local de armazenamento temporário que suporta um determinado tipo de dados em um programa. Antes de usar uma variável, você precisa declará-la primeiro na seção declaração de um bloco PL/SQL.
+
+## Regras de nomeação de variáveis PL/SQL
+Como outras linguagens de programação, uma variável em PL/SQL deve seguir as regras de nomeação da seguinte forma:
+
+* O nome da variável deve ser inferior a 31 caracteres. Tente torná-lo o mais significativo possível dentro de 31 caracteres.
+* O nome da variável deve começar com uma letra ASCII. Pode ser maiústo ou maiús no máximo. Observe que o PL/SQL é insensível a maiões, o que significa e consulte a mesma variável.v_dataV_DATA
+* Seguido pelo primeiro caractere estão qualquer número, sublinhados ( ), e caracteres dollar sign () . Mais uma vez, não torne suas variáveis difíceis de ler e difíceis de entender._$
+
+### Convenção de nomeação de variáveis PL/SQL
+É altamente recomendável que você siga as convenções de nomeação listadas na tabela a seguir para tornar as variáveis óbvias nos programas PL/SQL:
+
+|prefixo	| tipo de dado |
+|----    |----
+|v_	   |VARCHAR2
+|n_	   |número
+|t_	   |mesa
+|r_	   |remar
+|d_	   |data
+|b_	   |booleano
+
+## Declaração de Variáveis PL/SQL
+   Para declarar uma variável, você usa um nome variável seguido do tipo de dados e rescindido por um ponto e vírgula ( ). Você também pode adicionar explicitamente uma restrição de comprimento ao tipo de dados entre parênteses. O seguinte ilustra alguns exemplos de declarações de variáveis em um bloco anônimoPL/SQL :;
+
+```sql
+DECLARE
+   v_nome varchar2(20);
+   v_sobre_name varchar2(20);
+   n_id number;
+   d_nascimento date;
+BEGIN
+   NULL;
+END;
+``` 
