@@ -10,11 +10,39 @@ BEGIN
       EXIT;
     END IF;
   END LOOP;
-  -- Depois da palavra EXIT, o fluxo começa
+  -- Depois da palavra EXIT, o fluxo comeï¿½a
   DBMS_OUTPUT.PUT_LINE(' Depois loop:  x = ' || TO_CHAR(x));
   
 END;
 */
+----------------------
+WHILE condition
+LOOP
+    statements;
+END LOOP;
+
+
+DECLARE
+  n_counter NUMBER := 1;
+BEGIN
+  WHILE n_counter <= 5
+  LOOP
+    DBMS_OUTPUT.PUT_LINE( 'Counter : ' || n_counter );
+    n_counter := n_counter + 1;
+  END LOOP;
+END;
+
+
+DECLARE
+   n_counter NUMBER := 1;
+BEGIN
+   WHILE n_counter <= 5
+      LOOP
+        DBMS_OUTPUT.PUT_LINE( 'Counter : ' || n_counter );
+        n_counter := n_counter + 1;
+        EXIT WHEN n_counter = 3;
+      END LOOP;
+   END;
 
 DECLARE
   pronto  BOOLEAN := FALSE;
