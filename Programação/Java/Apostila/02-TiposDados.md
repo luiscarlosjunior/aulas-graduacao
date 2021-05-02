@@ -126,5 +126,7 @@ char letraA = 'A';
 ## Referências
 
 [Site java point](https://www.javatpoint.com/pt/tipo-de-dado-em-java#:~:text=Java%20%C3%A9%20uma%20linguagem%20de%20programa%C3%A7%C3%A3o%20estaticamente%20tipada.,%202%20byte%20%204%20more%20rows%20)
+
 [Documentação Oracle Java](https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html)
+
 [Site Java Merit Campus](http://java.meritcampus.com/core-java-topics/java-data-types)
