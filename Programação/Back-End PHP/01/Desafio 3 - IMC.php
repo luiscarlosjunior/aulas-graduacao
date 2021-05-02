@@ -12,9 +12,9 @@ else
     echo "A valor $b é maior que o valor $a";
 }    */ 
 
-$a = readline('Enter a value: ');
-$b = readline('Enter a value: ');
-$c = readline('Enter a value: ');
+$a = readline('Entre com o valor: ');
+$b = readline('Entre com o valor: ');
+$c = readline('Entre com o valor: ');
 
 if($a <= $b && $b <= $c){
     echo "$a, $b e $c";

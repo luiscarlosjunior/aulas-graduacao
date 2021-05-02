@@ -1,0 +1,70 @@
+<!-- A tag div não é mais do que um container para outras tags.
+ Aqui são alguns dos atributos div:
+
+id
+class
+title
+style
+height
+width
+Os demais atributos não são usados normalmente, o trabalho deles foi tomado por CSS.
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Exemplo de DIV</title>
+    <style>
+      div.borda1 {
+	         /* border-top-width: 3px; */
+					 /* aqui, cada lado possui uma borda de largura diferente */
+         border-width: 2px 5px 3px 6px;
+         border-style: dashed dotted;
+         border-top-style: solid;
+         border-top-color: #000;
+      }
+    </style>
+	</head>
+	<body>
+		<h3><a href="https://tutorialehtml.com/pt/html-tutorial-div-tag/"> Tutorial HTMl - DIV </a></h3>
+    <div style='position:absolute;margin-left:10px;margin-top:10px;width:300px;height:140px;z-index:1'>
+      <p>
+        Este é um exemplo simples de DIV>
+      </p>
+      <ol>
+        <li> Itens</li>
+        <li> Itens</li>
+        <li> Itens</li>
+        <li> Itens</li>
+      </ol>
+    </div>
+    <div class="borda1" style='position:absolute;margin-left:50px;margin-top:20px;width:300px;height:140px;z-index:1'>
+      <p>
+        Este é um exemplo simples de DIV>
+      </p>
+
+    </div>
+    <div style='position:absolute;margin-left:60px;margin-top:150px;width:300px;height:140px;z-index:1'>
+      <p>
+        Este é um exemplo simples de DIV>
+      </p>
+      <ol>
+        <li> Itens</li>
+        <li> Itens</li>
+        <li> Itens</li>
+        <li> Itens</li>
+      </ol>
+    </div>
+    <div style='position:absolute;margin-left:150px;margin-top:100px;width:300px;height:140px;z-index:1'>
+      <p>
+        Este é um exemplo simples de DIV>
+      </p>
+      <ol>
+        <li> Itens</li>
+        <li> Itens</li>
+        <li> Itens</li>
+        <li> Itens</li>
+      </ol>
+    </div>
+	</body>
+</html>

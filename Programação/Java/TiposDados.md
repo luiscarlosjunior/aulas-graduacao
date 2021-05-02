@@ -23,7 +23,7 @@ fonte: [Oracle documentation](https://docs.oracle.com/javase/tutorial/java/nutsa
 <details>
   <summary> Código fonte de alguns exemplos do uso de tipos de dados </summary>  
   
-  ``` java
+  ```java
   public static void exemplosVariaveis() {
     	
     	  // Exemplo número inteiro
@@ -56,7 +56,7 @@ O tipo de dado boolean é usado para armazenar somente dois possíveis valores: 
 Especifica um bit de informação, mas o "tamanho" não pode ser especificado precisamente.
 
 Exemplo:   
-``` java 
+```java 
 boolean one = false; 
 ```
 
@@ -66,7 +66,7 @@ boolean one = false;
 O tipo de dado byte é usado para salvar em memória grandes matrizes onde a memória salva é muito requisitada. Isso economiza espaço porque um byte é quatro vezes menor que um número inteiro. Também pode ser usado no lugar de tipos de dados "int".
 
 Exemplo: 
-``` java
+```java
 byte a = 10, byte b = -20;
 ```
 ## Tipo de dado short
@@ -75,7 +75,7 @@ O tipo de dado short é um inteiro de complemento de dois com assinatura de 16 b
 O tipo de data short também pode ser usado para economizar memória assim como o tipo de dado byte. Um tipo de dado short é duas vezes menor que um inteiro.
 
 Exemplo: 
-``` java
+```java
 short s = 10000, short r = -5000;
 ```
 
@@ -85,35 +85,35 @@ O tipo de dado int é um inteiro de complemento de dois com assinatura de 32 bit
 O tipo de dado int geralmente é usado como um tipo de dado padrão para valores inteiros sem nenhum problema de memória.
 
 Exemplo: 
-``` java
+```java
 int a  = 100000, int b = -200000;
 ```
 ## Tipo de dado long
 O tipo de dado long é um inteiro de complemento de dois com assinatura de 64 bits. Sua faixa de valor está entre -9.223.372.036.854.775.808 (-2?³) até 9.223.372.036.854.775.807 (2?³?¹) (inclusive). Seu valor mínimo é -9.223.372.036.854.775.808 e o valor máximo é de 9.223.372.036.854.775.807. O valor padrão é 0 (zero). O tipo de dado long é usado quando você precisa de uma faixa de valores maior do que a fornecida por int.
 
 Exemplo: 
-``` java
+```java
 long a = 100000L, long b = -200000L;
 ```
 ## Tipo de dado float
 O tipo de dado float é um ponto flutuante IEEE 754 de 32 bits de precisão única. Sua faixa de valor é ilimitada. É recomendado usar um ponto flutuante (em vez de double) se você precisar economizar memória em grandes arrays (matrizes) de número de ponto flutuante. O tipo de dado float nunca deve ser usado para valores precisos, como moeda. Seu valor padrão é 0.0f.
 
 Exemplo: 
-``` java
+```java
 float f1 = 234.5f;
 ```
 ## Tipo de dado double
 O tipo de dado double é um ponto flutuante IEEE 754 de 64 bits de precisão dupla. Seu valor é ilimitado. O tipo de dado double é geralmente usado para valores decimais assim como float. O tipo de dado double também não deve ser usado para precisar valores, como moeda. Seu valor padrão é 0.0d.
 
 Exemplo: 
-``` java
+```java
 double d1 = 12.3;
 ```
 ## Tipo de dado char
 O tipo de dado char é um único caractere unicode de 16 bits. Sua faixa de valor está entre '\u0000' (ou 0) até '\uffff' (ou 65.535 inclusive). O tipo de data char é usado para para armazenar caracteres.
 
 Exemplo: 
-``` java
+```java
 char letraA = 'A';
 ```
 
@@ -126,5 +126,7 @@ char letraA = 'A';
 ## Referências
 
 [Site java point](https://www.javatpoint.com/pt/tipo-de-dado-em-java#:~:text=Java%20%C3%A9%20uma%20linguagem%20de%20programa%C3%A7%C3%A3o%20estaticamente%20tipada.,%202%20byte%20%204%20more%20rows%20)
+
 [Documentação Oracle Java](https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html)
+
 [Site Java Merit Campus](http://java.meritcampus.com/core-java-topics/java-data-types)

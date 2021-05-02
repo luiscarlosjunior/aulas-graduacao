@@ -25,7 +25,7 @@ Variável é o nome de uma área reservada de alocação de memória. Em outras 
 <details>
   <summary> Código fonte de exemplo </summary>  
   
-  ``` java
+  ```java
   public static void exemplosVariaveis() {
     	
     	  // Exemplo número inteiro
