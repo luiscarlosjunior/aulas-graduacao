@@ -1,0 +1,30 @@
+<!--O elemento HTML <bdo> reescreve de trás para frente. -->
+<!--
+dir
+  Direção de texto neste elemento. Os valores possíveis são:
+  ltr: Indica que o texto ficará da Esquerda para a Direita (Left-To-Right).
+  rtl: Indica que o texto ficará da Direita  para a Esquerda (Reft-To-Light)
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Exemplo de citação</title>
+</head>
+<body>
+  <p>
+    Um palíndromo, como devem saber, é uma palavra ou um número que se lê da
+    mesma maneira nos dois sentidos - normalmente, da esquerda para a direita ou
+    ao contrário, da direita para a esquerda.
+  </p>
+  <p>
+    A frase: A TORRE DA DERROTA <br /> é um palíndromo, veja abaixo:<br />
+  </p>
+  <bdo dir="rtl">A TORRE DA DERROTA</bdo>
+  <p>
+    A frase a seguir: A TORRE DE CESAR <br> não é um palíndromo, vejo o exemplo abaixo: <br / />
+  </p>
+  <bdo dir="rtl">A TORRE DE CESAR</bdo>
+</body>
+
+</html>

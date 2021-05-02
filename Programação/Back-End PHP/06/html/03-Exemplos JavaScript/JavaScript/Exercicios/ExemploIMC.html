@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JavaScript Exercício</title>
+    <script>
+      function calcularIMC() {
+        var altura = document.getElementById("altura").value;
+        var peso   = document.getElementById("peso").value;
+        altura /= 100;
+        var imc = (peso / (altura * altura)).toFixed(2);
+        document.getElementById("resultadoIMC").innerHTML = "IMC: <strong>" + imc + "</strong>";
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Exercício 06</h1>
+    <label for="altura">Altura (cm): </label>
+    <input id="altura" type="number" min="100" max="250"><br>
+    <label for="peso">Peso (kg): </label>
+    <input id="peso" type="number" min="0" max="250"><br>
+    <button onclick="calcularIMC()">Calcular o IMC</button>
+    <div id="resultadoIMC"></div>
+    <div id="extra">
+      <pre>
+***************************************************************
+|    IMC          |          CATEGORIA                        |
+|-------------------------------------------------------------|
+| Até 18,5        |  Abaixo do peso                           |
+| De  18,5 - 24,9 |  Saudável                                 |
+| De  25,0 - 29,9 |  Sobrepeso                                |
+| De  30,0 - 39,9 |  Obeso                                    |
+| Acima de 40     |  Extremo ou alto risco de obesidade       |
+***************************************************************
+      </pre>
+  </body>
+</html>

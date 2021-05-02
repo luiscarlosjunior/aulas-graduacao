@@ -1,0 +1,238 @@
+01. Estrutura de um método
+  • Sintaxe:
+    <modificadores> <tipoRetorno> <nomeDoMétodo>(<lista de parâmetros>){
+      //instruções
+    }
+
+02. Comando return
+  • Exemplo:
+    public class Calculadora{
+      public int exibe(){
+        int valor = 20;
+        return valor;
+      }
+      public int calcularSoma(int valorUm, int valorDois){
+        int resultado = valorUm + valorDois;
+        return resultado;
+      }
+    }
+
+    public class TestaCalculadora{
+      public static void main(String []args){
+        int resultado;
+        resultado = c.exibe();
+        System.out.println("Valor exibido é: " + resultado);
+
+        Calculadora c = new Calculadora();
+        resultado = c.calcularSoma(5,100);
+        System.out.println("Valor da soma é: " + resultado);
+      }
+    }
+    
+03. Metodo void
+  • Exemplo:
+  public class Funcionario{
+    String nome;
+    int peso;
+    
+    public void exibir(){
+      System.out.println("Nome: " + nome);
+      System.out.println("Peso: " + peso);
+    }
+  }
+  
+    public class TestaFuncionario{
+      public static void main(String []args){
+        Funcionario f = new Funcionario();
+        adicionaValor(f);
+        f.exibir();
+      }
+      
+      static void adicionaValor (Funcionario f){
+        f.nome = "Flavio";
+        f.peso = 95;
+      }
+    }
+  
+  
+  04. Varargs
+  • Exemplo:
+    public class Calculadora{
+      public int calcularSoma(int[] listaSoma) {
+        int soma = 0;
+        for (int i=0; i <  lista.length; i++) {
+          soma += lista[i];           
+        }
+      return soma;       
+      }
+
+      //ou
+      
+      public int calcularSoma(int a, int b) {
+        return a + b;       
+      }
+
+      public int calcularSoma(int a, int b, int c) {
+        return a + b + c;       
+      }
+
+      public int calcularSoma(int a, int b, int c, int d) {
+        return a + b + c + d;       
+      }
+
+      public int calcularSoma(int...listaSoma) {
+        int soma = 0;
+        for (int item : listaSoma) {
+          soma += item;           
+        }
+        return soma;       
+      }
+    }
+
+    public class TestaCalcular {
+      public static void main(String []args){
+        Calculadora c = new Calculadora ();
+	      int resultado;
+	      int lista[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+	      resultado = c.calcularSoma(lista);
+	      System.out.println("Resultado: " + resultado);
+
+	      resultado = c.calcularSoma(1, 2);
+	      System.out.println("Resultado: " + resultado);
+
+	      resultado = c.calcularSoma(1, 2, 3);
+	      System.out.println("Resultado: " + resultado);
+
+	      resultado = c.calcularSoma(1, 2, 3, 4);
+	      System.out.println("Resultado: " + resultado);
+
+	     resultado = c.calcularSoma(1, 2, 3, 4, 5, 6, 7, 8, 9);
+	     System.out.println("Resultado: " + resultado);
+    }
+  
+05. Métodos assessores (Getter e Setter)
+  • Exemplo:
+    public class MetodosAcessores{
+      private String nome;
+      
+      String getNome(){
+        return this.nome;
+      }
+
+      void setNome(String nome){
+        this.nome = nome;
+      }
+    }
+    
+    public class TestarMetodosAcessores {
+      public static void main(String []args){
+        MetodosAcessores x = new MetodosAcessores ();
+        x.setNome("Flavio");
+        System.out.println("Nome: " + x.getNome());
+        
+	    }
+    }
+
+06. Modificadores de métodos
+  06.01. Tipo modificadores de métodos
+    • static
+    • abstract
+    • final
+    • native
+    • synchronized
+    • strictfp
+
+  06.02. Atributos estáticos
+    • Exemplo:
+      public classe Statico{
+        static int valor;
+      }
+
+      public classe ExemploStatico{
+        public static void main(String []args){
+          Statico x = new Statico();
+          Statico y = new Statico();
+
+          x.valor = 10;
+          System.out.println(y.valor);
+	}
+      } 
+
+  06.03. Métodos estáticos
+    • Exemplo:
+      public class ExemploMetodoEstatico(){
+        public static void exemploEstatico(){
+          System.out.println("Estático");
+        }
+
+        public void exemploNaoEstatico(){
+	  System.out.println("Não Estático");
+	}
+      }
+
+      public class TestaExemploMetodoEstatico(){
+        public static void main(String []args){
+	  ExemploMetodoEstatico.exemploEstatico(); //Não é necessario ser instanciado
+          new ExemploMetodoEstatico.exemploNaoEstatico(); //instanciamdo
+	}
+      }
+      
+07. Método main
+  • Exemplo:
+    public class TestaMetodoPrincipal(){
+      static void metodoDois(){
+        System.out.println("Metodo Dois, ok!");
+      }
+      
+      static void metodoUm(){
+        System.out.println("Metodo Um, ok!");
+        metodoDois();
+      }
+    
+      public static void main(String []args){
+        System.out.println("Chamando Metodo Um");
+	metodoUm();
+      }
+    }
+
+08. Sobrecarga de métodos
+  • Exemplo:
+    public class Calculadora{
+      public int calcularSoma(int a, int b) {
+        return a + b;       
+      }
+
+      public int calcularSoma(int a, int b, int c) {
+        return a + b + c;       
+      }
+
+      public int calcularSoma(int a, int b, int c, int d) {
+        return a + b + c + d;       
+      }
+
+      public int calcularSoma(String texto) {
+        System.out.println("Informado Texto: " + texto);     
+      }
+    }
+
+    public class TestaCalcular {
+      public static void main(String []args){
+        Calculadora c = new Calculadora ();
+	      int resultado;
+	      int lista[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+	      resultado = c.calcularSoma(lista);
+	      System.out.println("Resultado: " + resultado);
+
+	      resultado = c.calcularSoma(1, 2);
+	      System.out.println("Resultado: " + resultado);
+
+	      resultado = c.calcularSoma(1, 2, 3);
+	      System.out.println("Resultado: " + resultado);
+
+	      resultado = c.calcularSoma(1, 2, 3, 4);
+	      System.out.println("Resultado: " + resultado);
+
+	      c.calcularSoma("1 mais 1 e igual a 2");
+    }
