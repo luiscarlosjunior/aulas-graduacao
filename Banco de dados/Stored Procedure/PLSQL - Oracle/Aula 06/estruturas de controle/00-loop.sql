@@ -35,18 +35,20 @@ BEGIN
   dbms_output.put_line( 'After loop: ' || l_counter );
 END;
 
+
 DECLARE
-  l_counter NUMBER := 0;
+  l_contador NUMBER := 0;
 BEGIN
   LOOP
-    l_counter := l_counter + 1;
-    EXIT WHEN l_counter > 3;
-    dbms_output.put_line( 'Inside loop: ' || l_counter ) ;
+    l_contador := l_contador + 1;
+    EXIT WHEN l_contador > 5;
+    dbms_output.put_line( 'Laco interno: ' || l_contador) ;
   END LOOP;
 
-  -- control resumes here after EXIT
-  dbms_output.put_line( 'After loop: ' || l_counter );
+  -- Pula para essa linha quando a condição do WHEN é satisfeito
+  dbms_output.put_line( 'Apos o laço terminar: ' || l_contador );
 END;
+
 
 --------------------------------------------------------
 
@@ -68,3 +70,44 @@ BEGIN
     END LOOP inner_loop;
   END LOOP outer_loop;
 END;
+
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+BEGIN 
+    FOR n_contador IN 1..5
+    LOOP
+        dbms_output.put_line(n_contador);
+    END LOOP;
+END;
+
+DECLARE
+    n_contador number;
+BEGIN 
+    FOR n_contador IN 1..5
+    LOOP
+        dbms_output.put_line(n_contador);
+    END LOOP;
+END;
+
+-- Trabalhando com escopo - Ciclo de vida útil de uma variável
+
+BEGIN
+  FOR l_counter IN REVERSE 1..5
+  LOOP
+    DBMS_OUTPUT.PUT_LINE( l_counter );
+  END LOOP;
+  
+  DBMS_OUTPUT.PUT_LINE( l_counter );
+END;
+
+
+
+
+
+
+

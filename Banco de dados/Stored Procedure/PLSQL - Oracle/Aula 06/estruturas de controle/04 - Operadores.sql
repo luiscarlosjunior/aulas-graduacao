@@ -1,4 +1,5 @@
 SET SERVEROUTPUT ON;
+
 DECLARE
   -- Declarando constantes
   idadeMaxima CONSTANT NUMBER(3) := 125;
@@ -11,10 +12,10 @@ BEGIN
   -- Entre 18 e 59 anos, tomar cuidado;
   -- Entre 0 e 17 anos, fique estudando;
   
-  idade1 := 10;
+  idade1 := 50;
   
-  IF NOT(idade1 <= 0 OR idade1 > 125) THEN
-   IF idade1 >= 60 AND idade1 <= 125 THEN
+  IF NOT(idade1 < 0 OR idade1 > 125) THEN
+    IF idade1 >= 60 AND idade1 <= 125 THEN
       dbms_output.put_line('Você está no grupo de risco, tome cuidado!');
     ELSIF idade1 >= 18 AND idade1 <= 59 THEN
       dbms_output.put_line('Tome cuidade, fique em casa!');

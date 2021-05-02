@@ -5,7 +5,7 @@ Tipos de dados são formas de dizer ao sistema, compilador ou interpretador o qu
 
 * Quatro tipos escalares:
 
-```
+```php
 bool
 int
 float (número de ponto flutuante)
@@ -14,7 +14,7 @@ string
 boolean
 ```
 * Quatro tipos compostos:
-```
+```php
 array
 object
 callable
@@ -22,7 +22,7 @@ iterable
 ```
 
 * E finalmente dois tipos especiais:
-```
+```php
 resource
 NULL
 ```

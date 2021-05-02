@@ -120,8 +120,11 @@ public static void exemplosVariaveis() {
 ```
 
 Mais detalhes:
+
 [Java exemplos](https://www.tutorialspoint.com/java/java_documentation.htm)
+
 [Documentação Javadoc Oracle](https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html)
+
 [Documentação Java](https://docs.oracle.com/javase/tutorial/tutorialLearningPaths.html)
 
 
