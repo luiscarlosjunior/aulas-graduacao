@@ -98,12 +98,12 @@ Aqui será demostrada uma forma simples e direta. Após realiar o download do ec
  
 Clique na opção -> **Eclipse IDE for Java Developers**
 
-![Fluxo de compilação java](img/eclipse.png)
+![Fluxo de compilação java](img/eclipse.PNG)
 
 Após isso, selecione a opção **instalar**, caso prefira, ppodemos modificar as pastas padrão para a JDK do java e onde o eclipse irá ficar. Não é aconselhavel alterar o caminho o JDK irá ficar
 >**Obs:** a descrição da imagem descrita como "Java 11+ VM" depende da versão atual, não se preocupe. O importante é instalar qualquer "Java XX+ VM".
 
-![Fluxo de compilação java](img/eclipse-install.png)
+![Fluxo de compilação java](img/eclipse-install.PNG)
 
 Após isso, espere até o final da instalação. Pode demorar um pouco, pois irá ser feito o download dos arquivos.
 
