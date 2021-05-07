@@ -5,7 +5,7 @@ DECLARE
   TYPE AlunoArray
     IS TABLE OF aluno.nome%TYPE;
     
-  -- Declaro variavéis 
+  -- Declaro variavï¿½is 
   Nomes AlunoArray;
     
 BEGIN
