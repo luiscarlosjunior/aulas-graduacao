@@ -353,3 +353,105 @@ A precedência dos operadores é a seguinte:** =, <, >, <=, >=, <>, !=, ~=, ^=, 
 |NOT	      |negação lógica
 |AND	      |conjunção
 |OR	      |inclusão
+
+----
+
+# PL/SQL Estrutura de controle de fluxo (IF/ELIF/ELSE)
+
+A instrução PL/SQL IF permite executar uma sequência de declarações condicionalmente. A declaração avalia uma condição. A condição pode ser qualquer coisa que avalie um **valor lógico** ou como **expressão de comparação ou uma combinação de múltiplas expressões de comparação**. Você pode comparar duas variáveis do mesmo tipo ou tipo conversível. Você pode comparar dois literais. Além disso, uma variável booleana pode ser usada como condição. 
+
+* A instrução PL/SQL IF tem três formas: , e .IF-THEN IF-THEN-ELSE IF-THEN-ELSIF
+
+## Pl/SQL Declaração IF-THEN
+O seguinte ilustra a afirmação: IF-THEN
+
+```sql
+IF condition THEN
+   sequence_of_statements;
+END IF;
+```
+
+Esta é a forma mais simples da declaração. Se o avaliar, a sequência de instruções será executada. Se a condição é ou , a declaração não faz nada. Nota que é usada para fechar a declaração, não .IFconditiontruefalseNULLIFEND IFIFENDIF
+
+O exemplo a seguir demonstra a instrução PL/SQL. Ele atualiza o salário do empregado para a faixa média se o salário do funcionário for menor do que o médio. IF
+
+```sql
+DECLARE
+  n_id NUMBER := 200;
+BEGIN
+   IF n_id < 100 THEN
+      DBMS_OUTPUT.PUT_LINE("É menor do que 100");
+   END IF;
+END;
+```
+
+
+## Declaração PL/SQL IF-THEN-ELSE
+Esta é a segunda forma da declaração. A cláusula é adicionada com a sequência alternativa de declarações. Abaixo está a sintaxe da declaração.IFELSEIF-ELSE
+
+```sql
+DECLARE
+  n_id NUMBER := 200;
+BEGIN
+   IF n_id < 100 THEN
+      DBMS_OUTPUT.PUT_LINE("É menor do que 100");
+   ELSE
+      DBMS_OUTPUT.PUT_LINE("É maior ou igual a 100");
+   END IF;
+END;
+```
+
+Neste exemplo é testado se a variável n_id é menor do 100, caso foi verdade é apresentado o texto: É menor do que 100, caso contrário, será apresentado o texto: É maior ou igual a 100. 
+
+# Declaração PL/SQL IF-THEN-ELSIF
+O PL/SQL suporta a instrução para permitir que você execute uma sequência de instruções com base em múltiplas condições.IF-THEN-ELSIF
+
+A sintaxe do PL/SQL é a seguinte:IF-THEN-ELSIF
+
+```vb
+IF condition1  THEN
+   sequence_of_statements1
+ELSIF condition2 THEN
+   sequence_of_statements2
+ELSE
+   sequence_of_statements3
+END IF;
+``` 
+
+> Observe que uma declaração pode ter qualquer número de cláusulas, porém o resultado sempre terá que ser true ou false. 
+
+Observe que a cláusula final é opcional, então se puder omiti-la. Se alguma condição de cima para baixo for, a sequência correspondente de instruções será executada.ELSEtrue
+
+O exemplo a seguir ilustra a instrução PL/SQL para imprimir qual a maior idade
+
+## Exemplo de cotrole de fluxo
+
+```sql
+/*
+DECLARE 
+  idade1  NUMBER(2)  := &Entre_com_a_idade;
+  idade2  NUMBER(2)  := &Entre_com_a_idade;
+BEGIN
+  
+  if idade1 > idade2 then
+    dbms_output.put_line('Idade 1 é maior que a idade 2');
+  else
+    dbms_output.put_line('Idade 2 é maior que a idade 1');
+  end if;
+END;
+/
+*/
+
+DECLARE 
+  idade1  NUMBER(2)  := &Entre_com_a_idade;
+  idade2  NUMBER(2)  := &Entre_com_a_idade;
+BEGIN
+  if idade1 > idade2 then
+    dbms_output.put_line('Idade 1 é maior que a idade 2');
+  elsif idade1 = idade2 then
+    dbms_output.put_line('As idades são iguais');
+  else
+    dbms_output.put_line('Idade 2 é maior que a idade 1');
+  end if;
+END;
+```
