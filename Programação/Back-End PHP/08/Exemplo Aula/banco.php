@@ -17,6 +17,3 @@ $patricia = new Titular(new CPF('698.549.548-10'), 'Patricia');
 $segundaConta = new Conta($patricia);
 var_dump($segundaConta);
 
-$outra = new Conta(new Titular(new CPF('123.654.789-01'), 'Abcdefg'));
-unset($segundaConta);
-echo Conta::recuperaNumeroDeContas();

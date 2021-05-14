@@ -3,11 +3,22 @@
     require_once 'PessoaFisica.php';
     require_once 'Funcionario.php';
 
+    $nome = $rg = $cartao = "";
+
+    $nome = $_POST["nome"]; 
+    $rg = $_POST["rg"]; 
+    $cartao = $_POST["cartao"]; 
+
     $func1 = new Funcionario();
 
-    $func1->setNome("Luis Caparroz");
-    $func1->setRg("123456789");
-    $func1->setCartao("123654");
+    $func1->setNome($nome);
+    $func1->setRg($rg);
+    $func1->setCartao($cartao);
+/*
+    echo $func1->getNome() . PHP_EOL;
+    echo $func1->getRg() . PHP_EOL;
+    echo $func1->getCartao() . PHP_EOL;*/
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,18 +27,14 @@
     <title>Pagina do Prof. Luis</title>
   </head>
   <body>
-    <h3>
-      <a href="https://github.com/luiscarlosjunior/aulas-graduacao/tree/master/Programa%C3%A7%C3%A3o/Back-End%20PHP"> Repositório Github </a>
+    <h2 >
+      Seja bem-vindo, <?php echo $func1->getNome(); ?> <br>
+    </h2>
+    <h3> 
+      Seu RG é <?php echo $func1->getRg(); ?> <br>
     </h3>
-		<div id="myMenu" align="left" style="border: solid; border-color:darksalmon">
-			<a href="#">HOME</a> |
-			<a href="#">CONTATO</a> |
-			<a href="#">SOBRE</a> |
-			<a href="#">MAPA DO SITE</a>
-		</div>
-		<div id="my_content" align="center" bgcolor="white">
-            <h1 style="color:black;font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"> Meu nome é <?= $func1->getNome();?> </h1>
-            <h2 style=""> Meu RG é <?= $func1->getRg();?> </h2>
-		</div>
+    <h3> 
+      Seu Cartao é <?php echo $func1->getCartao(); ?> <br>
+    </h3>
   </body>
 </html>
