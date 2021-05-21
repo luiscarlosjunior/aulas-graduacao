@@ -21,7 +21,7 @@
 			</div>
 		</header>
 		<main>
-			<form action="exibirConta.php" method="post">
+			<form action="CriarContaCorrente.php" method="post">
 				<p style="font-size: 26px;"><strong>Bem-vindo ao Bank-9. Faça sua conta</strong></p> <br><br>
 
 				<label for="nomesobrenome">Nome e sobrenome</label>

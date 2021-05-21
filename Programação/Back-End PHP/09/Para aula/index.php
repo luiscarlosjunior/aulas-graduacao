@@ -1,3 +1,7 @@
+<?php
+	require_once 'rodape.php';
+?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -70,7 +74,7 @@
 		</main>
 
 		<footer>
-			<p class="copyright">&copy; BankNine 2021</p>
+			<p class="copyright">&copy; <?php echo direitos(); ?></p>
 		</footer>
 	</body>
 </html>
