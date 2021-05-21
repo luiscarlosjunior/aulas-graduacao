@@ -45,8 +45,8 @@ BEGIN
     dbms_output.put_line( 'Laco interno: ' || l_contador) ;
   END LOOP;
 
-  -- Pula para essa linha quando a condição do WHEN é satisfeito
-  dbms_output.put_line( 'Apos o laço terminar: ' || l_contador );
+  -- Pula para essa linha quando a condiï¿½ï¿½o do WHEN ï¿½ satisfeito
+  dbms_output.put_line( 'Apos o laï¿½o terminar: ' || l_contador );
 END;
 
 
@@ -94,15 +94,13 @@ BEGIN
     END LOOP;
 END;
 
--- Trabalhando com escopo - Ciclo de vida útil de uma variável
+-- Trabalhando com escopo - Ciclo de vida ï¿½til de uma variï¿½vel
 
 BEGIN
   FOR l_counter IN REVERSE 1..5
   LOOP
     DBMS_OUTPUT.PUT_LINE( l_counter );
   END LOOP;
-  
-  DBMS_OUTPUT.PUT_LINE( l_counter );
 END;
 
 

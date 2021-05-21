@@ -27,10 +27,11 @@ DECLARE
 BEGIN
   WHILE n_counter <= 5
   LOOP
-    DBMS_OUTPUT.PUT_LINE( 'Counter : ' || n_counter );
+    DBMS_OUTPUT.PUT_LINE( 'Contador : ' || n_counter );
     n_counter := n_counter + 1;
   END LOOP;
 END;
+
 
 
 DECLARE
