@@ -1,8 +1,12 @@
 <?php
 
-require_once 'src/Conta/ContaCorrente.php';
-require_once 'src/Correntista/Titular.php';
-require_once 'src/Correntista/CPF.php';
+require_once __DIR__ . '/src/Modelo/Correntista/Titular.php';
+require_once __DIR__ . '/src/Modelo/Correntista/CPF.php';
+require_once __DIR__ . '/src/Modelo/Conta/ContaCorrente.php';
+
+use Modelo\Correntista\Titular;
+use Modelo\Correntista\CPF;
+use Modelo\Conta\ContaCorrente;
 
 $nome = $_POST['nome'];
 $cpf = $_POST['cpf'];
@@ -17,9 +21,7 @@ $contaCorrente = new ContaCorrente($cliente);
         <h1> <?php echo htmlspecialchars($_POST['nome']); ?></h1>
         <h2> 
         <?php
-            echo $primeiraConta->recuperaNomeTitular() . "<br>";
-            echo $primeiraConta->recuperaCpfTitular() . "<br>";
-            echo $primeiraConta->recuperaSaldo() . "<br>"; 
+            
         ?>
         </h2>
     </body>
