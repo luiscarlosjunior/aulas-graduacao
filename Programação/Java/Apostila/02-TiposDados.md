@@ -10,7 +10,7 @@ Tipos de dados são especificados de diferentes tamanhos e valores que podem ser
 |boolean|1            |**true** ou **false**              |
 |char |1              |'\u0000' até '\uFFFF'              |
 |byte |1              |-128 até +127                      |
-|short|2             |'\u0000' até '\uFFFF'              |
+|short|2             |	– 32,768 até + 32,767              |
 |int  |4             |-2.147.483.648 até +2.147.483.647  |
 |long |8             |-9,223,372,036,854,775,808 até 9,223,372,036,854,775,807                    |
 |float|4             |-3.402923E+38 até +3.402923E+38  |
