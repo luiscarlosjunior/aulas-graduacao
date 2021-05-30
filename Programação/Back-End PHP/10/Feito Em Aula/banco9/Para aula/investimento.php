@@ -6,6 +6,7 @@
 
 		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
 	</head>
 	<body>
 	<header>
@@ -47,11 +48,11 @@
 				<input type="number" id="depositar" name="deposita" class="input-padrao" required placeholder="R$ 1000.00">
 
 				<label for="investimento">Tempo de investimento</label>
-				<select class="input-padrao">
-					<option value="cincoanos">5 anos</option>
-					<option value="dezanos">10 anos</option>
-					<option value="vinteanos"> 20 anos</option>
-					<option value="trintaanos">30 anos</option>
+				<select class="form-select" aria-label="Default select example">
+					<option selected>Open this select menu</option>
+					<option value="1">One</option>
+					<option value="2">Two</option>
+					<option value="3">Three</option>
 				</select>
 				
 				<label class="checkbox"><input type="checkbox" checked>Gostaria de receber nossas novidades por email?</label>

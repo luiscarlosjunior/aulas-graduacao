@@ -27,25 +27,29 @@ END;
 --para o label <> quando o valor da variável
 -- V_CONTADOR seja igual a 10:
 
+
 BEGIN
     GOTO segunda_mensagem;
 
-    <primeira_mensagem>
+    <<primeira_mensagem>>
     DBMS_OUTPUT.PUT_LINE('Olá, primeira mensagem');  
     GOTO fim;
 
-    <segunda_mensagem>
+    <<segunda_mensagem>>
     DBMS_OUTPUT.PUT_LINE('Olá, segunda mensagem');
     GOTO primeira_mensagem;
 
-    <fim>
+    <<fim>>
     DBMS_OUTPUT.PUT_LINE('Saindo do script');
 
 END;
 
+
+
 IF V_CONTADOR = 10 THEN
  GOTO FIM;
 <<PRINCIPAL>>
+
 BEGIN
  FOR V_CONTADOR IN 1..20 LOOP
   DBMS_OUTPUT.PUT_LINE('Contador: ' || V_CONTADOR);
