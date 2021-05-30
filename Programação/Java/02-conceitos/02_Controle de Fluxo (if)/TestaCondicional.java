@@ -12,7 +12,6 @@ public class TestaCondicional {
         int quantidadePessoas = 3;
 
         if (idade >= 18) {
-
             System.out.println("Você tem mais que 18 anos");
             System.out.println("Seja bem vindo");
         } else {
@@ -23,7 +22,6 @@ public class TestaCondicional {
 
                 System.out.println("infelizmente voce nao pode entrar");
             }
-
         }
     }
 }
