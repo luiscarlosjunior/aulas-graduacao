@@ -14,43 +14,18 @@
 		<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 	</head>
 	<body>
-		<header>
-			<div>
-				<nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<div class="container-fluid">
-					<a class="navbar-brand" href="#"><img src="img/logobanknine.png" height="150px" width="250px" alt="Logo Banco Uninove"></a>
-					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-					</button>
-					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-						<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="#">Home</a>
-						</li>
-						<li class="nav-item">
-						<a class="nav-link" href="#">Link</a>
-						</li>
-						<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							Dropdown
-						</a>
-						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" href="#">Action</a></li>
-							<li><a class="dropdown-item" href="#">Another action</a></li>
-							<li><hr class="dropdown-divider"></li>
-							<li><a class="dropdown-item" href="#">Something else here</a></li>
-						</ul>
-						</li>
-						<li class="nav-item">
-						<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-						</li>
+	<header>
+			<div class="caixa">
+			<a href="index.php">
+				<h1><img src="img/logobanknine.png" height="250px" width="400px" alt="Logo Banco Uninove"></h1>
+				</a>
+				<nav>
+					<ul>
+						<li><a href="index.php">Home</a></li>
+						<li><a href="pagina/cadastro/cadastro-conta-corrente.php">Abrir Conta</a></li>
+						<li><a href="contato.html">Contato</a></li>
+						<li><a href="contato.html">Login</a></li>
 					</ul>
-					<form class="d-flex">
-						<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-						<button class="btn btn-outline-success" type="submit">Search</button>
-					</form>
-					</div>
-				</div>
 				</nav>
 			</div>
 		</header>
@@ -61,14 +36,14 @@
 			<ul class="produtos">
 				<li>
 					<h2>Conta Corrente</h2>
-					<a href="inclusaotitular.php">
+					<a href="pagina/cadastro/cadastro-conta-corrente.php">
 						<img src="img/abrirconta.png" height="100%" width="100%">
 					</a>
-					<p class="servico-banco">Abra sua conta corrente</p>
+					<p class="servico-banco">Abrir conta corrente</p>
 				</li>
 				<li>
 					<h2>Investimento</h2>
-					<a href="investimento.html">
+					<a href="pagina/servicos/investimento.php">
 						<img src="img/investimento.png" height="100%" width="100%">
 					</a>
 					<p class="servico-banco">Invista em você</p>
