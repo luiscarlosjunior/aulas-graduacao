@@ -18,7 +18,6 @@ END;
 
 --select * from segmercado;
 
-
 DECLARE 
       -- nome_variavel nome_tabela.nome_campo%type
       v_id segmercado.id%type := 56;
@@ -30,20 +29,7 @@ BEGIN
     VALUES (v_id, v_descricao); 
 END;
 
-
 select * from segmercado;
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
 CREATE TABLE SegMercado
