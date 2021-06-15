@@ -1,0 +1,5 @@
+Na imagem é apresentado o modelo conceitual que foi desenvolvido a partir da necessidade de uma empresa, que precisa cadastrar seus funcionário e alocá-los em projeto e cada projeto é gerenciado por um departamento. Entre os requisitos deste sistema, identificaram as seguintes necessidades: 
+a) Funcionário terá cadastro de apenas de um endereço;
+b) Funcionário poderá trabalhar em diversos projetos, mas somente em um departamento;
+c) Para um departamento terá que ter no mínimo um funcionário e sem limite de funcionários; 
+d) Departamento ficará responsável por controlar nenhum ou vários projetos e o projeto só será de responsabilidade única;
