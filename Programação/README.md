@@ -1,1 +1,12 @@
-# Repositório para as disciplnas de programação
+
+# Repositório para as disciplinas de programação
+
+## Java
+
+## PHP
+
+## Python
+
+## C#
+
+## C++
