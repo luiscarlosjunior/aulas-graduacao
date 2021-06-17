@@ -13,4 +13,3 @@ $falso = false;
 
 //echo gettype($idade);
 echo var_dump($idade);
-
