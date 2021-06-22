@@ -1,0 +1,29 @@
+--Criando o boletim
+CREATE TABLE Disciplina (
+	ID INT IDENTITY (1,1) NOT NULL,
+	Disciplina NVARCHAR(120) NOT NULL,
+	CargaHoraria INT	NOT NULL,
+	CONSTRAINT PK_ID_Disciplina PRIMARY KEY (ID)
+);
+GO
+CREATE TABLE Curso (
+	ID INT IDENTITY (1,1) NOT NULL,
+	Curso NVARCHAR(50) NOT NULL
+	CONSTRAINT PK_ID_Curso PRIMARY KEY (ID)
+)
+GO
+CREATE TABLE CursoDisciplina (
+	ID INT IDENTITY (1,1) NOT NULL,
+	ID_Curso	INT	NOT NULL,
+	ID_Disciplina	INT	NOT NULL,
+	CONSTRAINT PK_ID_CursoDisciplina	PRIMARY KEY (ID),
+	CONSTRAINT FK_CursoDisciplina_Curso	FOREIGN KEY (ID_Aluno)
+		REFERENCES Curso (ID),
+	CONSTRAINT FK_CursoDisciplina_Disciplina	FOREIGN KEY (ID_Aluno)
+		REFERENCES Disciplina	(ID)
+
+)
+CREATE TABLE Boletim (
+	ID INT IDENTITY (1,1) NOT NULL,
+	ID_AlunoCurso	INT NOT NULL
+)

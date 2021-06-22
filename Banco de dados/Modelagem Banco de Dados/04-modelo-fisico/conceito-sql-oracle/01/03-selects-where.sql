@@ -136,6 +136,7 @@ select * from empregado;
 select dscargo, vlsalario from empregado;
 select dscargo, vlsalario from empregado order by vlsalario asc, dscargo asc;
 select dscargo, vlsalario from empregado order by DSCARGO asc, VLSALARIO asc;
+
 -- Quando precisamos agrupar itens, usamos o Group by ----
 SELECT dscargo, avg(vlsalario) FROM empregado 
     GROUP BY DSCARGO 
