@@ -1,12 +1,12 @@
 <?php
 
     // Importa a classe php
-    require "conexao.php";
+    require_once "conexao.php";
 
     $usuario = $_GET['usuario'];
     $senha = $_GET['senha'];
 
-    // Faço o meu insert
+    // Faço o meu select
     $sql_query = " 
         SELECT NOME FROM REGISTRO 
 	        WHERE usuario = '$usuario' AND senha = '$senha';
@@ -25,7 +25,11 @@
         // Exibo o nome
         echo $nome;
 
-    } else {
+    } else if (mysqli_num_rows($resultado) == 0)
+    {
+        echo "Usuario ou senha incorretos";
+    } 
+    else {
         echo "Erro ao registrar dados ".mysqli_error($con);
     }
 

@@ -1,7 +1,7 @@
 <?php
 
     // Importa a classe php
-    require "conexao.php";
+    require_once "conexao.php";
 
     // Pego os valores que foram enviados
     $nome = $_GET['nome'];
@@ -17,7 +17,7 @@
 
     if(mysqli_query($con, $sql_insert)) {
         // TODO
-        echo "Sucesso";
+        echo "Cadastrado com sucesso";
     } else {
         echo "Erro ao registrar dados ".mysqli_error($con);
     }
