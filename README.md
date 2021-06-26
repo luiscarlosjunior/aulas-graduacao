@@ -1,6 +1,9 @@
 # Repositório de disciplinas da area de programação
 Todos os exemplos são feitos para exemplificar as disciplinas dadas no curso de graduação de informática.
 
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=luiscarlosjunior)](https://github.com/luiscarlosjunior/aulas-graduacao)
+
+
 - [Site do repositório](https://luiscarlosjunior.github.io/aulas-graduacao/) (Em construção)
 
 ### Categorias do repositório
