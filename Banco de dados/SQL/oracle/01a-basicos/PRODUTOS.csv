@@ -1,0 +1,35 @@
+﻿INSERT INTO  TB_PRODUTOS ('1040107';'Light - 350 ml - Melância';'Lata';4.56)
+INSERT INTO  TB_PRODUTOS ('1037797';'Clean - 2 Litros - Laranja';'PET';16.01) 
+INSERT INTO  TB_PRODUTOS ('1000889';'Sabor da Montanha - 700 ml - Uva';'Garrafa';6.31)
+INSERT INTO  TB_PRODUTOS ('1004327';'Videira do Campo - 1.5 Litros - Melância';'PET';19.51) 
+INSERT INTO  TB_PRODUTOS ('1088126';'Linha Citros - 1 Litro - Limão';'PET';7.00) 
+INSERT INTO  TB_PRODUTOS ('544931';'Frescor do Verão - 350 ml - Limão';'Lata';2.46) 
+INSERT INTO  TB_PRODUTOS ('1078680';'Frescor do Verão - 470 ml - Manga';'Garrafa';5.18) 
+INSERT INTO  TB_PRODUTOS ('1042712';'Linha Citros - 700 ml - Limão';'Garrafa';4.90) 
+INSERT INTO  TB_PRODUTOS ('788975';'Pedaços de Frutas - 1.5 Litros - Maça';'PET';18.01) 
+INSERT INTO  TB_PRODUTOS ('1002767';'Videira do Campo - 700 ml - Cereja/Maça';'Garrafa';8.41) 
+INSERT INTO  TB_PRODUTOS ('231776';'Festival de Sabores - 700 ml - Açai';''Garrafa'';13.31)
+INSERT INTO  TB_PRODUTOS ('479745';'Clean - 470 ml - Laranja';''Garrafa'';3.77)
+INSERT INTO  TB_PRODUTOS ('1051518';'Frescor do Verão - 470 ml - Limão';'Garrafa';3.30)
+INSERT INTO  TB_PRODUTOS ('1101035';'Linha Refrescante - 1 Litro - Morango/Limão';'PET';9.01)
+INSERT INTO  TB_PRODUTOS ('229900';'Pedaços de Frutas - 350 ml - Maça';'Lata';4.21)
+INSERT INTO  TB_PRODUTOS ('1086543';'Linha Refrescante - 1 Litro - Manga';'PET';11.01) 
+INSERT INTO  TB_PRODUTOS ('695594';'Festival de Sabores - 1.5 Litros - Açai';'PET';28.51 
+INSERT INTO  TB_PRODUTOS ('838819';'Clean - 1.5 Litros - Laranja';'PET';12.01 
+INSERT INTO  TB_PRODUTOS ('326779';'Linha Refrescante - 1.5 Litros - Manga';'PET';16.51 
+INSERT INTO  TB_PRODUTOS ('520380';'Pedaços de Frutas - 1 Litro - Maça';'PET';12.01 
+INSERT INTO  TB_PRODUTOS ('1041119';'Linha Citros - 700 ml - Lima/Limão';'Garrafa';4.90 
+INSERT INTO  TB_PRODUTOS ('243083';'Festival de Sabores - 1.5 Litros - Maracujá';'PET';10.51 
+INSERT INTO  TB_PRODUTOS ('394479';'Sabor da Montanha - 700 ml - Cereja';'Garrafa';8.41 
+INSERT INTO  TB_PRODUTOS ('746596';'Light - 1.5 Litros - Melância';'PET';19.51 
+INSERT INTO  TB_PRODUTOS ('773912';'Clean - 1 Litro - Laranja';'PET';8.01 
+INSERT INTO  TB_PRODUTOS ('826490';'Linha Refrescante - 700 ml - Morango/Limão';'Garrafa';6.31 
+INSERT INTO  TB_PRODUTOS ('723457';'Festival de Sabores - 700 ml - Maracujá';'Garrafa';4.91 
+INSERT INTO  TB_PRODUTOS ('812829';'Clean - 350 ml - Laranja';'Lata';2.81 
+INSERT INTO  TB_PRODUTOS ('290478';'Videira do Campo - 350 ml - Melância';'Lata';4.56 
+INSERT INTO  TB_PRODUTOS ('783663';'Sabor da Montanha - 700 ml - Morango';'Garrafa';7.71 
+INSERT INTO  TB_PRODUTOS ('235653';'Frescor do Verão - 350 ml - Manga';'Lata';3.86 
+INSERT INTO  TB_PRODUTOS ('1002334';'Linha Citros - 1 Litro - Lima/Limão';'PET';7.00 
+INSERT INTO  TB_PRODUTOS ('1013793';'Videira do Campo - 2 Litros - Cereja/Maça';'PET';24.01 
+INSERT INTO  TB_PRODUTOS ('1096818';'Linha Refrescante - 700 ml - Manga';'Garrafa';7.71 
+INSERT INTO  TB_PRODUTOS ('1022450';'Festival de Sabores - 2 Litros - Açai';'PET';38.01 
