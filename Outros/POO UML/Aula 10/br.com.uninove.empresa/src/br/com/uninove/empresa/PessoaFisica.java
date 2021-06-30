@@ -2,14 +2,22 @@ package br.com.uninove.empresa;
 
 public class PessoaFisica extends Pessoa {
 
-		private String RG;
-
+		private String rg;
+		
+		public PessoaFisica(String nome, String rg)
+		{
+			// Validações
+			super(nome);
+			setRG(rg);
+		}
+		
 		public String getRG() {
-			return RG;
+			return rg;
 		}
 
-		public void setRG(String rG) {
-			RG = rG;
+		private void setRG(String rg) {
+			// Várias validações
+			this.rg = rg;
 		}
 	
 		public void mostraClasse()
