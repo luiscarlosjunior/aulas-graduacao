@@ -1,15 +1,18 @@
 <?php
 
-$idade = 21;
-$salario = 1000.301;
-$divisao = 10 / 3;
+$idade = 27;
+$salario = 1001.65;
+$divisao = 10/6;
 
-$divisao = 3;
-
-$texto = "Olá mundo";
+$texto = "Olá, mundo";
 
 $verdadeiro = true;
 $falso = false;
 
-//echo gettype($idade);
-echo var_dump($idade);
+// Pegando os tipos
+echo gettype($salario) . "\t" . gettype($idade) . PHP_EOL;
+echo gettype($idade). "\n";
+echo gettype($divisao). "\n";
+echo gettype($texto). "\n";
+echo gettype($verdadeiro). "\n";
+echo gettype($falso). "\n";

@@ -1,17 +1,21 @@
 <?php
 
-$idade = 18;
-$numeroDePessoas = 2;
+$idade = 16;
+$quantidadePessoas = 1;
 
-echo "Você só pode entrar se tiver a partir de 18 anos ou ";
-echo "a partir de 16 anos acompanhado" . PHP_EOL;
+//qualquer coisa != 0 = true
 
-if ($idade >= 18) {
-    echo "Você tem $idade anos. Pode entrar sozinho.";
-} elseif ($idade >= 16 && $numeroDePessoas > 1) {
-    echo "Você tem $idade anos, está acompanhado(a), então pode entrar.";
-} else {
-    echo "Você só tem $idade anos. Você não pode entrar.";
+if($idade >= 18) 
+{
+    echo "Você pode entrar no parque";
+}       
+else if(($idade >= 16)  && ($quantidadePessoas >= 2))
+{
+    echo "Você pode entrar no parque";
+} 
+else
+{
+    echo "Você não pode entrar no parque";
 }
 
 echo PHP_EOL;
