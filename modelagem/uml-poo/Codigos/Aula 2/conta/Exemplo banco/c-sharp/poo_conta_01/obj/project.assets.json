@@ -8,30 +8,29 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\luisc\\.nuget\\packages\\": {}
+    "/home/runner/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\POO UML\\Codigos\\Aula 1\\c-sharp\\poo_conta_01\\poo_conta.csproj",
+      "projectUniqueName": "/home/runner/work/aulas-graduacao/aulas-graduacao/modelagem/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/poo_conta.csproj",
       "projectName": "poo_conta",
-      "projectPath": "C:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\POO UML\\Codigos\\Aula 1\\c-sharp\\poo_conta_01\\poo_conta.csproj",
-      "packagesPath": "C:\\Users\\luisc\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\POO UML\\Codigos\\Aula 1\\c-sharp\\poo_conta_01\\obj\\",
+      "projectPath": "/home/runner/work/aulas-graduacao/aulas-graduacao/modelagem/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/poo_conta.csproj",
+      "packagesPath": "/home/runner/.nuget/packages/",
+      "outputPath": "/home/runner/work/aulas-graduacao/aulas-graduacao/modelagem/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\luisc\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/home/runner/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -43,22 +42,38 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
         "imports": [
           "net461",
           "net462",
           "net47",
           "net471",
           "net472",
-          "net48"
+          "net48",
+          "net481"
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[3.1.10, 3.1.10]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.linux-x64",
+            "version": "[3.1.32, 3.1.32]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[3.1.0, 3.1.0]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.118/RuntimeIdentifierGraph.json"
       }
     }
   }

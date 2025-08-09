@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "odBPluY90Lj60ipMLI2PA81RSSWu8Votoz8oBNTS9pxuKT6mQMDe0hU3j8ygP+xyZXjzid50s/X+02XZxuHfNA==",
+  "dgSpecHash": "8dbbBQMhGjM9AX8gzYvfDJtRfJBWFBAuU4Cc+M2RdVh9wGJrG/FaKhMwfVAEgQvM3YrNlrC6ldqJJ0olK+7UOA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\POO UML\\Codigos\\Aula 1\\c-sharp\\poo_conta_01\\poo_conta.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/home/runner/work/aulas-graduacao/aulas-graduacao/modelagem/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/poo_conta.csproj",
+  "expectedPackageFiles": [
+    "/home/runner/.nuget/packages/microsoft.netcore.app.ref/3.1.0/microsoft.netcore.app.ref.3.1.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.aspnetcore.app.ref/3.1.10/microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.netcore.app.host.linux-x64/3.1.32/microsoft.netcore.app.host.linux-x64.3.1.32.nupkg.sha512"
+  ],
   "logs": []
 }
