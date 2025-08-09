@@ -1,1 +1,12 @@
 *.exe
+
+# .NET Build artifacts  
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.dll
+*.pdb
+*.runtimeconfig.json
+*.runtimeconfig.dev.json

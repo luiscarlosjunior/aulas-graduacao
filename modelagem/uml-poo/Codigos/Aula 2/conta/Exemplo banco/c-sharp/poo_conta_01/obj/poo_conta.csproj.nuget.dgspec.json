@@ -1,31 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\POO UML\\Codigos\\Aula 1\\c-sharp\\poo_conta_01\\poo_conta.csproj": {}
+    "/home/runner/work/aulas-graduacao/aulas-graduacao/modelagem/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/poo_conta.csproj": {}
   },
   "projects": {
-    "C:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\POO UML\\Codigos\\Aula 1\\c-sharp\\poo_conta_01\\poo_conta.csproj": {
+    "/home/runner/work/aulas-graduacao/aulas-graduacao/modelagem/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/poo_conta.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\POO UML\\Codigos\\Aula 1\\c-sharp\\poo_conta_01\\poo_conta.csproj",
+        "projectUniqueName": "/home/runner/work/aulas-graduacao/aulas-graduacao/modelagem/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/poo_conta.csproj",
         "projectName": "poo_conta",
-        "projectPath": "C:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\POO UML\\Codigos\\Aula 1\\c-sharp\\poo_conta_01\\poo_conta.csproj",
-        "packagesPath": "C:\\Users\\luisc\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\luisc\\Documents\\GitHub\\aulas-graduacao\\POO UML\\Codigos\\Aula 1\\c-sharp\\poo_conta_01\\obj\\",
+        "projectPath": "/home/runner/work/aulas-graduacao/aulas-graduacao/modelagem/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/poo_conta.csproj",
+        "packagesPath": "/home/runner/.nuget/packages/",
+        "outputPath": "/home/runner/work/aulas-graduacao/aulas-graduacao/modelagem/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\luisc\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/runner/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "netcoreapp3.1"
+          "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netcoreapp3.1": {
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -36,14 +35,16 @@
         }
       },
       "frameworks": {
-        "netcoreapp3.1": {
+        "net8.0": {
+          "targetAlias": "net8.0",
           "imports": [
             "net461",
             "net462",
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -52,7 +53,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.118/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

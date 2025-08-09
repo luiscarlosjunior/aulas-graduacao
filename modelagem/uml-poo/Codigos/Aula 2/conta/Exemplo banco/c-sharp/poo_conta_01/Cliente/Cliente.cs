@@ -12,10 +12,16 @@ namespace poo_conta.Cliente
         public string Endereco { get; set; }
         
         // Faz a relação entre a classe Cliente e a conta poupança
-        public ContaPoupanca ContaPoupanca { get; set; }
+        public ContaPoupanca? ContaPoupanca { get; set; }
                 
         public void VisualizarDetalhesCliente()
         {
+            if (ContaPoupanca == null)
+            {
+                System.Console.WriteLine("Cliente não possui conta poupança.");
+                return;
+            }
+
             string relatorio = 
                 $"\n\n******************************************************" +
                 $"\nA conta de número: {ContaPoupanca.NumeroConta} " + 

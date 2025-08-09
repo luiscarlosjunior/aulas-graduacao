@@ -23,7 +23,7 @@ namespace poo_conta
         {
             if (dinheiro > 0)
             {
-                Saldo = dinheiro;
+                _saldo += dinheiro;
             }
         }
     }
