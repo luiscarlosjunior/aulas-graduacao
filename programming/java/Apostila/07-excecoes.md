@@ -75,3 +75,97 @@ mas são verificadas no tempo de execução.
 3) Erro
 O erro é irrecuperável, por exemplo, __**OutOfMemoryError, VirtualMachineError, AssertionError**__ etc.
 
+## Estruturas para tratamento de exceções
+
+### 1. Estrutura try-catch
+
+A estrutura try-catch é fundamental para capturar e tratar exceções em Java:
+
+```java
+try {
+    int a[] = new int[2];
+    System.out.println("Access element three :" + a[3]);
+} catch (ArrayIndexOutOfBoundsException e) {
+    System.out.println("lançando a exceção  :" + e);
+}
+System.out.println("Fora do block");
+```
+
+### 2. Bloco finally
+
+O bloco finally sempre é executado, independentemente de ocorrer exceção ou não:
+
+```java
+int a[] = new int[2];
+try {
+   System.out.println("Acessando o elemento :" + a[3]);
+} catch (ArrayIndexOutOfBoundsException e) {
+   System.out.println("Exceção lançada:" + e);
+} finally {
+   a[0] = 6;
+   System.out.println("Primeiro valor do elemento: " + a[0]);
+   System.out.println("A declaração finally foi executada");
+}
+```
+
+### 3. Cláusula throws
+
+A cláusula throws é usada para declarar que um método pode lançar uma exceção:
+
+```java
+import java.io.IOException;
+
+public static void lerArquivo() throws IOException {
+    // Simulando uma operação que pode gerar IOException
+    throw new IOException("Arquivo não encontrado");
+}
+
+// No método main ou chamador:
+try {
+    lerArquivo();
+} catch (IOException e) {
+    System.out.println("Erro capturado: " + e.getMessage());
+}
+```
+
+### 4. Instrução throw
+
+A instrução throw é usada para lançar uma exceção manualmente:
+
+```java
+public static void verificarIdade(int idade) {
+    if (idade < 18) {
+        throw new IllegalArgumentException("Idade deve ser maior ou igual a 18");
+    }
+    System.out.println("Idade verificada: " + idade);
+}
+```
+
+### 5. Métodos getMessage() e printStackTrace()
+
+Estes métodos ajudam a obter informações detalhadas sobre as exceções:
+
+```java
+try {
+    int resultado = 10 / 0;
+} catch (ArithmeticException e) {
+    // getMessage() retorna a mensagem da exceção
+    System.out.println("Mensagem da exceção: " + e.getMessage());
+    
+    // printStackTrace() mostra o rastreamento completo da pilha
+    System.out.println("Rastreamento completo da pilha:");
+    e.printStackTrace();
+}
+```
+
+## Exemplos práticos
+
+Os exemplos completos estão disponíveis nos diretórios:
+- `programming/java/00-conceitos/04_excecoes/01trycatch/` (try-catch, finally, throws, throw)
+- `programming/java/00-conceitos/04_excecoes/02recursos/` (getMessage, printStackTrace)
+
+## Referências
+
+- [Oracle Java Documentation - Exception Handling](https://docs.oracle.com/javase/tutorial/essential/exceptions/)
+- [Java Point - Exception Handling](https://www.javatpoint.com/exception-handling-in-java)
+
