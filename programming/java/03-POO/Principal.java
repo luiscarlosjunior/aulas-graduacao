@@ -3,17 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package exempoclasse;
-
 /**
  *
  * @author luisc
  */
 public class Principal {
 	
-	// Principal funÁ„o da aplicaÁ„o
+	// Principal fun√ß√£o da aplica√ß√£o
     public static void main(String[] args) {
-    	// Vamos criar um novo cachorro do tipo C„o Domestico
+    	// Vamos criar um novo cachorro do tipo C√£o Dom√©stico
         CaoDomestico cd = new CaoDomestico();
         
         cd.nome = "Pluto";

@@ -1,9 +1,7 @@
 
-package exempoclasse;
-
 /**
  * @author luiscaparroz
- * Esta classe representa de maneira simples um c�o domestico
+ * Esta classe representa de maneira simples um cão doméstico
  */
 public class CaoDomestico {
      

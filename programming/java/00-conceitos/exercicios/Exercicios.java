@@ -1,6 +1,6 @@
-package exericios;
+package exercicios;
 
-// Importar o pacote javauitil
+// Importar o pacote java.util
 import java.util.Scanner;
 /**
  *
@@ -16,7 +16,7 @@ import java.util.Scanner;
         
     }
     
-    private void ativ01() {
+    private static void ativ01() {
         Scanner ler = new Scanner(System.in);
         
         double C = 0.0;
@@ -132,7 +132,7 @@ import java.util.Scanner;
         System.out.println("Entre com um valor");
         D = sc.nextInt();
         
-        System.out.println("Os vsalore validos são");
+        System.out.println("Os valores válidos são");
         
         if (!(A%2 != 0 && A%3 != 0)) {
             System.out.println(A);

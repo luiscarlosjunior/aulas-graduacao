@@ -4,17 +4,17 @@
 public class TiposDados {	
 
     public static void main(String[] args) {
-		// Exemplo n�mero inteiro
+        // Exemplo número inteiro
         int idade = 5;
-        // Exemplo n�mero de precis�o
+        // Exemplo número de precisão simples
         float altura = 1.85f;
-        // Exemplo n�mero de precis�o dupla (at� 15 casas ap�s a virgula)
+        // Exemplo número de precisão dupla (até 15 casas após a vírgula)
         double numeroPI = 3.1415926562;
-        // Exemplo de do tipo Char
+        // Exemplo do tipo Char
         char umaLetra = 'D';
-        // Exemplo de do tipo boolean
+        // Exemplo do tipo boolean
         boolean souPessoa = true;
-        // Exemplo de do tipo string
+        // Exemplo do tipo String
         String meuTexto = "Hello";     
         
         

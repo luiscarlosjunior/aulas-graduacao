@@ -10,9 +10,9 @@ public class EstruturaRepeticao {
 	// http://java.meritcampus.com/core-java-topics/java-data-types
 	// https://www.w3schools.com/java/default.asp
   public static void main(String[] args) {
-    /* Para pode usar chamar as fun��es, 
-     * retire os coment�rios, salve e execute o
-     * o programa. Todas as fun��es, est�o presentes
+    /* Para poder usar/chamar as funções, 
+     * retire os comentários, salve e execute
+     * o programa. Todas as funções estão presentes
      * neste mesmo arquivo    	
     */
     
