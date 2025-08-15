@@ -111,7 +111,53 @@ Aprenda a fazer seu programa funcionar mesmo quando algo dá errado.
 
 ---
 
-### [05 - Arrays e Métodos](05_arrays_e_metodos/) - **ORGANIZANDO E REUTILIZANDO** ⭐ **NOVO!**
+### [05 - Manipulação de Strings](06_manipulacao_strings/) - **TRABALHANDO COM TEXTO** ⭐ **NOVO!**
+Domine a arte de manipular texto em Java - uma das habilidades mais utilizadas na programação.
+
+**O que você vai aprender:**
+
+**Conceitos Fundamentais:**
+- Entender **imutabilidade** das strings em Java
+- Métodos essenciais da classe String
+- Comparação segura de strings (evitando armadilhas)
+- Transformações de texto (maiúscula, minúscula, trim)
+
+**Manipulação Avançada:**
+- Busca e substituição de conteúdo
+- Divisão e junção de strings (split/join)
+- StringBuilder para construção eficiente
+- Formatação profissional de strings
+- Expressões regulares básicas
+
+**Aplicações Práticas:**
+- Validação e formatação de emails
+- Processamento de nomes e dados pessoais
+- Limpeza e normalização de texto
+- Validação de senhas com critérios de segurança
+- Parser simples de dados CSV
+- Manipulação de URLs e caminhos
+- Geração de relatórios formatados
+
+**Tempo estimado:** 4-5 horas
+
+**Por que é importante:** 
+- **Ubiquidade:** Strings estão em praticamente todos os programas
+- **Validação:** Essencial para processar entrada do usuário
+- **Comunicação:** Fundamental para interfaces e relatórios
+- **Segurança:** Validação adequada previne vulnerabilidades
+
+**Exemplos práticos:**
+- 📧 Sistema de validação de email
+- 👤 Formatador automático de nomes
+- 🧹 Limpador de texto com caracteres especiais
+- 🔒 Analisador de força de senhas
+- 📊 Processador de dados CSV
+- 🌐 Parser de URLs e caminhos
+- 📄 Gerador de relatórios formatados
+
+---
+
+### [06 - Arrays e Métodos](05_arrays_e_metodos/) - **ORGANIZANDO E REUTILIZANDO** ⭐
 Aprenda a armazenar múltiplos valores e organizar seu código de forma profissional.
 
 **O que você vai aprender:**
@@ -178,7 +224,14 @@ Exercícios práticos para consolidar os conceitos aprendidos.
 - ✅ Criar contadores e calculadoras
 - ✅ Automatizar tarefas repetitivas
 
-**Nível Intermediário Inicial (após Arrays e Métodos):**
+**Nível Intermediário Básico (após Strings):**
+- ✅ Manipular e processar texto eficientemente
+- ✅ Validar e formatar dados de entrada
+- ✅ Construir strings de forma performática
+- ✅ Aplicar formatação profissional
+- ✅ Processar dados textuais do mundo real
+
+**Nível Intermediário Avançado (após Arrays e Métodos):**
 - ✅ Organizar dados em estruturas apropriadas
 - ✅ Criar programas modulares e organizados
 - ✅ Desenvolver aplicações interativas
@@ -193,7 +246,7 @@ Exercícios práticos para consolidar os conceitos aprendidos.
 
 ## 🚀 Como Estudar Esta Seção
 
-### 📅 **Cronograma Sugerido (Total: 3-4 semanas)**
+### 📅 **Cronograma Sugerido (Total: 4-5 semanas)**
 
 **Semana 1:**
 - **Dias 1-2:** Hello World + configuração do ambiente
@@ -206,13 +259,18 @@ Exercícios práticos para consolidar os conceitos aprendidos.
 - **Fim de semana:** Projeto prático combinando conceitos
 
 **Semana 3:**
+- **Dias 1-2:** Exceções e tratamento de erros
+- **Dias 3-5:** Manipulação de Strings - conceitos e aplicações práticas
+- **Fim de semana:** Projeto de processamento de texto
+
+**Semana 4:**
 - **Dias 1-3:** Arrays - conceitos e exemplos
 - **Dias 4-5:** Métodos - organização do código
 - **Fim de semana:** Programa interativo completo
 
-**Semana 4:**
-- **Dias 1-2:** Exceções e tratamento de erros
-- **Dias 3-5:** Exercícios integrados
+**Semana 5:**
+- **Dias 1-2:** Integração de todos os conceitos
+- **Dias 3-5:** Exercícios integrados e projetos
 - **Fim de semana:** Projeto final da seção
 
 ### 📚 **Metodologia de Estudo:**
@@ -323,10 +381,12 @@ Acompanhe sua evolução:
 - [ ] **Primeiro cálculo com variáveis** (Tipos de Dados)
 - [ ] **Primeira decisão tomada pelo programa** (If/Else)
 - [ ] **Primeiro loop funcionando** (For/While)
+- [ ] **Primeira exceção tratada corretamente**
+- [ ] **Primeira string manipulada com sucesso** (Manipulação de Strings)
+- [ ] **Primeiro texto processado e validado** (Aplicações práticas)
 - [ ] **Primeiro array criado e percorrido**
 - [ ] **Primeiro método criado e chamado**
 - [ ] **Primeiro programa interativo** (com Scanner)
-- [ ] **Primeira exceção tratada corretamente**
 - [ ] **Projeto pessoal completo**
 
 ## 🎉 O Que Vem Depois?
