@@ -27,6 +27,7 @@ Este exemplo foi criado para:
 
 ### Scripts Principais
 - **`01-estrutura-completa.sql`**: Schema completo do banco de dados
+- **`create-tables.sql`**: Scripts CREATE TABLE simplificados e limpos
 - **`02-inserir-dados.sql`**: Inserção de dados de exemplo (CREATE)
 - **`03-consultas-basicas.sql`**: Consultas básicas e relatórios (READ)
 - **`04-atualizacoes.sql`**: Operações de atualização (UPDATE)
@@ -34,10 +35,20 @@ Este exemplo foi criado para:
 - **`06-consultas-avancadas.sql`**: Consultas complexas e análises
 - **`07-roteiro-completo.sql`**: Roteiro guiado passo a passo
 
+### Documentação da Modelagem
+- **`modelagem-dados.md`**: Documentação completa da modelagem de dados
+- **`diagrama-er.md`**: Diagrama Entidade-Relacionamento e especificações
+- **`validar-scripts.sh`**: Script de validação da sintaxe SQL
+
 ### Pasta de Apoio
 - **`solucoes/`**: Explicações detalhadas e soluções alternativas
 
 ## 🎵 Modelo do Sistema MusiStream
+
+### Documentação da Modelagem
+A modelagem de dados completa está documentada em:
+- **`modelagem-dados.md`**: Modelo conceitual, lógico e físico detalhado
+- **`diagrama-er.md`**: Diagrama Entidade-Relacionamento com especificações
 
 ### Entidades Principais
 
@@ -105,14 +116,15 @@ HISTORICO_REPRODUCAO (N:1) USUARIO
 
 ### Sequência Recomendada
 
-1. **📚 Estude o README**: Entenda o modelo proposto
-2. **🏗️ Execute o Schema**: Rode o `01-estrutura-completa.sql`
+1. **📚 Estude a Modelagem**: Leia `modelagem-dados.md` e `diagrama-er.md`
+2. **🏗️ Execute o Schema**: Rode o `01-estrutura-completa.sql` ou `create-tables.sql`
 3. **📝 Insira os Dados**: Execute o `02-inserir-dados.sql`
 4. **🔍 Pratique Consultas**: Teste o `03-consultas-basicas.sql`
 5. **✏️ Faça Atualizações**: Execute o `04-atualizacoes.sql`
 6. **🗑️ Teste Exclusões**: Rode o `05-exclusoes.sql`
 7. **🎯 Consultas Avançadas**: Explore o `06-consultas-avancadas.sql`
 8. **📖 Roteiro Completo**: Siga o `07-roteiro-completo.sql`
+9. **✅ Valide os Scripts**: Execute `./validar-scripts.sh`
 
 ### ⚠️ Importante
 - Execute os scripts em ordem sequencial
