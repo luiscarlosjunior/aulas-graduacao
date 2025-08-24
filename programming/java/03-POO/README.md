@@ -1,286 +1,114 @@
-# Programação Orientada a Objetos - Introdução Prática
+# Programação Orientada a Objetos (POO) - Curso Completo
 
-Esta seção apresenta uma introdução prática aos conceitos fundamentais de Programação Orientada a Objetos (POO) em Java através de um exemplo simples e didático.
+Este diretório contém uma **aula completa e estruturada** sobre Programação Orientada a Objetos em Java, organizada em tópicos progressivos com exemplos práticos e exercícios.
 
-## 🎯 Objetivos
+## 🎯 Estrutura da Aula
 
-- Compreender o conceito de classes e objetos
-- Aprender sobre atributos e métodos
-- Entender encapsulamento básico
-- Praticar instanciação de objetos
-- Aplicar conceitos de POO em exemplo prático
+### 📚 Tópicos Organizados
 
-## 📋 Conceitos Fundamentais
+1. **[01 - Classes e Objetos](01-classes-objetos/)** - Fundamentos da POO
+   - Conceitos básicos de classes e objetos
+   - Atributos e métodos
+   - Construtores e instanciação
+   - Exemplo prático: Sistema de cães domésticos
 
-### Classe vs Objeto
+2. **[02 - Encapsulamento](02-encapsulamento/)** - Proteção de Dados
+   - Modificadores de acesso (private, public, protected)
+   - Getters e setters com validação
+   - Proteção e integridade dos dados
+   - Exemplo prático: Sistema bancário com segurança
 
-- **Classe**: Template ou molde que define características e comportamentos
-- **Objeto**: Instância específica de uma classe com valores concretos
+3. **[03 - Herança](03-heranca/)** - Reutilização de Código
+   - Classe pai e classes filhas
+   - Palavra-chave `extends` e `super`
+   - Sobrescrita de métodos (`@Override`)
+   - Exemplo prático: Hierarquia de animais
 
-**Analogia**: Se a classe é a "planta da casa", o objeto é a "casa construída".
+4. **[04 - Polimorfismo](04-polimorfismo/)** - Múltiplas Formas
+   - Sobrecarga de métodos (Overloading)
+   - Sobrescrita de métodos (Overriding)
+   - Dynamic binding e casting
+   - Exemplo prático: Formas geométricas e calculadora
 
-## 📄 Análise dos Exemplos
+5. **[05 - Abstração](05-abstracao/)** - Simplificando Complexidade
+   - Classes abstratas e métodos abstratos
+   - Interfaces e múltipla implementação
+   - Métodos default e static em interfaces
+   - Exemplo prático: Sistema de dispositivos eletrônicos
 
-### [CaoDomestico.java](CaoDomestico.java)
+6. **[06 - Exercícios](06-exercicios/)** - Consolidação Prática
+   - Exercícios progressivos (básico → avançado)
+   - Sistemas completos integrando todos os conceitos
+   - Exemplo desenvolvido: Sistema de biblioteca
 
-Classe que representa um cão doméstico com características e comportamentos típicos.
+## 🚀 Como Estudar
 
-#### **Atributos (Características)**
-```java
-public String nome;        // Nome do cão
-public int peso;          // Peso em kg
-public String corOlhos;   // Cor dos olhos
-public int quantPatas;    // Quantidade de patas (normalmente 4)
-```
+### Sequência Recomendada
+1. **Leia o README** de cada tópico primeiro
+2. **Execute os exemplos** para ver na prática
+3. **Modifique os códigos** para experimentar
+4. **Faça os exercícios** para fixar o aprendizado
 
-#### **Construtores**
-```java
-// Construtor padrão (sem parâmetros)
-public CaoDomestico() {
-}
-
-// Construtor com nome
-public CaoDomestico(String nome) {
-    this.nome = nome;
-}
-```
-
-#### **Métodos (Comportamentos)**
-```java
-// Getter personalizado
-public String getNome() {
-    return "Nome do Curso retornado " + nome;
-}
-
-// Comportamentos básicos (a implementar)
-public void falar() { /* TODO */ }
-public void andar() { /* TODO */ }
-public void comer() { /* TODO */ }
-public void dormir() { /* TODO */ }
-
-// Comportamento específico implementado
-void latir() {
-    if (peso > 60)
-        System.out.println("Wooof, Wooof!");      // Cão grande
-    else if (peso > 14)
-        System.out.println("Ruff!, Ruff!");       // Cão médio
-    else
-        System.out.println("Yip!, Yip!");         // Cão pequeno
-}
-```
-
-### [Principal.java](Principal.java)
-
-Classe principal que demonstra o uso da classe `CaoDomestico`.
-
-#### **Criação e Uso do Objeto**
-```java
-public static void main(String[] args) {
-    // 1. Criar uma instância (objeto) da classe CaoDomestico
-    CaoDomestico cd = new CaoDomestico();
-    
-    // 2. Definir características do objeto
-    cd.nome = "Pluto";
-    cd.corOlhos = "Azuis";
-    cd.peso = 53;
-    cd.quantPatas = 4;
-    
-    // 3. Chamar comportamento do objeto
-    cd.latir();  // Saída: "Ruff!, Ruff!" (peso entre 14 e 60)
-}
-```
-
-## 🔧 Conceitos Demonstrados
-
-### 1. **Encapsulamento Básico**
-```java
-// Atributos públicos (acessíveis diretamente)
-public String nome;
-public int peso;
-
-// Método que acessa atributo interno
-public String getNome() {
-    return "Nome do Curso retornado " + nome;
-}
-```
-
-### 2. **Polimorfismo Básico (Sobrecarga)**
-```java
-// Dois construtores com assinaturas diferentes
-public CaoDomestico()           // Sem parâmetros
-public CaoDomestico(String nome) // Com parâmetro nome
-```
-
-### 3. **Lógica Condicional em Métodos**
-```java
-void latir() {
-    if (peso > 60)              // Cão grande
-        System.out.println("Wooof, Wooof!");
-    else if (peso > 14)         // Cão médio
-        System.out.println("Ruff!, Ruff!");
-    else                        // Cão pequeno
-        System.out.println("Yip!, Yip!");
-}
-```
-
-### 4. **Instanciação e Configuração**
-```java
-CaoDomestico cd = new CaoDomestico();  // Criação
-cd.nome = "Pluto";                     // Configuração
-cd.latir();                            // Uso
-```
-
-## 🚀 Como Executar o Exemplo
-
+### Para cada tópico:
 ```bash
-# Navegar até o diretório
-cd "03-POO"
-
-# Compilar ambos os arquivos
+cd 01-classes-objetos/
 javac *.java
-
-# Executar a classe principal
 java Principal
 ```
 
-**Saída esperada**:
-```
-Ruff!, Ruff!
-```
+## 💡 Conceitos Integrados
 
-## 💡 Experimentos Sugeridos
+Cada tópico foi projetado para:
+- ✅ **Explicação simples** em linguagem acessível
+- ✅ **Exemplos práticos** com cenários reais
+- ✅ **Código bem comentado** explicando cada linha
+- ✅ **Testes funcionais** que você pode executar
+- ✅ **Progressão lógica** do simples ao complexo
 
-### 1. **Diferentes Tipos de Latido**
-Teste com diferentes pesos:
+## 🎓 Objetivos de Aprendizagem
 
-```java
-// Cão pequeno
-cd.peso = 10;
-cd.latir();  // "Yip!, Yip!"
+Ao completar esta aula, você será capaz de:
 
-// Cão grande
-cd.peso = 70;
-cd.latir();  // "Wooof, Wooof!"
-```
+- **Criar classes e objetos** bem estruturados
+- **Aplicar encapsulamento** para proteger dados
+- **Usar herança** para reutilizar código eficientemente
+- **Implementar polimorfismo** para flexibilidade
+- **Trabalhar com abstração** para simplificar sistemas complexos
+- **Desenvolver sistemas completos** usando todos os conceitos integrados
 
-### 2. **Múltiplos Objetos**
-```java
-CaoDomestico cao1 = new CaoDomestico("Rex");
-CaoDomestico cao2 = new CaoDomestico("Bella");
+## 📊 Estatísticas da Aula
 
-cao1.peso = 80;
-cao2.peso = 5;
+- **6 tópicos principais** organizados progressivamente
+- **25+ arquivos Java** com exemplos completos
+- **1000+ linhas** de código comentado e funcional
+- **Múltiplos cenários** práticos (animais, banco, formas, dispositivos, biblioteca)
+- **Exercícios integrados** para consolidação
 
-cao1.latir();  // "Wooof, Wooof!"
-cao2.latir();  // "Yip!, Yip!"
-```
+## 🔧 Pré-requisitos
 
-### 3. **Implementar Métodos Pendentes**
-```java
-public void falar() {
-    System.out.println(nome + " está fazendo sons de cão!");
-}
+- Java 8+ instalado
+- Conhecimento básico de programação
+- Familiaridade com conceitos de variáveis, loops e condicionais
 
-public void andar() {
-    System.out.println(nome + " está caminhando com " + quantPatas + " patas.");
-}
-```
+## 📈 Próximos Passos
 
-## 🔧 Melhorias Sugeridas
-
-### 1. **Encapsulamento Adequado**
-```java
-// Ao invés de atributos públicos:
-public String nome;
-
-// Use atributos privados com getters/setters:
-private String nome;
-
-public String getNome() {
-    return nome;
-}
-
-public void setNome(String nome) {
-    this.nome = nome;
-}
-```
-
-### 2. **Validação nos Setters**
-```java
-public void setPeso(int peso) {
-    if (peso > 0) {
-        this.peso = peso;
-    } else {
-        throw new IllegalArgumentException("Peso deve ser positivo");
-    }
-}
-```
-
-### 3. **Método toString()**
-```java
-@Override
-public String toString() {
-    return "CaoDomestico{" +
-           "nome='" + nome + '\'' +
-           ", peso=" + peso +
-           ", corOlhos='" + corOlhos + '\'' +
-           ", quantPatas=" + quantPatas +
-           '}';
-}
-```
-
-### 4. **Enum para Tamanhos**
-```java
-public enum Tamanho {
-    PEQUENO, MEDIO, GRANDE
-}
-
-public Tamanho getTamanho() {
-    if (peso > 60) return Tamanho.GRANDE;
-    if (peso > 14) return Tamanho.MEDIO;
-    return Tamanho.PEQUENO;
-}
-```
-
-## 💡 Exercícios Propostos
-
-### Básico:
-1. **Criar outras raças**: `Gato`, `Passaro`, `Peixe` com comportamentos específicos
-2. **Adicionar mais atributos**: `idade`, `cor`, `raca`
-3. **Implementar métodos pendentes**: `falar()`, `andar()`, `comer()`, `dormir()`
-
-### Intermediário:
-1. **Sistema de Pets**: Classe que gerencia múltiplos animais
-2. **Herança**: Classe `Animal` como pai de `CaoDomestico`
-3. **Interface**: `Domestico` com métodos que pets devem implementar
-
-### Avançado:
-1. **Veterinária**: Sistema completo com dono, pet, consultas
-2. **Serialização**: Salvar/carregar pets de arquivo
-3. **Collections**: Lista de pets com busca e filtros
-
-## ❗ Problemas Identificados
-
-### 1. **Naming Convention**
-- Package: `exempoclasse` → `exemploClasse` ou `exemplo.classe`
-- Consistência na nomenclatura
-
-### 2. **Encapsulamento**
-- Atributos públicos quebram encapsulamento
-- Falta validação de dados
-
-### 3. **Métodos Incompletos**
-- Vários métodos com `// TODO`
-- Falta implementação de comportamentos
-
-## 📚 Conceitos Relacionados
-
-- **Herança**: Classes que estendem outras classes
-- **Polimorfismo**: Mesmo método, comportamentos diferentes
-- **Interfaces**: Contratos que classes devem implementar
-- **Abstração**: Classes abstratas e métodos abstratos
-- **Design Patterns**: Padrões como Factory, Observer
+Após completar esta aula de POO:
+1. **[Design Patterns](../05-design-patterns/)** - Padrões de projeto
+2. **[Conceitos Intermediários](../03-conceitos-intermediarios/)** - Collections, Generics
+3. **Frameworks** - Spring, Hibernate
+4. **Projetos reais** - Aplicações práticas
 
 ---
 
-**Próximo**: [Conceitos Intermediários](../03-conceitos-intermediarios/) - Aprofunde em Collections, Generics e conceitos avançados de POO.
+## 🎯 Resumo dos Conceitos
+
+| Tópico | Conceito Principal | Exemplo Prático |
+|--------|-------------------|-----------------|
+| **Classes e Objetos** | Fundamentos da POO | Sistema de cães domésticos |
+| **Encapsulamento** | Proteção de dados | Conta bancária com validações |
+| **Herança** | Reutilização de código | Hierarquia Animal → Cachorro/Gato |
+| **Polimorfismo** | Múltiplas implementações | Formas geométricas e calculadora |
+| **Abstração** | Simplificação de complexidade | Dispositivos eletrônicos |
+| **Exercícios** | Integração completa | Sistema de biblioteca |
+
+**✅ Aula completa e funcional pronta para uso!**
