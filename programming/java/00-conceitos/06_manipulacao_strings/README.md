@@ -41,12 +41,32 @@ Aplicações práticas e reais dos conceitos de manipulação de strings.
 - 🌐 Manipulação de URLs e caminhos
 - 📄 Geração de relatórios formatados
 
+### [ExerciciosStrings.java](ExerciciosStrings.java)
+Exercícios práticos organizados por níveis de dificuldade para consolidar o aprendizado.
+
+**Exercícios incluídos:**
+- 🟢 **Nível Básico**: Contador de caracteres, inversor de texto, gerador de iniciais, verificação de palíndromo, capitalização
+- 🟡 **Nível Intermediário**: Validação de CPF, formatação de telefone, geração de slug, contador de palavras, validação de senha forte
+- 🔴 **Nível Avançado**: Calculadora de expressões, highlight de sintaxe, gerador de senhas, compressão de texto, análise completa de texto
+
+### [ExerciciosSolucoes.java](ExerciciosSolucoes.java)
+Soluções completas e comentadas para todos os exercícios propostos.
+
+**Características das soluções:**
+- ✅ Implementações otimizadas e eficientes
+- 📝 Comentários explicativos detalhados
+- 🔄 Diferentes abordagens quando aplicável
+- ⚡ Boas práticas de programação
+- 🧪 Tratamento de casos especiais e validações
+
 ## 🚀 Como Executar os Exemplos
 
 ### 1. Compilação
 ```bash
 javac ManipulacaoStrings.java
 javac ExemplosPraticosStrings.java
+javac ExerciciosStrings.java
+javac ExerciciosSolucoes.java
 ```
 
 ### 2. Execução
@@ -56,11 +76,19 @@ java ManipulacaoStrings
 
 # Exemplos práticos
 java ExemplosPraticosStrings
+
+# Exercícios para praticar
+java ExerciciosStrings
+
+# Soluções dos exercícios
+java ExerciciosSolucoes
 ```
 
 ### 3. Resultado Esperado
 - **ManipulacaoStrings**: Demonstra todos os métodos com exemplos didáticos
 - **ExemplosPraticosStrings**: Mostra aplicações reais em cenários do dia a dia
+- **ExerciciosStrings**: Apresenta exercícios com resultados vazios para implementação
+- **ExerciciosSolucoes**: Exibe as soluções funcionais de todos os exercícios
 
 ## 📚 Conceitos Fundamentais
 
@@ -378,22 +406,76 @@ private static final String EMAIL_REGEX = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
 | Substituição literal | replace() | replaceAll() | ~5x mais rápido |
 | Comparação | equals() | compareTo() == 0 | Mais legível |
 
+## 💪 Exercícios Práticos
+
+Esta seção inclui uma coleção abrangente de exercícios para consolidar seu aprendizado sobre manipulação de strings. Os exercícios estão organizados em três níveis de dificuldade:
+
+### 🟢 **Nível Básico** (Exercícios 1-5)
+Exercícios fundamentais para iniciantes:
+- **Contador de Caracteres**: Conte vogais, consoantes e espaços
+- **Inversor de Texto**: Inverta strings usando diferentes técnicas
+- **Gerador de Iniciais**: Extraia iniciais de nomes completos
+- **Verificador de Palíndromo**: Detecte palavras que se leem igual de trás para frente
+- **Capitalizador**: Capitalize a primeira letra de cada palavra
+
+### 🟡 **Nível Intermediário** (Exercícios 6-10)
+Exercícios práticos para desenvolvedores com conhecimento básico:
+- **Validador de CPF**: Implementação completa com algoritmo de validação
+- **Formatador de Telefone**: Formate números no padrão brasileiro
+- **Gerador de Slug**: Converta títulos em URLs amigáveis
+- **Contador de Palavras Únicas**: Análise estatística de texto
+- **Validador de Senha Forte**: Verificação de critérios de segurança
+
+### 🔴 **Nível Avançado** (Exercícios 11-15)
+Desafios complexos para programadores experientes:
+- **Calculadora de Expressões**: Parser e avaliador de expressões matemáticas
+- **Highlight de Sintaxe**: Destaque de palavras-chave em código Java
+- **Gerador de Senhas Seguras**: Criação de senhas com critérios customizáveis
+- **Compressor de Texto**: Implementação de run-length encoding
+- **Analisador de Texto**: Análise estatística completa de documentos
+
+### 📚 **Como Usar os Exercícios**
+
+1. **Execute os exercícios**: `java ExerciciosStrings`
+   - Veja os problemas propostos
+   - Observe que as implementações estão vazias (retornam valores padrão)
+
+2. **Implemente suas soluções**: Edite `ExerciciosStrings.java`
+   - Complete os métodos com suas implementações
+   - Teste executando o programa novamente
+
+3. **Compare com as soluções**: `java ExerciciosSolucoes`
+   - Veja implementações completas e otimizadas
+   - Aprenda diferentes técnicas e abordagens
+   - Entenda as boas práticas aplicadas
+
+4. **Experimente variações**:
+   - Modifique os dados de teste
+   - Adicione novos casos especiais
+   - Implemente soluções alternativas
+
 ## 🧪 Experimentos Sugeridos
 
 ### Para Iniciantes:
-1. **Contador de caracteres**: Conte vogais, consoantes e espaços em um texto
-2. **Inversor de texto**: Inverta palavras ou frases
-3. **Gerador de iniciais**: Extraia iniciais de nomes completos
+1. **Contador de caracteres**: Conte vogais, consoantes e espaços em um texto ✅ [Exercício 1]
+2. **Inversor de texto**: Inverta palavras ou frases ✅ [Exercício 2]
+3. **Gerador de iniciais**: Extraia iniciais de nomes completos ✅ [Exercício 3]
 
 ### Para Intermediários:
-1. **Validador de CPF**: Implemente validação com formatação
-2. **Formatador de telefone**: (11) 99999-9999
-3. **Gerador de slug**: Converta títulos em URLs amigáveis
+1. **Validador de CPF**: Implemente validação com formatação ✅ [Exercício 6]
+2. **Formatador de telefone**: (11) 99999-9999 ✅ [Exercício 7]
+3. **Gerador de slug**: Converta títulos em URLs amigáveis ✅ [Exercício 8]
 
 ### Para Avançados:
-1. **Parser de expressões**: Avalie expressões matemáticas simples
-2. **Highlight de sintaxe**: Destaque palavras-chave em código
-3. **Gerador de senhas**: Com critérios personalizáveis
+1. **Parser de expressões**: Avalie expressões matemáticas simples ✅ [Exercício 11]
+2. **Highlight de sintaxe**: Destaque palavras-chave em código ✅ [Exercício 12]
+3. **Gerador de senhas**: Com critérios personalizáveis ✅ [Exercício 13]
+
+### 💡 Como Praticar:
+1. **Comece com os exercícios**: Execute `java ExerciciosStrings` para ver os problemas
+2. **Implemente as soluções**: Edite os métodos em `ExerciciosStrings.java`
+3. **Compare com as respostas**: Execute `java ExerciciosSolucoes` para ver as implementações
+4. **Experimente variações**: Modifique os exercícios para criar novos desafios
 
 ## 📈 Próximos Passos
 
