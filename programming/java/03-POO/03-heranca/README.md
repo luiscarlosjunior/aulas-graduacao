@@ -68,6 +68,7 @@ public void metodo() {
 
 ## 📚 Exemplos Práticos
 
+### Exemplo Original: Hierarquia Animal
 ### [Animal.java](Animal.java)
 Classe pai com comportamentos comuns a todos os animais.
 
@@ -78,7 +79,22 @@ Classe filha que herda de Animal e adiciona comportamentos específicos.
 Outra classe filha demonstrando especialização diferente.
 
 ### [TesteHeranca.java](TesteHeranca.java)
-Demonstração prática do uso da herança.
+Demonstração prática do uso da herança com animais.
+
+### 🏆 Exemplo Clássico da Literatura: Hierarquia de Veículos
+**Um dos exemplos mais famosos da POO, presente em quase todos os livros de programação orientada a objetos!**
+
+### [Veiculo.java](Veiculo.java)
+Classe abstrata base com características comuns (marca, modelo, acelerar, buzinar, etc.)
+
+### [Carro.java](Carro.java)
+Especialização para automóveis (portas, transmissão, ar-condicionado, ré, etc.)
+
+### [Motocicleta.java](Motocicleta.java)
+Especialização para motos (cilindradas, empinar, guidão, capacete, etc.)
+
+### [TesteVeiculos.java](TesteVeiculos.java)
+Demonstração completa da hierarquia clássica de veículos.
 
 ## 🚀 Como Executar
 
@@ -86,8 +102,11 @@ Demonstração prática do uso da herança.
 # Compilar
 javac *.java
 
-# Executar
+# Executar exemplo original (animais)
 java TesteHeranca
+
+# Executar exemplo clássico (veículos)
+java TesteVeiculos
 ```
 
 ## 💡 Benefícios da Herança
