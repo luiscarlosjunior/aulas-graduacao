@@ -28,6 +28,22 @@ Crie um sistema simples de biblioteca com:
 
 **Arquivos**: `Livro.java`, `Biblioteca.java`, `TesteBiblioteca.java`
 
+#### **🏆 Exercício Completo - Sistema Universitário (RECOMENDADO)**
+**Conceitos**: TODOS os conceitos de POO integrados
+
+Sistema completo que demonstra:
+- **Classes e Objetos**: Pessoa, Estudante, Professor
+- **Encapsulamento**: Dados protegidos, validação, getters/setters
+- **Herança**: Estudante e Professor herdam de Pessoa
+- **Polimorfismo**: Métodos abstratos com implementações diferentes
+- **Abstração**: Classe abstrata com métodos obrigatórios
+- **Interações**: Objetos de diferentes tipos interagindo
+
+**Este é o exemplo mais completo do curso!** 🎓
+
+**Localização**: `exercicio-universidade/`
+**Arquivos**: `Pessoa.java`, `Estudante.java`, `Professor.java`, `SistemaUniversitario.java`
+
 #### **Exercício 2 - Formas Geométricas**
 **Conceitos**: Herança, Polimorfismo
 
@@ -74,13 +90,21 @@ Implemente um sistema completo de RH:
 
 ## 🚀 Como Executar
 
-Cada exercício está em sua própria pasta:
-
+### Exercício Básico (Biblioteca)
 ```bash
-cd exercicio-1/
+cd exercicio-1-biblioteca/
 javac *.java
 java TesteBiblioteca
 ```
+
+### 🏆 Exercício Completo (Sistema Universitário) - RECOMENDADO
+```bash
+cd exercicio-universidade/
+javac SistemaUniversitario.java
+java SistemaUniversitario
+```
+
+**Este exercício demonstra TODOS os conceitos de POO integrados de forma prática e realista!**
 
 ## 💡 Dicas de Estudo
 
