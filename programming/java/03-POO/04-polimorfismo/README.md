@@ -63,6 +63,7 @@ if (animal instanceof Cachorro) {
 
 ## 📚 Exemplos Práticos
 
+### Exemplo Original: Formas Geométricas
 ### [Forma.java](Forma.java)
 Classe abstrata representando formas geométricas.
 
@@ -76,14 +77,32 @@ Demonstração de sobrecarga de métodos.
 ### [TestePolimorfismo.java](TestePolimorfismo.java)
 Exemplos práticos de todos os tipos de polimorfismo.
 
+### 🏆 Exemplo Clássico da Literatura: Hierarquia de Funcionários
+**Um dos exemplos mais poderosos para demonstrar polimorfismo, encontrado em "Design Patterns", "Effective Java" e "Clean Code"!**
+
+### [Funcionario.java](Funcionario.java)
+Classe abstrata base com métodos abstratos (calcularSalario, trabalhar, participarReuniao)
+
+### [Desenvolvedor.java](Desenvolvedor.java)
+Especialização para desenvolvedores (linguagens, senioridade, projetos, code review)
+
+### [Gerente.java](Gerente.java)
+Especialização para gerentes (equipe, metas, orçamento, aprovações)
+
+### [TesteFuncionarios.java](TesteFuncionarios.java)
+Demonstração completa de polimorfismo avançado com interações complexas.
+
 ## 🚀 Como Executar
 
 ```bash
 # Compilar
 javac *.java
 
-# Executar
+# Executar exemplo original (formas geométricas)
 java TestePolimorfismo
+
+# Executar exemplo clássico (funcionários)
+java TesteFuncionarios
 ```
 
 ## 💡 Vantagens do Polimorfismo
@@ -92,6 +111,22 @@ java TestePolimorfismo
 2. **Extensibilidade**: Fácil adicionar novos tipos
 3. **Manutenibilidade**: Mudanças localizadas
 4. **Reutilização**: Mesmo código, múltiplos comportamentos
+
+### 🎯 Por que a Hierarquia de Funcionários é um Exemplo Clássico?
+
+O exemplo **Funcionario → Desenvolvedor/Gerente** é considerado um dos melhores para ensinar polimorfismo porque:
+
+- **Realismo**: Todos entendem a diferença entre desenvolvedores e gerentes
+- **Polimorfismo claro**: `calcularSalario()` tem lógicas **completamente diferentes**
+- **Comportamentos distintos**: Cada tipo trabalha e participa de reuniões de forma única
+- **Interações complexas**: Gerentes avaliam desenvolvedores, desenvolvores fazem code review
+- **Extensibilidade**: Fácil adicionar Designer, Analista, Estagiário, etc.
+
+Este exemplo aparece em livros clássicos como:
+- 📖 "Design Patterns" (Gang of Four)
+- 📖 "Effective Java" (Joshua Bloch)  
+- 📖 "Clean Code" (Robert Martin)
+- 📖 "Head First Design Patterns"
 
 ## ⚠️ Cuidados
 
