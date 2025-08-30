@@ -321,6 +321,283 @@ INNER JOIN musica ON album.id_album = musica.id_album;
 
 Consulte a pasta `exercicios/` para desafios práticos que envolvem múltiplas tabelas e JOINs complexos.
 
+## Perguntas e Respostas
+
+### 1. Qual a diferença prática entre INNER JOIN, LEFT JOIN, RIGHT JOIN e FULL OUTER JOIN?
+
+**Resposta**: Cada tipo tem comportamento específico:
+
+**INNER JOIN**: Apenas registros que existem em ambas as tabelas
+```sql
+-- Apenas artistas que têm álbuns
+SELECT a.nome_artista, al.titulo
+FROM artista a
+INNER JOIN album al ON a.id_artista = al.id_artista;
+```
+- **Resultado**: Só artistas com álbuns aparecem
+- **Uso**: Relacionamentos obrigatórios
+
+**LEFT JOIN**: Todos da tabela à esquerda + matches da direita
+```sql
+-- Todos os artistas, com álbuns se tiverem
+SELECT a.nome_artista, al.titulo
+FROM artista a
+LEFT JOIN album al ON a.id_artista = al.id_artista;
+```
+- **Resultado**: Todos artistas, álbuns NULL se não tiverem
+- **Uso**: "Mostrar todos X, com Y se existir"
+
+**RIGHT JOIN**: Todos da tabela à direita + matches da esquerda
+```sql
+-- Todos os álbuns, com informações do artista
+SELECT a.nome_artista, al.titulo
+FROM artista a
+RIGHT JOIN album al ON a.id_artista = al.id_artista;
+```
+- **Resultado**: Todos álbuns, mesmo órfãos
+- **Uso**: Menos comum, LEFT JOIN é preferido
+
+**FULL OUTER JOIN**: Todos os registros de ambas as tabelas
+```sql
+-- Todos artistas e todos álbuns
+SELECT a.nome_artista, al.titulo
+FROM artista a
+FULL OUTER JOIN album al ON a.id_artista = al.id_artista;
+```
+- **Resultado**: União completa, NULLs onde não há match
+- **Uso**: Análises de completude
+
+### 2. Como otimizar performance em JOINs complexos?
+
+**Resposta**: Estratégias essenciais:
+
+**Índices nas colunas de JOIN**:
+```sql
+-- Garantir índices em ambas as colunas
+CREATE INDEX idx_album_artista ON album(id_artista);
+CREATE INDEX idx_artista_id ON artista(id_artista);  -- Geralmente já existe (PK)
+```
+
+**Ordem dos JOINs** (tabela menor primeiro):
+```sql
+-- ✅ Melhor: começar com tabela mais seletiva
+SELECT u.nome, p.nome_playlist, m.titulo
+FROM usuario u                              -- 1000 usuários
+JOIN playlist p ON u.id_usuario = p.id_usuario AND p.ativo = TRUE  -- 100 playlists ativas
+JOIN playlist_musica pm ON p.id_playlist = pm.id_playlist
+JOIN musica m ON pm.id_musica = m.id_musica;
+```
+
+**Filtros antes dos JOINs quando possível**:
+```sql
+-- Aplicar WHERE que reduz dataset antes do JOIN
+SELECT a.nome_artista, al.titulo
+FROM artista a
+JOIN album al ON a.id_artista = al.id_artista
+WHERE a.pais_origem = 'Brasil'  -- Filtro reduz dataset
+  AND al.data_lancamento >= '2020-01-01';
+```
+
+### 3. Como usar JOINs para resolver problemas de relacionamentos muitos-para-muitos?
+
+**Resposta**: Use tabela de ligação (ponte):
+
+**Estrutura típica**:
+```sql
+-- Playlist pode ter múltiplas músicas
+-- Música pode estar em múltiplas playlists
+SELECT 
+    p.nome_playlist,
+    u.nome_usuario,
+    m.titulo,
+    pm.ordem,
+    pm.data_adicionada
+FROM playlist p
+JOIN usuario u ON p.id_usuario = u.id_usuario
+JOIN playlist_musica pm ON p.id_playlist = pm.id_playlist  -- Tabela ponte
+JOIN musica m ON pm.id_musica = m.id_musica
+WHERE p.ativo = TRUE
+ORDER BY p.nome_playlist, pm.ordem;
+```
+
+**Análises agregadas**:
+```sql
+-- Estatísticas de playlists
+SELECT 
+    p.nome_playlist,
+    COUNT(pm.id_musica) as total_musicas,
+    SUM(m.duracao) as duracao_total,
+    u.nome_usuario
+FROM playlist p
+JOIN usuario u ON p.id_usuario = u.id_usuario
+LEFT JOIN playlist_musica pm ON p.id_playlist = pm.id_playlist
+LEFT JOIN musica m ON pm.id_musica = m.id_musica
+GROUP BY p.id_playlist, p.nome_playlist, u.nome_usuario;
+```
+
+### 4. Como tratar casos onde JOIN retorna resultados duplicados?
+
+**Resposta**: Estratégias de deduplico:
+
+**DISTINCT para remoção de duplicatas**:
+```sql
+-- Evitar duplicatas quando um artista tem múltiplos álbuns
+SELECT DISTINCT a.nome_artista, a.pais_origem
+FROM artista a
+JOIN album al ON a.id_artista = al.id_artista
+WHERE al.data_lancamento >= '2020-01-01';
+```
+
+**GROUP BY para agregação**:
+```sql
+-- Agrupar para estatísticas
+SELECT 
+    a.nome_artista,
+    COUNT(al.id_album) as total_albums,
+    MIN(al.data_lancamento) as primeiro_album,
+    MAX(al.data_lancamento) as ultimo_album
+FROM artista a
+JOIN album al ON a.id_artista = al.id_artista
+GROUP BY a.id_artista, a.nome_artista;
+```
+
+**EXISTS em vez de JOIN quando só precisa verificar existência**:
+```sql
+-- Só verificar se artista tem álbuns
+SELECT nome_artista
+FROM artista a
+WHERE EXISTS (SELECT 1 FROM album WHERE id_artista = a.id_artista);
+```
+
+### 5. Como implementar JOINs condicionais e filtros complexos?
+
+**Resposta**: Técnicas avançadas:
+
+**JOIN com múltiplas condições**:
+```sql
+-- JOIN com condições adicionais
+SELECT a.nome_artista, al.titulo
+FROM artista a
+JOIN album al ON a.id_artista = al.id_artista 
+              AND al.data_lancamento >= '2020-01-01'
+              AND al.ativo = TRUE;
+```
+
+**CASE em JOINs**:
+```sql
+-- JOIN condicional baseado em regra de negócio
+SELECT 
+    u.nome_usuario,
+    p.nome_playlist,
+    CASE u.tipo_assinatura
+        WHEN 'premium' THEN 'Acesso Total'
+        WHEN 'basico' THEN 'Acesso Limitado'
+        ELSE 'Sem Acesso'
+    END as nivel_acesso
+FROM usuario u
+LEFT JOIN playlist p ON u.id_usuario = p.id_usuario
+    AND (u.tipo_assinatura = 'premium' OR p.publica = TRUE);
+```
+
+### 6. Como usar self-joins eficientemente?
+
+**Resposta**: Para relacionamentos dentro da mesma tabela:
+
+**Hierarquias ou comparações**:
+```sql
+-- Encontrar músicas do mesmo álbum com duração similar
+SELECT 
+    m1.titulo as musica1,
+    m2.titulo as musica2,
+    m1.duracao,
+    m2.duracao
+FROM musica m1
+JOIN musica m2 ON m1.id_album = m2.id_album
+              AND m1.id_musica < m2.id_musica  -- Evita duplicatas
+              AND ABS(m1.duracao - m2.duracao) < 30;  -- Diferença < 30s
+```
+
+**Sequências ou relacionamentos temporais**:
+```sql
+-- Álbuns consecutivos do mesmo artista
+SELECT 
+    a.nome_artista,
+    al1.titulo as album_anterior,
+    al1.data_lancamento as data_anterior,
+    al2.titulo as proximo_album,
+    al2.data_lancamento as data_posterior
+FROM album al1
+JOIN album al2 ON al1.id_artista = al2.id_artista
+              AND al2.data_lancamento > al1.data_lancamento
+JOIN artista a ON al1.id_artista = a.id_artista
+WHERE NOT EXISTS (
+    SELECT 1 FROM album al3 
+    WHERE al3.id_artista = al1.id_artista
+      AND al3.data_lancamento > al1.data_lancamento 
+      AND al3.data_lancamento < al2.data_lancamento
+);
+```
+
+### 7. Como estruturar JOINs para relatórios complexos com múltiplas dimensões?
+
+**Resposta**: Abordagem sistemática:
+
+**Identificar entidades principais e relacionamentos**:
+```sql
+-- Relatório completo de performance de artistas
+SELECT 
+    a.nome_artista,
+    a.pais_origem,
+    COUNT(DISTINCT al.id_album) as total_albums,
+    COUNT(DISTINCT m.id_musica) as total_musicas,
+    SUM(COALESCE(hr.reproducoes, 0)) as total_reproducoes,
+    AVG(m.duracao) as duracao_media,
+    COUNT(DISTINCT p.id_playlist) as aparicoes_playlists
+FROM artista a
+LEFT JOIN album al ON a.id_artista = al.id_artista
+LEFT JOIN musica m ON al.id_album = m.id_album
+LEFT JOIN (
+    SELECT id_musica, COUNT(*) as reproducoes
+    FROM historico_reproducao
+    GROUP BY id_musica
+) hr ON m.id_musica = hr.id_musica
+LEFT JOIN playlist_musica pm ON m.id_musica = pm.id_musica
+LEFT JOIN playlist p ON pm.id_playlist = p.id_playlist
+GROUP BY a.id_artista, a.nome_artista, a.pais_origem
+HAVING total_albums > 0  -- Apenas artistas com álbuns
+ORDER BY total_reproducoes DESC;
+```
+
+**Usar CTEs para clareza**:
+```sql
+-- Quebrar consulta complexa em partes
+WITH artista_stats AS (
+    SELECT 
+        a.id_artista,
+        a.nome_artista,
+        COUNT(al.id_album) as total_albums
+    FROM artista a
+    LEFT JOIN album al ON a.id_artista = al.id_artista
+    GROUP BY a.id_artista, a.nome_artista
+),
+reproducao_stats AS (
+    SELECT 
+        al.id_artista,
+        COUNT(hr.id_reproducao) as total_reproducoes
+    FROM album al
+    JOIN musica m ON al.id_album = m.id_album
+    JOIN historico_reproducao hr ON m.id_musica = hr.id_musica
+    GROUP BY al.id_artista
+)
+SELECT 
+    ast.nome_artista,
+    ast.total_albums,
+    COALESCE(rs.total_reproducoes, 0) as total_reproducoes
+FROM artista_stats ast
+LEFT JOIN reproducao_stats rs ON ast.id_artista = rs.id_artista
+ORDER BY total_reproducoes DESC;
+```
+
 ## Referências Bibliográficas
 
 1. **Beaulieu, A.** (2020). *Learning SQL: Master SQL Fundamentals*. 3rd Edition. O'Reilly Media. Capítulos 5-10.

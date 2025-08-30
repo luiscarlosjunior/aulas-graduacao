@@ -413,6 +413,284 @@ ORDER BY data_evento DESC;
 
 Consulte a pasta `exercicios/` para atividades práticas de criação e uso de views.
 
+## Perguntas e Respostas
+
+### 1. Qual a diferença fundamental entre VIEW e tabela física?
+
+**Resposta**:
+**VIEW (tabela virtual)**:
+```sql
+CREATE VIEW vw_artistas_brasileiros AS
+SELECT id_artista, nome_artista, data_formacao
+FROM artista 
+WHERE pais_origem = 'Brasil';
+```
+- **Armazenamento**: Apenas a definição SQL é salva
+- **Dados**: Sempre atuais (consulta executada a cada acesso)
+- **Espaço**: Não ocupa espaço adicional para dados
+- **Performance**: Pode ser mais lenta para consultas complexas
+
+**Tabela física**:
+- **Armazenamento**: Dados físicamente armazenados
+- **Dados**: Estáticos até serem atualizados
+- **Espaço**: Ocupa espaço proporcional aos dados
+- **Performance**: Geralmente mais rápida para consultas simples
+
+### 2. Quando usar views simples vs. views materializadas?
+
+**Resposta**:
+**Views simples (virtuais)**: Para abstração e simplificação
+```sql
+-- View para simplificar consultas frequentes
+CREATE VIEW vw_estatisticas_artista AS
+SELECT 
+    a.nome_artista,
+    COUNT(al.id_album) as total_albums,
+    COUNT(m.id_musica) as total_musicas
+FROM artista a
+LEFT JOIN album al ON a.id_artista = al.id_artista
+LEFT JOIN musica m ON al.id_album = m.id_album
+GROUP BY a.id_artista, a.nome_artista;
+```
+- **Uso**: Consultas que mudam frequentemente
+- **Vantagem**: Sempre dados atuais
+- **Desvantagem**: Recalculada a cada consulta
+
+**Views materializadas** (quando disponível):
+```sql
+-- PostgreSQL/Oracle
+CREATE MATERIALIZED VIEW mv_estatisticas_artista AS
+SELECT 
+    a.nome_artista,
+    COUNT(al.id_album) as total_albums,
+    SUM(hr.total_reproducoes) as total_reproducoes
+FROM artista a
+LEFT JOIN album al ON a.id_artista = al.id_artista
+LEFT JOIN (
+    SELECT id_musica, COUNT(*) as total_reproducoes
+    FROM historico_reproducao
+    GROUP BY id_musica
+) hr ON m.id_musica = hr.id_musica
+GROUP BY a.id_artista, a.nome_artista;
+```
+- **Uso**: Consultas complexas e custosas
+- **Vantagem**: Performance superior
+- **Desvantagem**: Necessita refresh periódico
+
+### 3. Como implementar segurança usando views?
+
+**Resposta**: Views como camada de abstração e controle:
+
+**Restrição de colunas sensíveis**:
+```sql
+-- View sem informações sensíveis
+CREATE VIEW vw_usuario_publico AS
+SELECT 
+    id_usuario,
+    nome_usuario,
+    data_cadastro,
+    pais_origem
+FROM usuario;
+-- Não expõe email, senha, dados pessoais
+```
+
+**Filtros de segurança por contexto**:
+```sql
+-- View que só mostra playlists públicas
+CREATE VIEW vw_playlists_publicas AS
+SELECT 
+    p.id_playlist,
+    p.nome_playlist,
+    u.nome_usuario as criador,
+    p.data_criacao
+FROM playlist p
+JOIN usuario u ON p.id_usuario = u.id_usuario
+WHERE p.publica = TRUE 
+  AND p.ativo = TRUE;
+```
+
+**Controle de acesso por perfil**:
+```sql
+-- View para usuários básicos (limitada)
+CREATE VIEW vw_musicas_preview AS
+SELECT 
+    id_musica,
+    titulo,
+    CASE 
+        WHEN duracao > 30 THEN 30 
+        ELSE duracao 
+    END as duracao_preview
+FROM musica
+WHERE ativo = TRUE;
+```
+
+### 4. Como otimizar performance de views complexas?
+
+**Resposta**: Estratégias de otimização:
+
+**Filtros eficientes na view**:
+```sql
+-- ✅ Filtros na definição da view
+CREATE VIEW vw_musicas_populares AS
+SELECT m.titulo, COUNT(hr.id_reproducao) as reproducoes
+FROM musica m
+JOIN historico_reproducao hr ON m.id_musica = hr.id_musica
+WHERE hr.data_reproducao >= CURRENT_DATE - INTERVAL '30 days'
+GROUP BY m.id_musica, m.titulo
+HAVING COUNT(hr.id_reproducao) > 100;
+```
+
+**Índices nas tabelas base**:
+```sql
+-- Garantir índices apropriados
+CREATE INDEX idx_historico_data_musica ON historico_reproducao(data_reproducao, id_musica);
+CREATE INDEX idx_musica_ativo ON musica(ativo);
+```
+
+**Views hierárquicas** (quebrar complexidade):
+```sql
+-- View base simples
+CREATE VIEW vw_reproducoes_mes AS
+SELECT 
+    id_musica,
+    COUNT(*) as total_reproducoes
+FROM historico_reproducao
+WHERE data_reproducao >= CURRENT_DATE - INTERVAL '30 days'
+GROUP BY id_musica;
+
+-- View que usa a anterior
+CREATE VIEW vw_ranking_mensal AS
+SELECT 
+    m.titulo,
+    rm.total_reproducoes,
+    RANK() OVER (ORDER BY rm.total_reproducoes DESC) as posicao
+FROM vw_reproducoes_mes rm
+JOIN musica m ON rm.id_musica = m.id_musica;
+```
+
+### 5. Como criar views atualizáveis (updatable views)?
+
+**Resposta**: Requisitos para views atualizáveis:
+
+**View simples atualizável**:
+```sql
+-- View que permite INSERT/UPDATE/DELETE
+CREATE VIEW vw_artistas_ativos AS
+SELECT id_artista, nome_artista, biografia, pais_origem
+FROM artista
+WHERE ativo = TRUE;
+
+-- Operações permitidas
+UPDATE vw_artistas_ativos 
+SET biografia = 'Nova biografia' 
+WHERE id_artista = 1;
+```
+
+**Requisitos para ser atualizável**:
+- Baseada em uma única tabela
+- Sem DISTINCT, GROUP BY, HAVING
+- Sem funções agregadas
+- Sem UNION, INTERSECT, EXCEPT
+- Sem subqueries no SELECT
+
+**WITH CHECK OPTION para consistência**:
+```sql
+CREATE VIEW vw_artistas_brasileiros AS
+SELECT id_artista, nome_artista, pais_origem
+FROM artista
+WHERE pais_origem = 'Brasil'
+WITH CHECK OPTION;
+
+-- ❌ Esta operação falhará:
+UPDATE vw_artistas_brasileiros 
+SET pais_origem = 'Argentina' 
+WHERE id_artista = 1;
+```
+
+### 6. Como usar views para análise de dados e reporting?
+
+**Resposta**: Views como camada de análise:
+
+**Agregações pré-calculadas**:
+```sql
+-- Dashboard de estatísticas gerais
+CREATE VIEW vw_dashboard_geral AS
+SELECT 
+    'Usuários' as metrica,
+    COUNT(*) as total,
+    COUNT(CASE WHEN ativo = TRUE THEN 1 END) as ativos
+FROM usuario
+UNION ALL
+SELECT 
+    'Artistas' as metrica,
+    COUNT(*) as total,
+    COUNT(CASE WHEN ativo = TRUE THEN 1 END) as ativos
+FROM artista
+UNION ALL
+SELECT 
+    'Músicas' as metrica,
+    COUNT(*) as total,
+    COUNT(CASE WHEN ativo = TRUE THEN 1 END) as ativos
+FROM musica;
+```
+
+**Métricas de negócio**:
+```sql
+-- KPIs de engajamento
+CREATE VIEW vw_kpis_engajamento AS
+SELECT 
+    DATE_TRUNC('month', hr.data_reproducao) as mes,
+    COUNT(DISTINCT hr.id_usuario) as usuarios_ativos,
+    COUNT(*) as total_reproducoes,
+    COUNT(*) / COUNT(DISTINCT hr.id_usuario) as reproducoes_por_usuario,
+    COUNT(DISTINCT hr.id_musica) as musicas_unicas_tocadas
+FROM historico_reproducao hr
+WHERE hr.data_reproducao >= CURRENT_DATE - INTERVAL '12 months'
+GROUP BY DATE_TRUNC('month', hr.data_reproducao)
+ORDER BY mes;
+```
+
+### 7. Quais as limitações e cuidados ao usar views?
+
+**Resposta**: Considerações importantes:
+
+**Limitações de performance**:
+```sql
+-- ❌ Evitar views com muitos JOINs aninhados
+CREATE VIEW vw_complexa_demais AS
+SELECT /* muitos campos */
+FROM tabela1 t1
+JOIN tabela2 t2 ON /* condição */
+JOIN (
+    SELECT /* subconsulta complexa */
+    FROM tabela3 t3
+    JOIN tabela4 t4 ON /* condição */
+    GROUP BY /* múltiplas colunas */
+) sub ON /* condição */
+WHERE /* múltiplas condições */;
+```
+
+**Dependências e manutenção**:
+```sql
+-- Cuidado: alterar tabela base pode quebrar view
+-- Se remover coluna de artista.biografia:
+CREATE VIEW vw_artista_info AS
+SELECT nome_artista, biografia  -- Falhará se biografia for removida
+FROM artista;
+```
+
+**Limitações para atualizações**:
+- Views com JOINs são geralmente read-only
+- INSTEAD OF triggers podem contornar limitações
+- Atualizações podem ser ambíguas
+
+**Boas práticas**:
+- Nomeação consistente (prefixo vw_)
+- Documentação da finalidade
+- Monitoramento de performance
+- Revisão periódica de uso
+- Evitar views sobre views em excesso
+
 ## Referências Bibliográficas
 
 1. **Date, C.J.** (2012). *SQL and Relational Theory*. 2nd Edition. O'Reilly Media. Capítulo 9.
