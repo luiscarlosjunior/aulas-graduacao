@@ -696,6 +696,71 @@ Consulte a pasta `exercicios/` para atividades hands-on que reforçam os conceit
 
 5. **Flexibilidade**: Quão fácil é adaptar o modelo para mudanças nos requisitos de negócio?
 
+## Perguntas e Respostas
+
+### 1. Qual a diferença fundamental entre dados, informação e conhecimento?
+
+**Resposta**: A diferença está no nível de processamento e contexto:
+- **Dados** são fatos brutos sem contexto (ex: "Beatles", "1965", "Help!")
+- **Informação** são dados processados com significado (ex: "The Beatles lançou o álbum 'Help!' em 1965")
+- **Conhecimento** é informação aplicada com experiência e insight (ex: "The Beatles influenciou significativamente a música popular dos anos 60")
+
+### 2. Por que o modelo relacional é considerado superior aos modelos hierárquico e de rede?
+
+**Resposta**: O modelo relacional oferece:
+- **Simplicidade**: Estrutura tabular fácil de entender
+- **Flexibilidade**: Facilita mudanças na estrutura sem afetar aplicações
+- **Independência**: Separação entre estrutura lógica e física dos dados
+- **Linguagem padrão**: SQL como linguagem universal
+- **Base matemática sólida**: Fundamentado na álgebra relacional
+
+### 3. Quais são as propriedades essenciais que uma relação deve ter no modelo relacional?
+
+**Resposta**: As cinco propriedades fundamentais são:
+1. Cada tabela deve ter um nome único no esquema
+2. Cada coluna deve ter um nome único dentro da tabela
+3. A ordem das linhas e colunas é irrelevante
+4. Cada célula deve conter apenas um valor (atomicidade)
+5. Não podem existir linhas idênticas (duplicadas)
+
+### 4. Como identificar adequadamente as entidades em um sistema de informação?
+
+**Resposta**: Para identificar entidades:
+- Procure **substantivos** no domínio do problema
+- Identifique objetos sobre os quais você precisa **armazenar informações**
+- Verifique se o objeto tem **existência independente**
+- Confirme se possui **atributos próprios**
+- No sistema MusiStream: Usuário, Artista, Música, Álbum são entidades claras
+
+### 5. Qual a importância da normalização e quando aplicá-la?
+
+**Resposta**: A normalização é importante para:
+- **Eliminar redundância** de dados
+- **Evitar anomalias** de inserção, atualização e exclusão
+- **Garantir integridade** dos dados
+- **Facilitar manutenção** do sistema
+
+Aplique normalização quando houver:
+- Dados repetidos em múltiplas linhas
+- Dependências funcionais parciais
+- Dependências transitivas
+
+### 6. Como as chaves primárias e estrangeiras garantem a integridade dos dados?
+
+**Resposta**: 
+- **Chave primária**: Garante que cada linha seja única e identificável, prevenindo duplicatas
+- **Chave estrangeira**: Garante integridade referencial, assegurando que relacionamentos sejam válidos
+- **Exemplo**: No MusiStream, id_usuario na tabela playlist (FK) deve sempre referenciar um id_usuario válido na tabela usuario (PK)
+
+### 7. Quais são os principais desafios na modelagem de dados para sistemas modernos?
+
+**Resposta**: Os principais desafios incluem:
+- **Escalabilidade**: Modelar para grandes volumes de dados
+- **Performance**: Balancear normalização com eficiência de consultas
+- **Flexibilidade**: Adaptar-se a mudanças frequentes de requisitos
+- **Dados não estruturados**: Integrar dados JSON, XML, multimídia
+- **Tempo real**: Suportar análises e atualizações em tempo real
+
 ## Referências Bibliográficas
 
 1. **Elmasri, R. & Navathe, S.** (2016). *Fundamentals of Database Systems*. 7th Edition. Pearson. Capítulos 1-3.
