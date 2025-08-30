@@ -441,6 +441,94 @@ COMMENT ON COLUMN artista.data_formacao IS
 
 Consulte a pasta `exercicios/` para atividades hands-on que reforçam os conceitos apresentados.
 
+## Perguntas e Respostas
+
+### 1. Quais são as principais diferenças entre as interfaces SQL mais utilizadas?
+
+**Resposta**: As principais interfaces variam em funcionalidades:
+- **SQL*Plus (Oracle)**: Interface texto, comandos de formatação específicos, ideal para scripts
+- **MySQL Workbench**: Interface gráfica completa, editor visual de queries, diagramas ER
+- **pgAdmin (PostgreSQL)**: Interface web-based, gerenciamento completo via browser
+- **SSMS (SQL Server)**: Interface gráfica com IntelliSense, planos de execução visuais
+
+Cada uma atende diferentes necessidades de produtividade e experiência do usuário.
+
+### 2. Qual a importância de seguir convenções de nomenclatura em SQL?
+
+**Resposta**: Convenções de nomenclatura são fundamentais para:
+- **Legibilidade**: Facilitar compreensão do código por outros desenvolvedores
+- **Manutenibilidade**: Simplificar futuras modificações e correções
+- **Consistência**: Manter padrão em toda a base de código
+- **Portabilidade**: Evitar problemas entre diferentes SGBDs
+- **Produtividade**: Reduzir tempo de desenvolvimento
+
+Exemplo: `id_usuario`, `nome_usuario` são mais claros que `id`, `nome`.
+
+### 3. Como escolher o tipo de dado apropriado para cada coluna?
+
+**Resposta**: A escolha deve considerar:
+- **Natureza dos dados**: Números (INT, DECIMAL), textos (VARCHAR), datas (DATE)
+- **Tamanho**: VARCHAR(50) vs TEXT para textos grandes
+- **Precisão**: DECIMAL para valores monetários vs FLOAT para cálculos aproximados
+- **Performance**: Tipos menores são mais eficientes
+- **Restrições**: CHAR para códigos fixos, VARCHAR para textos variáveis
+
+Exemplo no MusiStream: `email VARCHAR(150)` comporta emails longos, `duracao INTEGER` para segundos.
+
+### 4. Qual a diferença entre PRIMARY KEY e UNIQUE?
+
+**Resposta**:
+- **PRIMARY KEY**: 
+  - Apenas uma por tabela
+  - Automaticamente NOT NULL
+  - Identifica unicamente cada linha
+  - Cria índice automaticamente
+- **UNIQUE**:
+  - Múltiplas por tabela
+  - Pode aceitar NULL (apenas um NULL por coluna)
+  - Garante unicidade mas não é identificador principal
+  - Exemplo: `email UNIQUE` na tabela usuario
+
+### 5. Como as FOREIGN KEYS garantem integridade referencial?
+
+**Resposta**: Foreign Keys garantem integridade através de:
+- **Validação na inserção**: Valor deve existir na tabela referenciada
+- **Controle de exclusão**: Impede excluir registros que são referenciados
+- **Manutenção automática**: Alguns SGBDs oferecem CASCADE para atualizações/exclusões
+- **Relacionamentos válidos**: Assegura que `id_artista` em `album` sempre aponte para artista existente
+
+Exemplo: `FOREIGN KEY (id_artista) REFERENCES artista(id_artista)`
+
+### 6. Quando usar constraints CHECK e quais suas limitações?
+
+**Resposta**: Use CHECK para:
+- **Validar domínios**: `CHECK (idade >= 0 AND idade <= 120)`
+- **Regras de negócio**: `CHECK (data_formacao <= CURRENT_DATE)`
+- **Valores específicos**: `CHECK (status IN ('ativo', 'inativo', 'suspenso'))`
+
+**Limitações**:
+- Não pode referenciar outras tabelas
+- Não pode usar subconsultas
+- Performance impacto em grandes volumes
+- Dificulta mudanças futuras se muito restritiva
+
+### 7. Quais os cuidados essenciais ao executar comandos UPDATE e DELETE?
+
+**Resposta**: Cuidados fundamentais:
+- **Sempre usar WHERE**: DELETE/UPDATE sem WHERE afeta toda a tabela
+- **Testar com SELECT**: Execute SELECT com mesma condição antes do UPDATE/DELETE
+- **Backup**: Realizar backup antes de operações críticas
+- **Transações**: Usar BEGIN/COMMIT para operações em lote
+- **Validação**: Verificar número de linhas afetadas
+
+```sql
+-- ✅ Correto
+UPDATE usuario SET ativo = FALSE WHERE id_usuario = 123;
+
+-- ❌ Perigoso
+UPDATE usuario SET ativo = FALSE; -- Afeta TODOS os usuários
+```
+
 ## Referências Bibliográficas
 
 1. **Oracle Corporation** (2021). *Oracle Database SQL Language Reference*. Oracle Documentation.
