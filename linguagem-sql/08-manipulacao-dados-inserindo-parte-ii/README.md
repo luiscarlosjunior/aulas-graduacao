@@ -328,6 +328,199 @@ WHERE ROWNUM <= 100000; -- Gerar 100k reproduções
 
 Consulte a pasta `exercicios` para atividades práticas que reforçam os conceitos apresentados.
 
+## Perguntas e Respostas
+
+### 1. Quando utilizar INSERT... SELECT vs. INSERT com VALUES múltiplos?
+
+**Resposta**:
+**INSERT... SELECT**: Para dados baseados em consultas
+```sql
+-- Copiar dados de uma tabela para outra
+INSERT INTO playlist_rock (id_musica, titulo)
+SELECT m.id_musica, m.titulo
+FROM musica m
+JOIN album a ON m.id_album = a.id_album
+WHERE a.genero = 'Rock';
+```
+- **Vantagens**: Baseado em dados existentes, pode processar milhões de registros
+- **Uso**: Migração, ETL, criação de visões materializadas
+
+**INSERT com VALUES múltiplos**: Para dados conhecidos/fixos
+```sql
+INSERT INTO genero (id_genero, nome_genero)
+VALUES (1, 'Rock'), (2, 'Pop'), (3, 'Jazz');
+```
+- **Vantagens**: Dados específicos, controle total
+- **Uso**: Dados de configuração, cargas pequenas
+
+### 2. Como implementar inserções condicionais eficientemente?
+
+**Resposta**: Diferentes abordagens:
+
+**Usando WHERE no INSERT... SELECT**:
+```sql
+-- Inserir apenas artistas que não existem
+INSERT INTO artista_backup (id_artista, nome_artista)
+SELECT id_artista, nome_artista 
+FROM artista a
+WHERE NOT EXISTS (
+    SELECT 1 FROM artista_backup ab 
+    WHERE ab.id_artista = a.id_artista
+);
+```
+
+**Usando MERGE (quando disponível)**:
+```sql
+MERGE INTO usuario_stats us
+USING (SELECT id_usuario, COUNT(*) as total_playlists FROM playlist GROUP BY id_usuario) p
+ON (us.id_usuario = p.id_usuario)
+WHEN MATCHED THEN UPDATE SET total_playlists = p.total_playlists
+WHEN NOT MATCHED THEN INSERT (id_usuario, total_playlists) VALUES (p.id_usuario, p.total_playlists);
+```
+
+### 3. Qual a melhor estratégia para geração de IDs únicos?
+
+**Resposta**: Depende do SGBD:
+
+**Oracle - SEQUENCE**:
+```sql
+CREATE SEQUENCE seq_usuario START WITH 1 INCREMENT BY 1;
+INSERT INTO usuario (id_usuario, nome) VALUES (seq_usuario.NEXTVAL, 'João');
+```
+
+**MySQL - AUTO_INCREMENT**:
+```sql
+CREATE TABLE usuario (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100)
+);
+INSERT INTO usuario (nome) VALUES ('João'); -- ID gerado automaticamente
+```
+
+**PostgreSQL - SERIAL ou IDENTITY**:
+```sql
+CREATE TABLE usuario (
+    id_usuario SERIAL PRIMARY KEY,
+    nome VARCHAR(100)
+);
+```
+
+**UUID para sistemas distribuídos**:
+```sql
+INSERT INTO usuario (id_usuario, nome) VALUES (uuid_generate_v4(), 'João');
+```
+
+### 4. Como otimizar inserções em lote para grandes volumes?
+
+**Resposta**: Técnicas de otimização:
+
+**1. Batch size apropriado**:
+```sql
+-- Em vez de 1 milhão de INSERTs individuais
+-- Use lotes de 1000-10000 registros
+INSERT INTO historico_reproducao (id_usuario, id_musica, data_reproducao)
+VALUES 
+    (1, 100, CURRENT_TIMESTAMP),
+    (1, 101, CURRENT_TIMESTAMP),
+    -- ... até 1000 registros
+```
+
+**2. Desabilitar índices temporariamente**:
+```sql
+-- Para cargas muito grandes
+DROP INDEX idx_historico_data;
+-- Inserções em lote
+CREATE INDEX idx_historico_data ON historico_reproducao(data_reproducao);
+```
+
+**3. Usar ferramentas específicas**: Oracle SQL*Loader, MySQL LOAD DATA, PostgreSQL COPY.
+
+### 5. Como tratar conflitos de chave primária/única durante inserções?
+
+**Resposta**: Estratégias por SGBD:
+
+**MySQL - INSERT IGNORE**:
+```sql
+INSERT IGNORE INTO artista (id_artista, nome_artista)
+VALUES (1, 'The Beatles'); -- Ignora se ID já existe
+```
+
+**MySQL - ON DUPLICATE KEY UPDATE**:
+```sql
+INSERT INTO usuario (id_usuario, nome, email)
+VALUES (1, 'João Silva', 'joao@email.com')
+ON DUPLICATE KEY UPDATE 
+    nome = VALUES(nome),
+    email = VALUES(email);
+```
+
+**PostgreSQL - ON CONFLICT**:
+```sql
+INSERT INTO artista (id_artista, nome_artista)
+VALUES (1, 'The Beatles')
+ON CONFLICT (id_artista) DO UPDATE SET
+    nome_artista = EXCLUDED.nome_artista;
+```
+
+### 6. Qual o impacto de transações em inserções em lote?
+
+**Resposta**: Considerações importantes:
+
+**Transações grandes**:
+```sql
+BEGIN;
+-- 100.000 inserções
+COMMIT;
+```
+- **Vantagem**: Atomicidade total
+- **Desvantagem**: Log de transação grande, locks prolongados
+
+**Transações em lotes menores**:
+```sql
+-- Processar em lotes de 1000
+FOR i IN 1..100 LOOP
+    BEGIN;
+    -- 1000 inserções
+    COMMIT;
+END LOOP;
+```
+- **Vantagem**: Menor pressão no log, recovery mais rápido
+- **Desvantagem**: Não totalmente atômico
+
+**Recomendação**: Lotes de 1.000-10.000 registros conforme volume e recursos.
+
+### 7. Como validar integridade após inserções em lote?
+
+**Resposta**: Verificações pós-inserção:
+
+**1. Contagem de registros**:
+```sql
+-- Verificar se todos os registros foram inseridos
+SELECT COUNT(*) FROM tabela_origem;
+SELECT COUNT(*) FROM tabela_destino;
+```
+
+**2. Verificação de integridade referencial**:
+```sql
+-- Verificar FKs órfãs
+SELECT COUNT(*) 
+FROM album a 
+LEFT JOIN artista ar ON a.id_artista = ar.id_artista
+WHERE ar.id_artista IS NULL;
+```
+
+**3. Validação de regras de negócio**:
+```sql
+-- Verificar constraints CHECK
+SELECT COUNT(*) FROM musica WHERE duracao <= 0;
+```
+
+**4. Análise de estatísticas**:
+```sql
+-- Verificar distribuição de dados
+SELECT genero, COUNT(*) FROM album GROUP BY genero;
+```
+
 ## Referências Bibliográficas
 
 - **Oracle Corporation** (2021). *Oracle Database SQL Language Reference*. Capítulo sobre INSERT.
