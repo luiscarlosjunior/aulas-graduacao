@@ -164,6 +164,242 @@ WHERE EXTRACT(MONTH FROM data_reproducao) = EXTRACT(MONTH FROM CURRENT_DATE)
 
 Consulte a pasta `exercicios` para atividades práticas que reforçam os conceitos apresentados.
 
+## Perguntas e Respostas
+
+### 1. Como evitar problemas de divisão por zero em cálculos SQL?
+
+**Resposta**: Use técnicas defensivas:
+
+**CASE para verificação**:
+```sql
+SELECT 
+    nome_artista,
+    total_reproducoes,
+    total_musicas,
+    CASE 
+        WHEN total_musicas = 0 THEN 0
+        ELSE total_reproducoes / total_musicas
+    END as media_por_musica
+FROM estatisticas_artista;
+```
+
+**NULLIF para converter zero em NULL**:
+```sql
+SELECT 
+    titulo_album,
+    duracao_total / NULLIF(numero_faixas, 0) as duracao_media_faixa
+FROM album;
+-- Se numero_faixas = 0, resultado será NULL em vez de erro
+```
+
+**COALESCE para valor padrão**:
+```sql
+SELECT 
+    COALESCE(receita / NULLIF(numero_vendas, 0), 0) as preco_medio
+FROM vendas_album;
+```
+
+### 2. Qual a diferença entre divisão inteira e divisão decimal?
+
+**Resposta**: Depende dos tipos de dados envolvidos:
+
+**Divisão inteira** (ambos operandos inteiros):
+```sql
+SELECT 7 / 2;          -- Resultado: 3 (divisão inteira)
+SELECT 150 / 60;       -- Resultado: 2 (minutos -> horas)
+```
+
+**Divisão decimal** (pelo menos um operando decimal):
+```sql
+SELECT 7.0 / 2;        -- Resultado: 3.5 (divisão decimal)
+SELECT 7 / 2.0;        -- Resultado: 3.5 (divisão decimal)
+SELECT CAST(7 AS DECIMAL) / 2;  -- Força divisão decimal
+```
+
+**Para duração de músicas**:
+```sql
+-- Converter segundos para minutos com decimais
+SELECT 
+    titulo,
+    duracao as segundos,
+    duracao / 60.0 as minutos_decimais,
+    duracao / 60 as minutos_inteiros
+FROM musica;
+```
+
+### 3. Como usar operadores aritméticos para análises temporais?
+
+**Resposta**: Técnicas para cálculos de tempo:
+
+**Diferença entre datas**:
+```sql
+-- Idade de uma música em dias
+SELECT 
+    titulo,
+    data_lancamento,
+    CURRENT_DATE - data_lancamento as dias_desde_lancamento
+FROM album;
+```
+
+**Cálculos com duração**:
+```sql
+-- Tempo total de reprodução em diferentes unidades
+SELECT 
+    nome_playlist,
+    SUM(duracao) as segundos_totais,
+    SUM(duracao) / 60 as minutos_totais,
+    SUM(duracao) / 3600.0 as horas_totais
+FROM playlist p
+JOIN playlist_musica pm ON p.id_playlist = pm.id_playlist
+JOIN musica m ON pm.id_musica = m.id_musica
+GROUP BY p.id_playlist, p.nome_playlist;
+```
+
+### 4. Como implementar cálculos percentuais em relatórios?
+
+**Resposta**: Diferentes abordagens para percentuais:
+
+**Percentual simples**:
+```sql
+-- Percentual de músicas por gênero
+SELECT 
+    genero,
+    COUNT(*) as quantidade,
+    COUNT(*) * 100.0 / (SELECT COUNT(*) FROM musica) as percentual
+FROM musica m
+JOIN album a ON m.id_album = a.id_album
+GROUP BY genero;
+```
+
+**Usando window functions**:
+```sql
+-- Percentual com window function
+SELECT 
+    genero,
+    COUNT(*) as quantidade,
+    COUNT(*) * 100.0 / SUM(COUNT(*)) OVER() as percentual
+FROM musica m
+JOIN album a ON m.id_album = a.id_album
+GROUP BY genero;
+```
+
+**Crescimento percentual**:
+```sql
+-- Crescimento de reproduções mês a mês
+SELECT 
+    ano_mes,
+    total_reproducoes,
+    LAG(total_reproducoes) OVER (ORDER BY ano_mes) as mes_anterior,
+    (total_reproducoes - LAG(total_reproducoes) OVER (ORDER BY ano_mes)) * 100.0 
+    / LAG(total_reproducoes) OVER (ORDER BY ano_mes) as crescimento_percentual
+FROM estatisticas_mensais;
+```
+
+### 5. Como arredondar e formatar resultados numéricos adequadamente?
+
+**Resposta**: Funções de formatação:
+
+**ROUND para arredondamento**:
+```sql
+SELECT 
+    titulo,
+    preco,
+    ROUND(preco, 2) as preco_arredondado,
+    ROUND(preco * 1.1, 2) as preco_com_taxa
+FROM album;
+```
+
+**CEIL e FLOOR para arredondamento direcionado**:
+```sql
+SELECT 
+    duracao_segundos,
+    CEIL(duracao_segundos / 60.0) as minutos_arredondado_cima,
+    FLOOR(duracao_segundos / 60.0) as minutos_arredondado_baixo
+FROM musica;
+```
+
+**TRUNCATE para truncamento**:
+```sql
+-- Remover casas decimais sem arredondar
+SELECT 
+    TRUNCATE(preco_com_desconto, 2) as preco_truncado
+FROM promocoes;
+```
+
+### 6. Como usar MOD (módulo) para análises cíclicas?
+
+**Resposta**: MOD é útil para padrões cíclicos:
+
+**Identificar padrões temporais**:
+```sql
+-- Agrupar reproduções por trimestre
+SELECT 
+    EXTRACT(MONTH FROM data_reproducao) as mes,
+    CASE (EXTRACT(MONTH FROM data_reproducao) - 1) / 3
+        WHEN 0 THEN 'Q1'
+        WHEN 1 THEN 'Q2' 
+        WHEN 2 THEN 'Q3'
+        WHEN 3 THEN 'Q4'
+    END as trimestre,
+    COUNT(*) as total_reproducoes
+FROM historico_reproducao
+GROUP BY EXTRACT(MONTH FROM data_reproducao);
+```
+
+**Distribuição por dia da semana**:
+```sql
+-- Análise de reproduções por dia da semana
+SELECT 
+    EXTRACT(DOW FROM data_reproducao) as dia_semana,
+    CASE EXTRACT(DOW FROM data_reproducao)
+        WHEN 0 THEN 'Domingo'
+        WHEN 1 THEN 'Segunda'
+        WHEN 2 THEN 'Terça'
+        -- ... outros dias
+    END as nome_dia,
+    COUNT(*) as total
+FROM historico_reproducao
+GROUP BY EXTRACT(DOW FROM data_reproducao);
+```
+
+### 7. Quais cuidados tomar com precisão em cálculos financeiros?
+
+**Resposta**: Cuidados essenciais:
+
+**Use DECIMAL para valores monetários**:
+```sql
+-- ❌ Evitar FLOAT para dinheiro
+CREATE TABLE album (
+    preco FLOAT  -- Pode ter problemas de precisão
+);
+
+-- ✅ Usar DECIMAL para precisão
+CREATE TABLE album (
+    preco DECIMAL(10,2)  -- Precisão garantida
+);
+```
+
+**Arredondamento consistente**:
+```sql
+-- Cálculo de royalties com precisão
+SELECT 
+    titulo,
+    total_reproducoes,
+    valor_por_reproducao,
+    ROUND(total_reproducoes * valor_por_reproducao, 2) as royalty_total
+FROM relatorio_royalties;
+```
+
+**Validação de totais**:
+```sql
+-- Verificar se soma bate com total esperado
+SELECT 
+    SUM(ROUND(valor_individual, 2)) as soma_individual,
+    ROUND(SUM(valor_individual), 2) as total_arredondado
+FROM calculos_financeiros;
+-- Verificar se os valores são iguais
+```
+
 ## Referências Bibliográficas
 
 - **Date, C.J.** (2012). *SQL and Relational Theory*. 2nd Edition. O'Reilly Media.
