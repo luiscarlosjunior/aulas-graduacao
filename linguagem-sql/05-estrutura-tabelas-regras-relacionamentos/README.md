@@ -223,6 +223,149 @@ CREATE TABLE usuario (
 
 Consulte a pasta `exercicios` para atividades práticas que reforçam os conceitos apresentados.
 
+## Perguntas e Respostas
+
+### 1. Qual a diferença fundamental entre integridade de entidade e integridade referencial?
+
+**Resposta**: 
+- **Integridade de entidade**: Garante que cada linha seja única e identificável
+  - Implementada via PRIMARY KEY
+  - Impede valores NULL na chave primária
+  - Exemplo: `id_usuario` não pode ser NULL nem duplicado
+
+- **Integridade referencial**: Garante validade dos relacionamentos entre tabelas
+  - Implementada via FOREIGN KEY
+  - Valor deve existir na tabela referenciada ou ser NULL (se permitido)
+  - Exemplo: `id_artista` em `album` deve referenciar artista existente
+
+### 2. Quando usar DELETE CASCADE vs DELETE RESTRICT?
+
+**Resposta**: A escolha depende da regra de negócio:
+
+**DELETE CASCADE**: Remove automaticamente registros dependentes
+```sql
+-- Se artista for excluído, todos seus álbuns também são excluídos
+FOREIGN KEY (id_artista) REFERENCES artista(id_artista) ON DELETE CASCADE
+```
+- Use quando dependência é absoluta
+- Exemplo: Excluir usuário remove suas playlists pessoais
+
+**DELETE RESTRICT**: Impede exclusão se existem dependências
+- Use quando dependência deve ser tratada manualmente
+- Exemplo: Não pode excluir artista que possui álbuns publicados
+- Garante integridade histórica
+
+### 3. Como implementar constraints CHECK eficazes?
+
+**Resposta**: Boas práticas para CHECK constraints:
+
+**Validação de domínio**:
+```sql
+CHECK (idade >= 0 AND idade <= 120)
+CHECK (prioridade IN ('baixa', 'media', 'alta'))
+```
+
+**Regras de negócio**:
+```sql
+CHECK (data_inicio <= data_fim)
+CHECK (preco > 0)
+```
+
+**Considerações importantes**:
+- Mantenha simples e focadas
+- Evite lógica complexa que pode mudar
+- Documente regras não óbvias
+- Teste performance com grandes volumes
+
+### 4. Qual a estratégia ideal para naming de constraints?
+
+**Resposta**: Use convenções padronizadas:
+
+**Primary Keys**: `pk_nometabela`
+```sql
+CONSTRAINT pk_usuario PRIMARY KEY (id_usuario)
+```
+
+**Foreign Keys**: `fk_tabela_tabelareferenciada`
+```sql
+CONSTRAINT fk_album_artista FOREIGN KEY (id_artista) REFERENCES artista(id_artista)
+```
+
+**Unique Constraints**: `uk_tabela_campo`
+```sql
+CONSTRAINT uk_usuario_email UNIQUE (email)
+```
+
+**Check Constraints**: `ck_tabela_campo`
+```sql
+CONSTRAINT ck_usuario_idade CHECK (idade >= 0)
+```
+
+**Benefícios**: Facilita identificação, manutenção e troubleshooting.
+
+### 5. Como otimizar performance com índices sem exagerar?
+
+**Resposta**: Estratégia equilibrada:
+
+**Índices automáticos** (sempre existem):
+- PRIMARY KEY cria índice único automaticamente
+- UNIQUE constraints também criam índices
+
+**Quando criar índices adicionais**:
+- Colunas frequentemente usadas em WHERE
+- Colunas usadas em JOINs
+- Colunas em ORDER BY de consultas críticas
+
+**Quando NÃO criar**:
+- Tabelas muito pequenas (< 1000 registros)
+- Colunas raramente consultadas
+- Muitos índices impactam INSERT/UPDATE
+
+**Monitoramento**: Analise planos de execução para validar necessidade.
+
+### 6. Como lidar com relacionamentos muitos-para-muitos?
+
+**Resposta**: Use tabela intermediária (ponte):
+
+**Problema**: Usuário pode ter múltiplas playlists, playlist pode ter múltiplas músicas
+
+**Solução**:
+```sql
+-- Tabela intermediária
+CREATE TABLE playlist_musica (
+    id_playlist INTEGER,
+    id_musica INTEGER,
+    ordem INTEGER,
+    data_adicionada TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    PRIMARY KEY (id_playlist, id_musica),
+    FOREIGN KEY (id_playlist) REFERENCES playlist(id_playlist),
+    FOREIGN KEY (id_musica) REFERENCES musica(id_musica)
+);
+```
+
+**Vantagens**: Permite atributos do relacionamento (ordem, data_adicionada).
+
+### 7. Qual a importância de definir constraints na criação vs. alteração posterior?
+
+**Resposta**: **Definição na criação é preferível**:
+
+**Vantagens de definir durante CREATE TABLE**:
+- Documentação clara da estrutura
+- Validação desde o primeiro INSERT
+- Melhor performance (índices criados junto)
+- Evita problemas com dados já existentes
+
+**Quando adicionar posteriormente**:
+- Evolução de requisitos
+- Migração de sistemas legados
+- Alterações em produção (com cuidado)
+
+**Cuidados na alteração**:
+- Verificar dados existentes antes de adicionar constraint
+- Considerar impacto de performance
+- Planejar janela de manutenção para grandes tabelas
+
 ## Referências Bibliográficas
 
 - **Elmasri, R. & Navathe, S.** (2016). *Fundamentals of Database Systems*. 7th Edition. Pearson. Capítulos 3-5.

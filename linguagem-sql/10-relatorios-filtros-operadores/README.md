@@ -402,6 +402,196 @@ WHERE data_lancamento >= '1970-01-01'
 
 Consulte a pasta `exercicios/` para atividades que reforçam o uso de filtros e operadores.
 
+## Perguntas e Respostas
+
+### 1. Qual a diferença entre operadores de comparação = e LIKE?
+
+**Resposta**:
+**Operador = (igualdade exata)**:
+```sql
+SELECT * FROM artista WHERE nome_artista = 'The Beatles';
+```
+- Busca correspondência exata
+- Case-sensitive na maioria dos SGBDs
+- Mais eficiente que LIKE
+- Pode usar índices otimamente
+
+**Operador LIKE (correspondência de padrão)**:
+```sql
+SELECT * FROM artista WHERE nome_artista LIKE 'The%';
+```
+- Permite wildcards: % (qualquer sequência), _ (um caractere)
+- Útil para buscas parciais
+- Menos eficiente, especialmente com % no início
+- Índices são menos eficazes
+
+**Quando usar cada um**: = para buscas exatas, LIKE para padrões ou buscas parciais.
+
+### 2. Como otimizar consultas com múltiplas condições WHERE?
+
+**Resposta**: Estratégias de otimização:
+
+**Ordem das condições**: Mais seletiva primeiro
+```sql
+-- ✅ Melhor: condição mais seletiva primeiro
+SELECT * FROM musica 
+WHERE id_album = 123           -- Muito seletivo
+  AND duracao > 180           -- Menos seletivo
+  AND titulo LIKE '%love%';   -- Menos seletivo ainda
+```
+
+**Uso de índices compostos**:
+```sql
+-- Criar índice para consulta frequente
+CREATE INDEX idx_musica_album_duracao ON musica(id_album, duracao);
+```
+
+**Evitar funções em WHERE**:
+```sql
+-- ❌ Evitar: função impede uso de índice
+WHERE UPPER(titulo) = 'HELP!'
+
+-- ✅ Melhor: usar dados já normalizados ou índice funcional
+WHERE titulo = 'Help!'
+```
+
+### 3. Quando usar IN vs. EXISTS vs. JOIN?
+
+**Resposta**: Escolha baseada no contexto:
+
+**IN**: Para listas pequenas de valores
+```sql
+-- Para poucos valores conhecidos
+SELECT * FROM artista WHERE pais_origem IN ('Brasil', 'Argentina', 'Chile');
+```
+- **Vantagem**: Simples para listas pequenas
+- **Desvantagem**: Performance degrada com listas grandes
+
+**EXISTS**: Para verificar existência em subconsulta
+```sql
+-- Verificar se artista tem álbuns
+SELECT * FROM artista a
+WHERE EXISTS (SELECT 1 FROM album WHERE id_artista = a.id_artista);
+```
+- **Vantagem**: Para lógica de existência, para quando retorna TRUE/FALSE
+- **Performance**: Boa para subconsultas correlacionadas
+
+**JOIN**: Para combinar dados
+```sql
+-- Quando precisar de dados de ambas as tabelas
+SELECT a.nome_artista, al.titulo 
+FROM artista a
+JOIN album al ON a.id_artista = al.id_artista;
+```
+- **Vantagem**: Melhor performance para grandes volumes, dados de múltiplas tabelas
+
+### 4. Como usar operadores lógicos AND, OR, NOT eficientemente?
+
+**Resposta**: 
+**Precedência e parênteses**:
+```sql
+-- ❌ Ambíguo
+SELECT * FROM musica WHERE duracao > 180 OR genero = 'Rock' AND avaliacao > 4;
+
+-- ✅ Claro com parênteses
+SELECT * FROM musica WHERE duracao > 180 OR (genero = 'Rock' AND avaliacao > 4);
+```
+
+**Distribuição de condições**:
+```sql
+-- Para consultas complexas, considere separar
+SELECT * FROM musica 
+WHERE (genero = 'Rock' AND duracao > 240)
+   OR (genero = 'Pop' AND avaliacao >= 4)
+   OR (artista_id IN (1, 2, 3));
+```
+
+**NOT com cuidado**:
+```sql
+-- ❌ Pode ser ineficiente
+WHERE NOT genero = 'Rock'
+
+-- ✅ Melhor usar operador direto quando possível
+WHERE genero <> 'Rock'
+```
+
+### 5. Qual a diferença prática entre BETWEEN e operadores >= <=?
+
+**Resposta**:
+**BETWEEN** (inclusivo):
+```sql
+SELECT * FROM album WHERE data_lancamento BETWEEN '1960-01-01' AND '1969-12-31';
+-- Equivale a: >= '1960-01-01' AND <= '1969-12-31'
+```
+
+**Operadores separados**:
+```sql
+SELECT * FROM album WHERE data_lancamento >= '1960-01-01' 
+                     AND data_lancamento <= '1969-12-31';
+```
+
+**Considerações**:
+- BETWEEN é mais legível para intervalos
+- Operadores separados dão mais controle (ex: excluir limites)
+- Performance é praticamente idêntica
+- Cuidado: BETWEEN inclui ambos os limites
+
+**Para datas**: Cuidado com componente de hora em timestamps.
+
+### 6. Como tratar valores NULL em filtros eficientemente?
+
+**Resposta**: 
+**IS NULL vs. IS NOT NULL**:
+```sql
+-- ✅ Correto
+SELECT * FROM artista WHERE biografia IS NULL;
+SELECT * FROM artista WHERE biografia IS NOT NULL;
+
+-- ❌ Incorreto: sempre retorna FALSE
+SELECT * FROM artista WHERE biografia = NULL;
+```
+
+**COALESCE para valor padrão**:
+```sql
+SELECT nome_artista, COALESCE(biografia, 'Biografia não disponível') as bio
+FROM artista;
+```
+
+**Filtros com NULL**:
+```sql
+-- Incluir NULLs explicitamente quando necessário
+SELECT * FROM artista 
+WHERE pais_origem = 'Brasil' OR pais_origem IS NULL;
+```
+
+### 7. Como usar wildcards no LIKE de forma eficiente?
+
+**Resposta**: 
+**Padrões eficientes**:
+```sql
+-- ✅ Eficiente: pode usar índice
+WHERE titulo LIKE 'Beatles%'    -- Começa com 'Beatles'
+
+-- ⚠️ Menos eficiente: pode não usar índice bem
+WHERE titulo LIKE '%Beatles'    -- Termina com 'Beatles'
+
+-- ❌ Ineficiente: não pode usar índice
+WHERE titulo LIKE '%Beatles%'   -- Contém 'Beatles'
+```
+
+**Alternativas para buscas por conteúdo**:
+- **Full-text search**: Para busca em texto
+- **Índices de trigrama**: PostgreSQL para padrões %...%
+- **Normalização**: Campos separados para busca comum
+
+**Case sensitivity**:
+```sql
+-- Para busca insensível a caso (quando necessário)
+WHERE UPPER(titulo) LIKE UPPER('%beatles%')
+-- Ou usar ILIKE (PostgreSQL)
+WHERE titulo ILIKE '%beatles%'
+```
+
 ## Referências Bibliográficas
 
 1. **Beaulieu, A.** (2020). *Learning SQL: Master SQL Fundamentals*. 3rd Edition. O'Reilly Media. Capítulo 4.

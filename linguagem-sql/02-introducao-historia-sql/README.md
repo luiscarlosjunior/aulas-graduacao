@@ -286,6 +286,74 @@ SELECT * FROM emp;
 - Influenciou desenvolvimento de ferramentas visuais
 - Base para ORMs (Object-Relational Mapping)
 
+## Perguntas e Respostas
+
+### 1. Quem foi Edgar F. Codd e qual sua contribuição fundamental para os bancos de dados?
+
+**Resposta**: Edgar Frank "Ted" Codd (1923-2003) foi um matemático britânico da IBM que revolucionou os bancos de dados. Sua contribuição fundamental foi o artigo "A Relational Model of Data for Large Shared Data Banks" (1970), onde:
+- Introduziu o **modelo relacional** baseado na teoria dos conjuntos
+- Definiu a **álgebra relacional** como base matemática
+- Estabeleceu os **fundamentos teóricos** que levaram ao desenvolvimento do SQL
+- Propôs as **12 regras** para sistemas relacionais verdadeiros
+
+### 2. Por que o SQL substituiu os modelos hierárquico e de rede?
+
+**Resposta**: O SQL e o modelo relacional se tornaram dominantes porque:
+- **Simplicidade**: Interface declarativa vs. navegação complexa por ponteiros
+- **Flexibilidade**: Estrutura tabular permite consultas ad-hoc facilmente
+- **Independência**: Separação entre estrutura lógica e implementação física
+- **Padronização**: Base matemática sólida permitiu padronização internacional
+- **Produtividade**: Redução significativa no tempo de desenvolvimento
+
+### 3. Qual a diferença entre SEQUEL e SQL?
+
+**Resposta**: 
+- **SEQUEL** (1974-1982): "Structured English Query Language" - nome original desenvolvido na IBM para o projeto System R
+- **SQL** (1982-presente): "Structured Query Language" - nome alterado por questões de marca registrada
+- **Funcionalidade**: Essencialmente a mesma linguagem, apenas mudança de nome
+- **Importância**: SEQUEL foi a primeira implementação prática dos conceitos de Codd
+
+### 4. Quais foram os marcos mais importantes na evolução do SQL?
+
+**Resposta**: Os principais marcos foram:
+- **1970**: Artigo de Codd estabelecendo fundamentos teóricos
+- **1974-1982**: Desenvolvimento do SEQUEL/SQL no projeto System R (IBM)
+- **1986**: SQL-86 (SQL1) - Primeiro padrão internacional ISO
+- **1992**: SQL-92 (SQL2) - Grande expansão com outer joins, operações de string
+- **1999**: SQL-99 (SQL3) - Recursos orientados a objetos, expressões regulares
+- **2003**: SQL:2003 - Recursos XML, window functions
+- **2016**: SQL:2016 - Suporte nativo a JSON
+
+### 5. Por que existem variações do SQL entre diferentes SGBDs?
+
+**Resposta**: As variações existem devido a:
+- **Competição comercial**: Vendors adicionam recursos proprietários para diferenciação
+- **Evolução histórica**: Implementações anteriores aos padrões ISO
+- **Necessidades específicas**: Otimizações para diferentes casos de uso
+- **Extensões avançadas**: Recursos especializados não cobertos pelo padrão
+- **Compatibilidade**: Manutenção de recursos legados
+
+Exemplos: PL/SQL (Oracle), T-SQL (SQL Server), PL/pgSQL (PostgreSQL)
+
+### 6. Qual a importância da padronização ISO para o SQL?
+
+**Resposta**: A padronização ISO é fundamental porque:
+- **Portabilidade**: Facilita migração entre diferentes SGBDs
+- **Interoperabilidade**: Permite integração entre sistemas diversos
+- **Qualidade**: Estabelece práticas e sintaxes consistentes
+- **Educação**: Fornece base comum para ensino e aprendizado
+- **Evolução**: Processo formal para incorporar novos recursos
+
+### 7. Como o SQL se adapta às tendências modernas (Big Data, NoSQL, Cloud)?
+
+**Resposta**: O SQL tem se adaptado através de:
+- **Padrões recentes**: SQL:2016 com JSON, SQL:2023 com multi-dimensional arrays
+- **Extensões de Big Data**: Integração com Hadoop, Spark (SQL-on-Hadoop)
+- **Híbrido SQL/NoSQL**: Bancos que suportam tanto SQL quanto documentos JSON
+- **Cloud SQL**: Serviços gerenciados que abstraem infraestrutura
+- **Analytics**: Window functions, CTEs para análises complexas
+- **Streaming**: Extensões para processamento de dados em tempo real
+
 ## Referências Bibliográficas
 
 ### Artigos Fundamentais

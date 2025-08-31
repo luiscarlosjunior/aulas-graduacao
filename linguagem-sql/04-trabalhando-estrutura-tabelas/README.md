@@ -451,6 +451,125 @@ Na pasta `exemplos/` você encontrará:
 - `validacao_estruturas.sql`: Scripts para testar e validar estruturas
 - `otimizacao_tabelas.sql`: Exemplos de estruturas otimizadas
 
+## Perguntas e Respostas
+
+### 1. Como interpretar corretamente a saída do comando DESCRIBE/DESC?
+
+**Resposta**: A saída do DESCRIBE mostra informações essenciais:
+- **Nome**: Nome da coluna
+- **Nulo?**: Se aceita valores NULL (NOT NULL = obrigatório)
+- **Tipo**: Tipo de dados e tamanho (ex: VARCHAR2(100), NUMBER(10))
+- **Default**: Valor padrão quando não especificado
+
+Exemplo de interpretação:
+```
+ID_USUARIO     NOT NULL NUMBER(10)     -- Chave primária, obrigatória
+EMAIL          NOT NULL VARCHAR2(150)  -- Campo obrigatório, único
+DATA_NASC               DATE           -- Campo opcional
+```
+
+### 2. Quais critérios usar para escolher entre VARCHAR e CHAR?
+
+**Resposta**: A escolha depende da natureza dos dados:
+- **CHAR(n)**: Para dados de tamanho fixo
+  - Códigos de país: `CHAR(2)` para 'BR', 'US'
+  - CEP: `CHAR(8)` para códigos brasileiros
+  - Performance ligeiramente melhor para tamanhos fixos
+- **VARCHAR(n)**: Para dados de tamanho variável
+  - Nomes: tamanhos variam muito
+  - Emails: comprimentos diferentes
+  - Economiza espaço de armazenamento
+
+Regra geral: Use CHAR apenas quando TODOS os valores têm exatamente o mesmo tamanho.
+
+### 3. Como dimensionar adequadamente os tipos numéricos?
+
+**Resposta**: Considere range e precisão necessários:
+
+**Para contadores/IDs**:
+- SMALLINT: até 32.767 (tabelas pequenas)
+- INTEGER: até ~2 bilhões (uso geral)
+- BIGINT: para grandes volumes ou IDs globais
+
+**Para valores monetários**:
+- DECIMAL(10,2): até 99.999.999,99
+- DECIMAL(15,2): para valores maiores
+
+**Para medidas**:
+- FLOAT/REAL: quando precisão exata não é crítica
+- DECIMAL: quando precisão é fundamental
+
+### 4. Qual a importância de definir constraints adequadas?
+
+**Resposta**: Constraints são fundamentais para:
+- **Integridade dos dados**: Previnem dados inválidos
+- **Performance**: Índices implícitos em PKs e UKs
+- **Documentação**: Explicam regras de negócio no próprio esquema
+- **Manutenção**: Detectam problemas automaticamente
+- **Confiabilidade**: Garantem consistência mesmo com múltiplos usuários
+
+Exemplo: `CHECK (duracao > 0)` impede músicas com duração inválida.
+
+### 5. Como otimizar estruturas de tabelas para performance?
+
+**Resposta**: Estratégias de otimização:
+
+**Tipos de dados**:
+- Use tipos menores quando possível: INT vs BIGINT
+- VARCHAR dimensionado adequadamente (não excessivo)
+
+**Organização de colunas**:
+- Colunas mais usadas no início
+- Colunas NULL ao final
+- Agrupe colunas relacionadas
+
+**Índices implícitos**:
+- PRIMARY KEY cria índice automaticamente
+- UNIQUE constraints também criam índices
+
+**Normalização equilibrada**:
+- Normalize para eliminar redundância
+- Considere desnormalização seletiva para performance crítica
+
+### 6. Quando usar diferentes tipos de dados para datas?
+
+**Resposta**: Escolha baseada na necessidade:
+
+- **DATE**: Apenas data (ano-mês-dia)
+  - Data de nascimento: `data_nascimento DATE`
+  - Data de lançamento de álbum
+
+- **TIMESTAMP**: Data e hora completas
+  - Log de ações: `data_acao TIMESTAMP`
+  - Histórico de reprodução
+
+- **TIME**: Apenas hora
+  - Horário de funcionamento
+  - Duração em formato tempo
+
+Para o MusiStream: use DATE para datas de nascimento e TIMESTAMP para logs de atividade.
+
+### 7. Como projetar tabelas pensando em evolução futura?
+
+**Resposta**: Práticas para flexibilidade:
+
+**Nomenclatura consistente**:
+- Prefixos claros: `id_`, `nome_`, `data_`
+- Padrões mantidos em todas as tabelas
+
+**Tipos com margem**:
+- VARCHAR com espaço extra: VARCHAR(150) vs VARCHAR(50)
+- Campos de extensão: `configuracoes_json TEXT`
+
+**Estrutura extensível**:
+- Tabelas de configuração para valores dinâmicos
+- Campos de metadados quando apropriado
+- Versionamento de esquema documentado
+
+**Constraints flexíveis**:
+- Evite CHECK muito restritivos
+- Use constraints que podem ser facilmente alteradas
+
 ## Referências Bibliográficas
 
 1. **Date, C.J.** (2012). *SQL and Relational Theory: How to Write Accurate SQL Code*. 2nd Edition. O'Reilly Media. Capítulos 5-7.

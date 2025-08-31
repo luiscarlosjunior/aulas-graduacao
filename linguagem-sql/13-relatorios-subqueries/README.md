@@ -292,6 +292,262 @@ ORDER BY reproducoes_2024 DESC;
 
 Consulte a pasta `exercicios` para atividades práticas que reforçam os conceitos apresentados.
 
+## Perguntas e Respostas
+
+### 1. Qual a diferença fundamental entre subquery correlacionada e não-correlacionada?
+
+**Resposta**:
+**Subquery não-correlacionada**: Executa independentemente da query externa
+```sql
+-- Músicas mais longas que a média geral
+SELECT titulo, duracao 
+FROM musica 
+WHERE duracao > (SELECT AVG(duracao) FROM musica);
+```
+- Subquery executa uma vez
+- Resultado é usado para toda query externa
+- Geralmente mais eficiente
+
+**Subquery correlacionada**: Depende de valores da query externa
+```sql
+-- Músicas mais longas que a média do seu álbum
+SELECT titulo, duracao 
+FROM musica m1
+WHERE duracao > (
+    SELECT AVG(duracao) 
+    FROM musica m2 
+    WHERE m2.id_album = m1.id_album
+);
+```
+- Subquery executa para cada linha da query externa
+- Acesso a colunas da query externa
+- Pode ser menos eficiente, mas mais flexível
+
+### 2. Quando usar EXISTS vs. IN vs. JOIN?
+
+**Resposta**: Escolha baseada no objetivo e performance:
+
+**EXISTS**: Para verificar existência (TRUE/FALSE)
+```sql
+-- Artistas que têm álbuns
+SELECT nome_artista 
+FROM artista a
+WHERE EXISTS (SELECT 1 FROM album WHERE id_artista = a.id_artista);
+```
+- **Vantagem**: Para quando só precisa saber se existe
+- **Performance**: Boa para subqueries correlacionadas
+
+**IN**: Para verificar se valor está em lista
+```sql
+-- Artistas de países específicos
+SELECT * FROM artista WHERE pais_origem IN ('Brasil', 'Argentina', 'Chile');
+```
+- **Vantagem**: Simples para listas pequenas
+- **Cuidado**: Performance degrada com listas grandes ou NULLs
+
+**JOIN**: Para combinar dados de múltiplas tabelas
+```sql
+-- Artistas com informações dos álbuns
+SELECT a.nome_artista, al.titulo 
+FROM artista a
+JOIN album al ON a.id_artista = al.id_artista;
+```
+- **Vantagem**: Melhor performance para grandes volumes
+- **Uso**: Quando precisa de dados de ambas as tabelas
+
+### 3. Como usar operadores ANY e ALL efetivamente?
+
+**Resposta**:
+**ANY (qualquer)**: Verdadeiro se comparação for verdadeira para pelo menos um valor
+```sql
+-- Músicas mais longas que qualquer música de rock
+SELECT titulo, duracao 
+FROM musica 
+WHERE duracao > ANY (
+    SELECT duracao 
+    FROM musica m JOIN album a ON m.id_album = a.id_album 
+    WHERE a.genero = 'Rock'
+);
+```
+
+**ALL (todos)**: Verdadeiro se comparação for verdadeira para todos os valores
+```sql
+-- Músicas mais longas que todas as músicas de pop
+SELECT titulo, duracao 
+FROM musica 
+WHERE duracao > ALL (
+    SELECT duracao 
+    FROM musica m JOIN album a ON m.id_album = a.id_album 
+    WHERE a.genero = 'Pop'
+);
+```
+
+**Equivalências úteis**:
+- `> ANY` equivale a `> MIN`
+- `> ALL` equivale a `> MAX`
+- `< ANY` equivale a `< MAX`
+- `< ALL` equivale a `< MIN`
+
+### 4. Como otimizar performance de subqueries?
+
+**Resposta**: Estratégias de otimização:
+
+**Converter para JOIN quando possível**:
+```sql
+-- ❌ Subquery correlacionada
+SELECT nome_artista 
+FROM artista a
+WHERE EXISTS (SELECT 1 FROM album WHERE id_artista = a.id_artista);
+
+-- ✅ JOIN equivalente (geralmente mais rápido)
+SELECT DISTINCT a.nome_artista 
+FROM artista a
+JOIN album al ON a.id_artista = al.id_artista;
+```
+
+**Usar índices apropriados**:
+```sql
+-- Garantir índices nas colunas usadas em WHERE da subquery
+CREATE INDEX idx_album_artista ON album(id_artista);
+CREATE INDEX idx_musica_album ON musica(id_album);
+```
+
+**Limitar resultados da subquery**:
+```sql
+-- Usar TOP/LIMIT quando apropriado
+SELECT titulo 
+FROM musica 
+WHERE id_album IN (
+    SELECT id_album 
+    FROM album 
+    WHERE genero = 'Rock' 
+    LIMIT 10  -- Limita resultados se possível
+);
+```
+
+### 5. Como implementar ranking e top N com subqueries?
+
+**Resposta**: Diferentes abordagens:
+
+**Top N simples**:
+```sql
+-- Top 5 músicas mais tocadas
+SELECT titulo, total_reproducoes 
+FROM musica 
+WHERE total_reproducoes >= (
+    SELECT MIN(total_reproducoes) 
+    FROM (
+        SELECT total_reproducoes 
+        FROM musica 
+        ORDER BY total_reproducoes DESC 
+        LIMIT 5
+    ) top5
+);
+```
+
+**Ranking com subquery correlacionada**:
+```sql
+-- Posição de cada música em seu álbum por duração
+SELECT 
+    titulo,
+    duracao,
+    (SELECT COUNT(*) 
+     FROM musica m2 
+     WHERE m2.id_album = m1.id_album 
+       AND m2.duracao >= m1.duracao) as posicao
+FROM musica m1
+ORDER BY id_album, posicao;
+```
+
+**Comparação com médias**:
+```sql
+-- Músicas acima da média do seu gênero
+SELECT m.titulo, m.duracao, a.genero
+FROM musica m
+JOIN album a ON m.id_album = a.id_album
+WHERE m.duracao > (
+    SELECT AVG(m2.duracao)
+    FROM musica m2
+    JOIN album a2 ON m2.id_album = a2.id_album
+    WHERE a2.genero = a.genero
+);
+```
+
+### 6. Como tratar NULLs em subqueries com IN e NOT IN?
+
+**Resposta**: Cuidado especial com NULLs:
+
+**Problema com NOT IN e NULL**:
+```sql
+-- ❌ Pode não funcionar como esperado se subquery retorna NULL
+SELECT * FROM artista 
+WHERE id_artista NOT IN (SELECT id_artista FROM album WHERE ano = 2023);
+-- Se algum id_artista for NULL, retorna conjunto vazio
+```
+
+**Soluções seguras**:
+```sql
+-- ✅ Usar NOT EXISTS
+SELECT * FROM artista a
+WHERE NOT EXISTS (
+    SELECT 1 FROM album al 
+    WHERE al.id_artista = a.id_artista AND ano = 2023
+);
+
+-- ✅ Filtrar NULLs explicitamente
+SELECT * FROM artista 
+WHERE id_artista NOT IN (
+    SELECT id_artista FROM album 
+    WHERE ano = 2023 AND id_artista IS NOT NULL
+);
+```
+
+### 7. Como usar subqueries em diferentes cláusulas (SELECT, FROM, HAVING)?
+
+**Resposta**: Aplicações por cláusula:
+
+**Subquery no SELECT (scalar subquery)**:
+```sql
+-- Adicionar informação calculada
+SELECT 
+    nome_artista,
+    (SELECT COUNT(*) FROM album WHERE id_artista = a.id_artista) as total_albums,
+    (SELECT AVG(duracao) 
+     FROM musica m JOIN album al ON m.id_album = al.id_album 
+     WHERE al.id_artista = a.id_artista) as duracao_media
+FROM artista a;
+```
+
+**Subquery no FROM (derived table)**:
+```sql
+-- Usar resultado de subquery como tabela
+SELECT genero, avg_duracao
+FROM (
+    SELECT a.genero, AVG(m.duracao) as avg_duracao
+    FROM album a
+    JOIN musica m ON a.id_album = m.id_album
+    GROUP BY a.genero
+) stats
+WHERE avg_duracao > 200;
+```
+
+**Subquery no HAVING**:
+```sql
+-- Filtrar grupos baseado em subquery
+SELECT a.genero, COUNT(*) as total_musicas
+FROM album a
+JOIN musica m ON a.id_album = m.id_album
+GROUP BY a.genero
+HAVING COUNT(*) > (
+    SELECT AVG(musicas_por_genero)
+    FROM (
+        SELECT COUNT(*) as musicas_por_genero
+        FROM album a2 JOIN musica m2 ON a2.id_album = m2.id_album
+        GROUP BY a2.genero
+    ) avg_stats
+);
+```
+
 ## Referências Bibliográficas
 
 - **Date, C.J.** (2012). *SQL and Relational Theory*. 2nd Edition. O'Reilly Media.

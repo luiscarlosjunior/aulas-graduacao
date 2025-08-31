@@ -374,6 +374,182 @@ END;
 
 Consulte a pasta `exercicios` para atividades práticas que reforçam os conceitos apresentados.
 
+## Perguntas e Respostas
+
+### 1. Quais são as propriedades ACID e por que são fundamentais?
+
+**Resposta**: ACID garante confiabilidade das transações:
+
+**Atomicidade (Atomicity)**:
+- Transação é executada completamente ou não é executada
+- "Tudo ou nada" - não há estados intermediários
+- Exemplo: Transferência bancária deve debitar e creditar, ou não fazer nada
+
+**Consistência (Consistency)**:
+- Banco de dados passa de um estado consistente para outro
+- Todas as regras e constraints são respeitadas
+- Exemplo: Saldo bancário nunca fica negativo (se houver constraint)
+
+**Isolamento (Isolation)**:
+- Transações concorrentes não interferem entre si
+- Cada transação vê o banco como se fosse a única executando
+- Diferentes níveis: READ UNCOMMITTED, READ COMMITTED, REPEATABLE READ, SERIALIZABLE
+
+**Durabilidade (Durability)**:
+- Mudanças confirmadas persistem mesmo com falhas do sistema
+- Garantida através de logs de transação e backup
+
+### 2. Quando usar COMMIT vs. ROLLBACK vs. SAVEPOINT?
+
+**Resposta**:
+**COMMIT**: Para confirmar mudanças
+```sql
+BEGIN;
+INSERT INTO usuario (nome) VALUES ('João');
+UPDATE usuario SET email = 'joao@email.com' WHERE nome = 'João';
+COMMIT; -- Confirma ambas as operações
+```
+
+**ROLLBACK**: Para cancelar mudanças
+```sql
+BEGIN;
+DELETE FROM playlist WHERE id_usuario = 123;
+-- Ops, foi erro! Cancelar
+ROLLBACK; -- Nada foi realmente excluído
+```
+
+**SAVEPOINT**: Para rollback parcial
+```sql
+BEGIN;
+INSERT INTO artista (nome) VALUES ('Banda A');
+SAVEPOINT sp1;
+INSERT INTO artista (nome) VALUES ('Banda B'); -- Erro!
+ROLLBACK TO sp1; -- Cancela apenas 'Banda B'
+COMMIT; -- Confirma 'Banda A'
+```
+
+### 3. Como diferentes níveis de isolamento afetam a concorrência?
+
+**Resposta**: Trade-off entre consistência e performance:
+
+**READ UNCOMMITTED** (menos isolamento):
+- Pode ler dados não commitados (dirty read)
+- Máxima concorrência, mínima consistência
+- Raramente usado em produção
+
+**READ COMMITTED** (padrão na maioria dos SGBDs):
+- Só lê dados commitados
+- Evita dirty reads
+- Permite non-repeatable reads
+
+**REPEATABLE READ**:
+- Garante que releituras retornem mesmo resultado
+- Evita dirty reads e non-repeatable reads
+- Permite phantom reads
+
+**SERIALIZABLE** (máximo isolamento):
+- Transações executam como se fossem sequenciais
+- Evita todos os problemas de concorrência
+- Menor performance devido a locks
+
+### 4. Como identificar e resolver deadlocks?
+
+**Resposta**: Estratégias de prevenção e resolução:
+
+**Identificação de deadlock**:
+```sql
+-- Exemplo de deadlock
+-- Transação A:
+UPDATE artista SET nome = 'The Beatles' WHERE id = 1;
+UPDATE album SET titulo = 'Abbey Road' WHERE id = 1;
+
+-- Transação B (concorrente):
+UPDATE album SET titulo = 'Sgt Pepper' WHERE id = 2;
+UPDATE artista SET nome = 'The Beatles Updated' WHERE id = 1; -- DEADLOCK!
+```
+
+**Prevenção**:
+- Sempre acessar tabelas na mesma ordem
+- Usar timeouts apropriados
+- Manter transações curtas
+- Usar locks apropriados
+
+**Resolução automática**: SGBD detecta e mata uma das transações.
+
+### 5. Qual a diferença entre bloqueio otimista e pessimista?
+
+**Resposta**:
+**Bloqueio Pessimista**: Assume que conflitos vão ocorrer
+```sql
+-- Lock explícito
+SELECT * FROM conta WHERE id = 123 FOR UPDATE;
+UPDATE conta SET saldo = saldo - 100 WHERE id = 123;
+COMMIT;
+```
+- **Vantagem**: Evita conflitos
+- **Desvantagem**: Reduz concorrência
+
+**Bloqueio Otimista**: Assume que conflitos são raros
+```sql
+-- Usa campo version/timestamp para controle
+SELECT saldo, version FROM conta WHERE id = 123;
+-- Na aplicação, verifica se version não mudou antes do UPDATE
+UPDATE conta SET saldo = saldo - 100, version = version + 1 
+WHERE id = 123 AND version = @version_original;
+```
+- **Vantagem**: Maior concorrência
+- **Desvantagem**: Necessita retry em caso de conflito
+
+### 6. Como estruturar relatórios SQL eficientes?
+
+**Resposta**: Boas práticas para relatórios:
+
+**Estrutura clara**:
+```sql
+SELECT 
+    a.nome_artista,
+    COUNT(m.id_musica) as total_musicas,
+    AVG(m.duracao) as duracao_media
+FROM artista a
+LEFT JOIN album al ON a.id_artista = al.id_artista
+LEFT JOIN musica m ON al.id_album = m.id_album
+WHERE a.ativo = TRUE
+GROUP BY a.id_artista, a.nome_artista
+HAVING COUNT(m.id_musica) > 10
+ORDER BY total_musicas DESC;
+```
+
+**Otimizações**:
+- Use índices em colunas de WHERE e JOIN
+- Evite SELECT * em tabelas grandes
+- Use LIMIT para relatórios paginados
+- Considere views para relatórios complexos reutilizáveis
+
+### 7. Quando usar transações explícitas vs. auto-commit?
+
+**Resposta**:
+**Auto-commit** (padrão): Cada comando é uma transação
+```sql
+INSERT INTO artista VALUES (1, 'Beatles'); -- AUTO-COMMIT
+UPDATE artista SET nome = 'The Beatles' WHERE id = 1; -- AUTO-COMMIT
+```
+- **Uso**: Operações simples, independentes
+- **Vantagem**: Simples, sem gerenciamento manual
+
+**Transações explícitas**: Múltiplos comandos em uma transação
+```sql
+BEGIN;
+INSERT INTO artista VALUES (1, 'Beatles');
+INSERT INTO album VALUES (1, 'Abbey Road', 1);
+INSERT INTO musica VALUES (1, 'Come Together', 1);
+COMMIT;
+```
+- **Uso**: Operações relacionadas que devem ser atômicas
+- **Vantagem**: Consistência, possibilidade de rollback
+- **Cuidado**: Locks prolongados, possível deadlock
+
+**Recomendação**: Use transações explícitas para operações relacionadas que precisam ser atômicas.
+
 ## Referências Bibliográficas
 
 - **Garcia-Molina, H., Ullman, J. D., & Widom, J.** (2013). *Database Systems: The Complete Book*. 2nd Edition. Pearson. Capítulos sobre Transactions.

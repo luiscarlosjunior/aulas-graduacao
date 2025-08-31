@@ -269,6 +269,159 @@ ALTER TABLE musica RENAME COLUMN duracao_nova TO duracao;
 
 Consulte a pasta `exercicios` para atividades práticas que reforçam os conceitos apresentados.
 
+## Perguntas e Respostas
+
+### 1. Quais os principais riscos ao alterar estruturas de tabelas em produção?
+
+**Resposta**: Os principais riscos incluem:
+- **Perda de dados**: DROP COLUMN remove dados permanentemente
+- **Quebra de aplicações**: Alterações podem impactar aplicações existentes
+- **Lock de tabela**: Operações DDL podem bloquear acesso durante execução
+- **Performance**: Grandes alterações podem ser lentas
+- **Rollback limitado**: Nem todas as alterações DDL podem ser desfeitas
+
+**Mitigações**: Backup, testes em ambiente de desenvolvimento, janelas de manutenção, verificação de dependências.
+
+### 2. Qual a diferença entre ADD COLUMN com e sem DEFAULT?
+
+**Resposta**:
+**Sem DEFAULT**:
+```sql
+ALTER TABLE usuario ADD telefone VARCHAR(20);
+```
+- Nova coluna recebe NULL em todas as linhas existentes
+- Rápido de executar
+- Linhas futuras também serão NULL se não especificado
+
+**Com DEFAULT**:
+```sql
+ALTER TABLE usuario ADD telefone VARCHAR(20) DEFAULT 'N/A';
+```
+- Nova coluna recebe valor padrão em todas as linhas existentes
+- Pode ser mais lento em tabelas grandes
+- Linhas futuras recebem DEFAULT se não especificado
+
+**Recomendação**: Use DEFAULT para manter consistência de dados.
+
+### 3. Como modificar tipo de dados sem perder informações?
+
+**Resposta**: Estratégia segura em etapas:
+
+**1. Análise prévia**:
+```sql
+-- Verificar dados existentes
+SELECT MAX(LENGTH(campo)) FROM tabela;
+SELECT DISTINCT campo FROM tabela WHERE campo NOT LIKE 'padrão_esperado';
+```
+
+**2. Modificação compatível**:
+```sql
+-- ✅ Seguro: Aumentar tamanho
+ALTER TABLE usuario MODIFY email VARCHAR(200);
+
+-- ⚠️ Cuidado: Diminuir tamanho
+ALTER TABLE usuario MODIFY nome VARCHAR(50); -- Pode truncar dados
+```
+
+**3. Para mudanças incompatíveis**:
+- Criar nova coluna
+- Migrar dados com conversão
+- Remover coluna antiga
+- Renomear nova coluna
+
+### 4. Quando usar DROP vs DISABLE para constraints?
+
+**Resposta**:
+**DROP CONSTRAINT**:
+```sql
+ALTER TABLE musica DROP CONSTRAINT ck_duracao;
+```
+- Remove permanentemente a constraint
+- Não pode ser reabilitada facilmente
+- Use quando constraint não é mais necessária
+
+**DISABLE CONSTRAINT**:
+```sql
+ALTER TABLE musica DISABLE CONSTRAINT ck_duracao;
+```
+- Temporariamente desativa validação
+- Pode ser reabilitada: `ENABLE CONSTRAINT`
+- Use para cargas de dados ou manutenção temporária
+
+**Cuidado**: Dados inseridos com constraint desabilitada podem violar regras.
+
+### 5. Como renomear tabelas e colunas sem impactar aplicações?
+
+**Resposta**: Estratégia de migração gradual:
+
+**Para tabelas**:
+1. Criar view com nome antigo apontando para nova tabela
+2. Migrar aplicações gradualmente
+3. Remover view quando não houver dependências
+
+```sql
+-- Renomear tabela
+ALTER TABLE usuario RENAME TO usuario_novo;
+
+-- Criar view de compatibilidade
+CREATE VIEW usuario AS SELECT * FROM usuario_novo;
+```
+
+**Para colunas**:
+1. Adicionar nova coluna
+2. Sincronizar dados (triggers ou aplicação)
+3. Migrar aplicações
+4. Remover coluna antiga
+
+### 6. Qual a melhor prática para versionamento de esquema?
+
+**Resposta**: Implementar controle de versão:
+
+**Script de migração**:
+```sql
+-- Verificar versão atual
+SELECT versao FROM schema_version;
+
+-- Aplicar mudanças específicas da versão
+ALTER TABLE usuario ADD created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
+-- Atualizar versão
+UPDATE schema_version SET versao = '2.1.0', data_alteracao = CURRENT_TIMESTAMP;
+```
+
+**Boas práticas**:
+- Scripts incrementais numerados
+- Rollback scripts quando possível
+- Documentação de mudanças
+- Testes em ambiente igual à produção
+
+### 7. Como tratar alterações que requerem conversão de dados?
+
+**Resposta**: Processo estruturado:
+
+**Exemplo**: Converter campo texto para numérico
+```sql
+-- 1. Adicionar nova coluna
+ALTER TABLE produto ADD preco_novo DECIMAL(10,2);
+
+-- 2. Migrar dados com conversão
+UPDATE produto 
+SET preco_novo = CAST(REPLACE(preco_texto, ',', '.') AS DECIMAL(10,2))
+WHERE preco_texto IS NOT NULL;
+
+-- 3. Verificar integridade
+SELECT COUNT(*) FROM produto WHERE preco_texto IS NOT NULL AND preco_novo IS NULL;
+
+-- 4. Adicionar constraints
+ALTER TABLE produto ADD CONSTRAINT ck_preco_positivo CHECK (preco_novo > 0);
+
+-- 5. Remover coluna antiga (após validação)
+ALTER TABLE produto DROP COLUMN preco_texto;
+
+-- 6. Renomear nova coluna
+ALTER TABLE produto RENAME COLUMN preco_novo TO preco;
+```
+
 ## Referências Bibliográficas
 
 - **Oracle Corporation** (2021). *Oracle Database SQL Language Reference*. Capítulo sobre ALTER TABLE.

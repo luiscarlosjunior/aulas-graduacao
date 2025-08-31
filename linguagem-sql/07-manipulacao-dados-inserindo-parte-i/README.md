@@ -242,6 +242,170 @@ COMMIT;
 
 Consulte a pasta `exercicios/` para atividades práticas de inserção de dados.
 
+## Perguntas e Respostas
+
+### 1. Qual a diferença entre especificar colunas no INSERT vs. não especificar?
+
+**Resposta**:
+**Com especificação de colunas** (recomendado):
+```sql
+INSERT INTO artista (id_artista, nome_artista, pais_origem)
+VALUES (1, 'The Beatles', 'Reino Unido');
+```
+- **Vantagens**: Explícito, resiliente a mudanças de estrutura, permite ordem diferente
+- **Flexibilidade**: Não precisa fornecer todas as colunas
+
+**Sem especificação**:
+```sql
+INSERT INTO artista VALUES (1, 'The Beatles', NULL, NULL, 'Reino Unido', TRUE);
+```
+- **Riscos**: Frágil a mudanças, ordem rígida, deve incluir todas as colunas
+- **Uso**: Apenas quando estrutura é muito estável
+
+### 2. Como lidar adequadamente com valores NULL durante inserção?
+
+**Resposta**: Estratégias para NULL:
+
+**Inserção explícita de NULL**:
+```sql
+INSERT INTO artista (id_artista, nome_artista, biografia)
+VALUES (1, 'The Beatles', NULL); -- biografia não disponível ainda
+```
+
+**Aproveitamento de DEFAULT**:
+```sql
+-- Se data_cadastro tem DEFAULT CURRENT_TIMESTAMP
+INSERT INTO usuario (id_usuario, nome_usuario, email)
+VALUES (1, 'João', 'joao@email.com'); -- data_cadastro será preenchida automaticamente
+```
+
+**Validação antes da inserção**:
+- Verificar se campos NOT NULL estão sendo fornecidos
+- Usar CASE ou COALESCE para tratar valores opcionais
+
+### 3. Qual a melhor abordagem para inserir dados relacionados?
+
+**Resposta**: Seguir ordem de dependências:
+
+**1. Inserir entidades independentes primeiro**:
+```sql
+-- Primeiro: artistas (sem dependências)
+INSERT INTO artista (id_artista, nome_artista) VALUES (1, 'The Beatles');
+
+-- Segundo: álbuns (dependem de artistas)
+INSERT INTO album (id_album, titulo, id_artista) VALUES (1, 'Abbey Road', 1);
+
+-- Terceiro: músicas (dependem de álbuns)
+INSERT INTO musica (id_musica, titulo, id_album) VALUES (1, 'Come Together', 1);
+```
+
+**2. Usar transações para consistência**:
+```sql
+BEGIN TRANSACTION;
+-- Todas as inserções relacionadas
+COMMIT; -- ou ROLLBACK em caso de erro
+```
+
+### 4. Como tratar erros de integridade durante INSERT?
+
+**Resposta**: Estratégias de tratamento:
+
+**Prevenção**:
+```sql
+-- Verificar se FK existe antes de inserir
+SELECT COUNT(*) FROM artista WHERE id_artista = 1;
+-- Se > 0, pode inserir álbum com id_artista = 1
+```
+
+**Tratamento de duplicatas**:
+```sql
+-- MySQL: INSERT IGNORE (ignora duplicatas)
+INSERT IGNORE INTO artista VALUES (1, 'The Beatles', 'Reino Unido');
+
+-- PostgreSQL: ON CONFLICT
+INSERT INTO artista VALUES (1, 'The Beatles', 'Reino Unido')
+ON CONFLICT (id_artista) DO NOTHING;
+```
+
+**Validação em aplicação**: Sempre validar dados antes de enviar para o banco.
+
+### 5. Quando usar INSERT com subconsulta vs. INSERT com VALUES?
+
+**Resposta**:
+**INSERT com VALUES**: Para registros específicos
+```sql
+INSERT INTO artista (id_artista, nome_artista)
+VALUES (1, 'The Beatles'), (2, 'Queen'), (3, 'Led Zeppelin');
+```
+- Ideal para dados conhecidos
+- Múltiplos registros simultâneos
+
+**INSERT com subconsulta**: Para dados derivados
+```sql
+-- Criar playlist com músicas de determinado gênero
+INSERT INTO playlist_musica (id_playlist, id_musica)
+SELECT 1, id_musica 
+FROM musica m
+JOIN album a ON m.id_album = a.id_album
+WHERE a.genero = 'Rock';
+```
+- Ideal para migração ou cálculos
+- Baseado em dados existentes
+
+### 6. Como otimizar performance para inserções em lote?
+
+**Resposta**: Técnicas de otimização:
+
+**Múltiplos valores em um INSERT**:
+```sql
+INSERT INTO musica (id_musica, titulo, duracao)
+VALUES 
+    (1, 'Come Together', 259),
+    (2, 'Something', 182),
+    (3, 'Maxwell', 207);
+-- Mais eficiente que 3 INSERTs separados
+```
+
+**Desabilitar constraints temporariamente** (cuidado):
+```sql
+-- Para cargas grandes, se necessário
+ALTER TABLE musica DISABLE CONSTRAINT fk_musica_album;
+-- Inserções em lote
+ALTER TABLE musica ENABLE CONSTRAINT fk_musica_album;
+```
+
+**Usar transações**: Agrupar inserções relacionadas.
+
+### 7. Quais as principais armadilhas a evitar com comando INSERT?
+
+**Resposta**: Armadilhas comuns:
+
+**1. Inserção sem transação em operações relacionadas**:
+```sql
+-- ❌ Perigoso: Se segunda inserção falhar, primeira fica órfã
+INSERT INTO album VALUES (1, 'Album', 1);
+INSERT INTO musica VALUES (1, 'Música', 999); -- FK inválida
+```
+
+**2. Não validar limites de campos**:
+```sql
+-- ❌ Pode truncar dados
+INSERT INTO artista (nome_artista) VALUES ('Nome muito longo que excede limite...');
+```
+
+**3. Ignorar valores DEFAULT úteis**:
+```sql
+-- ❌ Especificar NULL quando DEFAULT seria melhor
+INSERT INTO usuario (id_usuario, nome, data_cadastro)
+VALUES (1, 'João', NULL); -- Melhor deixar DEFAULT
+
+-- ✅ Aproveitar DEFAULT
+INSERT INTO usuario (id_usuario, nome)
+VALUES (1, 'João');
+```
+
+**4. Não considerar encoding de caracteres**: Verificar UTF-8 para caracteres especiais.
+
 ## Referências Bibliográficas
 
 1. **Beaulieu, A.** (2020). *Learning SQL: Master SQL Fundamentals*. 3rd Edition. O'Reilly Media. Capítulo 3.
