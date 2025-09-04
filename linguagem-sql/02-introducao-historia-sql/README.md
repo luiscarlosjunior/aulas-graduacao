@@ -225,7 +225,7 @@ CREATE TABLE exemplo (
 **Tipos de data e hora**
 
 ```sql
--- MySql
+-- MySQL
 
 CREATE TABLE exemplo_mysql (
     id INT AUTO_INCREMENT PRIMARY KEY,
