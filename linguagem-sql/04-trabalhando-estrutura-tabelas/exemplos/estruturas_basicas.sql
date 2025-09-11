@@ -216,7 +216,35 @@ ORDER BY table_name;
 -- 10. DADOS DE EXEMPLO PARA TESTE
 -- ===============================================
 
+-- Descrever a tabela
+-- DESCRIBE nome_tabela; -- Oracle/MySQL
+DESCRIBE ARTISTA;
+
 -- Inserir gêneros básicos
+INSERT INTO usuario (nome_usuario, sobrenome, email, genero, pais, senha_hash) VALUES
+('João', 'Silva', 'joaosilva@email.com', 'M', 'Brasil','hash1'),
+('Maria', 'Oliveira', 'maria.oliveira@email.com', 'F', 'Brasil','hash2'),
+('Pedro', 'Almeida', 'pedro.almeida@email.com', 'M', 'Portugal','hash3'),
+('Ana', 'Costa', 'ana.costa@email.com', 'F', 'Brasil','hash4'),
+('Lucas', 'Pereira', 'lucas.pereira@email.com', 'M', 'Brasil','hash5');
+
+-- Inserir configuração do usuário
+INSERT INTO configuracao_usuario (id_usuario, tema, qualidade_audio, volume_padrao, reproducao_auto, notificacoes, modo_offline, idioma_interface) VALUES
+(1, 'escuro', 'alta', 75, 1, 1, 0, 'pt-BR'),
+(2, 'claro', 'media', 50, 1, 1, 0, 'pt-BR'),
+(3, 'auto', 'alta', 80, 1, 0, 1, 'pt-PT'),
+(4, 'escuro', 'lossless', 60, 0, 1, 0, 'pt-BR'),
+(5, 'claro', 'baixa', 70, 1, 1, 0, 'pt-BR');
+
+-- Inserir artistas
+INSERT INTO artista (nome_artista, tipo_artista, pais_origem, genero_principal) VALUES
+('The Beatles', 'banda', 'Reino Unido', 1),
+('Taylor Swift', 'individual', 'EUA', 2),
+('Miles Davis', 'individual', 'EUA', 3),
+('AC/DC', 'banda', 'Austrália', 4),
+('BTS', 'grupo', 'Coreia do Sul', 5);
+
+-- Inserir gêneros musicais
 INSERT INTO genero_musical (id_genero, nome_genero, descricao, cor_tema) VALUES
 (1, 'Rock', 'Gênero musical caracterizado por ritmo forte e guitarras', '#FF4444'),
 (2, 'Pop', 'Música popular mainstream', '#44FF44'),
@@ -224,24 +252,47 @@ INSERT INTO genero_musical (id_genero, nome_genero, descricao, cor_tema) VALUES
 (4, 'Classical', 'Música clássica erudita', '#FFD700'),
 (5, 'Electronic', 'Música eletrônica e dance', '#FF44FF');
 
--- Inserir um usuário de teste
-INSERT INTO usuario (id_usuario, nome_usuario, sobrenome, email, genero, pais) 
-VALUES (1, 'João', 'Silva', 'joao.silva@email.com', 'M', 'Brasil');
+-- Inserir álbuns
+INSERT INTO album (titulo, tipo_album, data_lancamento, id_artista, genero_album, duracao_total, numero_faixas, preco) VALUES
+('Abbey Road', 'studio', TO_DATE('1969-09-26','YYYY-MM-DD'), 1, 1, 2700, 17, 49.90),
+('1989', 'studio', TO_DATE('2014-10-27','YYYY-MM-DD'), 2, 2, 3200, 13, 39.90),
+('Kind of Blue', 'studio', TO_DATE('1959-08-17','YYYY-MM-DD'), 3, 3, 2800, 5, 59.90),
+('Back in Black', 'studio', TO_DATE('1980-07-25','YYYY-MM-DD'), 4, 4, 2500, 10, 45.00),
+('Map of the Soul: 7', 'studio', TO_DATE('2020-02-21','YYYY-MM-DD'), 5, 5, 2100, 20, 69.90);
 
--- Inserir configuração do usuário
-INSERT INTO configuracao_usuario (id_usuario) VALUES (1);
+-- Inserir músicas
+INSERT INTO musica (titulo, duracao, id_album, numero_faixa) VALUES
+('Come Together', 259, 1, 2),
+('Something', 182, 1, 2),
+('Blank Space', 231, 2, 1),
+('Style', 231, 2, 2),
+('So What', 545, 3, 1),
+('Freddie Freeloader', 589, 3, 2),
+('Hells Bells', 312, 4, 1),
+('Shoot to Thrill', 320, 4, 2),
+('ON', 250, 5, 1),
+('Black Swan', 260, 5, 2);
 
--- Inserir um artista de teste
-INSERT INTO artista (id_artista, nome_artista, tipo_artista, pais_origem, genero_principal) 
-VALUES (1, 'The Beatles', 'banda', 'Reino Unido', 1);
+-- Inserir playlists
+INSERT INTO playlist (nome_playlist, descricao, publica, colaborativa, id_usuario) VALUES
+('Rock Clássico', 'Grandes hits do rock', 1, 0, 1),
+('Pop Hits', 'Top pop do momento', 1, 1, 2),
+('Jazz Relax', 'Para relaxar', 1, 0, 3),
+('AC/DC Favorites', 'Melhores do AC/DC', 0, 0, 4),
+('BTS Collection', 'Todos os hits do BTS', 1, 1, 5);
 
--- Inserir um álbum de teste
-INSERT INTO album (id_album, titulo, tipo_album, data_lancamento, id_artista, genero_album) 
-VALUES (1, 'Abbey Road', 'studio', '1969-09-26', 1, 1);
-
--- Inserir uma música de teste
-INSERT INTO musica (id_musica, titulo, duracao, id_album, numero_faixa) 
-VALUES (1, 'Come Together', 259, 1, 1);
+-- Inserir músicas nas playlists
+INSERT INTO playlist_musica (id_playlist, id_musica, posicao, adicionado_por) VALUES
+(1, 1, 1, 1),
+(1, 2, 2, 1),
+(2, 3, 1, 2),
+(2, 4, 2, 2),
+(3, 5, 1, 3),
+(3, 6, 2, 3),
+(4, 7, 1, 4),
+(4, 8, 2, 4),
+(5, 9, 1, 5),
+(5, 10, 2, 5);
 
 -- Verificar dados inseridos
 SELECT 'Dados de teste inseridos com sucesso!' as status;
