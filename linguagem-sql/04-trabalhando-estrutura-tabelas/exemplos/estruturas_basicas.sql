@@ -229,7 +229,11 @@ INSERT INTO usuario (nome_usuario, sobrenome, email, genero, pais, senha_hash) V
 ('Lucas', 'Pereira', 'lucas.pereira@email.com', 'M', 'Brasil','hash5');
 
 -- Inserir configuração do usuário
-INSERT INTO configuracao_usuario (id_usuario, tema, qualidade_audio, volume_padrao, reproducao_auto, notificacoes, modo_offline, idioma_interface) VALUES
+INSERT INTO configuracao_usuario 
+(id_usuario, tema, qualidade_audio, volume_padrao, 
+    reproducao_auto, notificacoes, modo_offline, 
+    idioma_interface) 
+VALUES
 (1, 'escuro', 'alta', 75, 1, 1, 0, 'pt-BR'),
 (2, 'claro', 'media', 50, 1, 1, 0, 'pt-BR'),
 (3, 'auto', 'alta', 80, 1, 0, 1, 'pt-PT'),
@@ -253,7 +257,9 @@ INSERT INTO genero_musical (id_genero, nome_genero, descricao, cor_tema) VALUES
 (5, 'Electronic', 'Música eletrônica e dance', '#FF44FF');
 
 -- Inserir álbuns
-INSERT INTO album (titulo, tipo_album, data_lancamento, id_artista, genero_album, duracao_total, numero_faixas, preco) VALUES
+INSERT INTO album 
+(titulo, tipo_album, data_lancamento, id_artista, genero_album, duracao_total, numero_faixas, preco) 
+VALUES
 ('Abbey Road', 'studio', TO_DATE('1969-09-26','YYYY-MM-DD'), 1, 1, 2700, 17, 49.90),
 ('1989', 'studio', TO_DATE('2014-10-27','YYYY-MM-DD'), 2, 2, 3200, 13, 39.90),
 ('Kind of Blue', 'studio', TO_DATE('1959-08-17','YYYY-MM-DD'), 3, 3, 2800, 5, 59.90),
@@ -274,7 +280,8 @@ INSERT INTO musica (titulo, duracao, id_album, numero_faixa) VALUES
 ('Black Swan', 260, 5, 2);
 
 -- Inserir playlists
-INSERT INTO playlist (nome_playlist, descricao, publica, colaborativa, id_usuario) VALUES
+INSERT INTO playlist 
+(nome_playlist, descricao, publica, colaborativa, id_usuario) VALUES
 ('Rock Clássico', 'Grandes hits do rock', 1, 0, 1),
 ('Pop Hits', 'Top pop do momento', 1, 1, 2),
 ('Jazz Relax', 'Para relaxar', 1, 0, 3),
@@ -282,7 +289,8 @@ INSERT INTO playlist (nome_playlist, descricao, publica, colaborativa, id_usuari
 ('BTS Collection', 'Todos os hits do BTS', 1, 1, 5);
 
 -- Inserir músicas nas playlists
-INSERT INTO playlist_musica (id_playlist, id_musica, posicao, adicionado_por) VALUES
+INSERT INTO playlist_musica 
+(id_playlist, id_musica, posicao, adicionado_por) VALUES
 (1, 1, 1, 1),
 (1, 2, 2, 1),
 (2, 3, 1, 2),
@@ -296,3 +304,66 @@ INSERT INTO playlist_musica (id_playlist, id_musica, posicao, adicionado_por) VA
 
 -- Verificar dados inseridos
 SELECT 'Dados de teste inseridos com sucesso!' as status;
+
+-- Selecionar dados de todas as tabelas criadas
+
+-- Tabela usuario
+SELECT * FROM usuario;
+
+-- Tabela configuracao_usuario
+SELECT * FROM configuracao_usuario;
+
+-- Tabela genero_musical
+SELECT * FROM genero_musical;
+
+-- Tabela artista
+SELECT * FROM artista;
+
+-- Tabela album
+SELECT * FROM album;
+
+-- Tabela musica
+SELECT * FROM musica;
+
+-- Tabela playlist
+SELECT * FROM playlist;
+
+-- Tabela playlist_musica
+SELECT * FROM playlist_musica;
+
+-- Inner join entre usuario e configuracao_usuario
+SELECT u.nome_usuario, u.email, c.tema, c.qualidade_audio
+FROM usuario u
+INNER JOIN configuracao_usuario c ON u.id_usuario = c.id_usuario;
+
+-- Inner join entre artista e genero_musical
+SELECT a.nome_artista, g.nome_genero
+FROM artista a
+INNER JOIN genero_musical g ON a.genero_principal = g.id_genero;
+
+-- Inner join entre album e artista
+SELECT al.titulo AS album_titulo, ar.nome_artista
+FROM album al
+INNER JOIN artista ar ON al.id_artista = ar.id_artista;
+
+-- Inner join entre musica e album
+SELECT m.titulo AS musica_titulo, al.titulo AS album_titulo
+FROM musica m
+INNER JOIN album al ON m.id_album = al.id_album;
+
+-- Inner join entre playlist e usuario
+SELECT p.nome_playlist, u.nome_usuario
+FROM playlist p
+INNER JOIN usuario u ON p.id_usuario = u.id_usuario;
+
+-- Inner join entre playlist_musica e musica
+SELECT pm.id_playlist, m.titulo AS musica_titulo, pm.posicao
+FROM playlist_musica pm
+INNER JOIN musica m ON pm.id_musica = m.id_musica;
+
+-- Inner join entre playlist_musica, playlist e usuario
+SELECT pl.nome_playlist, u.nome_usuario, m.titulo AS musica_titulo
+FROM playlist_musica pm
+INNER JOIN playlist pl ON pm.id_playlist = pl.id_playlist
+INNER JOIN usuario u ON pl.id_usuario = u.id_usuario
+INNER JOIN musica m ON pm.id_musica = m.id_musica;
