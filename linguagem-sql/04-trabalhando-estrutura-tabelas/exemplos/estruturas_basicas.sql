@@ -309,25 +309,18 @@ SELECT 'Dados de teste inseridos com sucesso!' as status;
 
 -- Tabela usuario
 SELECT * FROM usuario;
-
 -- Tabela configuracao_usuario
 SELECT * FROM configuracao_usuario;
-
 -- Tabela genero_musical
 SELECT * FROM genero_musical;
-
 -- Tabela artista
 SELECT * FROM artista;
-
 -- Tabela album
 SELECT * FROM album;
-
 -- Tabela musica
 SELECT * FROM musica;
-
 -- Tabela playlist
 SELECT * FROM playlist;
-
 -- Tabela playlist_musica
 SELECT * FROM playlist_musica;
 
