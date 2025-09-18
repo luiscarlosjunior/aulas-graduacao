@@ -287,6 +287,7 @@ Para praticar os comandos ALTER TABLE demonstrados neste módulo, execute primei
 1. Experimentar todos os exemplos de ALTER TABLE do README
 2. Praticar os exercícios da pasta `exercicios`
 3. Executar o script `alter_table_exemplos.sql` para ver demonstrações práticas
+4. Executar o script `demo-alter-base-tables.sql` para exemplos práticos usando as tabelas base
 
 ### Exemplo de Uso Completo
 
@@ -304,6 +305,9 @@ ADD popularidade INTEGER DEFAULT 0;
 -- 3. Verificar estrutura alterada
 DESCRIBE usuario;
 DESCRIBE musica;
+
+-- 4. Para mais exemplos práticos
+@demo-alter-base-tables.sql
 ```
 
 ## Exercícios Práticos
