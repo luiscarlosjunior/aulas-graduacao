@@ -1,5 +1,17 @@
 # Exercícios - Módulo 06: Alteração de Estrutura de uma Tabela
 
+## ⚠️ Preparação Inicial
+
+**Antes de começar os exercícios, execute o script base:**
+
+```sql
+@base-tables.sql
+```
+
+Este script cria todas as tabelas do sistema MusiStream com dados de exemplo, fornecendo a base necessária para praticar os comandos ALTER TABLE dos exercícios abaixo.
+
+---
+
 ## Exercício 1: Evolução da Estrutura Básica
 
 ### Objetivo
