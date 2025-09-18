@@ -265,6 +265,51 @@ ALTER TABLE musica DROP COLUMN duracao;
 ALTER TABLE musica RENAME COLUMN duracao_nova TO duracao;
 ```
 
+## Script Base para Prática
+
+### Usando o Script `base-tables.sql`
+
+Para praticar os comandos ALTER TABLE demonstrados neste módulo, execute primeiro o script `base-tables.sql` que cria as tabelas principais do sistema MusiStream com dados de exemplo:
+
+```sql
+-- Execute o script base
+@base-tables.sql
+```
+
+**O que o script cria:**
+- Tabelas principais: `genero`, `usuario`, `artista`, `album`, `musica`, `playlist`
+- Tabelas de relacionamento: `playlist_musica`, `historico_reproducao`
+- Tabelas de negócio: `tipo_assinatura`, `assinatura`
+- Dados de exemplo para teste das alterações
+- Relacionamentos básicos entre as tabelas
+
+**Após executar o script base, você pode:**
+1. Experimentar todos os exemplos de ALTER TABLE do README
+2. Praticar os exercícios da pasta `exercicios`
+3. Executar o script `alter_table_exemplos.sql` para ver demonstrações práticas
+4. Executar o script `demo-alter-base-tables.sql` para exemplos práticos usando as tabelas base
+
+### Exemplo de Uso Completo
+
+```sql
+-- 1. Criar estrutura base
+@base-tables.sql
+
+-- 2. Praticar alterações (exemplo)
+ALTER TABLE usuario 
+ADD telefone VARCHAR2(20);
+
+ALTER TABLE musica 
+ADD popularidade INTEGER DEFAULT 0;
+
+-- 3. Verificar estrutura alterada
+DESCRIBE usuario;
+DESCRIBE musica;
+
+-- 4. Para mais exemplos práticos
+@demo-alter-base-tables.sql
+```
+
 ## Exercícios Práticos
 
 Consulte a pasta `exercicios` para atividades práticas que reforçam os conceitos apresentados.
