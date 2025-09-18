@@ -466,14 +466,26 @@ INSERT INTO produto (id, nome, preco_texto) VALUES (6, 'Headset', '-150');    --
 ALTER TABLE produto ADD preco_novo DECIMAL(10,2);
 
 -- 2. Migrar dados com conversão
-UPDATE produto 
-SET preco_novo = CAST(REPLACE(preco_texto, ',', '.') AS DECIMAL(10,2))
-WHERE preco_texto IS NOT NULL;
+UPDATE produto
+SET preco_novo = TO_NUMBER(REPLACE(preco_texto, ',', '.'))
+WHERE preco_texto IS NOT NULL
+  AND REGEXP_LIKE(preco_texto, '^[+-]?[0-9]+([.,][0-9]+)?$'
+);
+
+SELECT COUNT(*) FROM produto WHERE preco_texto IS NOT NULL AND preco_novo IS NULL;
 
 -- 3. Verificar integridade
 SELECT COUNT(*) FROM produto WHERE preco_texto IS NOT NULL AND preco_novo IS NULL;
 
 -- 4. Adicionar constraints
+-- Add nova restricao (Irá dar erro)
+ALTER TABLE produto ADD CONSTRAINT ck_preco_positivo CHECK (preco_novo > 0);
+
+-- Atualizar 
+UPDATE produto 
+set preco_novo = 0.1
+WHERE  preco_novo = NULL OR preco_novo <= 0;
+
 ALTER TABLE produto ADD CONSTRAINT ck_preco_positivo CHECK (preco_novo > 0);
 
 -- 5. Remover coluna antiga (após validação)
