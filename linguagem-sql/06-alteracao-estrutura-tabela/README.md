@@ -446,6 +446,22 @@ UPDATE schema_version SET versao = '2.1.0', data_alteracao = CURRENT_TIMESTAMP;
 
 **Exemplo**: Converter campo texto para numérico
 ```sql
+-- Exemplo de tabela
+CREATE TABLE produto (
+    id           INT PRIMARY KEY,
+    nome         VARCHAR(100),
+    preco_texto  VARCHAR(20)  -- preço armazenado como texto
+);
+
+-- insert
+INSERT INTO produto (id, nome, preco_texto) VALUES (1, 'Notebook', '3500,50');
+INSERT INTO produto (id, nome, preco_texto) VALUES (2, 'Mouse', '79,90');
+INSERT INTO produto (id, nome, preco_texto) VALUES (3, 'Teclado', '120.00');  -- formato com ponto
+INSERT INTO produto (id, nome, preco_texto) VALUES (4, 'Monitor', NULL);      -- valor nulo
+INSERT INTO produto (id, nome, preco_texto) VALUES (5, 'Cabo HDMI', 'abc');   -- valor inválido
+INSERT INTO produto (id, nome, preco_texto) VALUES (6, 'Headset', '-150');    -- valor negativo
+
+
 -- 1. Adicionar nova coluna
 ALTER TABLE produto ADD preco_novo DECIMAL(10,2);
 
