@@ -265,6 +265,51 @@ ALTER TABLE musica DROP COLUMN duracao;
 ALTER TABLE musica RENAME COLUMN duracao_nova TO duracao;
 ```
 
+## Script Base para Prática
+
+### Usando o Script `base-tables.sql`
+
+Para praticar os comandos ALTER TABLE demonstrados neste módulo, execute primeiro o script `base-tables.sql` que cria as tabelas principais do sistema MusiStream com dados de exemplo:
+
+```sql
+-- Execute o script base
+@base-tables.sql
+```
+
+**O que o script cria:**
+- Tabelas principais: `genero`, `usuario`, `artista`, `album`, `musica`, `playlist`
+- Tabelas de relacionamento: `playlist_musica`, `historico_reproducao`
+- Tabelas de negócio: `tipo_assinatura`, `assinatura`
+- Dados de exemplo para teste das alterações
+- Relacionamentos básicos entre as tabelas
+
+**Após executar o script base, você pode:**
+1. Experimentar todos os exemplos de ALTER TABLE do README
+2. Praticar os exercícios da pasta `exercicios`
+3. Executar o script `alter_table_exemplos.sql` para ver demonstrações práticas
+4. Executar o script `demo-alter-base-tables.sql` para exemplos práticos usando as tabelas base
+
+### Exemplo de Uso Completo
+
+```sql
+-- 1. Criar estrutura base
+@base-tables.sql
+
+-- 2. Praticar alterações (exemplo)
+ALTER TABLE usuario 
+ADD telefone VARCHAR2(20);
+
+ALTER TABLE musica 
+ADD popularidade INTEGER DEFAULT 0;
+
+-- 3. Verificar estrutura alterada
+DESCRIBE usuario;
+DESCRIBE musica;
+
+-- 4. Para mais exemplos práticos
+@demo-alter-base-tables.sql
+```
+
 ## Exercícios Práticos
 
 Consulte a pasta `exercicios` para atividades práticas que reforçam os conceitos apresentados.
@@ -401,18 +446,46 @@ UPDATE schema_version SET versao = '2.1.0', data_alteracao = CURRENT_TIMESTAMP;
 
 **Exemplo**: Converter campo texto para numérico
 ```sql
+-- Exemplo de tabela
+CREATE TABLE produto (
+    id           INT PRIMARY KEY,
+    nome         VARCHAR(100),
+    preco_texto  VARCHAR(20)  -- preço armazenado como texto
+);
+
+-- insert
+INSERT INTO produto (id, nome, preco_texto) VALUES (1, 'Notebook', '3500,50');
+INSERT INTO produto (id, nome, preco_texto) VALUES (2, 'Mouse', '79,90');
+INSERT INTO produto (id, nome, preco_texto) VALUES (3, 'Teclado', '120.00');  -- formato com ponto
+INSERT INTO produto (id, nome, preco_texto) VALUES (4, 'Monitor', NULL);      -- valor nulo
+INSERT INTO produto (id, nome, preco_texto) VALUES (5, 'Cabo HDMI', 'abc');   -- valor inválido
+INSERT INTO produto (id, nome, preco_texto) VALUES (6, 'Headset', '-150');    -- valor negativo
+
+
 -- 1. Adicionar nova coluna
 ALTER TABLE produto ADD preco_novo DECIMAL(10,2);
 
 -- 2. Migrar dados com conversão
-UPDATE produto 
-SET preco_novo = CAST(REPLACE(preco_texto, ',', '.') AS DECIMAL(10,2))
-WHERE preco_texto IS NOT NULL;
+UPDATE produto
+SET preco_novo = TO_NUMBER(REPLACE(preco_texto, ',', '.'))
+WHERE preco_texto IS NOT NULL
+  AND REGEXP_LIKE(preco_texto, '^[+-]?[0-9]+([.,][0-9]+)?$'
+);
+
+SELECT COUNT(*) FROM produto WHERE preco_texto IS NOT NULL AND preco_novo IS NULL;
 
 -- 3. Verificar integridade
 SELECT COUNT(*) FROM produto WHERE preco_texto IS NOT NULL AND preco_novo IS NULL;
 
 -- 4. Adicionar constraints
+-- Add nova restricao (Irá dar erro)
+ALTER TABLE produto ADD CONSTRAINT ck_preco_positivo CHECK (preco_novo > 0);
+
+-- Atualizar 
+UPDATE produto 
+set preco_novo = 0.1
+WHERE  preco_novo = NULL OR preco_novo <= 0;
+
 ALTER TABLE produto ADD CONSTRAINT ck_preco_positivo CHECK (preco_novo > 0);
 
 -- 5. Remover coluna antiga (após validação)
