@@ -74,31 +74,51 @@ Map<String, List<Integer>> grupos = new HashMap<>();
 ```
 Collection (Interface)
 ├── List (Interface)
-│   ├── ArrayList (Class)
-│   ├── LinkedList (Class)
-│   └── Vector (Class)
+│   ├── ArrayList (Class) - Array redimensionável
+│   ├── LinkedList (Class) - Lista duplamente ligada 
+│   └── Vector (Class) - Thread-safe, legado
 ├── Set (Interface)
-│   ├── HashSet (Class)
-│   ├── TreeSet (Class)
-│   └── LinkedHashSet (Class)
+│   ├── HashSet (Class) - Sem duplicatas, sem ordem
+│   ├── TreeSet (Class) - Sem duplicatas, ordenado
+│   └── LinkedHashSet (Class) - Sem duplicatas, ordem de inserção
 └── Queue (Interface)
-    ├── ArrayDeque (Class)
-    └── PriorityQueue (Class)
+    ├── LinkedList (Class) - Implementa List e Queue
+    ├── ArrayDeque (Class) - Fila/pilha baseada em array
+    └── PriorityQueue (Class) - Fila de prioridade (heap)
 
 Map (Interface) - Não herda de Collection
-├── HashMap (Class)
-├── TreeMap (Class)
-└── LinkedHashMap (Class)
+├── HashMap (Class) - Chave-valor, sem ordem
+├── TreeMap (Class) - Chave-valor, ordenado por chave
+└── LinkedHashMap (Class) - Chave-valor, ordem de inserção
 ```
 
 ## 🖥️ Exemplos
 
 ### Exemplos Básicos
+
 #### [ExemplosArrayList.java](ExemplosArrayList.java)
 Demonstra uso completo de ArrayList com operações básicas e avançadas.
 
+#### [ExemplosLinkedList.java](ExemplosLinkedList.java)
+Illustra LinkedList como lista, fila e pilha, com comparações de performance.
+
 #### [ExemplosHashMap.java](ExemplosHashMap.java)
 Ilustra uso de HashMap para mapeamento chave-valor.
+
+#### [ExemplosTreeMap.java](ExemplosTreeMap.java)
+Demonstra TreeMap para mapeamentos ordenados por chave com navegação.
+
+#### [ExemplosHashSet.java](ExemplosHashSet.java)
+Mostra HashSet para conjuntos únicos com operações de conjunto.
+
+#### [ExemplosTreeSet.java](ExemplosTreeSet.java)
+Apresenta TreeSet para conjuntos ordenados com comparadores personalizados.
+
+#### [ExemplosLinkedCollections.java](ExemplosLinkedCollections.java)
+Explora LinkedHashSet e LinkedHashMap que preservam ordem de inserção.
+
+#### [ExemplosPriorityQueue.java](ExemplosPriorityQueue.java)
+Demonstra PriorityQueue para filas de prioridade e algoritmos.
 
 ### Exemplos com Programação Orientada a Objetos
 
@@ -130,11 +150,11 @@ java TesteCollections
 
 ## 📊 Comparação de Performance
 
-| Operação | ArrayList | LinkedList | HashSet | HashMap |
-|----------|-----------|------------|---------|---------|
-| Busca    | O(1)      | O(n)       | O(1)    | O(1)    |
-| Inserção | O(1)*     | O(1)       | O(1)    | O(1)    |
-| Remoção  | O(n)      | O(1)**     | O(1)    | O(1)    |
+| Operação | ArrayList | LinkedList | HashSet | TreeSet | HashMap | TreeMap | PriorityQueue |
+|----------|-----------|------------|---------|---------|---------|---------|---------------|
+| Busca    | O(1)      | O(n)       | O(1)    | O(log n)| O(1)    | O(log n)| O(n)          |
+| Inserção | O(1)*     | O(1)       | O(1)    | O(log n)| O(1)    | O(log n)| O(log n)      |
+| Remoção  | O(n)      | O(1)**     | O(1)    | O(log n)| O(1)    | O(log n)| O(log n)      |
 
 *Amortizado, O(n) no pior caso (resize)
 **Se tiver referência para o nó
@@ -143,22 +163,23 @@ java TesteCollections
 
 ### List
 - **ArrayList**: Acesso frequente por índice, poucas inserções/remoções no meio
-- **LinkedList**: Muitas inserções/remoções, especialmente no início/fim
+- **LinkedList**: Muitas inserções/remoções, especialmente no início/fim, uso como fila/pilha
 - **Vector**: Quando precisa de thread-safety (use Collections.synchronizedList() em ArrayList)
 
 ### Set
 - **HashSet**: Elementos únicos, sem ordem específica, melhor performance
-- **TreeSet**: Elementos únicos ordenados, implementa NavigableSet
+- **TreeSet**: Elementos únicos ordenados, implementa NavigableSet, comparações personalizadas
 - **LinkedHashSet**: Elementos únicos mantendo ordem de inserção
 
 ### Map
 - **HashMap**: Mapeamento chave-valor, melhor performance, sem ordem
-- **TreeMap**: Mapeamento ordenado por chave, implementa NavigableMap
-- **LinkedHashMap**: Mapeamento mantendo ordem de inserção
+- **TreeMap**: Mapeamento ordenado por chave, implementa NavigableMap, operações de faixa
+- **LinkedHashMap**: Mapeamento mantendo ordem de inserção, cache LRU
 
 ### Queue
-- **ArrayDeque**: Fila/pilha geral, melhor que Stack e LinkedList
-- **PriorityQueue**: Fila com prioridade (heap)
+- **LinkedList**: Fila FIFO simples, também implementa Deque
+- **ArrayDeque**: Fila/pilha geral, melhor que Stack e mais eficiente que LinkedList
+- **PriorityQueue**: Fila com prioridade (heap), algoritmos que precisam do "melhor" elemento
 
 ## 🎨 Collections Framework e Design Patterns
 
@@ -558,3 +579,114 @@ Se algum conceito de OOP não ficou claro durante este estudo:
 ---
 
 🎯 **Lembre-se**: Collections Framework não é apenas sobre armazenar dados. É sobre **aplicar POO** para criar código mais limpo, reutilizável e maintível!
+
+## 🚀 Técnicas Avançadas de Collections
+
+### 🔗 LinkedList: Versatilidade Máxima
+```java
+// Como List
+List<String> lista = new LinkedList<>();
+lista.add("elemento");
+
+// Como Queue (FIFO)
+Queue<String> fila = new LinkedList<>();
+fila.offer("elemento");
+String primeiro = fila.poll();
+
+// Como Deque (fila dupla)
+Deque<String> deque = new LinkedList<>();
+deque.addFirst("início");
+deque.addLast("fim");
+
+// Como Stack (LIFO)
+deque.push("topo");
+String topo = deque.pop();
+```
+
+### 🌳 TreeCollections: Ordem Natural
+```java
+// TreeSet - conjunto ordenado automaticamente
+TreeSet<Integer> numeros = new TreeSet<>();
+numeros.addAll(Arrays.asList(5, 2, 8, 1));
+System.out.println(numeros); // [1, 2, 5, 8]
+
+// TreeMap - chaves sempre ordenadas
+TreeMap<String, Integer> idades = new TreeMap<>();
+idades.put("Carlos", 30);
+idades.put("Ana", 25);
+// Sempre em ordem alfabética das chaves
+
+// Operações de navegação
+Integer menorQue5 = numeros.lower(5);    // 2
+Integer maiorIgual3 = numeros.ceiling(3); // 5
+```
+
+### 🔗 LinkedCollections: Ordem Preservada
+```java
+// LinkedHashSet - remove duplicatas mantendo ordem
+List<String> comDuplicatas = Arrays.asList("B", "A", "C", "A", "B");
+Set<String> semDuplicatas = new LinkedHashSet<>(comDuplicatas);
+// Resultado: ["B", "A", "C"] - ordem preservada
+
+// LinkedHashMap - ordem de inserção
+Map<String, Integer> sequencial = new LinkedHashMap<>();
+sequencial.put("primeiro", 1);
+sequencial.put("segundo", 2);
+// Sempre na ordem de inserção
+
+// Cache LRU (Least Recently Used)
+LinkedHashMap<String, String> cache = new LinkedHashMap<String, String>(16, 0.75f, true) {
+    protected boolean removeEldestEntry(Map.Entry<String, String> eldest) {
+        return size() > 100; // Limita a 100 elementos
+    }
+};
+```
+
+### ⚡ PriorityQueue: Sempre o Melhor Primeiro
+```java
+// Min-heap por padrão (menor elemento primeiro)
+PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+minHeap.addAll(Arrays.asList(5, 2, 8, 1));
+System.out.println(minHeap.poll()); // 1
+
+// Max-heap (maior elemento primeiro)
+PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+
+// Com objetos customizados
+PriorityQueue<Tarefa> filaTrabalho = new PriorityQueue<>(
+    Comparator.comparing(Tarefa::getPrioridade)
+             .thenComparing(Tarefa::getDuracaoMinutos)
+);
+
+// Aplicações: algoritmo de Dijkstra, agendamento, top-K elementos
+```
+
+### 🎯 Escolhendo a Collection Certa
+
+#### Para Performance Máxima:
+- **ArrayList** + **HashMap** + **HashSet**: O(1) para a maioria das operações
+
+#### Para Ordem Automática:
+- **TreeSet** + **TreeMap**: Sempre ordenados, O(log n) para operações
+
+#### Para Ordem de Inserção:
+- **LinkedHashSet** + **LinkedHashMap**: Ordem preservada com performance quase O(1)
+
+#### Para Filas e Pilhas:
+- **LinkedList** como **Queue/Deque**: Flexibilidade máxima
+- **ArrayDeque**: Performance otimizada para filas/pilhas
+- **PriorityQueue**: Quando ordem de prioridade importa
+
+#### Para Operações Especiais:
+- **TreeSet.subSet()**: Subconjuntos por faixa
+- **TreeMap.tailMap()**: Submapas a partir de uma chave
+- **LinkedHashMap** com access-order: Cache LRU automático
+
+### 💡 Dicas de Otimização
+
+1. **Especifique capacidade inicial** quando souber o tamanho aproximado
+2. **Use LinkedHashSet** para remover duplicatas preservando ordem
+3. **Use TreeSet** quando precisar de operações de faixa (subSet, headSet, tailSet)
+4. **Use PriorityQueue** para algoritmos que sempre precisam do "melhor" elemento
+5. **Use LinkedHashMap** para caches LRU simples
+6. **Considere ArrayList** para listas pequenas mesmo com muitas inserções
