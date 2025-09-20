@@ -2,6 +2,13 @@
 
 Esta seção apresenta os conceitos mais básicos e fundamentais da linguagem Java, fornecendo a base necessária para começar a programar. **É aqui que sua jornada de programador Java começa!** 🚀
 
+> **📋 Nova Estrutura Organizacional**  
+> Cada tópico agora está organizado em uma estrutura clara:
+> - **`src/`** - Exemplos completos de código com comentários detalhados
+> - **`docs/`** - Explicações aprofundadas dos conceitos e boas práticas
+> 
+> Esta organização facilita o aprendizado e serve como referência futura!
+
 ## 🎯 Para Quem É Esta Seção?
 
 - **Iniciantes completos** em programação
@@ -11,7 +18,7 @@ Esta seção apresenta os conceitos mais básicos e fundamentais da linguagem Ja
 
 ## 📖 Conteúdo (Ordem Recomendada)
 
-### [00 - Hello World](00_hello/) - **COMECE AQUI!** ⭐
+### [00 - Hello World](hello_world/) - **COMECE AQUI!** ⭐
 Seu primeiro programa em Java - entendendo como a "mágica" acontece.
 
 **O que você vai aprender:**
@@ -26,7 +33,7 @@ Seu primeiro programa em Java - entendendo como a "mágica" acontece.
 
 ---
 
-### [01 - Tipos de Dados](01_Tipos%20de%20dados/) - **OS BLOCOS DE CONSTRUÇÃO**
+### [01 - Tipos de Dados](tipos_de_dados/) - **OS BLOCOS DE CONSTRUÇÃO**
 Aprenda como armazenar diferentes tipos de informação no computador.
 
 **O que você vai aprender:**
@@ -45,7 +52,7 @@ Aprenda como armazenar diferentes tipos de informação no computador.
 
 ---
 
-### [02 - Controle de Fluxo (Condicionais)](02_Controle%20de%20Fluxo%20%28if%29/) - **TOMANDO DECISÕES**
+### [02 - Controle de Fluxo (Condicionais)](controle_fluxo_condicionais/) - **TOMANDO DECISÕES**
 Ensine seu programa a tomar decisões baseadas em diferentes situações.
 
 **O que você vai aprender:**
@@ -67,7 +74,7 @@ Ensine seu programa a tomar decisões baseadas em diferentes situações.
 
 ---
 
-### [03 - Controle de Fluxo (Repetição)](03_Controle%20de%20Fluxo%20%28repeticao%29/) - **AUTOMATIZANDO TAREFAS**
+### [03 - Controle de Fluxo (Repetição)](controle_fluxo_repeticao/) - **AUTOMATIZANDO TAREFAS**
 Aprenda a fazer o computador repetir tarefas automaticamente.
 
 **O que você vai aprender:**
@@ -89,7 +96,7 @@ Aprenda a fazer o computador repetir tarefas automaticamente.
 
 ---
 
-### [04 - Exceções](04_excecoes/) - **LIDANDO COM PROBLEMAS**
+### [04 - Exceções](tratamento_excecoes/) - **LIDANDO COM PROBLEMAS**
 Aprenda a fazer seu programa funcionar mesmo quando algo dá errado.
 
 **O que você vai aprender:**
@@ -111,7 +118,7 @@ Aprenda a fazer seu programa funcionar mesmo quando algo dá errado.
 
 ---
 
-### [05 - Manipulação de Strings](06_manipulacao_strings/) - **TRABALHANDO COM TEXTO** ⭐ **NOVO!**
+### [05 - Manipulação de Strings](manipulacao_strings/) - **TRABALHANDO COM TEXTO** ⭐ **NOVO!**
 Domine a arte de manipular texto em Java - uma das habilidades mais utilizadas na programação.
 
 **O que você vai aprender:**
@@ -157,7 +164,7 @@ Domine a arte de manipular texto em Java - uma das habilidades mais utilizadas n
 
 ---
 
-### [06 - Arrays e Métodos](05_arrays_e_metodos/) - **ORGANIZANDO E REUTILIZANDO** ⭐
+### [06 - Arrays e Métodos](arrays_e_metodos/) - **ORGANIZANDO E REUTILIZANDO** ⭐
 Aprenda a armazenar múltiplos valores e organizar seu código de forma profissional.
 
 **O que você vai aprender:**
@@ -199,7 +206,7 @@ Aprenda a armazenar múltiplos valores e organizar seu código de forma profissi
 
 ---
 
-### [Exercícios](exercicios/) - **PRATIQUE O QUE APRENDEU**
+### [Exercícios](exercicios_praticos/) - **PRATIQUE O QUE APRENDEU**
 Exercícios práticos para consolidar os conceitos aprendidos.
 
 **Atividades incluídas:**
