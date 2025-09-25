@@ -23,8 +23,8 @@ VALUES (valor1, valor2, ...);
 
 **Especificando todas as colunas**:
 ```sql
-INSERT INTO artista (id_artista, nome_artista, biografia, data_formacao, pais_origem, ativo, numero_membros)
-VALUES (1, 'The Beatles', 'Banda britânica de rock formada em Liverpool em 1960', '1960-08-17', 'Reino Unido', TRUE, 4);
+INSERT INTO artista (id_artista, nome_artista, biografia, data_inicio_carreira, pais_origem, ativo, numero_membros)
+VALUES (1, 'The Beatles', 'Banda britânica de rock formada em Liverpool em 1960', DATE '1960-08-17', 'Reino Unido', 'S', 4);
 ```
 
 **Especificando apenas colunas necessárias**:
@@ -36,7 +36,7 @@ VALUES (2, 'Caetano Veloso', 'Brasil');
 **Sem especificar colunas (todas em ordem)**:
 ```sql
 INSERT INTO artista 
-VALUES (3, 'Bob Dylan', 'Cantor e compositor americano', '1941-05-24', 'Estados Unidos', TRUE, 1);
+VALUES (3, 'Bob Dylan', 'Dylan', DATE '1941-05-24', 'Estados Unidos', 'Cantor e compositor americano', DATE '1961-01-01', 'S', 'www.bobdylan.com', 1);
 ```
 
 ### 2. Valores Especiais
@@ -44,7 +44,7 @@ VALUES (3, 'Bob Dylan', 'Cantor e compositor americano', '1941-05-24', 'Estados 
 #### 2.1 Trabalhando com NULL
 ```sql
 -- Inserindo com valores NULL explícitos
-INSERT INTO artista (id_artista, nome_artista, biografia, data_formacao, pais_origem)
+INSERT INTO artista (id_artista, nome_artista, biografia, data_inicio_carreira, pais_origem)
 VALUES (4, 'Artista Desconhecido', NULL, NULL, 'Brasil');
 
 -- Omitindo colunas que permitem NULL
@@ -55,19 +55,19 @@ VALUES (5, 'Novo Artista', 'Portugal');
 #### 2.2 Valores Padrão (DEFAULT)
 ```sql
 -- Usando DEFAULT explícito
-INSERT INTO usuario (id_usuario, nome_usuario, email, data_nascimento, data_cadastro, ativo)
-VALUES (1, 'João Silva', 'joao@email.com', '1990-05-15', DEFAULT, DEFAULT);
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, data_cadastro, ativo)
+VALUES (1, 'João Silva', 'joao@email.com', 'senha123', DATE '1990-05-15', DEFAULT, DEFAULT);
 
 -- Omitindo colunas com DEFAULT
-INSERT INTO usuario (id_usuario, nome_usuario, email, data_nascimento)
-VALUES (2, 'Maria Santos', 'maria@email.com', '1985-12-20');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento)
+VALUES (2, 'Maria Santos', 'maria@email.com', 'senha456', DATE '1985-12-20');
 ```
 
 #### 2.3 Funções de Sistema
 ```sql
 -- Usando funções para valores automáticos
-INSERT INTO usuario (id_usuario, nome_usuario, email, data_nascimento, data_cadastro)
-VALUES (3, 'Pedro Oliveira', 'pedro@email.com', '1992-07-08', CURRENT_TIMESTAMP);
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, data_cadastro)
+VALUES (3, 'Pedro Oliveira', 'pedro@email.com', 'senha789', DATE '1992-07-08', CURRENT_TIMESTAMP);
 
 -- Cálculos e expressões
 INSERT INTO musica (id_musica, titulo, duracao, numero_faixa, id_album)
@@ -79,30 +79,30 @@ VALUES (1, 'Hello', 3*60+7, 1, 1); -- 3 minutos e 7 segundos
 #### 3.1 Populando Tabela de Artistas
 ```sql
 -- Artistas Internacionais
-INSERT INTO artista (id_artista, nome_artista, biografia, data_formacao, pais_origem, numero_membros)
+INSERT INTO artista (id_artista, nome_artista, biografia, data_inicio_carreira, pais_origem, numero_membros)
 VALUES 
-(1, 'The Beatles', 'Banda britânica de rock que revolucionou a música popular', '1960-08-17', 'Reino Unido', 4),
-(2, 'Queen', 'Banda britânica de rock conhecida por sua teatralidade', '1970-06-27', 'Reino Unido', 4),
-(3, 'Bob Dylan', 'Cantor e compositor americano, Nobel de Literatura 2016', '1961-01-01', 'Estados Unidos', 1);
+(1, 'The Beatles', 'Banda britânica de rock que revolucionou a música popular', DATE '1960-08-17', 'Reino Unido', 4),
+(2, 'Queen', 'Banda britânica de rock conhecida por sua teatralidade', DATE '1970-06-27', 'Reino Unido', 4),
+(3, 'Bob Dylan', 'Cantor e compositor americano, Nobel de Literatura 2016', DATE '1961-01-01', 'Estados Unidos', 1);
 
 -- Artistas Brasileiros
-INSERT INTO artista (id_artista, nome_artista, biografia, data_formacao, pais_origem, numero_membros)
+INSERT INTO artista (id_artista, nome_artista, biografia, data_inicio_carreira, pais_origem, numero_membros)
 VALUES 
-(4, 'Caetano Veloso', 'Cantor, compositor e escritor brasileiro, ícone da MPB', '1965-01-01', 'Brasil', 1),
-(5, 'Legião Urbana', 'Banda brasiliense de rock formada em 1982', '1982-03-01', 'Brasil', 4),
-(6, 'Anitta', 'Cantora e compositora brasileira de pop e funk', '2010-01-01', 'Brasil', 1);
+(4, 'Caetano Veloso', 'Cantor, compositor e escritor brasileiro, ícone da MPB', DATE '1965-01-01', 'Brasil', 1),
+(5, 'Legião Urbana', 'Banda brasiliense de rock formada em 1982', DATE '1982-03-01', 'Brasil', 4),
+(6, 'Anitta', 'Cantora e compositora brasileira de pop e funk', DATE '2010-01-01', 'Brasil', 1);
 ```
 
 #### 3.2 Populando Tabela de Usuários
 ```sql
--- Usuários do sistema
-INSERT INTO usuario (id_usuario, nome_usuario, email, data_nascimento)
+-- Usuários do sistema (senha obrigatória)
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento)
 VALUES 
-(1, 'Ana Clara Santos', 'ana.santos@email.com', '1995-03-15'),
-(2, 'Carlos Eduardo Silva', 'carlos.silva@email.com', '1988-07-22'),
-(3, 'Fernanda Costa', 'fernanda.costa@email.com', '1992-11-08'),
-(4, 'Roberto Mendes', 'roberto.mendes@email.com', '1985-05-30'),
-(5, 'Julia Rodrigues', 'julia.rodrigues@email.com', '1998-09-12');
+(1, 'Ana Clara Santos', 'ana.santos@email.com', 'senha123', DATE '1995-03-15'),
+(2, 'Carlos Eduardo Silva', 'carlos.silva@email.com', 'minhasenha', DATE '1988-07-22'),
+(3, 'Fernanda Costa', 'fernanda.costa@email.com', 'senha456', DATE '1992-11-08'),
+(4, 'Roberto Mendes', 'roberto.mendes@email.com', 'password', DATE '1985-05-30'),
+(5, 'Julia Rodrigues', 'julia.rodrigues@email.com', 'senha789', DATE '1998-09-12');
 ```
 
 #### 3.3 Populando Álbuns (Respeitando Integridade Referencial)
@@ -110,22 +110,22 @@ VALUES
 -- Álbuns dos Beatles
 INSERT INTO album (id_album, titulo, data_lancamento, numero_faixas, duracao_total, tipo_album, id_artista)
 VALUES 
-(1, 'Abbey Road', '1969-09-26', 17, 2887, 'album', 1),
-(2, 'Sgt. Pepper''s Lonely Hearts Club Band', '1967-06-01', 13, 2389, 'album', 1),
-(3, 'Let It Be', '1970-05-08', 12, 2155, 'album', 1);
+(1, 'Abbey Road', DATE '1969-09-26', 17, 2887, 'ALBUM', 1),
+(2, 'Sgt. Pepper''s Lonely Hearts Club Band', DATE '1967-06-01', 13, 2389, 'ALBUM', 1),
+(3, 'Let It Be', DATE '1970-05-08', 12, 2155, 'ALBUM', 1);
 
 -- Álbuns do Queen
 INSERT INTO album (id_album, titulo, data_lancamento, numero_faixas, duracao_total, tipo_album, id_artista)
 VALUES 
-(4, 'A Night at the Opera', '1975-11-21', 12, 2583, 'album', 2),
-(5, 'Bohemian Rhapsody', '1975-10-31', 1, 355, 'single', 2);
+(4, 'A Night at the Opera', DATE '1975-11-21', 12, 2583, 'ALBUM', 2),
+(5, 'Bohemian Rhapsody', DATE '1975-10-31', 1, 355, 'SINGLE', 2);
 
 -- Álbuns Brasileiros
 INSERT INTO album (id_album, titulo, data_lancamento, numero_faixas, duracao_total, tipo_album, id_artista)
 VALUES 
-(6, 'Tropicália', '1968-07-01', 12, 2234, 'album', 4),
-(7, 'Dois', '1986-01-01', 11, 2876, 'album', 5),
-(8, 'Kisses', '2019-04-05', 15, 2445, 'album', 6);
+(6, 'Tropicália', DATE '1968-07-01', 12, 2234, 'ALBUM', 4),
+(7, 'Dois', DATE '1986-01-01', 11, 2876, 'ALBUM', 5),
+(8, 'Kisses', DATE '2019-04-05', 15, 2445, 'ALBUM', 6);
 ```
 
 ### 4. Tratamento de Erros Comuns
