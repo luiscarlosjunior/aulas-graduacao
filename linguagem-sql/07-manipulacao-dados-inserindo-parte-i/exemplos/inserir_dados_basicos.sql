@@ -2,6 +2,8 @@
 -- INSERÇÃO DE DADOS BÁSICOS - SISTEMA MUSISTREAM
 -- Módulo 07: Manipulação de Dados - Inserindo Dados (Parte I)
 -- =====================================================
+-- IMPORTANTE: Execute o script base-script.sql primeiro!
+-- =====================================================
 
 -- =====================================================
 -- 1. CONFIGURAÇÃO DO AMBIENTE
@@ -14,94 +16,150 @@ SET TIMING ON;
 -- CUIDADO: Isso removerá todos os dados das tabelas!
 /*
 DELETE FROM historico_reproducao;
+DELETE FROM playlist_musica;
+DELETE FROM playlist;
+DELETE FROM assinatura;
 DELETE FROM musica;
 DELETE FROM album;
 DELETE FROM artista;
+DELETE FROM genero;
 DELETE FROM usuario;
+DELETE FROM tipo_assinatura;
 */
 
 -- =====================================================
--- 2. INSERÇÃO DE ARTISTAS
+-- 2. INSERÇÃO DE GÊNEROS MUSICAIS
 -- =====================================================
 
+PROMPT Inserindo gêneros musicais...
+
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES 
+(seq_genero.NEXTVAL, 'Rock', 'Música caracterizada por guitarras elétricas e bateria forte');
+
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES 
+(seq_genero.NEXTVAL, 'Pop', 'Música popular com melodias cativantes e estrutura simples');
+
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES 
+(seq_genero.NEXTVAL, 'Jazz', 'Música com improvisação e harmonias complexas');
+
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES 
+(seq_genero.NEXTVAL, 'Blues', 'Música expressiva com raízes afro-americanas');
+
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES 
+(seq_genero.NEXTVAL, 'Eletrônica', 'Música produzida usando equipamentos eletrônicos');
+
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES 
+(seq_genero.NEXTVAL, 'Hip Hop', 'Música urbana com rap e beats marcantes');
+
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES 
+(seq_genero.NEXTVAL, 'Reggae', 'Música jamaicana com ritmo característico');
+
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES 
+(seq_genero.NEXTVAL, 'Country', 'Música folclórica americana');
+
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES 
+(seq_genero.NEXTVAL, 'MPB', 'Música Popular Brasileira');
+
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES 
+(seq_genero.NEXTVAL, 'Funk', 'Música brasileira com batidas marcantes');
+
+-- Verificar inserção de gêneros
+SELECT 'GÊNEROS INSERIDOS:' as status FROM dual;
+SELECT id_genero, nome_genero, descricao 
+FROM genero 
+ORDER BY id_genero;
+
+-- =====================================================
+-- 3. INSERÇÃO DE ARTISTAS
+-- =====================================================
+
+PROMPT Inserindo artistas...
+
 -- Artistas Internacionais Clássicos
-INSERT INTO artista (id_artista, nome_artista, biografia, data_formacao, pais_origem, ativo, numero_membros)
-VALUES (1, 'The Beatles', 
+INSERT INTO artista (id_artista, nome_artista, biografia, data_inicio_carreira, pais_origem, ativo, numero_membros)
+VALUES (seq_artista.NEXTVAL, 'The Beatles', 
         'Banda britânica de rock formada em Liverpool em 1960. Considerada uma das bandas mais influentes da história da música popular.',
-        '1960-08-17', 'Reino Unido', TRUE, 4);
+        DATE '1960-08-17', 'Reino Unido', 'S', 4);
 
-INSERT INTO artista (id_artista, nome_artista, biografia, data_formacao, pais_origem, ativo, numero_membros)
-VALUES (2, 'Queen', 
+INSERT INTO artista (id_artista, nome_artista, biografia, data_inicio_carreira, pais_origem, ativo, numero_membros)
+VALUES (seq_artista.NEXTVAL, 'Queen', 
         'Banda britânica de rock formada em Londres em 1970, conhecida por sua teatralidade e pela voz de Freddie Mercury.',
-        '1970-06-27', 'Reino Unido', TRUE, 4);
+        DATE '1970-06-27', 'Reino Unido', 'S', 4);
 
-INSERT INTO artista (id_artista, nome_artista, biografia, data_formacao, pais_origem, ativo, numero_membros)
-VALUES (3, 'Bob Dylan', 
+INSERT INTO artista (id_artista, nome_artista, biografia, data_inicio_carreira, pais_origem, ativo, numero_membros)
+VALUES (seq_artista.NEXTVAL, 'Bob Dylan', 
         'Cantor, compositor e escritor americano. Vencedor do Prêmio Nobel de Literatura em 2016.',
-        '1961-01-01', 'Estados Unidos', TRUE, 1);
+        DATE '1961-01-01', 'Estados Unidos', 'S', 1);
 
 -- Artistas Brasileiros
-INSERT INTO artista (id_artista, nome_artista, biografia, data_formacao, pais_origem, ativo, numero_membros)
-VALUES (4, 'Caetano Veloso', 
+INSERT INTO artista (id_artista, nome_artista, biografia, data_inicio_carreira, pais_origem, ativo, numero_membros)
+VALUES (seq_artista.NEXTVAL, 'Caetano Veloso', 
         'Cantor, compositor, escritor e político brasileiro. Um dos pioneiros do movimento tropicalista.',
-        '1965-01-01', 'Brasil', TRUE, 1);
+        DATE '1965-01-01', 'Brasil', 'S', 1);
 
-INSERT INTO artista (id_artista, nome_artista, biografia, data_formacao, pais_origem, ativo, numero_membros)
-VALUES (5, 'Legião Urbana', 
+INSERT INTO artista (id_artista, nome_artista, biografia, data_inicio_carreira, pais_origem, ativo, numero_membros)
+VALUES (seq_artista.NEXTVAL, 'Legião Urbana', 
         'Banda brasiliense de rock formada em 1982 por Renato Russo, Dado Villa-Lobos e Marcelo Bonfá.',
-        '1982-03-01', 'Brasil', FALSE, 4);
+        DATE '1982-03-01', 'Brasil', 'N', 4);
 
-INSERT INTO artista (id_artista, nome_artista, biografia, data_formacao, pais_origem, ativo, numero_membros)
-VALUES (6, 'Anitta', 
+INSERT INTO artista (id_artista, nome_artista, biografia, data_inicio_carreira, pais_origem, ativo, numero_membros)
+VALUES (seq_artista.NEXTVAL, 'Anitta', 
         'Cantora, compositora, atriz e empresária brasileira. Uma das principais representantes do funk e pop brasileiro.',
-        '2010-01-01', 'Brasil', TRUE, 1);
+        DATE '2010-01-01', 'Brasil', 'S', 1);
 
 -- Verificar inserção de artistas
-SELECT 'ARTISTAS INSERIDOS:' as status;
+SELECT 'ARTISTAS INSERIDOS:' as status FROM dual;
 SELECT id_artista, nome_artista, pais_origem, numero_membros 
 FROM artista 
 ORDER BY id_artista;
 
 -- =====================================================
--- 3. INSERÇÃO DE USUÁRIOS
+-- 4. INSERÇÃO DE USUÁRIOS
 -- =====================================================
 
+PROMPT Inserindo usuários...
+
 -- Usuários diversos
-INSERT INTO usuario (id_usuario, nome_usuario, email, data_nascimento)
-VALUES (1, 'Ana Clara Santos', 'ana.santos@email.com', '1995-03-15');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento)
+VALUES (seq_usuario.NEXTVAL, 'Ana Clara Santos', 'ana.santos@email.com', 'senha123', DATE '1995-03-15');
 
-INSERT INTO usuario (id_usuario, nome_usuario, email, data_nascimento)
-VALUES (2, 'Carlos Eduardo Silva', 'carlos.silva@email.com', '1988-07-22');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento)
+VALUES (seq_usuario.NEXTVAL, 'Carlos Eduardo Silva', 'carlos.silva@email.com', 'minhasenha', DATE '1988-07-22');
 
-INSERT INTO usuario (id_usuario, nome_usuario, email, data_nascimento)
-VALUES (3, 'Fernanda Costa', 'fernanda.costa@email.com', '1992-11-08');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento)
+VALUES (seq_usuario.NEXTVAL, 'Fernanda Costa', 'fernanda.costa@email.com', 'senha456', DATE '1992-11-08');
 
-INSERT INTO usuario (id_usuario, nome_usuario, email, data_nascimento)
-VALUES (4, 'Roberto Mendes', 'roberto.mendes@email.com', '1985-05-30');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento)
+VALUES (seq_usuario.NEXTVAL, 'Roberto Mendes', 'roberto.mendes@email.com', 'password123', DATE '1985-05-30');
 
-INSERT INTO usuario (id_usuario, nome_usuario, email, data_nascimento)
-VALUES (5, 'Julia Rodrigues', 'julia.rodrigues@email.com', '1998-09-12');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento)
+VALUES (seq_usuario.NEXTVAL, 'Julia Rodrigues', 'julia.rodrigues@email.com', 'senha789', DATE '1998-09-12');
 
 -- Verificar inserção de usuários
-SELECT 'USUÁRIOS INSERIDOS:' as status;
+SELECT 'USUÁRIOS INSERIDOS:' as status FROM dual;
 SELECT id_usuario, nome_usuario, email, 
-       FLOOR(DATEDIFF(CURRENT_DATE, data_nascimento)/365) as idade
+       TRUNC((SYSDATE - data_nascimento)/365.25) as idade
 FROM usuario 
 ORDER BY id_usuario;
 
 -- =====================================================
--- 4. INSERÇÃO DE ÁLBUNS
+-- 5. INSERÇÃO DE ÁLBUNS
 -- =====================================================
+
+PROMPT Inserindo álbuns...
 
 -- Álbuns dos Beatles
 INSERT INTO album (id_album, titulo, data_lancamento, numero_faixas, duracao_total, tipo_album, id_artista)
-VALUES (1, 'Abbey Road', '1969-09-26', 17, 2887, 'album', 1);
+VALUES (seq_album.NEXTVAL, 'Abbey Road', DATE '1969-09-26', 17, 2887, 'ALBUM', 
+        (SELECT id_artista FROM artista WHERE nome_artista = 'The Beatles'));
 
 INSERT INTO album (id_album, titulo, data_lancamento, numero_faixas, duracao_total, tipo_album, id_artista)
-VALUES (2, 'Sgt. Pepper''s Lonely Hearts Club Band', '1967-06-01', 13, 2389, 'album', 1);
+VALUES (seq_album.NEXTVAL, 'Sgt. Pepper''s Lonely Hearts Club Band', DATE '1967-06-01', 13, 2389, 'ALBUM', 
+        (SELECT id_artista FROM artista WHERE nome_artista = 'The Beatles'));
 
 INSERT INTO album (id_album, titulo, data_lancamento, numero_faixas, duracao_total, tipo_album, id_artista)
-VALUES (3, 'Let It Be', '1970-05-08', 12, 2155, 'album', 1);
+VALUES (seq_album.NEXTVAL, 'Let It Be', DATE '1970-05-08', 12, 2155, 'ALBUM', 
+        (SELECT id_artista FROM artista WHERE nome_artista = 'The Beatles'));
 
 -- Álbuns do Queen
 INSERT INTO album (id_album, titulo, data_lancamento, numero_faixas, duracao_total, tipo_album, id_artista)
