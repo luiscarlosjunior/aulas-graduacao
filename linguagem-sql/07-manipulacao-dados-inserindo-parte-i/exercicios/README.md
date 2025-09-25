@@ -1,5 +1,23 @@
 # Exercícios - Módulo 07: Manipulação de Dados - Inserindo Dados (Parte I)
 
+## ⚠️ Preparação Inicial
+
+**Antes de começar os exercícios, execute o script base:**
+
+```sql
+@base-script.sql
+```
+
+Este script cria todas as tabelas do sistema MusiStream com a estrutura completa necessária para os exercícios de INSERT. Ele inclui sequences, constraints e todas as colunas necessárias.
+
+**Estrutura das tabelas principais:**
+- `artista`: inclui campos como `numero_membros`, `data_inicio_carreira`
+- `usuario`: inclui campo obrigatório `senha`  
+- `album`: inclui campos como `tipo_album`, `data_lancamento`
+- `musica`: inclui campos como `explicita`, `letra`
+
+---
+
 ## Exercício 1: Inserção Básica de Artistas
 
 **Cenário**: Você é responsável por alimentar o banco de dados MusiStream com novos artistas.
