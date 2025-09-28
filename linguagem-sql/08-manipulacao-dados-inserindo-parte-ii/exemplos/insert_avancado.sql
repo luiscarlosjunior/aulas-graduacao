@@ -3,6 +3,11 @@
 -- Módulo 08: Comandos INSERT Avançados
 -- =====================================================
 
+/*
+DROP TABLE IF NOT EXISTS estatistica_artista CASCADE CONSTRAINTS;
+
+*/
+
 -- =====================================================
 -- 1. CONFIGURAÇÃO E SEQUÊNCIAS
 -- =====================================================
@@ -163,12 +168,12 @@ HAVING COUNT(DISTINCT al.id_album) > 0;
 -- =====================================================
 
 -- Inserir usuários usando sequência para ID
-INSERT INTO usuario (id_usuario, nome_usuario, sobrenome, email, senha, data_nascimento, pais)
-VALUES (seq_usuario_teste.NEXTVAL, 'Carlos', 'Silva', 'carlos.silva@email.com', 
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais)
+VALUES (seq_usuario_teste.NEXTVAL, 'Carlos', 'Silva', 'carlos.silva1@email.com', 
         'hash123', DATE '1990-05-15', 'Brasil');
 
-INSERT INTO usuario (id_usuario, nome_usuario, sobrenome, email, senha, data_nascimento, pais)
-VALUES (seq_usuario_teste.NEXTVAL, 'Ana', 'Santos', 'ana.santos@email.com', 
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais)
+VALUES (seq_usuario_teste.NEXTVAL, 'Ana', 'Santos', 'ana.santos1@email.com', 
         'hash456', DATE '1985-12-20', 'Brasil');
 
 -- Inserir playlist para o último usuário inserido
@@ -218,12 +223,26 @@ CREATE TABLE ranking_mensal_musica (
 );
 
 -- MERGE para atualizar ou inserir ranking
+/*
+-- Esse script atualiza e insere dados em uma tabela chamada ranking_mensal_musica 
+--(provavelmente usada para armazenar o ranking de músicas por mês).
+
+-- Pega os dados do histórico de reproduções (historico_reproducao) e calcula:
+-- * quantas vezes cada música foi reproduzida no mês anterior,
+-- * sua posição no ranking (1º, 2º, 3º, …),
+-- * e grava/atualiza isso no ranking mensal.
+
+--O MERGE serve para fazer UPSERT no Oracle ou seja:
+-- * UPDATE se o registro já existe (música já tem ranking para aquele mês/ano),
+-- * INSERT se não existe (nova música aparece no ranking do mês).
+*/
 MERGE INTO ranking_mensal_musica rmm
 USING (
     SELECT 
         m.id_musica,
         EXTRACT(MONTH FROM hr.data_reproducao) as mes,
         EXTRACT(YEAR FROM hr.data_reproducao) as ano,
+        -- conta quantas vezes cada música foi ouvida
         COUNT(*) as total_reproducoes,
         ROW_NUMBER() OVER (
             PARTITION BY EXTRACT(MONTH FROM hr.data_reproducao), EXTRACT(YEAR FROM hr.data_reproducao)
@@ -231,6 +250,7 @@ USING (
         ) as posicao
     FROM musica m
     JOIN historico_reproducao hr ON m.id_musica = hr.id_musica
+    -- pega todas as músicas reproduzidas no último mês
     WHERE hr.data_reproducao >= TRUNC(SYSDATE, 'MM') - INTERVAL '1' MONTH
     GROUP BY m.id_musica, EXTRACT(MONTH FROM hr.data_reproducao), EXTRACT(YEAR FROM hr.data_reproducao)
 ) src ON (rmm.id_musica = src.id_musica AND rmm.mes = src.mes AND rmm.ano = src.ano)
@@ -262,7 +282,7 @@ WHERE EXISTS (
 );
 
 -- Povoar as playlists criadas com as músicas mais populares
-INSERT INTO playlist_musica (id_playlist, id_musica, ordem_reproducao, data_adicao)
+INSERT INTO playlist_musica (id_playlist, id_musica, ordem_musica, data_adicao)
 SELECT 
     p.id_playlist,
     ranked_songs.id_musica,
@@ -277,23 +297,23 @@ JOIN (
     FROM genero g
     JOIN musica m ON g.id_genero = m.id_genero
     LEFT JOIN historico_reproducao hr ON m.id_musica = hr.id_musica
-    WHERE p.nome_playlist LIKE 'Top 20 - %'
     GROUP BY g.id_genero, m.id_musica
-) ranked_songs ON p.nome_playlist = 'Top 20 - ' || (
+) ranked_songs 
+ON p.nome_playlist = 'Top 20 - ' || (
     SELECT nome_genero FROM genero WHERE id_genero = ranked_songs.id_genero
 )
-WHERE ranked_songs.ranking <= 20;
+WHERE ranked_songs.ranking <= 20
+  AND p.nome_playlist LIKE 'Top 20 - %';
 
 -- =====================================================
 -- 10. INSERÇÃO DE DADOS DE TESTE (GERAÇÃO AUTOMÁTICA)
 -- =====================================================
 
 -- Gerar usuários de teste
-INSERT INTO usuario (id_usuario, nome_usuario, sobrenome, email, senha, data_nascimento, pais, cidade)
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais)
 SELECT 
     seq_usuario_teste.NEXTVAL,
     'Usuario' || LEVEL,
-    'Teste' || LEVEL,
     'usuario' || LEVEL || '@teste.com',
     'senha' || LEVEL,
     DATE '1980-01-01' + MOD(LEVEL * 137, 365 * 30), -- Idades variadas
@@ -303,8 +323,7 @@ SELECT
         WHEN 2 THEN 'Reino Unido'
         WHEN 3 THEN 'Canadá'
         ELSE 'França'
-    END,
-    'Cidade' || MOD(LEVEL, 10)
+    END
 FROM dual
 CONNECT BY LEVEL <= 100; -- Gerar 100 usuários
 
