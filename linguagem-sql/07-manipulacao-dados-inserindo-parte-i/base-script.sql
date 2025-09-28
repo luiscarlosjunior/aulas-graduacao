@@ -45,22 +45,22 @@ DROP SEQUENCE IF EXISTS seq_historico;
 -- CRIAÇÃO DE SEQUENCES
 -- =====================================================
 
-CREATE SEQUENCE seq_usuario START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE seq_artista START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE seq_genero START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE seq_album START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE seq_musica START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE seq_playlist START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE seq_tipo_assinatura START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE seq_assinatura START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE seq_historico START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE IF NOT EXISTS seq_usuario START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE IF NOT EXISTS seq_artista START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE IF NOT EXISTS seq_genero START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE IF NOT EXISTS seq_album START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE IF NOT EXISTS seq_musica START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE IF NOT EXISTS seq_playlist START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE IF NOT EXISTS seq_tipo_assinatura START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE IF NOT EXISTS seq_assinatura START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE IF NOT EXISTS seq_historico START WITH 1 INCREMENT BY 1;
 
 -- =====================================================
 -- TABELAS PRINCIPAIS DO SISTEMA MUSISTREAM
 -- =====================================================
 
 -- Tabela de Gêneros Musicais
-CREATE TABLE genero (
+CREATE TABLE IF NOT EXISTS genero (
     id_genero           NUMBER PRIMARY KEY,
     nome_genero         VARCHAR2(50) NOT NULL UNIQUE,
     descricao           VARCHAR2(200),
@@ -71,7 +71,7 @@ CREATE TABLE genero (
 );
 
 -- Tabela de Usuários
-CREATE TABLE usuario (
+CREATE TABLE IF NOT EXISTS usuario (
     id_usuario          NUMBER PRIMARY KEY,
     nome_usuario        VARCHAR2(50) NOT NULL,
     email               VARCHAR2(100) NOT NULL UNIQUE,
@@ -84,12 +84,11 @@ CREATE TABLE usuario (
     
     -- Constraints de validação
     CONSTRAINT ck_usuario_email CHECK (email LIKE '%_@_%._%'),
-    CONSTRAINT ck_usuario_ativo CHECK (ativo IN ('S', 'N')),
-    CONSTRAINT ck_usuario_idade CHECK (data_nascimento <= SYSDATE - INTERVAL '13' YEAR)
+    CONSTRAINT ck_usuario_ativo CHECK (ativo IN ('S', 'N'))
 );
 
 -- Tabela de Artistas
-CREATE TABLE artista (
+CREATE TABLE IF NOT EXISTS artista (
     id_artista          NUMBER PRIMARY KEY,
     nome_artista        VARCHAR2(100) NOT NULL,
     nome_real           VARCHAR2(100),
@@ -108,7 +107,7 @@ CREATE TABLE artista (
 );
 
 -- Tabela de Álbuns
-CREATE TABLE album (
+CREATE TABLE IF NOT EXISTS album (
     id_album            NUMBER PRIMARY KEY,
     titulo              VARCHAR2(150) NOT NULL,
     data_lancamento     DATE,
@@ -134,7 +133,7 @@ CREATE TABLE album (
 );
 
 -- Tabela de Músicas
-CREATE TABLE musica (
+CREATE TABLE IF NOT EXISTS musica (
     id_musica           NUMBER PRIMARY KEY,
     titulo              VARCHAR2(150) NOT NULL,
     duracao             NUMBER NOT NULL, -- em segundos
@@ -164,7 +163,7 @@ CREATE TABLE musica (
 );
 
 -- Tabela de Playlists
-CREATE TABLE playlist (
+CREATE TABLE IF NOT EXISTS playlist (
     id_playlist         NUMBER PRIMARY KEY,
     nome_playlist       VARCHAR2(100) NOT NULL,
     descricao           VARCHAR2(500),
@@ -186,7 +185,7 @@ CREATE TABLE playlist (
 );
 
 -- Tabela de Tipos de Assinatura
-CREATE TABLE tipo_assinatura (
+CREATE TABLE IF NOT EXISTS tipo_assinatura (
     id_tipo_assinatura  NUMBER PRIMARY KEY,
     nome_plano          VARCHAR2(50) NOT NULL UNIQUE,
     preco_mensal        NUMBER(8,2) NOT NULL,
@@ -206,7 +205,7 @@ CREATE TABLE tipo_assinatura (
 );
 
 -- Tabela de Assinaturas dos Usuários
-CREATE TABLE assinatura (
+CREATE TABLE IF NOT EXISTS assinatura (
     id_assinatura       NUMBER PRIMARY KEY,
     data_inicio         DATE NOT NULL,
     data_fim            DATE,
@@ -232,7 +231,7 @@ CREATE TABLE assinatura (
 );
 
 -- Tabela de Relacionamento Playlist-Música (N:M)
-CREATE TABLE playlist_musica (
+CREATE TABLE IF NOT EXISTS playlist_musica (
     id_playlist         NUMBER NOT NULL,
     id_musica           NUMBER NOT NULL,
     ordem_musica        NUMBER NOT NULL,
@@ -252,7 +251,7 @@ CREATE TABLE playlist_musica (
 );
 
 -- Tabela de Histórico de Reprodução
-CREATE TABLE historico_reproducao (
+CREATE TABLE IF NOT EXISTS historico_reproducao (
     id_historico        NUMBER PRIMARY KEY,
     data_reproducao     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     duracao_ouvida      NUMBER, -- em segundos
