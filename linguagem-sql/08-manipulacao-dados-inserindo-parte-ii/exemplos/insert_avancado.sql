@@ -45,7 +45,7 @@ VALUES
     (56, 'Indie Rock', 'Rock independente com estética alternativa');
 
 -- Inserir artistas internacionais famosos
-INSERT INTO artista (id_artista, nome_artista, biografia, data_formacao, pais_origem, numero_membros, ativo)
+INSERT INTO artista (id_artista, nome_artista, biografia, DATA_INICIO_CARREIRA, pais_origem, numero_membros, ativo)
 VALUES 
     (50, 'Pink Floyd', 'Banda britânica pioneira do rock progressivo e psicodélico', 
      DATE '1965-01-01', 'Reino Unido', 4, 'N'),
@@ -65,6 +65,10 @@ VALUES
 -- =====================================================
 
 -- Inserir dados relacionados em múltiplas tabelas simultaneamente
+-- Observacao - A execucao abaixo pode nao ser suportada por todos os SGBDs
+-- pois o oracle nao garante a ordem de execucao dos inserts o que pode 
+-- afetar a integridade referencial
+/*
 INSERT ALL
     INTO artista (id_artista, nome_artista, pais_origem, numero_membros, ativo)
     VALUES (60, 'Arctic Monkeys', 'Reino Unido', 4, 'S')
@@ -72,6 +76,26 @@ INSERT ALL
     VALUES (60, 'AM', 60, 2013, 12)
     INTO album (id_album, titulo, id_artista, ano_lancamento, numero_faixas)
     VALUES (61, 'Whatever People Say I Am, That''s What I''m Not', 60, 2006, 13)
+    INTO musica (id_musica, titulo, duracao, numero_faixa, id_album)
+    VALUES (600, 'Do I Wanna Know?', 263, 1, 60)
+    INTO musica (id_musica, titulo, duracao, numero_faixa, id_album)
+    VALUES (601, 'R U Mine?', 201, 2, 60)
+SELECT * FROM dual;
+*/
+
+-- Se houver problemas acima, execute o debaixo
+-- Primeiro insere artista e albuns
+INSERT ALL
+    INTO artista (id_artista, nome_artista, pais_origem, numero_membros, ativo)
+    VALUES (60, 'Arctic Monkeys', 'Reino Unido', 4, 'S')
+    INTO album (id_album, titulo, id_artista, ano_lancamento, numero_faixas)
+    VALUES (60, 'AM', 60, 2013, 12)
+    INTO album (id_album, titulo, id_artista, ano_lancamento, numero_faixas)
+    VALUES (61, 'Whatever People Say I Am, That''s What I''m Not', 60, 2006, 13)
+SELECT * FROM dual;
+
+-- Depois insere as músicas
+INSERT ALL
     INTO musica (id_musica, titulo, duracao, numero_faixa, id_album)
     VALUES (600, 'Do I Wanna Know?', 263, 1, 60)
     INTO musica (id_musica, titulo, duracao, numero_faixa, id_album)
