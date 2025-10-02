@@ -551,6 +551,271 @@ COMMIT;
 
 Consulte a pasta `exercicios/` para atividades práticas de inserção de dados.
 
+### 8. Controle de Transações com INSERT
+
+O controle de transações é fundamental quando trabalhamos com inserções de dados, especialmente quando múltiplas operações relacionadas precisam ser tratadas como uma unidade atômica. Os comandos COMMIT e ROLLBACK permitem confirmar ou desfazer um conjunto de operações, garantindo a integridade e consistência dos dados.
+
+**Por que usar transações com INSERT?**
+- Garantir que operações relacionadas sejam completadas juntas (atomicidade)
+- Permitir reverter mudanças em caso de erro ou inconsistência
+- Manter a integridade referencial entre tabelas relacionadas
+- Facilitar testes e experimentação sem comprometer dados reais
+- Proteger contra falhas parciais que deixariam o banco em estado inconsistente
+
+**Conceitos fundamentais**:
+1. **BEGIN/START TRANSACTION**: Inicia uma transação explícita
+2. **COMMIT**: Confirma e torna permanentes todas as mudanças da transação
+3. **ROLLBACK**: Desfaz todas as mudanças desde o início da transação
+4. **Atomicidade**: Todas as operações são executadas ou nenhuma é
+
+#### 8.1 Usando COMMIT - Confirmando Inserções
+
+O comando COMMIT é usado para confirmar e tornar permanentes todas as mudanças realizadas dentro de uma transação. Após o COMMIT, as alterações não podem mais ser desfeitas com ROLLBACK.
+
+**Quando usar COMMIT**:
+- Após verificar que todas as inserções relacionadas foram bem-sucedidas
+- Quando a integridade dos dados foi validada
+- Ao finalizar um conjunto lógico de operações
+- Para liberar locks e tornar dados visíveis para outras transações
+
+**Exemplo 1: Inserção de Artista e Álbum**
+```sql
+-- Iniciar transação explicitamente
+BEGIN;
+
+-- Inserir novo artista
+INSERT INTO artista (id_artista, nome_artista, pais_origem, numero_membros)
+VALUES (20, 'Pink Floyd', 'Reino Unido', 4);
+
+-- Inserir álbum do artista recém-criado
+INSERT INTO album (id_album, titulo, data_lancamento, id_artista)
+VALUES (30, 'The Dark Side of the Moon', DATE '1973-03-01', 20);
+
+-- Inserir músicas do álbum
+INSERT INTO musica (id_musica, titulo, duracao, numero_faixa, id_album, id_genero)
+VALUES 
+(50, 'Time', 413, 4, 30, 1),
+(51, 'Money', 382, 6, 30, 1);
+
+-- Verificar se as inserções estão corretas
+SELECT * FROM artista WHERE id_artista = 20;
+SELECT * FROM album WHERE id_album = 30;
+SELECT * FROM musica WHERE id_album = 30;
+
+-- Confirmar todas as inserções
+COMMIT;
+```
+
+**Exemplo 2: Criação de Playlist com Músicas**
+```sql
+-- Iniciar transação
+BEGIN;
+
+-- Criar nova playlist para usuário
+INSERT INTO playlist (id_playlist, nome_playlist, descricao, publica, id_usuario)
+VALUES (10, 'Rock Progressivo', 'Clássicos do rock progressivo dos anos 70', 'S', 1);
+
+-- Adicionar músicas à playlist
+INSERT INTO playlist_musica (id_playlist, id_musica, ordem_musica)
+VALUES 
+(10, 50, 1),  -- Time
+(10, 51, 2),  -- Money
+(10, 1, 3),   -- Come Together
+(10, 2, 4);   -- Something
+
+-- Tudo correto, confirmar transação
+COMMIT;
+
+-- Agora a playlist está disponível para o usuário
+```
+
+**Exemplo 3: Registro de Múltiplas Reproduções**
+```sql
+-- Iniciar transação para registro de sessão de escuta
+BEGIN;
+
+-- Registrar sequência de reproduções do usuário
+INSERT INTO historico_reproducao (id_historico, id_usuario, id_musica, duracao_ouvida, dispositivo, data_reproducao)
+VALUES 
+(20, 2, 50, 413, 'Web Player', TIMESTAMP '2024-03-15 20:00:00'),
+(21, 2, 51, 382, 'Web Player', TIMESTAMP '2024-03-15 20:07:00'),
+(22, 2, 1, 259, 'Web Player', TIMESTAMP '2024-03-15 20:13:00');
+
+-- Confirmar histórico de reprodução
+COMMIT;
+```
+
+#### 8.2 Usando ROLLBACK - Revertendo Inserções
+
+O comando ROLLBACK é usado para desfazer todas as mudanças realizadas desde o início da transação. É especialmente útil quando detectamos erros, inconsistências ou quando queremos cancelar uma operação.
+
+**Quando usar ROLLBACK**:
+- Quando detectar erro em uma das inserções da transação
+- Se validações de negócio falharem após as inserções
+- Durante testes e experimentação com dados
+- Ao encontrar violações de integridade referencial
+- Quando o usuário cancela uma operação composta
+
+**Exemplo 1: Erro de Integridade Referencial**
+```sql
+-- Iniciar transação
+BEGIN;
+
+-- Inserir álbum para artista inexistente (vai falhar)
+INSERT INTO album (id_album, titulo, id_artista)
+VALUES (40, 'Álbum Órfão', 999);  -- Artista 999 não existe!
+
+-- O erro será detectado, então reverter
+ROLLBACK;
+
+-- Verificar que nada foi inserido
+SELECT * FROM album WHERE id_album = 40;  -- Retorna vazio
+```
+
+**Exemplo 2: Validação de Negócio Falha**
+```sql
+-- Iniciar transação para criar artista e álbum
+BEGIN;
+
+-- Inserir artista
+INSERT INTO artista (id_artista, nome_artista, pais_origem)
+VALUES (25, 'Artista Teste', 'Brasil');
+
+-- Inserir álbum
+INSERT INTO album (id_album, titulo, id_artista, numero_faixas)
+VALUES (45, 'Álbum Teste', 25, 0);  -- Zero faixas não faz sentido!
+
+-- Detectar problema após inserção
+-- Validação: álbum deve ter pelo menos 1 faixa
+-- Como a validação falhou, reverter tudo
+ROLLBACK;
+
+-- Nenhum registro foi salvo
+SELECT * FROM artista WHERE id_artista = 25;  -- Retorna vazio
+SELECT * FROM album WHERE id_album = 45;      -- Retorna vazio
+```
+
+**Exemplo 3: Teste e Experimentação**
+```sql
+-- Testar inserções sem comprometer banco de dados
+BEGIN;
+
+-- Experimentar inserir dados de teste
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha)
+VALUES (100, 'Usuário Teste', 'teste@email.com', 'senha123');
+
+INSERT INTO playlist (id_playlist, nome_playlist, id_usuario)
+VALUES (100, 'Playlist Teste', 100);
+
+-- Visualizar como ficaria
+SELECT * FROM usuario WHERE id_usuario = 100;
+SELECT * FROM playlist WHERE id_playlist = 100;
+
+-- Decidir não manter os dados de teste
+ROLLBACK;
+
+-- Os dados de teste foram removidos
+```
+
+**Exemplo 4: Erro em Inserção Múltipla**
+```sql
+-- Tentar inserir vários artistas
+BEGIN;
+
+-- Primeira inserção OK
+INSERT INTO artista (id_artista, nome_artista, pais_origem)
+VALUES (30, 'Radiohead', 'Reino Unido');
+
+-- Segunda inserção OK
+INSERT INTO artista (id_artista, nome_artista, pais_origem)
+VALUES (31, 'Nirvana', 'Estados Unidos');
+
+-- Terceira inserção com erro - ID duplicado
+INSERT INTO artista (id_artista, nome_artista, pais_origem)
+VALUES (1, 'Artista Duplicado', 'Brasil');  -- ID 1 já existe!
+
+-- Erro detectado, reverter TODAS as inserções
+ROLLBACK;
+
+-- Nenhum dos 3 artistas foi inserido
+-- Garante consistência: ou insere todos ou nenhum
+```
+
+#### 8.3 Boas Práticas com Transações
+
+**✅ Sempre use transações para operações relacionadas**:
+```sql
+-- ✅ CORRETO: Garantir atomicidade
+BEGIN;
+INSERT INTO artista (id_artista, nome_artista) VALUES (40, 'Artista');
+INSERT INTO album (id_album, titulo, id_artista) VALUES (50, 'Álbum', 40);
+COMMIT;
+
+-- ❌ EVITAR: Inserções separadas podem deixar dados órfãos
+INSERT INTO artista (id_artista, nome_artista) VALUES (40, 'Artista');
+-- Se próximo comando falhar, artista fica sem álbum
+INSERT INTO album (id_album, titulo, id_artista) VALUES (50, 'Álbum', 40);
+```
+
+**✅ Validar antes de COMMIT**:
+```sql
+BEGIN;
+
+-- Inserir dados
+INSERT INTO usuario (id_usuario, nome_usuario, email)
+VALUES (200, 'Novo Usuário', 'novo@email.com');
+
+-- Verificar se inserção está correta
+SELECT * FROM usuario WHERE id_usuario = 200;
+
+-- Se tudo OK, confirmar
+COMMIT;
+-- Se algo errado, usar ROLLBACK
+```
+
+**✅ Manter transações curtas**:
+```sql
+-- ✅ BOM: Transação focada e rápida
+BEGIN;
+INSERT INTO genero (id_genero, nome_genero) VALUES (20, 'Funk');
+INSERT INTO genero (id_genero, nome_genero) VALUES (21, 'Soul');
+COMMIT;
+
+-- ❌ EVITAR: Transação muito longa bloqueia recursos
+BEGIN;
+-- Centenas de inserções...
+-- Consultas complexas...
+-- Aguardar entrada do usuário...
+COMMIT;
+```
+
+**✅ Documentar decisões de COMMIT/ROLLBACK**:
+```sql
+BEGIN;
+
+-- Inserção crítica para o sistema
+INSERT INTO artista (id_artista, nome_artista, pais_origem)
+VALUES (50, 'Artista Principal', 'Brasil');
+
+-- Verificação de integridade
+IF EXISTS (SELECT 1 FROM artista WHERE id_artista = 50) THEN
+    COMMIT;  -- Sucesso: confirmar inserção
+ELSE
+    ROLLBACK;  -- Falha: reverter e investigar
+END IF;
+```
+
+**Cenários práticos de uso**:
+
+| Situação | Comando | Motivo |
+|----------|---------|--------|
+| Todas inserções bem-sucedidas | COMMIT | Tornar mudanças permanentes |
+| Erro de constraint detectado | ROLLBACK | Manter consistência do banco |
+| Teste de funcionalidade | ROLLBACK | Não comprometer dados reais |
+| Validação de negócio falhou | ROLLBACK | Regras de negócio não satisfeitas |
+| Usuário cancelou operação | ROLLBACK | Respeitar decisão do usuário |
+| Carga de dados completa | COMMIT | Finalizar importação com sucesso |
+
 ## Perguntas e Respostas
 
 ### 1. Qual a diferença entre especificar colunas no INSERT vs. não especificar?
