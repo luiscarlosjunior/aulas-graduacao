@@ -130,13 +130,15 @@ VALUES (1, 'Hello', 3*60+7, 1, 1); -- 3 minutos e 7 segundos
 Esta seção demonstra a aplicação prática dos conceitos de inserção em um contexto real: o sistema MusiStream, uma plataforma de streaming de música. Os exemplos seguem uma ordem lógica respeitando as dependências entre tabelas (integridade referencial).
 
 **Contexto do sistema**:
-O MusiStream gerencia artistas, álbuns, músicas, usuários e suas interações. A inserção de dados deve seguir a hierarquia de dependências: artistas → álbuns → músicas, e usuários → playlists.
+O MusiStream gerencia artistas, álbuns, músicas, usuários e suas interações. A inserção de dados deve seguir a hierarquia de dependências: gêneros → artistas → álbuns → músicas, e usuários → playlists → histórico.
 
 **Ordem de inserção recomendada**:
-1. **Entidades independentes**: Artistas e Usuários (não dependem de outras tabelas)
+1. **Entidades independentes**: Gêneros, Artistas e Usuários (não dependem de outras tabelas)
 2. **Entidades dependentes de nível 1**: Álbuns (dependem de Artistas)
-3. **Entidades dependentes de nível 2**: Músicas (dependem de Álbuns)
-4. **Relacionamentos**: Playlists, Reproduções (dependem de múltiplas entidades)
+3. **Entidades dependentes de nível 2**: Músicas (dependem de Álbuns e Gêneros)
+4. **Entidades de usuário**: Playlists (dependem de Usuários)
+5. **Relacionamentos**: Playlist-Música (relacionamento N:M)
+6. **Histórico**: Reproduções (dependem de Usuários e Músicas)
 
 **Propósito dos exemplos**:
 - Demonstrar inserção respeitando integridade referencial
@@ -144,7 +146,40 @@ O MusiStream gerencia artistas, álbuns, músicas, usuários e suas interações
 - Ilustrar boas práticas em contexto prático
 - Servir como base para exercícios e experimentação
 
-#### 3.1 Populando Tabela de Artistas
+#### 3.1 Populando Tabela de Gêneros
+
+Gêneros são entidades independentes e devem ser inseridas primeiro, pois as músicas referenciam os gêneros musicais.
+
+```sql
+-- Gêneros musicais principais
+INSERT INTO genero (id_genero, nome_genero, descricao)
+VALUES 
+(1, 'Rock', 'Música caracterizada por guitarras elétricas e bateria forte'),
+(2, 'Pop', 'Música popular com melodias cativantes e estrutura simples'),
+(3, 'Jazz', 'Música com improvisação e harmonias complexas'),
+(4, 'Blues', 'Música expressiva com raízes afro-americanas');
+
+-- Gêneros brasileiros
+INSERT INTO genero (id_genero, nome_genero, descricao)
+VALUES 
+(7, 'Reggae', 'Música jamaicana com ritmo característico'),
+(8, 'Samba', 'Música brasileira com ritmo sincopado'),
+(9, 'MPB', 'Música Popular Brasileira com influências diversas');
+
+-- Gêneros eletrônicos e urbanos
+INSERT INTO genero (id_genero, nome_genero, descricao)
+VALUES 
+(5, 'Eletrônica', 'Música produzida usando equipamentos eletrônicos'),
+(6, 'Hip Hop', 'Música urbana com rap e beats marcantes');
+```
+
+**Observações importantes**:
+- Nome do gênero deve ser único
+- A descrição ajuda a caracterizar o estilo musical
+- Os IDs serão referenciados posteriormente pelas músicas
+- Gêneros são raramente modificados após criação inicial
+
+#### 3.2 Populando Tabela de Artistas
 ```sql
 -- Artistas Internacionais
 INSERT INTO artista (id_artista, nome_artista, biografia, data_inicio_carreira, pais_origem, numero_membros)
@@ -161,7 +196,7 @@ VALUES
 (6, 'Anitta', 'Cantora e compositora brasileira de pop e funk', DATE '2010-01-01', 'Brasil', 1);
 ```
 
-#### 3.2 Populando Tabela de Usuários
+#### 3.3 Populando Tabela de Usuários
 ```sql
 -- Usuários do sistema (senha obrigatória)
 INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento)
@@ -173,7 +208,7 @@ VALUES
 (5, 'Julia Rodrigues', 'julia.rodrigues@email.com', 'senha789', DATE '1998-09-12');
 ```
 
-#### 3.3 Populando Álbuns (Respeitando Integridade Referencial)
+#### 3.4 Populando Álbuns (Respeitando Integridade Referencial)
 ```sql
 -- Álbuns dos Beatles
 INSERT INTO album (id_album, titulo, data_lancamento, numero_faixas, duracao_total, tipo_album, id_artista)
@@ -195,6 +230,142 @@ VALUES
 (7, 'Dois', DATE '1986-01-01', 11, 2876, 'ALBUM', 5),
 (8, 'Kisses', DATE '2019-04-05', 15, 2445, 'ALBUM', 6);
 ```
+
+#### 3.5 Populando Tabela de Músicas
+
+Músicas dependem de álbuns e gêneros, portanto devem ser inseridas após essas entidades. Os exemplos demonstram diferentes gêneros e distribuição de faixas em álbuns.
+
+```sql
+-- Músicas dos Beatles - Abbey Road
+INSERT INTO musica (id_musica, titulo, duracao, numero_faixa, id_album, id_genero)
+VALUES 
+(1, 'Come Together', 259, 1, 1, 1),
+(2, 'Something', 182, 2, 1, 1),
+(3, 'Here Comes the Sun', 185, 7, 1, 1);
+
+-- Músicas dos Beatles - Sgt. Pepper's
+INSERT INTO musica (id_musica, titulo, duracao, numero_faixa, id_album, id_genero)
+VALUES 
+(4, 'Lucy in the Sky with Diamonds', 208, 3, 2, 1);
+
+-- Músicas Caetano Veloso - Tropicália
+INSERT INTO musica (id_musica, titulo, duracao, numero_faixa, id_album, id_genero)
+VALUES 
+(5, 'Tropicália', 315, 1, 6, 9),
+(6, 'Alegria, Alegria', 175, 2, 6, 9);
+
+-- Músicas Miles Davis - Kind of Blue
+INSERT INTO musica (id_musica, titulo, duracao, numero_faixa, id_album, id_genero)
+VALUES 
+(7, 'So What', 562, 1, 4, 3),
+(8, 'All Blues', 693, 4, 4, 3);
+
+-- Músicas Bob Marley - Legend
+INSERT INTO musica (id_musica, titulo, duracao, numero_faixa, id_album, id_genero)
+VALUES 
+(9, 'No Woman No Cry', 252, 1, 5, 7),
+(10, 'Three Little Birds', 180, 6, 5, 7),
+(11, 'One Love', 171, 9, 5, 7);
+```
+
+**Observações importantes**:
+- A duração é especificada em segundos
+- O número da faixa deve ser único dentro do álbum
+- O id_genero referencia gêneros previamente inseridos (Rock=1, MPB=9, Jazz=3, Reggae=7)
+- Respeita a constraint de integridade referencial com álbuns
+
+#### 3.6 Populando Tabela de Playlists
+
+Playlists são criadas por usuários e representam coleções personalizadas de músicas. Devem ser inseridas após a criação de usuários.
+
+```sql
+-- Playlists de diferentes usuários
+INSERT INTO playlist (id_playlist, nome_playlist, descricao, publica, id_usuario)
+VALUES 
+(1, 'Meus Clássicos', 'Coleção de músicas clássicas atemporais', 'S', 1),
+(2, 'Rock Alternativo', 'Playlist com rocks alternativos dos anos 90', 'S', 2),
+(3, 'MPB Essencial', 'O melhor da Música Popular Brasileira', 'S', 3);
+
+-- Playlist privada
+INSERT INTO playlist (id_playlist, nome_playlist, descricao, publica, id_usuario)
+VALUES 
+(4, 'Jazz Relaxante', 'Jazz suave para momentos de relaxamento', 'N', 1);
+
+-- Playlist para exercícios
+INSERT INTO playlist (id_playlist, nome_playlist, descricao, publica, id_usuario)
+VALUES 
+(5, 'Workout Hits', 'Músicas energéticas para treinar', 'S', 4);
+```
+
+**Observações importantes**:
+- Campo `publica` indica se a playlist é pública ('S') ou privada ('N')
+- Um usuário pode ter múltiplas playlists (usuário 1 tem playlists 1 e 4)
+- As descrições ajudam outros usuários a entender o tema da playlist
+- O id_usuario deve referenciar um usuário existente
+
+#### 3.7 Relacionamento Playlist-Música (N:M)
+
+Esta é uma tabela de relacionamento que implementa a relação muitos-para-muitos entre playlists e músicas. Uma playlist pode ter várias músicas, e uma música pode estar em várias playlists.
+
+```sql
+-- Playlist "Meus Clássicos" (id=1)
+INSERT INTO playlist_musica (id_playlist, id_musica, ordem_musica)
+VALUES 
+(1, 1, 1),  -- Come Together
+(1, 2, 2),  -- Something
+(1, 3, 3),  -- Here Comes the Sun
+(1, 9, 4);  -- No Woman No Cry
+
+-- Playlist "MPB Essencial" (id=3)
+INSERT INTO playlist_musica (id_playlist, id_musica, ordem_musica)
+VALUES 
+(3, 5, 1),  -- Tropicália
+(3, 6, 2);  -- Alegria, Alegria
+
+-- Playlist "Jazz Relaxante" (id=4)
+INSERT INTO playlist_musica (id_playlist, id_musica, ordem_musica)
+VALUES 
+(4, 7, 1),  -- So What
+(4, 8, 2);  -- All Blues
+```
+
+**Observações importantes**:
+- A `ordem_musica` define a sequência de reprodução dentro da playlist
+- A mesma música pode aparecer em diferentes playlists (mas não duplicada na mesma playlist)
+- A ordem deve ser única dentro de cada playlist
+- Ambos os IDs (playlist e música) devem existir nas respectivas tabelas
+
+#### 3.8 Histórico de Reprodução
+
+Esta tabela registra cada vez que um usuário reproduz uma música, permitindo análises de comportamento e recomendações personalizadas.
+
+```sql
+-- Reproduções do usuário 1
+INSERT INTO historico_reproducao (id_historico, id_usuario, id_musica, duracao_ouvida, dispositivo, data_reproducao)
+VALUES 
+(1, 1, 1, 259, 'iPhone', TIMESTAMP '2024-03-10 14:30:00'),
+(2, 1, 2, 182, 'iPhone', TIMESTAMP '2024-03-10 14:35:00'),
+(3, 1, 3, 185, 'iPhone', TIMESTAMP '2024-03-11 10:15:00');
+
+-- Reproduções de diferentes usuários
+INSERT INTO historico_reproducao (id_historico, id_usuario, id_musica, duracao_ouvida, dispositivo, data_reproducao)
+VALUES 
+(4, 2, 5, 315, 'Android', TIMESTAMP '2024-03-10 15:20:00'),
+(5, 3, 9, 252, 'Web Player', TIMESTAMP '2024-03-10 16:45:00'),
+(6, 4, 1, 259, 'Desktop', TIMESTAMP '2024-03-11 20:00:00');
+
+-- Música ouvida parcialmente
+INSERT INTO historico_reproducao (id_historico, id_usuario, id_musica, duracao_ouvida, dispositivo, data_reproducao)
+VALUES 
+(7, 2, 9, 120, 'Android', TIMESTAMP '2024-03-11 11:30:00');  -- ouviu apenas 120 de 252 segundos
+```
+
+**Observações importantes**:
+- `duracao_ouvida` registra quantos segundos foram realmente ouvidos (pode ser menor que a duração total)
+- O `dispositivo` ajuda a entender o contexto de uso
+- Cada reprodução gera um registro separado, mesmo da mesma música
+- Útil para análises de popularidade, recomendações e estatísticas de uso
+- O timestamp permite análises temporais (horário de pico, dias mais ativos, etc.)
 
 ### 4. Tratamento de Erros Comuns
 
