@@ -128,8 +128,7 @@ CREATE TABLE IF NOT EXISTS album (
     -- Constraints de validação
     CONSTRAINT ck_numero_faixas CHECK (numero_faixas > 0),
     CONSTRAINT ck_duracao_total CHECK (duracao_total > 0),
-    CONSTRAINT ck_tipo_album CHECK (tipo_album IN ('ALBUM', 'EP', 'SINGLE', 'COMPILACAO')),
-    CONSTRAINT ck_ano_lancamento CHECK (ano_lancamento BETWEEN 1900 AND EXTRACT(YEAR FROM SYSDATE))
+    CONSTRAINT ck_tipo_album CHECK (tipo_album IN ('ALBUM', 'EP', 'SINGLE', 'COMPILACAO'))
 );
 
 -- Tabela de Músicas
