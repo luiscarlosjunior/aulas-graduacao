@@ -395,6 +395,199 @@ interface ProcessadorArquivo extends Leitor, Escritor {
 }
 ```
 
+## 📚 Exemplos
+
+A seguir, apresentamos **5 exemplos práticos com diagramas de classes** que demonstram o uso de interfaces em diferentes contextos do mundo real. Cada exemplo ilustra como interfaces permitem criar código flexível, extensível e desacoplado.
+
+---
+
+### **Exemplo 1: Sistema de Autenticação Multi-Fator**
+
+**Contexto:** Uma aplicação precisa suportar diferentes métodos de autenticação (senha, biometria, token) onde cada método tem sua própria implementação, mas todos seguem o mesmo contrato de autenticação.
+
+**Diagrama de Classes:**
+
+```
+┌─────────────────────────────────┐
+│     <<interface>>               │
+│     Autenticavel                │
+├─────────────────────────────────┤
+│ + autenticar(credencial): bool  │
+│ + validarCredencial(): bool     │
+│ + logout(): void                │
+└─────────────────────────────────┘
+           △
+           │ implements
+    ┌──────┼──────┐
+    │      │      │
+┌───────┐ ┌────────┐ ┌──────────────┐
+│ Senha │ │Biometria│ │TokenOAuth    │
+├───────┤ ├────────┤ ├──────────────┤
+│-hash  │ │-digital│ │-token: String│
+└───────┘ └────────┘ └──────────────┘
+```
+
+**Aplicação:** Sistemas bancários, aplicativos corporativos, e-commerce com login social.
+
+---
+
+### **Exemplo 2: Sistema de Armazenamento em Nuvem**
+
+**Contexto:** Uma aplicação de backup precisa suportar múltiplos provedores de armazenamento (AWS, Google Drive, Dropbox) de forma intercambiável, permitindo que o usuário escolha onde seus dados serão armazenados sem alterar a lógica da aplicação.
+
+**Diagrama de Classes:**
+
+```
+┌──────────────────────────────────────────┐
+│         <<interface>>                    │
+│         ArmazenamentoNuvem               │
+├──────────────────────────────────────────┤
+│ + upload(arquivo): boolean               │
+│ + download(nomeArquivo): File            │
+│ + deletar(nomeArquivo): boolean          │
+│ + listarArquivos(): List<String>         │
+│ + obterEspacoDisponivel(): double        │
+└──────────────────────────────────────────┘
+                    △
+                    │ implements
+         ┌──────────┼──────────┐
+         │          │          │
+   ┌──────────┐ ┌─────────┐ ┌──────────┐
+   │ AmazonS3 │ │GoogleDrive│ │Dropbox  │
+   ├──────────┤ ├─────────┤ ├──────────┤
+   │-bucketName│ │-folderId│ │-appKey   │
+   │-region   │ │-oauth   │ │-appSecret│
+   └──────────┘ └─────────┘ └──────────┘
+```
+
+**Aplicação:** Sistemas de backup corporativo, aplicações de sincronização de arquivos, gerenciadores de documentos.
+
+---
+
+### **Exemplo 3: Sistema de Transporte Urbano**
+
+**Contexto:** Um aplicativo de mobilidade urbana integra diferentes tipos de transporte (bicicleta, patinete, carro compartilhado) onde cada veículo tem suas particularidades, mas todos precisam ser rastreados, alugados e devolvidos seguindo um padrão comum.
+
+**Diagrama de Classes:**
+
+```
+┌────────────────────────────────────┐        ┌─────────────────────────┐
+│       <<interface>>                │        │    <<interface>>        │
+│       Alugavel                     │        │    Rastreavel           │
+├────────────────────────────────────┤        ├─────────────────────────┤
+│ + alugar(usuario): boolean         │        │ + obterLocalizacao(): GPS│
+│ + devolver(localizacao): void      │        │ + atualizarPosicao(): void│
+│ + calcularTarifa(tempo): double    │        │ + habilitarRastreio(): void│
+└────────────────────────────────────┘        └─────────────────────────┘
+              △                                         △
+              │ implements                              │ implements
+       ┌──────┴──────┬──────────────┐         ┌────────┴────────┐
+       │             │              │         │                 │
+┌─────────────┐ ┌──────────┐ ┌────────────┐  │                 │
+│ Bicicleta   │ │ Patinete │ │CarroCompart│──┘                 │
+├─────────────┤ ├──────────┤ ├────────────┤                    │
+│-marcha: int │ │-bateria% │ │-placa:String│                   │
+│-aro: int    │ │-velMax:int│ │-modelo:String│                 │
+└─────────────┘ └──────────┘ └────────────┘                    │
+                                                                │
+                         CarroCompartilhado implements ambas ──┘
+```
+
+**Aplicação:** Apps de mobilidade urbana (tipo Uber, Lime, Tembici), sistemas de gestão de frotas compartilhadas.
+
+---
+
+### **Exemplo 4: Sistema de Reprodução Multimídia**
+
+**Contexto:** Um player de mídia universal precisa reproduzir diferentes formatos (áudio, vídeo, streaming) onde cada formato tem seu codec e processamento específico, mas todos devem responder aos mesmos comandos de controle (play, pause, stop).
+
+**Diagrama de Classes:**
+
+```
+┌───────────────────────────────┐        ┌──────────────────────────────┐
+│      <<interface>>            │        │       <<interface>>          │
+│      Reproduzivel             │        │       Streamable             │
+├───────────────────────────────┤        ├──────────────────────────────┤
+│ + play(): void                │        │ + conectar(url): boolean     │
+│ + pause(): void               │        │ + bufferizar(): void         │
+│ + stop(): void                │        │ + ajustarQualidade(nivel): void│
+│ + ajustarVolume(nivel): void  │        └──────────────────────────────┘
+│ + obterDuracao(): int         │                     △
+└───────────────────────────────┘                     │ implements
+           △                                          │
+           │ implements                               │
+    ┌──────┼────────┬──────────┐                    │
+    │      │        │          │                     │
+┌─────────┐│ ┌────────────┐ ┌──────────────┐        │
+│AudioMP3 ││ │ VideoMP4   │ │StreamingYouTube│───────┘
+├─────────┤│ ├────────────┤ ├──────────────┤
+│-bitrate ││ │-resolucao  │ │-apiKey       │
+│-codec   ││ │-fps        │ │-qualidade    │
+└─────────┘│ └────────────┘ └──────────────┘
+           │
+      ┌────────────┐
+      │ AudioWAV   │
+      ├────────────┤
+      │-sampleRate │
+      └────────────┘
+```
+
+**Aplicação:** Media players, apps de streaming (Spotify, Netflix), editores de vídeo/áudio.
+
+---
+
+### **Exemplo 5: Sistema de Notificações Multi-Canal Empresarial**
+
+**Contexto:** Uma empresa precisa enviar notificações críticas por diferentes canais (email, SMS, push notification, Slack, Teams) com suporte a priorização, agendamento e confirmação de entrega. O sistema deve permitir adicionar novos canais sem modificar o código existente.
+
+**Diagrama de Classes:**
+
+```
+┌────────────────────────────────────────────┐
+│           <<interface>>                    │
+│           Notificador                      │
+├────────────────────────────────────────────┤
+│ + enviar(mensagem, destinatario): boolean  │
+│ + validarDestinatario(destinatario): bool  │
+│ + obterStatus(): StatusEntrega             │
+└────────────────────────────────────────────┘
+                    △
+                    │ implements
+                    │
+    ┌───────────────┼───────────────┬─────────────────┐
+    │               │               │                 │
+┌─────────┐  ┌──────────┐  ┌──────────────┐  ┌─────────────┐
+│NotifEmail│  │NotifSMS  │  │NotifPush     │  │NotifSlack   │
+├─────────┤  ├──────────┤  ├──────────────┤  ├─────────────┤
+│-smtp    │  │-gateway  │  │-deviceToken  │  │-webhookURL  │
+│-porta   │  │-apiKey   │  │-appId        │  │-canal       │
+└─────────┘  └──────────┘  └──────────────┘  └─────────────┘
+                    │
+                    │
+                    ▼
+┌────────────────────────────────────────────┐
+│           <<interface>>                    │
+│           Agendavel                        │
+├────────────────────────────────────────────┤
+│ + agendar(dataHora): void                  │
+│ + cancelarAgendamento(): void              │
+│ + verificarAgendamentos(): List<Notif>     │
+└────────────────────────────────────────────┘
+                    △
+                    │ implements
+                    │
+            ┌───────────────┐
+            │  NotifSMS     │ (implementa ambas interfaces)
+            │  (Extended)   │
+            └───────────────┘
+```
+
+**Aplicação:** Sistemas empresariais de alertas críticos, plataformas de comunicação interna, sistemas de monitoramento e alertas operacionais.
+
+**Destaque:** Este exemplo mostra como uma classe pode implementar múltiplas interfaces (`NotifSMS` implementa tanto `Notificador` quanto `Agendavel`), permitindo composição de comportamentos.
+
+---
+
 ## 🚀 Exercícios Práticos
 
 1. **Sistema de Dispositivos Eletrônicos**
