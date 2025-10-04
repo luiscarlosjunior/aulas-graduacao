@@ -451,9 +451,124 @@ class Implementacao extends Base { }
    - Classe abstrata: `ProcessadorArquivo` (abrir(), processar(), fechar())
    - Subclasses: `ProcessadorTexto`, `ProcessadorImagem`, `ProcessadorVideo`
 
+---
+
+## 📂 Exemplos Completos com Diagramas de Classes
+
+Esta seção contém implementações completas de sistemas usando classes abstratas, acompanhadas de diagramas UML para melhor compreensão da arquitetura.
+
+### 🎯 Exemplo 1: Sistema de Funcionários
+
+Um sistema completo de gerenciamento de funcionários demonstrando diferentes tipos de cálculo salarial.
+
+#### Diagrama de Classes:
+
+![Diagrama Sistema de Funcionários](img/sistema-funcionarios.png)
+
+#### Estrutura:
+- **Classe Abstrata**: `Funcionario` - Define estrutura base com atributos e comportamentos comuns
+- **Subclasses**: 
+  - `Gerente` - Recebe bônus fixo e adicional por nível
+  - `Vendedor` - Ganha comissão sobre vendas
+  - `Desenvolvedor` - Recebe bônus por projeto concluído
+
+#### Conceitos Demonstrados:
+- ✅ Template Method Pattern
+- ✅ Polimorfismo através de abstração
+- ✅ Encapsulamento de lógicas específicas
+- ✅ Reutilização de código comum
+
+**[📁 Ver código completo](exemplos/)**
+
+Para executar:
+```bash
+cd exemplos/
+javac *.java
+java TesteSistemaFuncionarios
+```
+
+---
+
+### 🎮 Exemplo 2: Sistema de Jogos
+
+Um sistema de gerenciamento de diferentes tipos de jogos, implementando o Template Method Pattern para garantir fluxo consistente.
+
+#### Diagrama de Classes:
+
+![Diagrama Sistema de Jogos](img/sistema-jogos.png)
+
+#### Estrutura:
+- **Classe Abstrata**: `Jogo` - Define o fluxo de execução (iniciar → jogar → terminar)
+- **Subclasses**:
+  - `JogoCartas` - Baralho, rodadas e embaralhamento
+  - `JogoTabuleiro` - Dados, tabuleiro e turnos
+  - `JogoEletronico` - Níveis, pontuação e plataforma
+
+#### Conceitos Demonstrados:
+- ✅ Template Method Pattern (método final)
+- ✅ Fluxo de execução consistente
+- ✅ Implementações específicas por tipo
+- ✅ Array polimórfico para gerenciar diferentes tipos
+
+**[📁 Ver código completo](exemplos/)**
+
+Para executar:
+```bash
+cd exemplos/
+javac *.java
+java TesteSistemaJogos
+```
+
+---
+
+## 📝 Exercícios para Prática
+
+Acesse o diretório [exercicios/](exercicios/) para encontrar:
+
+1. **Exercício 1**: Sistema de Veículos de Transporte
+   - Implementar `Onibus`, `Taxi`, `VanEscolar`
+   - Cálculo de tarifas específicas por tipo
+
+2. **Exercício 2**: Sistema de Produtos E-commerce
+   - Categorias: Eletrônico, Alimentício, Vestuário
+   - Diferentes formas de cálculo de preço e desconto
+
+3. **Exercício 3**: Sistema de Investimentos Financeiros
+   - Tipos: Poupança, CDB, Ações
+   - Cálculo de rendimento específico
+
+4. **Exercício 4**: Sistema de Notificações
+   - Canais: Email, SMS, Push
+   - Template Method para fluxo de envio
+
+5. **Exercício 5**: Sistema de Relatórios (Avançado)
+   - Formatos: HTML, PDF, CSV, JSON
+   - Geração padronizada com formatações específicas
+
+**[📋 Ver detalhes dos exercícios](exercicios/README.md)**
+
+---
+
 ## 🔗 Navegação
 
 [← 05 - Interfaces](../05-interfaces/) | [📚 Voltar ao Índice](../README.md)
+
+---
+
+## 📚 Material de Apoio
+
+### Arquivos Disponíveis:
+- `exemplos/` - Implementações completas com código executável
+- `exercicios/` - Desafios práticos com diferentes níveis de dificuldade
+- `img/` - Diagramas UML dos sistemas
+  - `sistema-funcionarios.png` - Diagrama do sistema de funcionários
+  - `sistema-jogos.png` - Diagrama do sistema de jogos
+
+### Recursos dos Exemplos:
+- ✨ Código totalmente comentado e documentado
+- ✨ Diagramas UML para visualização da arquitetura
+- ✨ Classes de teste demonstrando uso completo
+- ✨ Output formatado para melhor compreensão
 
 ---
 

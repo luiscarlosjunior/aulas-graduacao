@@ -1,0 +1,65 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam classFontSize 12
+
+abstract class Jogo {
+  # nome: String
+  # numeroJogadores: int
+  # emAndamento: boolean
+  --
+  + Jogo(nome: String, numeroJogadores: int)
+  + getNome(): String
+  + getNumeroJogadores(): int
+  + isEmAndamento(): boolean
+  + {abstract} iniciar(): void
+  + {abstract} jogar(): void
+  + {abstract} terminar(): void
+  + executarJogo(): void
+}
+
+class JogoCartas {
+  - baralho: String
+  - rodadas: int
+  --
+  + JogoCartas(nome: String, numeroJogadores: int, baralho: String)
+  + getBaralho(): String
+  + getRodadas(): int
+  + iniciar(): void
+  + jogar(): void
+  + terminar(): void
+  + embaralhar(): void
+}
+
+class JogoTabuleiro {
+  - tipoDado: String
+  - casas: int
+  --
+  + JogoTabuleiro(nome: String, numeroJogadores: int, tipoDado: String, casas: int)
+  + getTipoDado(): String
+  + getCasas(): int
+  + iniciar(): void
+  + jogar(): void
+  + terminar(): void
+  + lancarDados(): int
+}
+
+class JogoEletronico {
+  - plataforma: String
+  - nivelDificuldade: String
+  - pontuacao: int
+  --
+  + JogoEletronico(nome: String, numeroJogadores: int, plataforma: String)
+  + getPlataforma(): String
+  + getNivelDificuldade(): String
+  + getPontuacao(): int
+  + iniciar(): void
+  + jogar(): void
+  + terminar(): void
+  + aumentarPontuacao(pontos: int): void
+}
+
+Jogo <|-- JogoCartas
+Jogo <|-- JogoTabuleiro
+Jogo <|-- JogoEletronico
+
+@enduml
