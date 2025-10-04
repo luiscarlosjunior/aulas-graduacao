@@ -1,0 +1,59 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam classFontSize 12
+
+abstract class Funcionario {
+  # nome: String
+  # salarioBase: double
+  # departamento: String
+  --
+  + Funcionario(nome: String, salarioBase: double, departamento: String)
+  + getNome(): String
+  + getSalarioBase(): double
+  + getDepartamento(): String
+  + {abstract} calcularSalario(): double
+  + {abstract} exibirDetalhes(): void
+  + exibirInformacoes(): void
+}
+
+class Gerente {
+  - bonus: double
+  - nivel: int
+  --
+  + Gerente(nome: String, salarioBase: double, departamento: String, bonus: double, nivel: int)
+  + getBonus(): double
+  + getNivel(): int
+  + calcularSalario(): double
+  + exibirDetalhes(): void
+}
+
+class Vendedor {
+  - comissao: double
+  - vendasRealizadas: double
+  --
+  + Vendedor(nome: String, salarioBase: double, departamento: String, comissao: double)
+  + getComissao(): double
+  + registrarVenda(valor: double): void
+  + getVendasRealizadas(): double
+  + calcularSalario(): double
+  + exibirDetalhes(): void
+}
+
+class Desenvolvedor {
+  - linguagensProgramacao: String
+  - projetos: int
+  - bonusPorProjeto: double
+  --
+  + Desenvolvedor(nome: String, salarioBase: double, departamento: String, linguagens: String)
+  + getLinguagens(): String
+  + adicionarProjeto(): void
+  + getProjetos(): int
+  + calcularSalario(): double
+  + exibirDetalhes(): void
+}
+
+Funcionario <|-- Gerente
+Funcionario <|-- Vendedor
+Funcionario <|-- Desenvolvedor
+
+@enduml
