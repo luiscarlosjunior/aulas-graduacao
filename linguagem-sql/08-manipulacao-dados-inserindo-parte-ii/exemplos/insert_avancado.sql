@@ -185,32 +185,43 @@ INSERT ALL
     VALUES (603, 'I Bet You Look Good on the Dancefloor', 173, 1, 61)
 SELECT * FROM dual;
 
-PROMPT Passo 2 concluído: Músicas inseridas
+INSERT ALL
+    -- Artistas
+    INTO artista (id_artista, nome_artista, pais_origem, numero_membros) 
+        VALUES (20, 'Nirvana', 'Estados Unidos', 3)
+    INTO artista (id_artista, nome_artista, pais_origem, numero_membros) 
+        VALUES (21, 'Queen', 'Reino Unido', 4)
 
--- Verificar resultado
-SELECT 
-    a.nome_artista,
-    al.titulo as album,
-    m.titulo as musica,
-    m.duracao as duracao_seg
-FROM artista a
-JOIN album al ON a.id_artista = al.id_artista
-LEFT JOIN musica m ON al.id_album = m.id_album
-WHERE a.id_artista = 60
-ORDER BY al.id_album, m.numero_faixa;
+    -- Álbuns
+    INTO album (id_album, titulo_album, ano_lancamento, id_artista) 
+        VALUES (30, 'Nevermind', 1991, 20)
+    INTO album (id_album, titulo_album, ano_lancamento, id_artista) 
+        VALUES (31, 'A Night at the Opera', 1975, 21)
 
-PROMPT
+    -- Músicas
+    INTO musica (id_musica, titulo_musica, duracao, id_album) 
+        VALUES (40, 'Smells Like Teen Spirit', '05:01', 30)
+    INTO musica (id_musica, titulo_musica, duracao, id_album) 
+        VALUES (41, 'Come As You Are', '03:39', 30)
+    INTO musica (id_musica, titulo_musica, duracao, id_album) 
+        VALUES (42, 'Bohemian Rhapsody', '05:55', 31)
+    INTO musica (id_musica, titulo_musica, duracao, id_album) 
+        VALUES (43, 'Love of My Life', '03:39', 31)
+SELECT * FROM dual;
+
 
 -- =====================================================
 -- SEÇÃO 4: INSERT... SELECT - COPIAR DADOS
 -- =====================================================
--- Técnica: Inserir dados baseados em consultas SELECT
--- Ideal para: Migrações, backups, ETL, consolidação de dados
--- Performance: Processamento interno do Oracle, muito eficiente
 
-PROMPT 
-PROMPT ========== SEÇÃO 4: INSERT... SELECT ==========
-PROMPT
+-- Criar tabela de backup de artistas
+CREATE TABLE backup_artista AS 
+SELECT * FROM artista WHERE 1=0; -- estrutura sem dados
+
+-- Copiar artistas ativos para backup
+INSERT INTO backup_artista
+SELECT * FROM artista 
+WHERE ativo = 'S';
 
 -- Exemplo 1: Criar tabela temporária e copiar dados com filtro
 -- CREATE TABLE... AS SELECT cria estrutura E copia dados em um comando
