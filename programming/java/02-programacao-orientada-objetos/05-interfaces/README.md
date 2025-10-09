@@ -11,6 +11,14 @@ Uma **interface** em Java é um contrato que define:
 
 **Analogia**: Como um contrato de trabalho - define o que deve ser feito (responsabilidades), mas não como fazer. Diferentes pessoas podem cumprir o mesmo contrato de maneiras diferentes.
 
+## Por que estudar interfaces? (motivação / importância)
+
+**Contrato explícito:** interfaces definem o que um tipo faz sem impor como faz — ideal para desenhar APIs e separar implementação de uso.   
+**Polimorfismo e desacoplamento:** clientes programam contra interfaces e não contra implementações concretas → facilita substituição, testes e evolução.   
+**Composição de comportamentos:** permitem que uma classe implemente múltiplos papéis/capacidades (herança múltipla de tipo).   
+**Compatibilidade e evolução de API:** com recursos modernos (default methods) é possível adicionar comportamento sem quebrar implementações antigas (com limitações).  
+**Suporte a programação funcional:** interfaces SAM (Single Abstract Method) permitem uso de lambdas e referências de método.  
+
 ## 📋 Sintaxe e Características
 
 ### Definindo uma Interface

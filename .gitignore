@@ -9,4 +9,5 @@ obj/
 *.dll
 *.pdb
 *.runtimeconfig.json
-*.runtimeconfig.dev.json
+*.runtimeconfig.dev.json# Java compiled files
+*.class
