@@ -1,18 +1,75 @@
 -- =====================================================
 -- INSERÇÃO AVANÇADA DE DADOS - SISTEMA MUSISTREAM
--- Módulo 08: Comandos INSERT Avançados
+-- Módulo 08: Comandos INSERT Avançados para Oracle
+-- =====================================================
+--
+-- OBJETIVO: Demonstrar técnicas avançadas de inserção de dados
+-- SGBD: Oracle Database 11g ou superior  
+-- FERRAMENTA: Oracle SQL Developer
+-- DEPENDÊNCIAS: Estrutura base criada (streaming-de-musica/01-estrutura-completa.sql)
+--
+-- COMO EXECUTAR NO SQL DEVELOPER:
+-- 1. Certifique-se de que a estrutura base está criada
+-- 2. Habilite SERVEROUTPUT: SET SERVEROUTPUT ON SIZE UNLIMITED;
+-- 3. Execute seção por seção usando F5 (Run Script)
+-- 4. Para blocos PL/SQL, selecione TODO o bloco incluindo o /
+--
 -- =====================================================
 
-/*
-DROP TABLE IF NOT EXISTS estatistica_artista CASCADE CONSTRAINTS;
+-- Configurações iniciais para SQL Developer
+SET SERVEROUTPUT ON SIZE UNLIMITED;
+SET FEEDBACK ON;
+SET ECHO ON;
 
-*/
+-- Configurar formato de data para evitar problemas
+ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD';
+
+PROMPT =====================================================
+PROMPT Iniciando script de Inserção Avançada
+PROMPT Data/Hora: 
+SELECT TO_CHAR(SYSDATE, 'DD/MM/YYYY HH24:MI:SS') as data_execucao FROM dual;
+PROMPT =====================================================
 
 -- =====================================================
--- 1. CONFIGURAÇÃO E SEQUÊNCIAS
+-- SEÇÃO 1: CONFIGURAÇÃO E CRIAÇÃO DE SEQUENCES
 -- =====================================================
+-- Sequences são objetos Oracle para gerar IDs únicos automaticamente
+-- São essenciais para chaves primárias em ambientes multi-usuário
 
--- Criar sequências para geração automática de IDs
+PROMPT 
+PROMPT ========== SEÇÃO 1: Criando Sequences ==========
+PROMPT
+
+-- Verificar se sequences já existem e removê-las
+DECLARE
+    v_count NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO v_count FROM user_sequences WHERE sequence_name = 'SEQ_USUARIO_TESTE';
+    IF v_count > 0 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE seq_usuario_teste';
+        DBMS_OUTPUT.PUT_LINE('Sequence seq_usuario_teste removida');
+    END IF;
+    
+    SELECT COUNT(*) INTO v_count FROM user_sequences WHERE sequence_name = 'SEQ_PLAYLIST_TESTE';
+    IF v_count > 0 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE seq_playlist_teste';
+        DBMS_OUTPUT.PUT_LINE('Sequence seq_playlist_teste removida');
+    END IF;
+    
+    SELECT COUNT(*) INTO v_count FROM user_sequences WHERE sequence_name = 'SEQ_HISTORICO_TESTE';
+    IF v_count > 0 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE seq_historico_teste';
+        DBMS_OUTPUT.PUT_LINE('Sequence seq_historico_teste removida');
+    END IF;
+END;
+/
+
+-- Criar sequences para geração automática de IDs
+-- START WITH: valor inicial
+-- INCREMENT BY: incremento a cada chamada
+-- CACHE: número de valores pré-alocados em memória (melhora performance)
+-- NOCYCLE: não volta ao início após atingir MAXVALUE
+
 CREATE SEQUENCE seq_usuario_teste
 START WITH 1000
 INCREMENT BY 1
@@ -34,11 +91,26 @@ MAXVALUE 999999999999
 CACHE 100
 NOCYCLE;
 
--- =====================================================
--- 2. INSERÇÃO MÚLTIPLA COM VALUES
--- =====================================================
+PROMPT Sequences criadas com sucesso!
+PROMPT - seq_usuario_teste: inicia em 1000
+PROMPT - seq_playlist_teste: inicia em 2000  
+PROMPT - seq_historico_teste: inicia em 1
+PROMPT
 
--- Inserir múltiplos gêneros musicais de uma vez
+-- =====================================================
+-- SEÇÃO 2: INSERÇÃO MÚLTIPLA COM VALUES
+-- =====================================================
+-- Técnica: Inserir múltiplos registros em um único comando INSERT
+-- Vantagens: Muito mais rápido que múltiplos INSERTs individuais
+-- Performance: 80-95% mais rápido que inserções individuais
+-- Ideal para: Dados de configuração, cargas pequenas (<1000 registros)
+
+PROMPT 
+PROMPT ========== SEÇÃO 2: Inserção Múltipla de Registros ==========
+PROMPT
+
+-- Exemplo 1: Inserir múltiplos gêneros musicais de uma vez
+-- Todos os registros são inseridos em uma única transação atômica
 INSERT INTO genero (id_genero, nome_genero, descricao)
 VALUES 
     (50, 'Progressive Rock', 'Rock progressivo com composições complexas e longas'),
@@ -49,8 +121,12 @@ VALUES
     (55, 'Grunge', 'Movimento musical alternativo dos anos 90'),
     (56, 'Indie Rock', 'Rock independente com estética alternativa');
 
--- Inserir artistas internacionais famosos
-INSERT INTO artista (id_artista, nome_artista, biografia, DATA_INICIO_CARREIRA, pais_origem, numero_membros, ativo)
+PROMPT Inseridos 7 gêneros musicais
+SELECT COUNT(*) as total_generos FROM genero WHERE id_genero BETWEEN 50 AND 56;
+
+-- Exemplo 2: Inserir artistas internacionais famosos
+-- Note o uso de DATE para datas e aspas simples duplicadas para apóstrofos
+INSERT INTO artista (id_artista, nome_artista, biografia, data_inicio_carreira, pais_origem, numero_membros, ativo)
 VALUES 
     (50, 'Pink Floyd', 'Banda britânica pioneira do rock progressivo e psicodélico', 
      DATE '1965-01-01', 'Reino Unido', 4, 'N'),
@@ -65,15 +141,27 @@ VALUES
     (55, 'Radiohead', 'Banda britânica experimental e inovadora', 
      DATE '1985-01-01', 'Reino Unido', 5, 'S');
 
--- =====================================================
--- 3. INSERT ALL - MÚLTIPLAS TABELAS
--- =====================================================
+PROMPT Inseridos 6 artistas internacionais
+SELECT id_artista, nome_artista, pais_origem FROM artista WHERE id_artista BETWEEN 50 AND 55;
+PROMPT
 
--- Inserir dados relacionados em múltiplas tabelas simultaneamente
--- Observacao - A execucao abaixo pode nao ser suportada por todos os SGBDs
--- pois o oracle nao garante a ordem de execucao dos inserts o que pode 
--- afetar a integridade referencial
-/*
+-- =====================================================
+-- SEÇÃO 3: INSERT ALL - INSERÇÃO EM MÚLTIPLAS TABELAS
+-- =====================================================
+-- Técnica específica do Oracle: INSERT ALL
+-- Permite inserir dados em múltiplas tabelas com um único comando
+-- Vantagens: Atomicidade, eficiência, mantém integridade referencial
+-- CUIDADO: Requer atenção especial à ordem de inserção devido a FKs
+
+PROMPT 
+PROMPT ========== SEÇÃO 3: INSERT ALL (Múltiplas Tabelas) ==========
+PROMPT
+
+-- IMPORTANTE: INSERT ALL no Oracle não garante ordem de execução
+-- Isso pode causar problemas de integridade referencial
+-- SOLUÇÃO: Dividir em dois INSERTs ALL - primeiro tabelas pais, depois filhas
+
+-- Passo 1: Inserir artista e álbuns (sem músicas ainda)
 INSERT ALL
     INTO artista (id_artista, nome_artista, pais_origem, numero_membros, ativo)
     VALUES (60, 'Arctic Monkeys', 'Reino Unido', 4, 'S')
@@ -81,52 +169,87 @@ INSERT ALL
     VALUES (60, 'AM', 60, 2013, 12)
     INTO album (id_album, titulo, id_artista, ano_lancamento, numero_faixas)
     VALUES (61, 'Whatever People Say I Am, That''s What I''m Not', 60, 2006, 13)
-    INTO musica (id_musica, titulo, duracao, numero_faixa, id_album)
-    VALUES (600, 'Do I Wanna Know?', 263, 1, 60)
-    INTO musica (id_musica, titulo, duracao, numero_faixa, id_album)
-    VALUES (601, 'R U Mine?', 201, 2, 60)
-SELECT * FROM dual;
-*/
-
--- Se houver problemas acima, execute o debaixo
--- Primeiro insere artista e albuns
-INSERT ALL
-    INTO artista (id_artista, nome_artista, pais_origem, numero_membros, ativo)
-    VALUES (60, 'Arctic Monkeys', 'Reino Unido', 4, 'S')
-    INTO album (id_album, titulo, id_artista, ano_lancamento, numero_faixas)
-    VALUES (60, 'AM', 60, 2013, 12)
-    INTO album (id_album, titulo, id_artista, ano_lancamento, numero_faixas)
-    VALUES (61, 'Whatever People Say I Am, That''s What I''m Not', 60, 2006, 13)
 SELECT * FROM dual;
 
--- Depois insere as músicas
+PROMPT Passo 1 concluído: Artista e álbuns inseridos
+
+-- Passo 2: Agora inserir as músicas (tabela filha de album)
 INSERT ALL
     INTO musica (id_musica, titulo, duracao, numero_faixa, id_album)
     VALUES (600, 'Do I Wanna Know?', 263, 1, 60)
     INTO musica (id_musica, titulo, duracao, numero_faixa, id_album)
     VALUES (601, 'R U Mine?', 201, 2, 60)
+    INTO musica (id_musica, titulo, duracao, numero_faixa, id_album)
+    VALUES (602, 'Arabella', 207, 3, 60)
+    INTO musica (id_musica, titulo, duracao, numero_faixa, id_album)
+    VALUES (603, 'I Bet You Look Good on the Dancefloor', 173, 1, 61)
 SELECT * FROM dual;
 
--- =====================================================
--- 4. INSERT... SELECT BÁSICO
--- =====================================================
+PROMPT Passo 2 concluído: Músicas inseridas
 
--- Criar tabela temporária para demonstração
+-- Verificar resultado
+SELECT 
+    a.nome_artista,
+    al.titulo as album,
+    m.titulo as musica,
+    m.duracao as duracao_seg
+FROM artista a
+JOIN album al ON a.id_artista = al.id_artista
+LEFT JOIN musica m ON al.id_album = m.id_album
+WHERE a.id_artista = 60
+ORDER BY al.id_album, m.numero_faixa;
+
+PROMPT
+
+-- =====================================================
+-- SEÇÃO 4: INSERT... SELECT - COPIAR DADOS
+-- =====================================================
+-- Técnica: Inserir dados baseados em consultas SELECT
+-- Ideal para: Migrações, backups, ETL, consolidação de dados
+-- Performance: Processamento interno do Oracle, muito eficiente
+
+PROMPT 
+PROMPT ========== SEÇÃO 4: INSERT... SELECT ==========
+PROMPT
+
+-- Exemplo 1: Criar tabela temporária e copiar dados com filtro
+-- CREATE TABLE... AS SELECT cria estrutura E copia dados em um comando
+-- WHERE 1=0 cria apenas a estrutura sem copiar dados
+
 CREATE TABLE temp_artistas_nacionais AS
-SELECT * FROM artista WHERE 1=0; -- só estrutura
+SELECT * FROM artista WHERE 1=0; -- Apenas estrutura
 
--- Copiar artistas brasileiros para tabela temporária
+PROMPT Tabela temp_artistas_nacionais criada (apenas estrutura)
+
+-- Agora copiar artistas brasileiros para a tabela temporária
 INSERT INTO temp_artistas_nacionais
 SELECT * FROM artista 
 WHERE pais_origem = 'Brasil';
 
--- Verificar dados copiados
-SELECT id_artista, nome_artista, pais_origem 
+-- Verificar quantos foram copiados
+SELECT 
+    'Artistas copiados' as descricao,
+    COUNT(*) as total 
 FROM temp_artistas_nacionais;
 
+-- Ver os dados copiados
+PROMPT Artistas brasileiros copiados:
+SELECT id_artista, nome_artista, pais_origem 
+FROM temp_artistas_nacionais
+ORDER BY nome_artista;
+
+PROMPT
+
 -- =====================================================
--- 5. INSERT... SELECT COM TRANSFORMAÇÃO
+-- SEÇÃO 5: INSERT... SELECT COM TRANSFORMAÇÃO
 -- =====================================================
+-- Técnica: Calcular e agregar dados durante a inserção
+-- Uso: Criar tabelas de estatísticas, relatórios, data marts
+-- Vantagens: Uma operação faz cálculo + inserção
+
+PROMPT 
+PROMPT ========== SEÇÃO 5: INSERT... SELECT com Agregações ==========
+PROMPT
 
 -- Criar tabela de estatísticas de artistas
 CREATE TABLE estatistica_artista (
@@ -138,10 +261,14 @@ CREATE TABLE estatistica_artista (
     media_duracao_musicas NUMBER(8,2),
     primeiro_album INTEGER,
     ultimo_album INTEGER,
-    data_calculo DATE
+    data_calculo DATE,
+    CONSTRAINT pk_estat_artista PRIMARY KEY (id_artista)
 );
 
--- Inserir estatísticas calculadas
+PROMPT Tabela estatistica_artista criada
+
+-- Inserir estatísticas calculadas para todos os artistas
+-- Usa JOINs, agregações (COUNT, SUM, AVG) e funções (COALESCE)
 INSERT INTO estatistica_artista (
     id_artista, nome_artista, total_albums, total_musicas, 
     duracao_total_segundos, media_duracao_musicas, 
@@ -161,31 +288,86 @@ FROM artista a
 LEFT JOIN album al ON a.id_artista = al.id_artista
 LEFT JOIN musica m ON al.id_album = m.id_album
 GROUP BY a.id_artista, a.nome_artista
-HAVING COUNT(DISTINCT al.id_album) > 0;
+HAVING COUNT(DISTINCT al.id_album) > 0; -- Apenas artistas com álbuns
+
+-- Exibir estatísticas calculadas
+PROMPT Estatísticas calculadas:
+SELECT 
+    nome_artista,
+    total_albums as albums,
+    total_musicas as musicas,
+    ROUND(duracao_total_segundos/60, 2) as duracao_min,
+    media_duracao_musicas as media_seg,
+    primeiro_album as ano_inicio,
+    ultimo_album as ano_fim
+FROM estatistica_artista
+ORDER BY total_albums DESC, total_musicas DESC;
+
+PROMPT
 
 -- =====================================================
--- 6. USANDO SEQUÊNCIAS EM INSERÇÕES
+-- SEÇÃO 6: USANDO SEQUENCES EM INSERÇÕES
 -- =====================================================
+-- NEXTVAL: obtém próximo valor da sequence
+-- CURRVAL: obtém valor atual da sequence (último NEXTVAL da sessão)
+-- Uso: Geração automática de IDs, manter relacionamentos
 
--- Inserir usuários usando sequência para ID
-INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais)
+PROMPT 
+PROMPT ========== SEÇÃO 6: Usando Sequences para IDs Automáticos ==========
+PROMPT
+
+-- Exemplo 1: Inserir usuários usando sequence para ID
+-- seq_usuario_teste.NEXTVAL gera automaticamente o próximo ID
+
+INSERT INTO usuario (id_usuario, nome_usuario, sobrenome, email, senha, data_nascimento, pais)
 VALUES (seq_usuario_teste.NEXTVAL, 'Carlos', 'Silva', 'carlos.silva1@email.com', 
         'hash123', DATE '1990-05-15', 'Brasil');
 
-INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais)
+INSERT INTO usuario (id_usuario, nome_usuario, sobrenome, email, senha, data_nascimento, pais)
 VALUES (seq_usuario_teste.NEXTVAL, 'Ana', 'Santos', 'ana.santos1@email.com', 
         'hash456', DATE '1985-12-20', 'Brasil');
 
--- Inserir playlist para o último usuário inserido
+PROMPT 2 usuários inseridos com IDs automáticos
+
+-- Exemplo 2: Usar CURRVAL para manter relacionamento
+-- CURRVAL retorna o último valor gerado por NEXTVAL na mesma sessão
+-- Útil para inserir dados relacionados (pai-filho)
+
 INSERT INTO playlist (id_playlist, nome_playlist, descricao, publica, id_usuario)
-VALUES (seq_playlist_teste.NEXTVAL, 'Clássicos do Rock', 
-        'Melhores músicas de rock clássico', 'S', seq_usuario_teste.CURRVAL);
+VALUES (seq_playlist_teste.NEXTVAL, 
+        'Clássicos do Rock', 
+        'Melhores músicas de rock clássico', 
+        'S', 
+        seq_usuario_teste.CURRVAL); -- Usa ID do último usuário inserido
+
+PROMPT Playlist criada para o último usuário inserido
+
+-- Verificar resultado - playlist vinculada ao usuário correto
+SELECT 
+    u.id_usuario,
+    u.nome_usuario || ' ' || u.sobrenome as usuario_completo,
+    p.id_playlist,
+    p.nome_playlist
+FROM usuario u
+JOIN playlist p ON u.id_usuario = p.id_usuario
+WHERE u.id_usuario >= 1000
+ORDER BY u.id_usuario;
+
+PROMPT
 
 -- =====================================================
--- 7. INSERÇÃO CONDICIONAL
+-- SEÇÃO 7: INSERÇÃO CONDICIONAL (INSERT COM NOT EXISTS)
 -- =====================================================
+-- Técnica: Inserir apenas se registro não existe
+-- Vantagens: Evita erro de duplicata, operação idempotente
+-- Uso: Dados de configuração, sincronização entre sistemas
 
--- Inserir gênero apenas se não existir
+PROMPT 
+PROMPT ========== SEÇÃO 7: Inserção Condicional ==========
+PROMPT
+
+-- Exemplo 1: Inserir gênero apenas se não existir
+-- NOT EXISTS verifica se já existe antes de inserir
 INSERT INTO genero (id_genero, nome_genero, descricao)
 SELECT 100, 'Bossa Nova', 'Estilo musical brasileiro suave e sofisticado'
 FROM dual
@@ -193,7 +375,10 @@ WHERE NOT EXISTS (
     SELECT 1 FROM genero WHERE nome_genero = 'Bossa Nova'
 );
 
--- Inserir múltiplos gêneros condicionalmente
+PROMPT Tentativa de inserir Bossa Nova (inserido se não existia)
+
+-- Exemplo 2: Inserir múltiplos gêneros condicionalmente
+-- Cada registro é verificado individualmente
 INSERT INTO genero (id_genero, nome_genero, descricao)
 SELECT id_gen, nome_gen, desc_gen
 FROM (
@@ -207,9 +392,26 @@ WHERE NOT EXISTS (
     SELECT 1 FROM genero g WHERE g.nome_genero = novos_generos.nome_gen
 );
 
+PROMPT Gêneros brasileiros inseridos (apenas os que não existiam)
+
+-- Verificar todos os gêneros brasileiros
+SELECT id_genero, nome_genero, descricao
+FROM genero
+WHERE nome_genero IN ('Bossa Nova', 'Samba', 'Forró', 'Pagode')
+ORDER BY id_genero;
+
+PROMPT
+
 -- =====================================================
--- 8. MERGE (UPSERT) - INSERIR OU ATUALIZAR
+-- SEÇÃO 8: MERGE (UPSERT) - INSERIR OU ATUALIZAR
 -- =====================================================
+-- MERGE: Comando Oracle para INSERT ou UPDATE condicional
+-- Também conhecido como UPSERT (Update + Insert)
+-- Uso: Sincronização de dados, atualização de caches, ETL
+
+PROMPT 
+PROMPT ========== SEÇÃO 8: MERGE (UPSERT) ==========
+PROMPT
 
 -- Criar tabela de rankings mensais
 CREATE TABLE ranking_mensal_musica (
@@ -219,49 +421,74 @@ CREATE TABLE ranking_mensal_musica (
     posicao INTEGER,
     total_reproducoes INTEGER,
     data_atualizacao DATE,
-    PRIMARY KEY (id_musica, mes, ano)
+    CONSTRAINT pk_ranking PRIMARY KEY (id_musica, mes, ano)
 );
 
+PROMPT Tabela ranking_mensal_musica criada
+
 -- MERGE para atualizar ou inserir ranking
+-- Se existe: atualiza (WHEN MATCHED)
+-- Se não existe: insere (WHEN NOT MATCHED)
+
 /*
--- Esse script atualiza e insere dados em uma tabela chamada ranking_mensal_musica 
---(provavelmente usada para armazenar o ranking de músicas por mês).
-
--- Pega os dados do histórico de reproduções (historico_reproducao) e calcula:
--- * quantas vezes cada música foi reproduzida no mês anterior,
--- * sua posição no ranking (1º, 2º, 3º, …),
--- * e grava/atualiza isso no ranking mensal.
-
---O MERGE serve para fazer UPSERT no Oracle ou seja:
--- * UPDATE se o registro já existe (música já tem ranking para aquele mês/ano),
--- * INSERT se não existe (nova música aparece no ranking do mês).
+EXPLICAÇÃO DO MERGE:
+1. MERGE INTO: tabela destino
+2. USING: consulta fonte (pode ser tabela ou subquery)
+3. ON: condição de match (chaves primárias/únicas)
+4. WHEN MATCHED: o que fazer se encontrar registro existente
+5. WHEN NOT MATCHED: o que fazer se não encontrar
 */
+
 MERGE INTO ranking_mensal_musica rmm
 USING (
+    -- Subquery que calcula estatísticas do último mês
     SELECT 
         m.id_musica,
         EXTRACT(MONTH FROM hr.data_reproducao) as mes,
         EXTRACT(YEAR FROM hr.data_reproducao) as ano,
-        -- conta quantas vezes cada música foi ouvida
         COUNT(*) as total_reproducoes,
+        -- ROW_NUMBER cria posição no ranking (1º, 2º, 3º...)
         ROW_NUMBER() OVER (
-            PARTITION BY EXTRACT(MONTH FROM hr.data_reproducao), EXTRACT(YEAR FROM hr.data_reproducao)
+            PARTITION BY EXTRACT(MONTH FROM hr.data_reproducao), 
+                         EXTRACT(YEAR FROM hr.data_reproducao)
             ORDER BY COUNT(*) DESC
         ) as posicao
     FROM musica m
     JOIN historico_reproducao hr ON m.id_musica = hr.id_musica
-    -- pega todas as músicas reproduzidas no último mês
+    -- Apenas músicas reproduzidas no último mês
     WHERE hr.data_reproducao >= TRUNC(SYSDATE, 'MM') - INTERVAL '1' MONTH
-    GROUP BY m.id_musica, EXTRACT(MONTH FROM hr.data_reproducao), EXTRACT(YEAR FROM hr.data_reproducao)
-) src ON (rmm.id_musica = src.id_musica AND rmm.mes = src.mes AND rmm.ano = src.ano)
+    GROUP BY m.id_musica, 
+             EXTRACT(MONTH FROM hr.data_reproducao), 
+             EXTRACT(YEAR FROM hr.data_reproducao)
+) src 
+ON (rmm.id_musica = src.id_musica 
+    AND rmm.mes = src.mes 
+    AND rmm.ano = src.ano)
 WHEN MATCHED THEN
+    -- Se encontrou: atualiza valores
     UPDATE SET 
         rmm.posicao = src.posicao,
         rmm.total_reproducoes = src.total_reproducoes,
         rmm.data_atualizacao = SYSDATE
 WHEN NOT MATCHED THEN
+    -- Se não encontrou: insere novo registro
     INSERT (id_musica, mes, ano, posicao, total_reproducoes, data_atualizacao)
-    VALUES (src.id_musica, src.mes, src.ano, src.posicao, src.total_reproducoes, SYSDATE);
+    VALUES (src.id_musica, src.mes, src.ano, src.posicao, 
+            src.total_reproducoes, SYSDATE);
+
+PROMPT Ranking mensal atualizado/inserido via MERGE
+
+-- Verificar rankings criados/atualizados
+SELECT 
+    mes,
+    ano,
+    COUNT(*) as total_musicas_rankeadas,
+    MAX(posicao) as posicoes_no_ranking
+FROM ranking_mensal_musica
+GROUP BY mes, ano
+ORDER BY ano DESC, mes DESC;
+
+PROMPT
 
 -- =====================================================
 -- 9. INSERÇÃO COM SUBCONSULTAS COMPLEXAS
