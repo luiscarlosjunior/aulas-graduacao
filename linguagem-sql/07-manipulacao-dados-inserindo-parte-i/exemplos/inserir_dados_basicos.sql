@@ -10,6 +10,16 @@
 -- 1. CONFIGURAÇÃO DO AMBIENTE
 -- =====================================================
 
+-- Inserir várias músicas de uma vez
+INSERT INTO musica (id_musica, titulo, duracao, numero_faixa, id_album)
+VALUES 
+(1, 'Come Together', 259, 1, 1),
+(2, 'Something', 182, 2, 1),
+(3, 'Maxwell''s Silver Hammer', 207, 3, 1),
+(4, 'Oh! Darling', 206, 4, 1),
+(5, 'Octopus''s Garden', 171, 5, 1);
+
+
 SET ECHO ON;
 SET TIMING ON;
 
