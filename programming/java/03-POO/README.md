@@ -73,6 +73,16 @@ A Programação Orientada a Objetos nasceu da necessidade de criar software mais
    - Sistemas completos integrando todos os conceitos
    - Exemplos clássicos: Sistema de biblioteca, universidade, veículos
 
+7. **[07 - SOLID](07-solid/)** - Princípios de Design de Software
+   - História da Crise do Software e evolução das boas práticas
+   - **S**ingle Responsibility Principle (Responsabilidade Única)
+   - **O**pen/Closed Principle (Aberto/Fechado)
+   - **L**iskov Substitution Principle (Substituição de Liskov)
+   - **I**nterface Segregation Principle (Segregação de Interface)
+   - **D**ependency Inversion Principle (Inversão de Dependência)
+   - Exemplos práticos completos e executáveis
+   - Sistema de e-commerce integrando todos os princípios
+
 ## 🚀 Como Estudar
 
 ### Sequência Recomendada
@@ -143,15 +153,17 @@ Ao completar esta aula, você será capaz de:
 - **Usar herança** para reutilizar código eficientemente
 - **Implementar polimorfismo** para flexibilidade
 - **Trabalhar com abstração** para simplificar sistemas complexos
+- **Aplicar princípios SOLID** para código de qualidade e manutenível
 - **Desenvolver sistemas completos** usando todos os conceitos integrados
 
 ## 📊 Estatísticas da Aula
 
-- **6 tópicos principais** organizados progressivamente
-- **25+ arquivos Java** com exemplos completos
-- **1000+ linhas** de código comentado e funcional
-- **Múltiplos cenários** práticos (animais, banco, formas, dispositivos, biblioteca)
+- **7 tópicos principais** organizados progressivamente
+- **30+ arquivos Java** com exemplos completos
+- **4000+ linhas** de código comentado e funcional
+- **Múltiplos cenários** práticos (animais, banco, formas, dispositivos, biblioteca, e-commerce)
 - **Exercícios integrados** para consolidação
+- **História e contexto** da evolução da engenharia de software
 
 ## 🔧 Pré-requisitos
 
@@ -179,10 +191,14 @@ Após completar esta aula de POO:
 | **Polimorfismo** | Múltiplas implementações | `Forma.calcularArea()` | Formas geométricas e calculadora |
 | **Abstração** | Simplificação de complexidade | Interface `Drawable` | Dispositivos eletrônicos |
 | **Exercícios** | Integração completa | Sistema universitário | Sistema de biblioteca |
+| **SOLID** | Princípios de design | Arquitetura limpa | Sistema de e-commerce com todos os princípios |
 
 ## 🔧 Boas Práticas e Padrões
 
 ### Princípios SOLID
+
+🎓 **Agora com tópico dedicado completo!** Veja [07-SOLID](07-solid/) para material extenso sobre:
+
 - **S** - Single Responsibility (Responsabilidade Única)
 - **O** - Open/Closed (Aberto/Fechado)
 - **L** - Liskov Substitution (Substituição de Liskov)
