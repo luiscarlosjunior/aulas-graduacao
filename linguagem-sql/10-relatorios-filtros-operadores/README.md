@@ -756,14 +756,53 @@ ORDER BY m.titulo;
 
 ### 4. Operadores Especiais
 
-#### 4.1 IN - Lista de Valores
+#### 4.1 Operador IN - Lista de Valores
+
+**Definição**: IN verifica se um valor existe em uma lista especificada de valores. É um atalho para múltiplas comparações OR.
+
+**Por que IN existe:**
+
+1. **Legibilidade**: `pais IN ('Brasil', 'Argentina')` é mais claro que `pais = 'Brasil' OR pais = 'Argentina'`.
+
+2. **Manutenibilidade**: Listas longas são mais fáceis de gerenciar com IN.
+
+3. **Otimização**: SGBDs podem otimizar IN de maneiras especiais (ex: hash lookups, bitmap indexes).
+
+4. **Subconsultas**: IN permite comparar com resultados de outra query: `WHERE id IN (SELECT ...)`.
+
+**O que aconteceria sem IN:**
+
 ```sql
--- Artistas de países específicos
+-- ❌ SEM IN: Verboso e propenso a erros
+SELECT * FROM artista 
+WHERE pais_origem = 'Brasil' 
+   OR pais_origem = 'Argentina'
+   OR pais_origem = 'Chile'
+   OR pais_origem = 'Uruguai'
+   OR pais_origem = 'Paraguai';
+-- Difícil de ler, fácil esquecer parenteses em condições complexas
+
+-- ✅ COM IN: Conciso e claro
+SELECT * FROM artista 
+WHERE pais_origem IN ('Brasil', 'Argentina', 'Chile', 'Uruguai', 'Paraguai');
+```
+
+**Sintaxe básica:**
+```sql
+-- Artistas de países específicos da América do Sul
 SELECT nome_artista, pais_origem
 FROM artista
 WHERE pais_origem IN ('Brasil', 'Reino Unido', 'Estados Unidos')
 ORDER BY pais_origem, nome_artista;
+```
 
+**Equivalência formal**: 
+```
+x IN (a, b, c) ≡ (x = a) OR (x = b) OR (x = c)
+```
+
+**Uso com subconsultas** (muito poderoso):
+```sql
 -- Músicas de álbuns específicos
 SELECT m.titulo, al.titulo AS album, ar.nome_artista
 FROM musica m
@@ -772,41 +811,195 @@ JOIN artista ar ON al.id_artista = ar.id_artista
 WHERE al.id_album IN (1, 2, 4, 7)
 ORDER BY ar.nome_artista, al.titulo;
 
--- Equivalente com OR (menos eficiente)
-WHERE al.id_album = 1 OR al.id_album = 2 OR al.id_album = 4 OR al.id_album = 7;
+-- Com subconsulta: Músicas de artistas brasileiros
+SELECT titulo, duracao
+FROM musica
+WHERE id_album IN (
+    SELECT id_album 
+    FROM album 
+    WHERE id_artista IN (
+        SELECT id_artista 
+        FROM artista 
+        WHERE pais_origem = 'Brasil'
+    )
+);
 ```
 
-#### 4.2 BETWEEN - Intervalo de Valores
+**Comportamento com NULL:**
+```sql
+-- ⚠️ CUIDADO: IN com NULL pode ter comportamento inesperado
+SELECT * FROM artista WHERE pais_origem IN ('Brasil', NULL);
+-- NULL na lista IN é ignorado - funciona como IN ('Brasil')
+
+-- ❌ NOT IN com NULL - armadilha comum!
+SELECT * FROM artista WHERE pais_origem NOT IN ('Brasil', NULL);
+-- Retorna VAZIO! NOT IN com NULL sempre retorna FALSE ou NULL
+-- Porque: pais <> 'Brasil' AND pais <> NULL → NULL → tratado como FALSE
+```
+
+**Solução para NOT IN com possíveis NULLs:**
+```sql
+-- ✅ Use NOT EXISTS em vez de NOT IN quando NULLs são possíveis
+SELECT * FROM artista a
+WHERE NOT EXISTS (
+    SELECT 1 FROM valores_lista v
+    WHERE a.pais_origem = v.pais
+);
+```
+
+**Performance IN vs OR:**
+
+Para listas pequenas (< 5 itens): Performance similar
+Para listas grandes (> 10 itens): IN geralmente mais rápido
+
+```sql
+-- Oracle pode usar diferentes estratégias:
+-- 1. Hash semi-join (listas grandes)
+-- 2. Nested loops (listas pequenas)
+-- 3. Bitmap index (se disponível)
+```
+
+#### 4.2 Operador BETWEEN - Intervalo de Valores
+
+**Definição**: BETWEEN testa se um valor está dentro de um intervalo **inclusivo** (inclui ambos os limites).
+
+**Por que BETWEEN existe:**
+
+1. **Legibilidade**: `duracao BETWEEN 180 AND 300` é mais intuitivo que `duracao >= 180 AND duracao <= 300`.
+
+2. **Semântica de Intervalo**: Expressa claramente a intenção de buscar um range.
+
+3. **Otimização**: Alguns SGBDs reconhecem BETWEEN e aplicam otimizações específicas (Index Range Scan).
+
+4. **Convenção SQL**: Padrão ANSI para intervalos.
+
+**O que aconteceria sem BETWEEN:**
+
+```sql
+-- ❌ SEM BETWEEN: Mais verboso
+SELECT * FROM musica 
+WHERE duracao >= 180 AND duracao <= 300;
+
+-- ✅ COM BETWEEN: Mais expressivo
+SELECT * FROM musica 
+WHERE duracao BETWEEN 180 AND 300;
+```
+
+**Sintaxe e exemplos:**
 ```sql
 -- Músicas com duração entre 3 e 5 minutos
-SELECT titulo, duracao,
-       CONCAT(FLOOR(duracao/60), ':', LPAD(duracao%60, 2, '0')) AS duracao_formatada
+SELECT titulo, 
+       duracao,
+       FLOOR(duracao/60) || ':' || LPAD(MOD(duracao, 60), 2, '0') AS duracao_formatada
 FROM musica
 WHERE duracao BETWEEN 180 AND 300
 ORDER BY duracao;
+```
 
+**Importante**: BETWEEN é **inclusivo** - inclui ambos os limites:
+```
+duracao BETWEEN 180 AND 300  ≡  duracao >= 180 AND duracao <= 300
+```
+
+**Uso com datas** (muito comum):
+```sql
 -- Álbuns lançados na década de 70
 SELECT ar.nome_artista, al.titulo, al.data_lancamento
 FROM album al
 JOIN artista ar ON al.id_artista = ar.id_artista
-WHERE al.data_lancamento BETWEEN '1970-01-01' AND '1979-12-31'
+WHERE al.data_lancamento BETWEEN DATE '1970-01-01' AND DATE '1979-12-31'
 ORDER BY al.data_lancamento;
+```
 
+**Cuidado com timestamps (datas com horas):**
+```sql
+-- ⚠️ ARMADILHA: BETWEEN com timestamps
+-- Se data_reproducao incluir hora/minuto/segundo:
+WHERE data_reproducao BETWEEN DATE '2024-01-01' AND DATE '2024-01-31'
+-- Pode perder registros do dia 31 após 00:00:00!
+
+-- ✅ MELHOR: Seja explícito com timestamps
+WHERE data_reproducao >= TIMESTAMP '2024-01-01 00:00:00'
+  AND data_reproducao < TIMESTAMP '2024-02-01 00:00:00'
+-- Ou use TRUNC para ignorar parte de hora
+WHERE TRUNC(data_reproducao) BETWEEN DATE '2024-01-01' AND DATE '2024-01-31'
+```
+
+**Exemplo acadêmico - Análise demográfica:**
+```sql
 -- Usuários por faixa etária (20 a 40 anos)
-SELECT nome_usuario, data_nascimento,
-       FLOOR(DATEDIFF(CURRENT_DATE, data_nascimento)/365) AS idade
+SELECT nome_usuario, 
+       data_nascimento,
+       FLOOR(MONTHS_BETWEEN(SYSDATE, data_nascimento)/12) AS idade
 FROM usuario
 WHERE data_nascimento BETWEEN 
-    DATE_SUB(CURRENT_DATE, INTERVAL 40 YEAR) AND 
-    DATE_SUB(CURRENT_DATE, INTERVAL 20 YEAR)
+    ADD_MONTHS(SYSDATE, -40*12) AND  -- 40 anos atrás
+    ADD_MONTHS(SYSDATE, -20*12)      -- 20 anos atrás
 ORDER BY data_nascimento DESC;
 ```
 
-#### 4.3 LIKE - Padrões de Texto
+**Performance BETWEEN vs operadores separados:**
 
-**Wildcards básicos**:
-- `%`: Qualquer sequência de caracteres (zero ou mais)
-- `_`: Exatamente um caractere
+```sql
+-- Ambos têm performance similar
+-- Oracle usa Index Range Scan para ambos (se houver índice)
+
+-- BETWEEN
+WHERE data_lancamento BETWEEN DATE '1970-01-01' AND DATE '1979-12-31'
+
+-- Operadores separados
+WHERE data_lancamento >= DATE '1970-01-01' 
+  AND data_lancamento <= DATE '1979-12-31'
+
+-- Plano de execução típico (com índice):
+-- INDEX RANGE SCAN on idx_album_data_lancamento
+```
+
+**Quando NÃO usar BETWEEN:**
+
+1. **Intervalos exclusivos** (não incluir limites):
+```sql
+-- Melhor usar > e < direto
+WHERE preco > 100 AND preco < 500  -- Exclui 100 e 500
+-- Em vez de tentar adaptar BETWEEN
+```
+
+2. **Condições assimétricas**:
+```sql
+-- Melhor ser explícito
+WHERE duracao >= 180 AND duracao < 300  -- Inclui 180, exclui 300
+```
+
+#### 4.3 Operador LIKE - Padrões de Texto
+
+**Definição**: LIKE realiza **pattern matching** (correspondência de padrões) em strings usando wildcards.
+
+**Por que LIKE existe:**
+
+1. **Buscas Parciais**: Usuários raramente sabem o texto exato - precisam buscar "artistas que começam com 'The'" ou "músicas contendo 'Love'".
+
+2. **Flexibilidade**: Permite buscas por prefixo, sufixo, ou substring.
+
+3. **Interface com Usuário**: Sistemas precisam implementar caixas de busca - LIKE é essencial para isso.
+
+4. **Validação de Padrões**: Verificar se dados seguem formatos específicos (ex: telefones, emails).
+
+**O que aconteceria sem LIKE:**
+
+```sql
+-- ❌ SEM LIKE: Impossível buscar parcialmente
+SELECT * FROM artista WHERE nome_artista = 'The';  
+-- Só encontra artistas com nome exatamente "The", não "The Beatles"
+
+-- ✅ COM LIKE: Busca flexível
+SELECT * FROM artista WHERE nome_artista LIKE 'The%';
+-- Encontra "The Beatles", "The Rolling Stones", "The Who", etc.
+```
+
+**Wildcards básicos:**
+
+- **%**: Corresponde a **zero ou mais** caracteres
+- **_**: Corresponde a **exatamente um** caractere
 
 ```sql
 -- Artistas que começam com "The"
@@ -815,6 +1008,15 @@ FROM artista
 WHERE nome_artista LIKE 'The%'
 ORDER BY nome_artista;
 
+-- Exemplos de padrões:
+-- 'The%'    → "The Beatles", "The Who", "Therion"
+-- '%The%'   → "The Beatles", "Breathe", "Northern"
+-- '%The'    → "Breathe", "Soothe"
+-- 'The____' → "Theories" (The + exatamente 4 caracteres)
+```
+
+**Exemplos práticos no SQL Developer:**
+```sql
 -- Músicas que contêm "Love"
 SELECT m.titulo, ar.nome_artista, al.titulo AS album
 FROM musica m
@@ -832,41 +1034,157 @@ ORDER BY nome_usuario;
 -- Artistas com exatamente 4 caracteres no nome
 SELECT nome_artista
 FROM artista
-WHERE nome_artista LIKE '____'  -- 4 underscores
+WHERE nome_artista LIKE '____'  -- 4 underscores = 4 caracteres exatos
 ORDER BY nome_artista;
+-- Pode encontrar: "Rush", "Blur", "ABBA", etc.
 ```
 
-**Padrões mais complexos**:
+**Case sensitivity (sensibilidade a maiúsculas/minúsculas):**
+
 ```sql
--- Álbuns que terminam com número
+-- Oracle: LIKE é case-sensitive por padrão (depende do NLS_SORT)
+SELECT * FROM artista WHERE nome_artista LIKE 'the%';
+-- Pode não encontrar "The Beatles" (T maiúsculo)
+
+-- ✅ Solução 1: UPPER ou LOWER
+SELECT * FROM artista WHERE UPPER(nome_artista) LIKE UPPER('the%');
+-- Encontra independente da capitalização
+
+-- ✅ Solução 2 (Oracle 10g+): REGEXP_LIKE com flag 'i' (insensitive)
+SELECT * FROM artista WHERE REGEXP_LIKE(nome_artista, '^the', 'i');
+```
+
+**Performance de LIKE - Crítico para otimização:**
+
+```sql
+-- ✅ EFICIENTE: Pode usar índice (prefixo)
+WHERE nome_artista LIKE 'Beatles%'
+-- Oracle pode usar Index Range Scan
+
+-- ⚠️ MENOS EFICIENTE: Não pode usar índice bem (sufixo)
+WHERE nome_artista LIKE '%Beatles'
+-- Requer Index Full Scan ou Table Full Scan
+
+-- ❌ INEFICIENTE: Nunca pode usar índice normal (substring)
+WHERE nome_artista LIKE '%Beatles%'
+-- Sempre requer Full Scan
+```
+
+**Por que essa diferença de performance?**
+
+Índices B-tree (padrão) são organizados ordenadamente:
+```
+"ABBA"
+"Beatles"
+"Queen"
+"The Beatles"
+"The Rolling Stones"
+```
+
+- `LIKE 'The%'`: Oracle pode pular direto para "The..." (eficiente)
+- `LIKE '%The%'`: Oracle precisa verificar CADA linha (ineficiente)
+
+**Soluções para buscas de substring eficientes:**
+
+1. **Full-Text Search** (Oracle Text):
+```sql
+-- Requer setup de Oracle Text
+CREATE INDEX idx_artista_nome_text ON artista(nome_artista) 
+INDEXTYPE IS CTXSYS.CONTEXT;
+
+SELECT * FROM artista WHERE CONTAINS(nome_artista, 'Beatles') > 0;
+-- Muito mais rápido para buscas de texto
+```
+
+2. **Índices de Trigrama** (não nativo no Oracle, mas PostgreSQL tem):
+```sql
+-- Específico para PostgreSQL (não Oracle):
+CREATE INDEX idx_artista_nome_trgm ON artista USING gin(nome_artista gin_trgm_ops);
+```
+
+3. **Normalização - Campos de Busca**:
+```sql
+-- Criar coluna adicional para busca
+ALTER TABLE artista ADD nome_busca VARCHAR2(200);
+UPDATE artista SET nome_busca = UPPER(REGEXP_REPLACE(nome_artista, '[^A-Z0-9]', ''));
+CREATE INDEX idx_artista_busca ON artista(nome_busca);
+
+-- Busca eficiente
+WHERE nome_busca LIKE UPPER('BEATLES%');
+```
+
+**Escape de caracteres especiais:**
+
+Se precisar buscar literalmente `%` ou `_`:
+
+```sql
+-- Buscar músicas com "100%" no título
+SELECT * FROM musica 
+WHERE titulo LIKE '%100\%%' ESCAPE '\';
+-- Padrão: %100\%%
+-- % inicial = qualquer coisa antes
+-- 100\% = literal "100%"
+-- % final = qualquer coisa depois
+```
+
+**Padrões mais complexos - Expressões Regulares:**
+
+Para padrões muito complexos, use REGEXP_LIKE (mais poderoso que LIKE):
+
+```sql
+-- Álbuns que terminam com número (usando regex)
 SELECT titulo, data_lancamento
 FROM album
-WHERE titulo LIKE '%[0-9]'  -- Sintaxe varia por SGBD
+WHERE REGEXP_LIKE(titulo, '[0-9]$')  -- $ significa fim da string
 ORDER BY titulo;
 
--- Case insensitive (depende do SGBD)
-SELECT nome_artista
-FROM artista
-WHERE UPPER(nome_artista) LIKE 'QUEEN%'
-ORDER BY nome_artista;
+-- Exemplos: "Abbey Road 1969", "Album Vol. 2", etc.
 ```
 
-#### 4.4 IS NULL / IS NOT NULL - Valores Nulos
+#### 4.4 Operador IS NULL / IS NOT NULL - Tratamento de Valores Nulos
+
+**Definição**: IS NULL/IS NOT NULL são os **únicos** operadores corretos para testar valores nulos (NULL).
+
+**Por que NULL existe e por que precisa de operador especial:**
+
+1. **Representação de Ausência**: NULL representa "dado ausente", "desconhecido", ou "não aplicável" - conceito essencial em bancos de dados.
+
+2. **Lógica Ternária**: SQL usa lógica de 3 valores (TRUE, FALSE, NULL) em vez de lógica booleana binária (TRUE, FALSE).
+
+3. **Semântica Especial**: NULL não é igual a nada, nem mesmo a si mesmo (`NULL = NULL` é NULL, não TRUE!).
+
+**Por que não usar = NULL:**
 
 ```sql
--- Artistas sem biografia
+-- ❌ INCORRETO: Sempre retorna 0 resultados (nunca TRUE)
+SELECT * FROM artista WHERE biografia = NULL;
+-- Retorna VAZIO porque NULL = NULL → NULL → tratado como FALSE
+
+-- ✅ CORRETO: Usa IS NULL
+SELECT * FROM artista WHERE biografia IS NULL;
+-- Funciona corretamente
+```
+
+**Explicação matemática**: NULL representa "desconhecido". Dois valores desconhecidos não são necessariamente iguais:
+- Sua altura = desconhecido
+- Minha altura = desconhecido
+- Sua altura = Minha altura? → Desconhecido (NULL), não TRUE!
+
+**Exemplos práticos:**
+```sql
+-- Artistas sem biografia cadastrada
 SELECT nome_artista, pais_origem, data_formacao
 FROM artista
 WHERE biografia IS NULL
 ORDER BY nome_artista;
 
--- Usuários com data de nascimento cadastrada
+-- Usuários com data de nascimento cadastrada (não NULL)
 SELECT nome_usuario, email, data_nascimento
 FROM usuario
 WHERE data_nascimento IS NOT NULL
 ORDER BY data_nascimento;
 
--- Músicas sem letra cadastrada
+-- Músicas sem letra cadastrada (pode indicar instrumentais)
 SELECT m.titulo, ar.nome_artista, al.titulo AS album
 FROM musica m
 JOIN album al ON m.id_album = al.id_album
@@ -875,94 +1193,572 @@ WHERE m.letra IS NULL
 ORDER BY ar.nome_artista, m.titulo;
 ```
 
+**NULL em operações lógicas:**
+
+```sql
+-- Tabela de verdade com NULL:
+SELECT 
+    NULL AND TRUE as "NULL AND TRUE",      -- NULL
+    NULL AND FALSE as "NULL AND FALSE",    -- FALSE (!)
+    NULL OR TRUE as "NULL OR TRUE",        -- TRUE (!)
+    NULL OR FALSE as "NULL OR FALSE",      -- NULL
+    NOT NULL as "NOT NULL"                 -- NULL
+FROM dual;
+```
+
+**Importante**: 
+- `NULL AND FALSE` → FALSE (porque FALSE força o resultado)
+- `NULL OR TRUE` → TRUE (porque TRUE força o resultado)
+
+**Funções para lidar com NULL:**
+
+```sql
+-- COALESCE: Retorna primeiro valor não-NULL
+SELECT nome_artista, 
+       COALESCE(biografia, 'Biografia não disponível') as biografia
+FROM artista;
+
+-- NVL (Oracle específico): Substitui NULL por valor padrão
+SELECT nome_artista,
+       NVL(biografia, 'Sem informação') as biografia
+FROM artista;
+
+-- NVL2 (Oracle): Valor se não-NULL, outro se NULL
+SELECT nome_artista,
+       NVL2(biografia, 'Tem bio', 'Sem bio') as status_bio
+FROM artista;
+```
+
+**Filtros combinados com NULL:**
+
+```sql
+-- Incluir NULLs explicitamente quando necessário
+SELECT * FROM artista 
+WHERE pais_origem = 'Brasil' OR pais_origem IS NULL;
+-- Pega brasileiros E artistas sem país definido
+
+-- Excluir NULLs (geralmente não necessário, mas pode clarificar intenção)
+SELECT * FROM artista 
+WHERE pais_origem = 'Brasil' AND pais_origem IS NOT NULL;
+-- Redundante aqui (= já exclui NULL), mas explícito
+```
+
+**Impacto de NULL em agregações:**
+
+```sql
+-- Agregações ignoram NULL automaticamente
+SELECT 
+    COUNT(*) as total_artistas,           -- Conta todas as linhas
+    COUNT(biografia) as com_biografia,    -- Conta apenas não-NULL
+    COUNT(*) - COUNT(biografia) as sem_biografia
+FROM artista;
+```
+
+**Best practices com NULL:**
+
+1. **Use IS NULL/IS NOT NULL** sempre para testar NULL
+2. **Considere NULLs em lógica**: `WHERE status <> 'Inativo'` não pega NULLs!
+3. **Documente semântica**: NULL significa "desconhecido" ou "não aplicável"?
+4. **Use NOT NULL constraints** quando apropriado para prevenir NULLs indesejados
+
 ### 5. Filtros Complexos e Relatórios Específicos
 
-#### 5.1 Análise de Popularidade
+#### 5.1 Fundamentos de Consultas Analíticas
+
+Filtros complexos combinam múltiplos operadores e técnicas para extrair insights específicos de negócio. Eles são essenciais para **Business Intelligence**, **relatórios gerenciais** e **análise de dados**.
+
+**Por que filtros complexos são necessários:**
+
+1. **Requisitos de Negócio Sofisticados**: Perguntas reais não são simples - "Quais artistas brasileiros ativos, com mais de 3 músicas, que tiveram reproduções nos últimos 30 dias?"
+
+2. **KPIs e Métricas**: Indicadores de performance requerem agregações filtradas.
+
+3. **Segmentação de Clientes**: Marketing precisa de grupos específicos - "usuários premium inativos nos últimos 60 dias".
+
+4. **Análise de Tendências**: Identificar padrões requer filtros temporais e estatísticos.
+
+**O que aconteceria sem filtros complexos:**
+
 ```sql
--- Artistas com mais de 3 músicas no catálogo
+-- ❌ SEM FILTROS COMPLEXOS: Teria que fazer múltiplas consultas
+-- Consulta 1: Todos os artistas
+SELECT * FROM artista;
+-- Consulta 2: Todos os álbuns
+SELECT * FROM album;
+-- Consulta 3: Todas as músicas
+SELECT * FROM musica;
+-- Na aplicação: Combinar manualmente, calcular agregações, filtrar
+-- Resultado: Lento, uso excessivo de memória, código complexo
+
+-- ✅ COM FILTROS COMPLEXOS: Uma consulta otimizada
 SELECT ar.nome_artista,
-       ar.pais_origem,
-       COUNT(m.id_musica) AS total_musicas,
-       ROUND(AVG(m.duracao), 2) AS duracao_media
+       COUNT(DISTINCT al.id_album) as total_albuns,
+       COUNT(m.id_musica) as total_musicas,
+       ROUND(AVG(m.duracao), 2) as duracao_media
 FROM artista ar
 JOIN album al ON ar.id_artista = al.id_artista
 JOIN musica m ON al.id_album = m.id_album
-WHERE ar.ativo = TRUE
+WHERE ar.ativo = 1
+  AND ar.pais_origem = 'Brasil'
+  AND al.data_lancamento >= ADD_MONTHS(SYSDATE, -60)  -- Últimos 5 anos
+GROUP BY ar.id_artista, ar.nome_artista
+HAVING COUNT(m.id_musica) > 3
+ORDER BY total_musicas DESC;
+```
+
+#### 5.2 Análise de Popularidade
+
+**Caso de uso**: Identificar artistas produtivos e relevantes para promoção ou recomendações.
+
+```sql
+-- Artistas com mais de 3 músicas no catálogo (produtivos e ativos)
+SELECT ar.nome_artista,
+       ar.pais_origem,
+       COUNT(m.id_musica) AS total_musicas,
+       ROUND(AVG(m.duracao), 2) AS duracao_media,
+       MIN(al.data_lancamento) AS primeiro_album,
+       MAX(al.data_lancamento) AS ultimo_album
+FROM artista ar
+JOIN album al ON ar.id_artista = al.id_artista
+JOIN musica m ON al.id_album = m.id_album
+WHERE ar.ativo = 1  -- Apenas artistas ativos (Oracle: 1=TRUE, 0=FALSE)
 GROUP BY ar.id_artista, ar.nome_artista, ar.pais_origem
 HAVING COUNT(m.id_musica) > 3
 ORDER BY total_musicas DESC;
 ```
 
-#### 5.2 Relatório de Engajamento de Usuários
+**Análise acadêmica**: Esta consulta implementa:
+1. **Seleção (σ)**: WHERE ar.ativo = 1
+2. **Junção (⋈)**: JOIN entre tabelas
+3. **Agrupamento (γ)**: GROUP BY artista
+4. **Agregação**: COUNT, AVG, MIN, MAX
+5. **Filtragem pós-agregação**: HAVING
+
+**Insights de negócio desta consulta:**
+- Artistas com mais músicas são mais valiosos para o catálogo
+- Duração média indica perfil musical (músicas longas = rock progressivo?)
+- Intervalo de datas mostra carreira ativa vs veteranos inativos
+
+**Por que GROUP BY e HAVING juntos:**
+- **GROUP BY**: Agrupa dados (uma linha por artista)
+- **HAVING**: Filtra grupos (apenas artistas com > 3 músicas)
+
+```sql
+-- Sem HAVING: Mostra todos os artistas (mesmo com 1 música)
+-- Com HAVING: Apenas artistas produtivos (> 3 músicas)
+```
+
+#### 5.3 Relatório de Engajamento de Usuários
+
+**Caso de uso**: Identificar usuários ativos para programas de fidelidade ou detectar churning.
+
 ```sql
 -- Usuários ativos (com reproduções nos últimos 30 dias)
 SELECT u.nome_usuario,
        u.email,
+       u.pais,
        COUNT(h.id_historico) AS reproducoes_recentes,
-       MAX(h.data_reproducao) AS ultima_atividade
+       MAX(h.data_reproducao) AS ultima_atividade,
+       MIN(h.data_reproducao) AS primeira_atividade_periodo,
+       ROUND(COUNT(h.id_historico) / 30.0, 2) AS media_dia
 FROM usuario u
 JOIN historico_reproducao h ON u.id_usuario = h.id_usuario
-WHERE h.data_reproducao >= DATE_SUB(CURRENT_DATE, INTERVAL 30 DAY)
-  AND u.ativo = TRUE
-GROUP BY u.id_usuario, u.nome_usuario, u.email
-HAVING reproducoes_recentes >= 5
+WHERE h.data_reproducao >= SYSDATE - 30  -- Últimos 30 dias
+  AND u.ativo = 1
+GROUP BY u.id_usuario, u.nome_usuario, u.email, u.pais
+HAVING COUNT(h.id_historico) >= 5  -- Pelo menos 5 reproduções
 ORDER BY reproducoes_recentes DESC;
 ```
 
-#### 5.3 Catálogo por Características
+**Métricas calculadas:**
+- `reproducoes_recentes`: Volume de uso
+- `ultima_atividade`: Detectar inatividade recente
+- `media_dia`: Engajamento normalizado (comparável entre usuários)
+
+**Aplicação de negócio:**
+- **Segmentação**: Usuários com > 50 reproduções/mês = "power users"
+- **Retenção**: Usuários com queda recente = risco de churn
+- **Marketing**: Direcionar campanhas para usuários engajados
+
+**Variação - Detectar usuários inativos** (risco de churn):
 ```sql
--- Álbuns compactos e recentes
+-- Usuários que foram ativos mas estão inativos nos últimos 30 dias
+SELECT u.nome_usuario,
+       u.email,
+       MAX(h.data_reproducao) AS ultima_reproducao,
+       TRUNC(SYSDATE - MAX(h.data_reproducao)) AS dias_inativo,
+       COUNT(h.id_historico) AS total_reproducoes_historico
+FROM usuario u
+JOIN historico_reproducao h ON u.id_usuario = h.id_usuario
+WHERE u.ativo = 1
+GROUP BY u.id_usuario, u.nome_usuario, u.email
+HAVING MAX(h.data_reproducao) < SYSDATE - 30  -- Última atividade > 30 dias atrás
+   AND COUNT(h.id_historico) > 10             -- Eram usuários engajados
+ORDER BY ultima_reproducao;
+```
+
+**Por que este relatório é crítico:**
+- **Retenção é mais barata que aquisição**: Re-engajar usuários inativos custa menos que conseguir novos
+- **Ação proativa**: Identificar antes de cancelarem
+- **Personalização**: Oferecer incentivos baseados em histórico
+
+#### 5.4 Catálogo por Características
+
+**Caso de uso**: Curadoria de conteúdo, criação de playlists temáticas, análise de catálogo.
+
+```sql
+-- Álbuns compactos e recentes (bom para playlists rápidas)
 SELECT ar.nome_artista,
        al.titulo,
-       al.data_lancamento,
+       TO_CHAR(al.data_lancamento, 'DD/MM/YYYY') AS data_lancamento,
        al.numero_faixas,
-       ROUND(al.duracao_total/60, 2) AS duracao_minutos
+       ROUND(al.duracao_total/60, 2) AS duracao_minutos,
+       CASE 
+           WHEN al.numero_faixas <= 10 THEN 'EP/Compacto'
+           WHEN al.numero_faixas <= 15 THEN 'Álbum Médio'
+           ELSE 'Álbum Longo'
+       END AS tipo_album
 FROM album al
 JOIN artista ar ON al.id_artista = ar.id_artista
-WHERE al.numero_faixas BETWEEN 8 AND 15
-  AND al.data_lancamento >= '2000-01-01'
-  AND al.duracao_total BETWEEN 1800 AND 4200  -- 30 a 70 minutos
-ORDER BY al.data_lancamento DESC;
+WHERE al.numero_faixas BETWEEN 8 AND 15           -- Compacto a médio
+  AND al.data_lancamento >= DATE '2000-01-01'    -- Moderno
+  AND al.duracao_total BETWEEN 1800 AND 4200     -- 30 a 70 minutos
+ORDER BY al.data_lancamento DESC, ar.nome_artista;
 ```
+
+**Critérios de filtro explicados:**
+- `numero_faixas BETWEEN 8 AND 15`: Álbuns não muito longos (melhor para primeira audição)
+- `data_lancamento >= 2000`: Modernos (produção e qualidade atuais)
+- `duracao_total BETWEEN 30 AND 70 min`: Nem muito curto (EP) nem muito longo (consumir tempo)
+
+**Classificação CASE**: Categoriza álbuns dinamicamente
+- **EP/Compacto** (≤10): Lançamentos menores, singles estendidos
+- **Álbum Médio** (11-15): Tamanho padrão
+- **Álbum Longo** (>15): Álbuns duplos, obras extensas
+
+**Uso prático:**
+- **Playlist "Descobertas Rápidas"**: Álbuns compactos e recentes
+- **Análise de catálogo**: Identificar gaps (ex: poucos álbuns recentes?)
+- **Recomendações**: Sugerir para usuários com pouco tempo
+
+#### 5.5 Análise Multi-dimensional Avançada
+
+**Caso de uso**: Relatórios executivos, dashboards gerenciais.
+
+```sql
+-- Análise completa por país: artistas, álbuns, músicas, engajamento
+SELECT 
+    ar.pais_origem,
+    COUNT(DISTINCT ar.id_artista) AS total_artistas,
+    COUNT(DISTINCT al.id_album) AS total_albuns,
+    COUNT(DISTINCT m.id_musica) AS total_musicas,
+    COUNT(h.id_historico) AS total_reproducoes,
+    ROUND(AVG(m.duracao), 2) AS duracao_media_musica,
+    ROUND(COUNT(h.id_historico) * 1.0 / NULLIF(COUNT(DISTINCT m.id_musica), 0), 2) AS reproducoes_por_musica,
+    CASE 
+        WHEN COUNT(DISTINCT ar.id_artista) > 100 THEN 'Mercado Principal'
+        WHEN COUNT(DISTINCT ar.id_artista) > 50 THEN 'Mercado Secundário'
+        ELSE 'Mercado Emergente'
+    END AS classificacao_mercado
+FROM artista ar
+LEFT JOIN album al ON ar.id_artista = al.id_artista
+LEFT JOIN musica m ON al.id_album = m.id_album
+LEFT JOIN historico_reproducao h ON m.id_musica = h.id_musica
+WHERE ar.pais_origem IS NOT NULL
+GROUP BY ar.pais_origem
+HAVING COUNT(DISTINCT ar.id_artista) > 5  -- Apenas países com presença significativa
+ORDER BY total_reproducoes DESC, total_artistas DESC;
+```
+
+**Métricas complexas:**
+1. **total_artistas**: Tamanho do mercado
+2. **total_albuns**, **total_musicas**: Produtividade
+3. **total_reproducoes**: Popularidade/demanda
+4. **reproducoes_por_musica**: Eficiência do catálogo
+5. **classificacao_mercado**: Segmentação estratégica
+
+**Técnica NULLIF**: Previne divisão por zero
+```sql
+NULLIF(COUNT(DISTINCT m.id_musica), 0)
+-- Se COUNT = 0, retorna NULL
+-- Divisão por NULL = NULL (não erro)
+```
+
+**LEFT JOIN vs INNER JOIN aqui:**
+- **LEFT JOIN**: Inclui artistas mesmo sem reproduções (catálogo completo)
+- **INNER JOIN**: Apenas artistas com reproduções (engajamento)
+
+**Decisão de negócio**: Usar LEFT JOIN para ver catálogo completo, incluindo artistas não populares (oportunidades de promoção).
+
+#### 5.6 Filtros Temporais Avançados
+
+**Caso de uso**: Análise de tendências, sazonalidade, crescimento.
+
+```sql
+-- Comparação de engajamento: último mês vs mês anterior
+SELECT 
+    'Último Mês' AS periodo,
+    COUNT(DISTINCT id_usuario) AS usuarios_ativos,
+    COUNT(id_historico) AS total_reproducoes,
+    ROUND(COUNT(id_historico) * 1.0 / COUNT(DISTINCT id_usuario), 2) AS reproducoes_por_usuario
+FROM historico_reproducao
+WHERE data_reproducao >= TRUNC(ADD_MONTHS(SYSDATE, -1), 'MM')  -- Primeiro dia do mês passado
+  AND data_reproducao < TRUNC(SYSDATE, 'MM')                    -- Primeiro dia do mês atual
+
+UNION ALL
+
+SELECT 
+    'Mês Anterior' AS periodo,
+    COUNT(DISTINCT id_usuario) AS usuarios_ativos,
+    COUNT(id_historico) AS total_reproducoes,
+    ROUND(COUNT(id_historico) * 1.0 / COUNT(DISTINCT id_usuario), 2) AS reproducoes_por_usuario
+FROM historico_reproducao
+WHERE data_reproducao >= TRUNC(ADD_MONTHS(SYSDATE, -2), 'MM')  -- Primeiro dia de 2 meses atrás
+  AND data_reproducao < TRUNC(ADD_MONTHS(SYSDATE, -1), 'MM')   -- Primeiro dia do mês passado
+
+ORDER BY periodo DESC;
+```
+
+**Função TRUNC com 'MM'**: Trunca data para o primeiro dia do mês
+```sql
+TRUNC(DATE '2024-03-15', 'MM') → DATE '2024-03-01'
+```
+
+**UNION ALL**: Combina resultados de múltiplas consultas
+- **UNION ALL**: Mais rápido, mantém duplicatas
+- **UNION**: Remove duplicatas (mais lento)
+
+Aqui usamos UNION ALL porque períodos são distintos (sem duplicatas possíveis).
 
 ### 6. Otimização de Filtros
 
-#### 6.1 Uso de Índices
+#### 6.1 Fundamentos de Otimização de Consultas
+
+**Por que otimização importa:**
+
+Em um banco de dados de produção com milhões de registros:
+- **Consulta não otimizada**: 30 segundos, 90% CPU, aplicação trava
+- **Consulta otimizada**: 0.5 segundos, 10% CPU, experiência fluida
+
+**Diferença**: 60x mais rápido! Isso determina se uma aplicação é usável ou não.
+
+**Princípios fundamentais:**
+
+1. **Minimizar dados processados**: Filtrar cedo e frequentemente
+2. **Usar índices efetivamente**: Permitem busca O(log n) vs O(n)
+3. **Evitar operações caras**: Funções, conversões, full scans
+4. **Aproveitar estatísticas**: Otimizador Oracle usa estatísticas para planos eficientes
+
+#### 6.2 Uso de Índices - Conceito Aprofundado
+
+**O que são índices:**
+
+Índices são **estruturas de dados auxiliares** (geralmente B-trees) que permitem busca rápida. Analogia: índice de um livro.
+
+- **Sem índice** (Table Full Scan): Ler todas as 1.000.000 linhas (lento)
+- **Com índice** (Index Range Scan): Ler apenas 100 linhas relevantes (rápido)
+
+**Estrutura B-tree** (índice padrão Oracle):
+```
+                [50]
+               /    \
+         [25]          [75]
+        /    \        /    \
+    [10,20] [30,40] [60,70] [80,90]
+```
+
+Busca O(log n): Para 1.000.000 registros, apenas ~20 comparações!
+
 ```sql
--- ✅ BOM: Filtra por coluna indexada
+-- ✅ BOM: Filtra por coluna indexada (id_artista é PRIMARY KEY = índice automático)
 SELECT * FROM artista WHERE id_artista = 5;
+-- Plano de execução: INDEX UNIQUE SCAN (muito rápido)
 
 -- ❌ LENTO: Filtra por coluna não indexada
 SELECT * FROM artista WHERE biografia LIKE '%rock%';
+-- Plano de execução: TABLE FULL SCAN (lê todas as linhas)
 
--- Solução: Criar índice se necessário
+-- ✅ Solução: Criar índice (se consulta é frequente)
 CREATE INDEX idx_artista_biografia ON artista(biografia);
+-- Cuidado: Índice em LIKE '%...%' não ajuda muito!
+-- Para texto, considere Oracle Text Index
 ```
 
-#### 6.2 Ordem das Condições
+**Verificar uso de índice no SQL Developer:**
+
+1. Selecione a consulta
+2. Pressione **F10** (Explain Plan)
+3. Procure por:
+   - `INDEX RANGE SCAN` / `INDEX UNIQUE SCAN` ✅ (bom)
+   - `TABLE FULL SCAN` ❌ (ruim para tabelas grandes)
+
+**Quando NÃO criar índice:**
+
+- Tabelas pequenas (< 10.000 linhas): Full scan pode ser mais rápido
+- Colunas raramente filtradas
+- Colunas com poucos valores distintos (ex: genero M/F - baixa cardinalidade)
+- Inserções muito frequentes: Índices tornam INSERT mais lento
+
+#### 6.3 Ordem das Condições e Seletividade
+
+**Conceito de seletividade**: Percentual de linhas que uma condição retém.
+
+- **Alta seletividade** (< 5% das linhas): Bom para filtrar cedo
+- **Baixa seletividade** (> 50% das linhas): Filtra poucas linhas, melhor depois
+
 ```sql
 -- ✅ BOM: Condição mais seletiva primeiro
 SELECT * FROM musica 
-WHERE id_album = 1          -- Mais seletivo
-  AND duracao > 180;        -- Menos seletivo
+WHERE id_album = 1              -- Alta seletividade (ex: 10 músicas de 100.000)
+  AND duracao > 180;            -- Baixa seletividade (ex: 50% das músicas)
 
--- ❌ MENOS EFICIENTE: Condição menos seletiva primeiro
+-- Razão: Oracle processa WHERE da esquerda para direita (historicamente)
+-- Reduz conjunto cedo: 100.000 → 10 → 5 (aplicando filtros progressivamente)
+
+-- ❌ MENOS EFICIENTE (mesma lógica, ordem subótima)
 SELECT * FROM musica 
-WHERE duracao > 180         -- Menos seletivo
-  AND id_album = 1;         -- Mais seletivo
+WHERE duracao > 180             -- Baixa seletividade (50.000 linhas)
+  AND id_album = 1;             -- Alta seletividade (10 linhas)
+
+-- Processa: 100.000 → 50.000 → 10 (mais dados intermediários)
 ```
 
-#### 6.3 Evitar Funções em WHERE
+**Nota**: Otimizadores modernos (Oracle 12c+) podem reordenar condições automaticamente, MAS:
+- Não garantido em todas as versões
+- Depende de estatísticas atualizadas
+- Melhor ser explícito para clareza e portabilidade
+
+**Como identificar seletividade:**
+
 ```sql
--- ❌ LENTO: Função na coluna
-SELECT * FROM album 
-WHERE YEAR(data_lancamento) = 1970;
+-- Calcular seletividade de filtros
+SELECT 
+    COUNT(*) AS total_linhas,
+    COUNT(*) FILTER (WHERE id_album = 1) AS filtro1_linhas,
+    ROUND(COUNT(*) FILTER (WHERE id_album = 1) * 100.0 / COUNT(*), 2) AS filtro1_percent,
+    COUNT(*) FILTER (WHERE duracao > 180) AS filtro2_linhas,
+    ROUND(COUNT(*) FILTER (WHERE duracao > 180) * 100.0 / COUNT(*), 2) AS filtro2_percent
+FROM musica;
 
--- ✅ RÁPIDO: Comparação direta
-SELECT * FROM album 
-WHERE data_lancamento >= '1970-01-01' 
-  AND data_lancamento <= '1970-12-31';
+-- Nota: FILTER cláusula é SQL:2003+, alternativa Oracle:
+SELECT 
+    COUNT(*) AS total,
+    SUM(CASE WHEN id_album = 1 THEN 1 ELSE 0 END) AS filtro1_linhas,
+    ROUND(SUM(CASE WHEN id_album = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS filtro1_percent
+FROM musica;
 ```
+
+#### 6.4 Evitar Funções em WHERE - Impacto Crítico
+
+**Problema**: Aplicar função a coluna filtrada impede uso de índice.
+
+```sql
+-- ❌ LENTO: Função na coluna (sargable = Search ARGument ABLE - violado!)
+SELECT * FROM album 
+WHERE EXTRACT(YEAR FROM data_lancamento) = 1970;
+-- Oracle precisa aplicar EXTRACT a CADA linha (Table Full Scan)
+-- Índice em data_lancamento NÃO pode ser usado!
+
+-- ✅ RÁPIDO: Comparação direta (sargable!)
+SELECT * FROM album 
+WHERE data_lancamento >= DATE '1970-01-01' 
+  AND data_lancamento < DATE '1971-01-01';
+-- Índice em data_lancamento PODE ser usado (Index Range Scan)
+-- Performance: 100x+ mais rápido em tabelas grandes!
+```
+
+**Por que índice não funciona com funções:**
+
+Índice armazena:
+```
+DATE '1970-06-26' → rowid
+DATE '1971-03-15' → rowid
+...
+```
+
+Quando fazemos `WHERE EXTRACT(YEAR FROM data) = 1970`, Oracle precisa:
+1. Ler cada data do índice ou tabela
+2. Aplicar EXTRACT()
+3. Comparar com 1970
+
+Não pode "pular" direto para 1970!
+
+Com `WHERE data >= '1970-01-01' AND data < '1971-01-01'`, Oracle:
+1. Usa índice para ir direto para '1970-01-01'
+2. Lê sequencialmente até '1971-01-01'
+3. Para (Range Scan eficiente)
+
+**Outros exemplos comuns:**
+
+```sql
+-- ❌ EVITAR: Função em coluna
+WHERE UPPER(nome_artista) = 'THE BEATLES'
+WHERE SUBSTR(email, 1, 5) = 'admin'
+WHERE TRUNC(data_cadastro) = DATE '2024-01-01'
+
+-- ✅ ALTERNATIVAS:
+-- 1. Normalizar dados (armazenar uppercase)
+ALTER TABLE artista ADD nome_artista_upper VARCHAR2(200);
+UPDATE artista SET nome_artista_upper = UPPER(nome_artista);
+CREATE INDEX idx_artista_nome_upper ON artista(nome_artista_upper);
+WHERE nome_artista_upper = 'THE BEATLES';
+
+-- 2. Índice funcional (Oracle 8i+)
+CREATE INDEX idx_artista_nome_upper ON artista(UPPER(nome_artista));
+WHERE UPPER(nome_artista) = 'THE BEATLES';  -- Agora pode usar o índice funcional!
+
+-- 3. Evitar função (quando possível)
+WHERE email LIKE 'admin%'
+WHERE data_cadastro >= TRUNC(DATE '2024-01-01') 
+  AND data_cadastro < TRUNC(DATE '2024-01-01') + 1
+```
+
+**Trade-offs de índices funcionais:**
+- **Vantagem**: Permitem filtros com funções serem eficientes
+- **Desvantagem**: Consomem espaço extra, tornam INSERT/UPDATE mais lentos
+
+#### 6.5 Uso do SQL Developer para Análise de Performance
+
+**Ferramentas built-in:**
+
+1. **Explain Plan (F10)**:
+```sql
+-- Selecione a consulta e pressione F10
+SELECT * FROM musica WHERE id_album = 1 AND duracao > 180;
+
+-- Analise o plano:
+-- Operation               | Object Name         | Cost
+-- ----------------------- | ------------------- | -----
+-- SELECT STATEMENT        |                     | 10
+--   TABLE ACCESS BY INDEX | MUSICA              | 10
+--     INDEX RANGE SCAN    | IDX_MUSICA_ALBUM    | 2
+```
+
+- **Cost**: Estimativa de custo (menor = melhor)
+- **INDEX RANGE SCAN**: Ótimo! Usando índice.
+- **TABLE FULL SCAN**: Alerta! Pode ser lento para tabelas grandes.
+
+2. **Autotrace**:
+```sql
+SET AUTOTRACE ON;
+SELECT * FROM artista WHERE pais_origem = 'Brasil';
+-- Mostra estatísticas: linhas processadas, blocos lidos, etc.
+```
+
+3. **SQL Tuning Advisor** (versões Enterprise):
+```sql
+-- Gera recomendações automáticas
+-- Menu: Tools → SQL Tuning Advisor
+```
+
+**Best Practices:**
+
+1. **Sempre analise plano ANTES de otimizar**: Não adivinhe, meça!
+2. **Atualize estatísticas regularmente**:
+```sql
+EXEC DBMS_STATS.GATHER_TABLE_STATS(USER, 'MUSICA');
+```
+3. **Teste com volume real**: Consulta em 100 linhas vs 10M é completamente diferente!
 
 ### 7. Exercícios Práticos
 
