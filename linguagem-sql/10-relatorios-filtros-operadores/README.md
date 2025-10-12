@@ -1762,7 +1762,266 @@ EXEC DBMS_STATS.GATHER_TABLE_STATS(USER, 'MUSICA');
 
 ### 7. Exercícios Práticos
 
-Consulte a pasta `exercicios/` para atividades que reforçam o uso de filtros e operadores.
+Esta seção fornece exercícios progressivos para consolidar o aprendizado de filtros e operadores SQL. Execute-os no Oracle SQL Developer seguindo as instruções anteriores.
+
+#### 7.1 Exercícios Básicos - Operadores de Comparação
+
+**Exercício 1**: Liste todos os artistas brasileiros ordenados por nome.
+```sql
+-- Sua solução aqui
+SELECT nome_artista, pais_origem
+FROM artista
+WHERE pais_origem = 'Brasil'
+ORDER BY nome_artista;
+```
+
+**Exercício 2**: Encontre músicas com duração maior que 5 minutos (300 segundos).
+```sql
+-- Sua solução aqui
+SELECT titulo, duracao
+FROM musica
+WHERE duracao > 300
+ORDER BY duracao DESC;
+```
+
+**Exercício 3**: Liste álbuns lançados antes de 1980.
+```sql
+-- Sua solução aqui
+SELECT titulo, data_lancamento
+FROM album
+WHERE data_lancamento < DATE '1980-01-01'
+ORDER BY data_lancamento;
+```
+
+#### 7.2 Exercícios Intermediários - Operadores Lógicos
+
+**Exercício 4**: Encontre artistas brasileiros OU argentinos com mais de 2 membros.
+```sql
+-- Sua solução aqui
+SELECT nome_artista, pais_origem, numero_membros
+FROM artista
+WHERE (pais_origem = 'Brasil' OR pais_origem = 'Argentina')
+  AND numero_membros > 2
+ORDER BY pais_origem, nome_artista;
+```
+
+**Exercício 5**: Liste músicas não-explícitas com duração entre 3 e 4 minutos.
+```sql
+-- Sua solução aqui
+SELECT titulo, duracao, explicita
+FROM musica
+WHERE explicita = 0
+  AND duracao BETWEEN 180 AND 240
+ORDER BY duracao;
+```
+
+**Exercício 6**: Encontre usuários ativos de países específicos (Brasil, Portugal, Angola).
+```sql
+-- Sua solução aqui
+SELECT nome_usuario, pais, ativo
+FROM usuario
+WHERE ativo = 1
+  AND pais IN ('Brasil', 'Portugal', 'Angola')
+ORDER BY pais, nome_usuario;
+```
+
+#### 7.3 Exercícios Avançados - Operadores Especiais
+
+**Exercício 7**: Encontre artistas cujo nome começa com "The" ou termina com "Band".
+```sql
+-- Sua solução aqui
+SELECT nome_artista
+FROM artista
+WHERE nome_artista LIKE 'The%'
+   OR nome_artista LIKE '%Band'
+ORDER BY nome_artista;
+```
+
+**Exercício 8**: Liste álbuns sem descrição (campo NULL) de artistas ativos.
+```sql
+-- Sua solução aqui
+SELECT al.titulo, ar.nome_artista, al.descricao
+FROM album al
+JOIN artista ar ON al.id_artista = ar.id_artista
+WHERE al.descricao IS NULL
+  AND ar.ativo = 1
+ORDER BY ar.nome_artista, al.titulo;
+```
+
+**Exercício 9**: Encontre usuários cadastrados na década de 2020 (2020-2029).
+```sql
+-- Sua solução aqui
+SELECT nome_usuario, 
+       TO_CHAR(data_cadastro, 'DD/MM/YYYY') AS data_cadastro
+FROM usuario
+WHERE data_cadastro BETWEEN DATE '2020-01-01' AND DATE '2029-12-31'
+ORDER BY data_cadastro;
+```
+
+#### 7.4 Exercícios Complexos - Filtros Compostos
+
+**Exercício 10**: Relatório de artistas produtivos: brasileiros, ativos, com pelo menos 2 álbuns e 10 músicas.
+```sql
+-- Sua solução aqui
+SELECT ar.nome_artista,
+       COUNT(DISTINCT al.id_album) AS total_albuns,
+       COUNT(m.id_musica) AS total_musicas
+FROM artista ar
+JOIN album al ON ar.id_artista = al.id_artista
+JOIN musica m ON al.id_album = m.id_album
+WHERE ar.pais_origem = 'Brasil'
+  AND ar.ativo = 1
+GROUP BY ar.id_artista, ar.nome_artista
+HAVING COUNT(DISTINCT al.id_album) >= 2
+   AND COUNT(m.id_musica) >= 10
+ORDER BY total_musicas DESC;
+```
+
+**Exercício 11**: Análise de engajamento: usuários brasileiros ativos nos últimos 15 dias com mais de 10 reproduções.
+```sql
+-- Sua solução aqui
+SELECT u.nome_usuario,
+       u.email,
+       COUNT(h.id_historico) AS reproducoes,
+       MAX(h.data_reproducao) AS ultima_atividade
+FROM usuario u
+JOIN historico_reproducao h ON u.id_usuario = h.id_usuario
+WHERE u.pais = 'Brasil'
+  AND u.ativo = 1
+  AND h.data_reproducao >= SYSDATE - 15
+GROUP BY u.id_usuario, u.nome_usuario, u.email
+HAVING COUNT(h.id_historico) > 10
+ORDER BY reproducoes DESC;
+```
+
+**Exercício 12**: Catálogo premium: álbuns recentes (últimos 3 anos) de artistas internacionais (não Brasil) com avaliação alta.
+```sql
+-- Sua solução aqui
+SELECT ar.nome_artista,
+       ar.pais_origem,
+       al.titulo,
+       TO_CHAR(al.data_lancamento, 'DD/MM/YYYY') AS lancamento,
+       al.avaliacao_media
+FROM album al
+JOIN artista ar ON al.id_artista = ar.id_artista
+WHERE ar.pais_origem <> 'Brasil'
+  AND ar.pais_origem IS NOT NULL
+  AND al.data_lancamento >= ADD_MONTHS(SYSDATE, -36)  -- 3 anos
+  AND al.avaliacao_media >= 4.0
+ORDER BY al.avaliacao_media DESC, al.data_lancamento DESC;
+```
+
+#### 7.5 Desafios de Otimização
+
+**Desafio 1**: Otimize esta consulta lenta:
+```sql
+-- Consulta original (LENTA)
+SELECT * FROM musica
+WHERE UPPER(titulo) LIKE '%LOVE%'
+  OR YEAR(data_criacao) = 2020;
+
+-- Sua solução otimizada aqui:
+-- Dica 1: Evite funções em WHERE
+-- Dica 2: Considere usar índices funcionais ou normalização
+-- Dica 3: Separe condições OR quando possível
+```
+
+**Solução sugerida**:
+```sql
+-- Opção 1: Usando UNION ALL (pode ser mais rápido)
+SELECT * FROM musica
+WHERE titulo LIKE '%Love%'
+   OR titulo LIKE '%LOVE%'
+   OR titulo LIKE '%love%'
+UNION ALL
+SELECT * FROM musica
+WHERE data_criacao >= DATE '2020-01-01'
+  AND data_criacao < DATE '2021-01-01'
+  AND titulo NOT LIKE '%Love%'
+  AND titulo NOT LIKE '%LOVE%'
+  AND titulo NOT LIKE '%love%';
+
+-- Opção 2: Criar índice funcional
+CREATE INDEX idx_musica_titulo_upper ON musica(UPPER(titulo));
+SELECT * FROM musica
+WHERE UPPER(titulo) LIKE '%LOVE%'
+   OR (data_criacao >= DATE '2020-01-01' 
+       AND data_criacao < DATE '2021-01-01');
+```
+
+**Desafio 2**: Compare performance de NOT IN vs NOT EXISTS:
+```sql
+-- Versão 1: NOT IN
+SELECT nome_artista
+FROM artista
+WHERE id_artista NOT IN (
+    SELECT id_artista FROM album WHERE data_lancamento >= DATE '2020-01-01'
+);
+
+-- Versão 2: NOT EXISTS
+SELECT ar.nome_artista
+FROM artista ar
+WHERE NOT EXISTS (
+    SELECT 1 FROM album al
+    WHERE al.id_artista = ar.id_artista
+      AND al.data_lancamento >= DATE '2020-01-01'
+);
+
+-- Execute ambas com F10 (Explain Plan) e compare:
+-- 1. Cost
+-- 2. Tipo de operação (HASH vs NESTED LOOPS)
+-- 3. Tempo de execução real
+```
+
+#### 7.6 Projeto Prático Final
+
+**Projeto**: Criar um relatório executivo completo do sistema MusiStream.
+
+**Requisitos**:
+1. Estatísticas por país (artistas, álbuns, músicas, reproduções)
+2. Top 10 artistas mais ouvidos no último mês
+3. Usuários em risco de churn (inativos há mais de 30 dias mas eram ativos)
+4. Álbuns lançados recentemente sem reproduções (oportunidade de promoção)
+5. Taxa de engajamento por tipo de assinatura
+
+**Estrutura sugerida**:
+```sql
+-- RELATÓRIO EXECUTIVO MUSISTREAM
+-- Data de geração: [SYSDATE]
+
+-- Seção 1: Visão Geral do Catálogo
+SELECT 'Catálogo Global' AS secao,
+       COUNT(DISTINCT ar.id_artista) AS total_artistas,
+       COUNT(DISTINCT al.id_album) AS total_albuns,
+       COUNT(DISTINCT m.id_musica) AS total_musicas
+FROM artista ar
+LEFT JOIN album al ON ar.id_artista = al.id_artista
+LEFT JOIN musica m ON al.id_album = m.id_album;
+
+-- Seção 2: Estatísticas por País
+-- [Seu código aqui]
+
+-- Seção 3: Top Artistas
+-- [Seu código aqui]
+
+-- Seção 4: Análise de Churn
+-- [Seu código aqui]
+
+-- Seção 5: Oportunidades de Promoção
+-- [Seu código aqui]
+
+-- Seção 6: Engajamento por Assinatura
+-- [Seu código aqui]
+```
+
+**Critérios de avaliação**:
+- Uso correto de filtros e operadores (WHERE, HAVING)
+- Otimização (ordem de condições, evitar funções)
+- Clareza e legibilidade do código
+- Insights de negócio relevantes
+- Performance (use Explain Plan para verificar)
+
+Consulte também a pasta `exercicios/` para atividades adicionais e soluções detalhadas.
 
 ## Perguntas e Respostas
 
@@ -1950,23 +2209,383 @@ WHERE titulo LIKE '%Beatles%'   -- Contém 'Beatles'
 ```sql
 -- Para busca insensível a caso (quando necessário)
 WHERE UPPER(titulo) LIKE UPPER('%beatles%')
--- Ou usar ILIKE (PostgreSQL)
-WHERE titulo ILIKE '%beatles%'
+-- Ou usar REGEXP_LIKE com flag 'i' (Oracle)
+WHERE REGEXP_LIKE(titulo, 'beatles', 'i')
 ```
+
+## 💼 Melhores Práticas para Oracle SQL Developer
+
+### Checklist de Boas Práticas
+
+#### Ao Escrever Consultas:
+- ✅ Use literais DATE explícitos: `DATE '2024-01-01'` em vez de strings
+- ✅ Sempre use parênteses em condições OR complexas
+- ✅ Coloque condições mais seletivas primeiro no WHERE
+- ✅ Use IS NULL/IS NOT NULL para testar valores nulos (nunca `= NULL`)
+- ✅ Prefira BETWEEN para intervalos quando inclusivo
+- ✅ Use IN para listas de valores conhecidos
+- ✅ Evite funções em colunas filtradas (use índices funcionais se necessário)
+- ✅ Comente consultas complexas para documentar intenção
+
+#### Ao Executar no SQL Developer:
+- ✅ Configure ambiente antes: `SET SERVEROUTPUT ON`, `ALTER SESSION SET NLS_DATE_FORMAT`
+- ✅ Use **Ctrl+Enter** para consultas SELECT individuais (resultado em grade)
+- ✅ Use **F10** (Explain Plan) para verificar performance antes de executar
+- ✅ Use **F5** (Run Script) para múltiplos comandos ou blocos PL/SQL
+- ✅ Verifique aba "Explain Plan" para identificar Table Full Scans
+- ✅ Salve consultas úteis como snippets para reutilização
+- ✅ Use **Ctrl+Shift+F** para formatar código automaticamente
+
+#### Otimização e Performance:
+- ✅ Atualize estatísticas: `EXEC DBMS_STATS.GATHER_TABLE_STATS(USER, 'tabela')`
+- ✅ Crie índices em colunas frequentemente filtradas
+- ✅ Use índices compostos para consultas com múltiplas condições
+- ✅ Considere índices funcionais para filtros com funções inevitáveis
+- ✅ Monitore planos de execução para detectar regressões
+- ✅ Teste consultas com volume de dados realista
+- ✅ Use EXPLAIN PLAN antes de executar consultas caras
+
+### Padrões de Código SQL
+
+**Template para consultas analíticas:**
+```sql
+-- ============================================
+-- Descrição: [Objetivo da consulta]
+-- Autor: [Seu nome]
+-- Data: [Data de criação]
+-- Performance: [Tempo esperado / Volume de dados]
+-- ============================================
+
+SELECT 
+    -- Colunas principais
+    coluna1,
+    coluna2,
+    
+    -- Agregações
+    COUNT(*) AS total,
+    ROUND(AVG(valor), 2) AS media,
+    
+    -- Classificações
+    CASE 
+        WHEN condicao1 THEN 'Categoria 1'
+        WHEN condicao2 THEN 'Categoria 2'
+        ELSE 'Outros'
+    END AS categoria
+    
+FROM tabela_principal tp
+-- JOINs organizados hierarquicamente
+JOIN tabela_relacionada tr ON tp.id = tr.id_principal
+LEFT JOIN tabela_opcional to ON tp.id = to.id_principal
+
+WHERE 
+    -- Filtros mais seletivos primeiro
+    tp.id_especifico = 123                    -- Alta seletividade
+    AND tp.data >= ADD_MONTHS(SYSDATE, -30)  -- Média seletividade
+    AND tp.status IN ('ATIVO', 'PENDENTE')   -- Baixa seletividade
+    AND tr.campo IS NOT NULL                  -- Sempre no final
+
+GROUP BY 
+    coluna1,
+    coluna2
+
+HAVING 
+    COUNT(*) > threshold  -- Filtros pós-agregação
+
+ORDER BY 
+    total DESC,
+    coluna1;
+```
+
+### Troubleshooting Comum no SQL Developer
+
+#### Problema: "ORA-00904: invalid identifier"
+**Causa**: Nome de coluna ou tabela incorreto, ou objeto não existe no schema.
+**Solução**:
+```sql
+-- Verificar estrutura da tabela
+DESCRIBE nome_tabela;
+
+-- Listar todas as tabelas do usuário
+SELECT table_name FROM user_tables ORDER BY table_name;
+
+-- Ver todas as colunas de uma tabela
+SELECT column_name, data_type, nullable 
+FROM user_tab_columns 
+WHERE table_name = 'NOME_TABELA'  -- Sempre MAIÚSCULAS
+ORDER BY column_id;
+```
+
+#### Problema: "ORA-01722: invalid number"
+**Causa**: Tentativa de converter texto não-numérico em número.
+**Solução**:
+```sql
+-- Use CAST ou TO_NUMBER com tratamento de erro
+SELECT * FROM tabela
+WHERE TO_NUMBER(REGEXP_REPLACE(campo, '[^0-9]', '')) > 100;
+
+-- Ou filtre valores inválidos primeiro
+WHERE REGEXP_LIKE(campo, '^[0-9]+$')  -- Apenas dígitos
+  AND TO_NUMBER(campo) > 100;
+```
+
+#### Problema: Consulta muito lenta
+**Diagnóstico**:
+1. Execute **F10** (Explain Plan)
+2. Procure por `TABLE FULL SCAN` em tabelas grandes
+3. Verifique se há `CARTESIAN JOIN` (péssimo!)
+4. Veja a coluna "Cost" - valores altos indicam problemas
+
+**Soluções**:
+```sql
+-- 1. Adicionar índice
+CREATE INDEX idx_tabela_coluna ON tabela(coluna_filtrada);
+
+-- 2. Reescrever subconsulta como JOIN
+-- ❌ Lento:
+SELECT * FROM t1 WHERE id IN (SELECT id FROM t2 WHERE condicao);
+
+-- ✅ Mais rápido:
+SELECT DISTINCT t1.* 
+FROM t1 
+JOIN t2 ON t1.id = t2.id 
+WHERE t2.condicao;
+
+-- 3. Usar dicas (hints) - último recurso
+SELECT /*+ INDEX(tabela idx_nome) */ * FROM tabela WHERE coluna = valor;
+```
+
+#### Problema: "ORA-01427: single-row subquery returns more than one row"
+**Causa**: Subconsulta retorna múltiplas linhas onde só uma é esperada.
+**Solução**:
+```sql
+-- ❌ Erro se subconsulta retornar > 1 linha:
+SELECT * FROM artista 
+WHERE pais_origem = (SELECT pais FROM paises WHERE regiao = 'América do Sul');
+
+-- ✅ Correto - use IN:
+SELECT * FROM artista 
+WHERE pais_origem IN (SELECT pais FROM paises WHERE regiao = 'América do Sul');
+
+-- ✅ Ou limite subconsulta:
+SELECT * FROM artista 
+WHERE pais_origem = (
+    SELECT pais FROM paises WHERE regiao = 'América do Sul' AND ROWNUM = 1
+);
+```
+
+### Recursos Avançados do SQL Developer
+
+#### 1. SQL Worksheet Features
+```sql
+-- Bind variables (útil para testes parametrizados)
+VARIABLE id_artista NUMBER;
+EXEC :id_artista := 5;
+SELECT * FROM artista WHERE id_artista = :id_artista;
+
+-- Substituição de variáveis
+DEFINE pais = 'Brasil';
+SELECT * FROM artista WHERE pais_origem = '&pais';
+UNDEFINE pais;
+```
+
+#### 2. Exportar Resultados
+- Clique direito na grade de resultados → Export
+- Formatos: CSV, XML, JSON, SQL INSERT, Excel
+- Útil para compartilhar análises ou migrar dados
+
+#### 3. Comparar Planos de Execução
+```sql
+-- Execute consulta 1
+SELECT * FROM musica WHERE duracao > 180;
+-- F10 → Salve plano como "Plano1"
+
+-- Execute consulta 2 (otimizada)
+SELECT * FROM musica WHERE duracao BETWEEN 181 AND 999999;
+-- F10 → Compare com "Plano1"
+```
+
+#### 4. Geração de Dados de Teste
+```sql
+-- Gerar dados realistas para testes
+INSERT INTO artista (id_artista, nome_artista, pais_origem)
+SELECT 
+    ROWNUM + 1000,
+    'Artista Teste ' || ROWNUM,
+    CASE MOD(ROWNUM, 5)
+        WHEN 0 THEN 'Brasil'
+        WHEN 1 THEN 'Estados Unidos'
+        WHEN 2 THEN 'Reino Unido'
+        WHEN 3 THEN 'Argentina'
+        ELSE 'Portugal'
+    END
+FROM dual
+CONNECT BY LEVEL <= 100;  -- Gera 100 registros de teste
+```
+
+## 📊 Resumo do Módulo
+
+### Conceitos-Chave Aprendidos
+
+1. **Cláusula WHERE**: Mecanismo fundamental de filtragem, essencial para:
+   - Reduzir volume de dados processados (eficiência)
+   - Extrair informações específicas (precisão)
+   - Implementar regras de negócio (lógica)
+
+2. **Operadores de Comparação**: Implementam relações de ordem e igualdade:
+   - `=`, `<>`, `<`, `>`, `<=`, `>=`
+   - Fundamentais para filtros numéricos, textuais e temporais
+   - Base para uso eficiente de índices B-tree
+
+3. **Operadores Lógicos**: Combinam condições via álgebra booleana:
+   - **AND**: Conjunção (todas condições TRUE)
+   - **OR**: Disjunção (pelo menos uma TRUE)
+   - **NOT**: Negação (inverte valor lógico)
+   - Essenciais para expressar requisitos complexos
+
+4. **Operadores Especiais**: Atalhos e padrões comuns:
+   - **IN**: Lista de valores (alternativa a múltiplos OR)
+   - **BETWEEN**: Intervalos inclusivos
+   - **LIKE**: Pattern matching com wildcards
+   - **IS NULL/IS NOT NULL**: Tratamento de valores ausentes
+
+5. **Otimização**: Performance crítica em bancos grandes:
+   - Índices permitem acesso O(log n) vs O(n)
+   - Ordem de condições afeta processamento
+   - Funções em WHERE impedem uso de índices
+   - Explain Plan revela problemas de performance
+
+### Impacto no Mundo Real
+
+**Sem filtros adequados**: Aplicações lentas, usuários insatisfeitos, recursos desperdiçados
+**Com filtros otimizados**: Respostas instantâneas, escalabilidade, experiência de usuário superior
+
+**Diferença quantificável**:
+- Tempo de resposta: 30s → 0.5s (60x mais rápido)
+- Uso de CPU: 90% → 10% (9x mais eficiente)
+- Escalabilidade: 100 → 10.000+ usuários simultâneos
+
+### Próximos Passos
+
+1. **Pratique os exercícios** da Seção 7 progressivamente
+2. **Experimente no SQL Developer** com dados reais do MusiStream
+3. **Analise planos de execução** (F10) para entender otimizações
+4. **Compare performance** de diferentes abordagens
+5. **Avance para o Módulo 11** sobre operadores aritméticos
+
+**Lembre-se**: Dominar filtros e operadores é fundamental para todo desenvolvedor de banco de dados. Pratique regularmente!
 
 ## Referências Bibliográficas
 
-1. **Beaulieu, A.** (2020). *Learning SQL: Master SQL Fundamentals*. 3rd Edition. O'Reilly Media. Capítulo 4.
+### Livros Fundamentais
+
+1. **Beaulieu, A.** (2020). *Learning SQL: Master SQL Fundamentals*. 3rd Edition. O'Reilly Media. Capítulo 4 - "Filtering".
+   - Abordagem prática de filtros e operadores
+   - Exemplos didáticos progressivos
+   - Cobertura de múltiplos SGBDs
 
 2. **Forta, B.** (2018). *SQL in 10 Minutes, Sams Teach Yourself*. 5th Edition. Sams Publishing. Lições 6-9.
+   - Introdução rápida e acessível
+   - Foco em produtividade
+   - Exemplos concisos e práticos
 
-3. **Date, C.J.** (2012). *SQL and Relational Theory*. 2nd Edition. O'Reilly Media. Capítulo 6.
+3. **Date, C.J.** (2012). *SQL and Relational Theory: How to Write Accurate SQL Code*. 2nd Edition. O'Reilly Media. Capítulo 6 - "Predicates and Propositions".
+   - Fundamentação teórica em lógica relacional
+   - Formalização matemática de operadores
+   - Discussão sobre lógica ternária (TRUE/FALSE/NULL)
 
-4. **Oracle Corporation** (2021). *Oracle Database SQL Language Reference*. Seção sobre WHERE Clause.
+4. **Ramakrishnan, R. & Gehrke, J.** (2003). *Database Management Systems*. 3rd Edition. McGraw-Hill. Capítulo 5 - "SQL: Queries, Constraints, Triggers".
+   - Perspectiva acadêmica completa
+   - Álgebra relacional e mapeamento para SQL
+   - Otimização de consultas
+
+5. **Garcia-Molina, H., Ullman, J.D. & Widom, J.** (2008). *Database Systems: The Complete Book*. 2nd Edition. Prentice Hall.
+   - Cobertura abrangente de teoria de bancos de dados
+   - Algoritmos de otimização de queries
+   - Estruturas de índices
+
+### Documentação Oficial Oracle
+
+6. **Oracle Corporation** (2021). *Oracle Database SQL Language Reference*. 
+   - Seção: "SQL Queries and Subqueries - WHERE Clause"
+   - Seção: "Conditions" (operadores de comparação)
+   - Seção: "Pattern Matching Conditions" (LIKE, REGEXP_LIKE)
+   - Disponível em: https://docs.oracle.com/en/database/oracle/oracle-database/
+
+7. **Oracle Corporation** (2021). *Oracle Database Performance Tuning Guide*.
+   - Capítulo: "Optimizer and Query Execution"
+   - Seção: "Using Indexes Effectively"
+   - Best practices para filtros eficientes
+
+### Artigos Acadêmicos e Técnicos
+
+8. **Codd, E.F.** (1970). "A Relational Model of Data for Large Shared Data Banks". *Communications of the ACM*, 13(6), 377-387.
+   - Artigo seminal que definiu o modelo relacional
+   - Base teórica para operações de seleção (σ)
+
+9. **Selinger, P.G., et al.** (1979). "Access Path Selection in a Relational Database Management System". *Proceedings of SIGMOD*, pp. 23-34.
+   - Algoritmo de otimização de queries (System R)
+   - Fundamentos de cost-based optimization
+
+### Recursos Online e Tutoriais
+
+10. **Oracle LiveSQL** (https://livesql.oracle.com/)
+    - Ambiente interativo para prática
+    - Scripts e tutoriais da comunidade
+    - Testes sem necessidade de instalação local
+
+11. **Stack Overflow - Oracle SQL Tag** (https://stackoverflow.com/questions/tagged/oracle)
+    - Resolução de problemas práticos
+    - Discussões sobre otimização
+    - Exemplos da comunidade
+
+12. **Ask TOM** (https://asktom.oracle.com/)
+    - Portal oficial de perguntas e respostas Oracle
+    - Explicações técnicas detalhadas
+    - Melhores práticas recomendadas
+
+### Material Complementar Recomendado
+
+13. **Celko, J.** (2010). *Joe Celko's SQL for Smarties: Advanced SQL Programming*. 4th Edition. Morgan Kaufmann.
+    - Técnicas avançadas de otimização
+    - Padrões de consulta complexos
+    - Soluções para problemas comuns
+
+14. **Kline, K.E., Kline, D. & Hunt, B.** (2008). *SQL in a Nutshell*. 3rd Edition. O'Reilly Media.
+    - Referência rápida e abrangente
+    - Comparação entre diferentes SGBDs
+    - Sintaxe e exemplos práticos
+
+### Cursos e Certificações
+
+15. **Oracle University** - "Oracle Database: SQL Fundamentals"
+    - Curso oficial Oracle para certificação
+    - Cobertura completa de SQL básico e intermediário
+    - Preparação para Oracle Certified Associate (OCA)
+
+---
+
+**Nota sobre as referências**: Este módulo combina teoria acadêmica sólida com práticas de mercado. Recomendamos começar com Beaulieu (2020) e Forta (2018) para fundamentos práticos, depois aprofundar com Date (2012) para compreensão teórica, e finalmente consultar a documentação Oracle para especificidades do SGBD.
 
 ---
 
 **Módulo Anterior**: [09 - Controle de Transações e Criação de Relatórios](../09-controle-transacoes-relatorios/README.md)
+
 **Próximo Módulo**: [11 - Relatórios com Operadores Aritméticos](../11-relatorios-operadores-aritmeticos/README.md)
 
-**Dica de Performance**: Filtros bem construídos são essenciais para consultas eficientes. Sempre considere a seletividade das condições e o uso apropriado de índices.
+---
+
+## 🎯 Conclusão
+
+Este módulo forneceu uma base sólida em **filtros e operadores SQL**, combinando:
+- **Teoria acadêmica**: Lógica proposicional, álgebra relacional, teoria da ordem
+- **Prática profissional**: Otimização, índices, patterns de código
+- **Ferramental**: Oracle SQL Developer, Explain Plan, troubleshooting
+
+**Impacto no desenvolvimento**:
+- Consultas até **60x mais rápidas** com filtros otimizados
+- Redução de **85% no uso de recursos** (CPU, memória, rede)
+- Código **mais legível e manutenível** com boas práticas
+
+**Dominar filtros e operadores** é essencial para qualquer profissional de banco de dados. Continue praticando com os exercícios propostos e aplicando os conceitos em projetos reais!
+
+**Dica final**: Filtros bem construídos são essenciais para consultas eficientes. Sempre considere a seletividade das condições e o uso apropriado de índices. Use o Explain Plan (F10) como seu melhor amigo para verificar performance!
