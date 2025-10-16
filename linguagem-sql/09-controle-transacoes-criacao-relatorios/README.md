@@ -20,9 +20,173 @@ Ao final deste módulo, o aluno será capaz de:
 
 Antes de trabalhar com transações e relatórios complexos, é essencial dominar o comando SELECT, que é a base para recuperação de dados em SQL. Vamos progredir desde consultas simples até operações mais complexas.
 
+### Ordem de Execução de Consultas SQL
+
+Antes de começarmos com os exemplos práticos, é fundamental compreender **como o SQL processa uma consulta por debaixo dos panos** e qual a **ordem de execução** quando vários elementos são combinados em uma única consulta.
+
+#### Como o SQL Processa uma Consulta SELECT
+
+Quando você escreve uma consulta SQL, a **ordem lógica de escrita** é diferente da **ordem de execução**. O motor de banco de dados processa a consulta em uma sequência específica para otimizar o desempenho e garantir resultados corretos.
+
+**Ordem de ESCRITA (como você digita):**
+```sql
+SELECT     -- 1. O que você quer ver
+FROM       -- 2. De onde vem os dados
+WHERE      -- 3. Quais linhas filtrar
+GROUP BY   -- 4. Como agrupar
+HAVING     -- 5. Filtrar grupos
+ORDER BY   -- 6. Como ordenar
+```
+
+**Ordem de EXECUÇÃO (como o banco processa):**
+```sql
+1. FROM       -- Primeiro: identifica as tabelas e faz JOINs
+2. WHERE      -- Segundo: filtra as linhas individuais
+3. GROUP BY   -- Terceiro: agrupa as linhas filtradas
+4. HAVING     -- Quarto: filtra os grupos criados
+5. SELECT     -- Quinto: determina quais colunas retornar
+6. ORDER BY   -- Sexto: ordena o resultado final
+7. LIMIT/FETCH -- Sétimo: limita a quantidade de resultados
+```
+
+#### Por Que Esta Ordem é Importante?
+
+**1. FROM e JOINs são processados primeiro**
+- O banco de dados primeiro identifica quais tabelas usar
+- Realiza os JOINs necessários para combinar dados
+- Cria um conjunto de dados temporário com todas as linhas possíveis
+
+**2. WHERE filtra linhas antes do agrupamento**
+- Remove linhas indesejadas o mais cedo possível
+- É mais eficiente que filtrar depois do GROUP BY
+- Por isso você NÃO pode usar aliases do SELECT no WHERE
+
+**3. GROUP BY agrupa os dados filtrados**
+- Cria grupos baseado nas colunas especificadas
+- Prepara os dados para funções de agregação (COUNT, SUM, AVG, etc.)
+
+**4. HAVING filtra grupos (não linhas)**
+- Aplica-se após o agrupamento
+- Pode usar funções de agregação (WHERE não pode)
+- Exemplo: `HAVING COUNT(*) > 10`
+
+**5. SELECT determina as colunas finais**
+- Aplica cálculos e funções
+- Cria aliases de colunas
+- Por isso aliases só funcionam em ORDER BY (que vem depois)
+
+**6. ORDER BY ordena o resultado**
+- É uma das últimas operações
+- Pode usar aliases do SELECT
+- É a operação mais "cara" em termos de performance
+
+#### Exemplo Prático da Ordem de Execução
+
+Vamos analisar uma consulta completa:
+
+```sql
+SELECT 
+    a.pais_origem AS "País",                    -- 5. Seleciona e cria alias
+    COUNT(*) AS "Total Artistas",               -- 5. Conta artistas por país
+    AVG(EXTRACT(YEAR FROM SYSDATE) - 
+        EXTRACT(YEAR FROM data_formacao)) AS "Idade Média"  -- 5. Calcula média
+FROM artista a                                   -- 1. Identifica tabela origem
+WHERE data_formacao IS NOT NULL                  -- 2. Filtra artistas com data
+GROUP BY a.pais_origem                           -- 3. Agrupa por país
+HAVING COUNT(*) >= 3                             -- 4. Mostra países com 3+ artistas
+ORDER BY COUNT(*) DESC;                          -- 6. Ordena por quantidade
+```
+
+**Passo a passo da execução:**
+
+1. **FROM artista a**: Carrega a tabela de artistas
+2. **WHERE data_formacao IS NOT NULL**: Filtra apenas artistas com data de formação definida
+3. **GROUP BY a.pais_origem**: Agrupa os artistas filtrados por país
+4. **HAVING COUNT(*) >= 3**: Mantém apenas países com 3 ou mais artistas
+5. **SELECT**: Calcula as colunas finais (país, total, idade média)
+6. **ORDER BY COUNT(*) DESC**: Ordena do país com mais artistas para o com menos
+
+#### Implicações Práticas
+
+**1. Você não pode usar aliases do SELECT no WHERE:**
+```sql
+-- INCORRETO ❌
+SELECT nome_artista AS artista
+FROM artista
+WHERE artista LIKE 'The%';  -- Erro! 'artista' não existe ainda
+
+-- CORRETO ✓
+SELECT nome_artista AS artista
+FROM artista
+WHERE nome_artista LIKE 'The%';  -- WHERE executa antes do SELECT
+```
+
+**2. Você pode usar aliases no ORDER BY:**
+```sql
+-- CORRETO ✓
+SELECT nome_artista AS artista
+FROM artista
+ORDER BY artista;  -- ORDER BY executa depois do SELECT
+```
+
+**3. WHERE vs HAVING - escolha correta:**
+```sql
+-- Use WHERE para filtrar linhas (antes do agrupamento)
+SELECT pais_origem, COUNT(*) as total
+FROM artista
+WHERE ativo = 'S'  -- Filtra artistas ativos ANTES de agrupar
+GROUP BY pais_origem;
+
+-- Use HAVING para filtrar grupos (depois do agrupamento)
+SELECT pais_origem, COUNT(*) as total
+FROM artista
+GROUP BY pais_origem
+HAVING COUNT(*) > 5;  -- Filtra países DEPOIS de contar
+```
+
+**4. Otimização de performance:**
+```sql
+-- MENOS EFICIENTE: filtra depois de agrupar
+SELECT pais_origem, COUNT(*) 
+FROM artista
+GROUP BY pais_origem
+HAVING pais_origem = 'Brasil';
+
+-- MAIS EFICIENTE: filtra antes de agrupar
+SELECT pais_origem, COUNT(*) 
+FROM artista
+WHERE pais_origem = 'Brasil'
+GROUP BY pais_origem;
+```
+
+#### JOINs na Ordem de Execução
+
+Quando há JOINs, eles são processados na fase FROM:
+
+```sql
+SELECT m.titulo, g.nome_genero          -- 4. Seleciona colunas
+FROM musica m                           -- 1a. Primeira tabela
+INNER JOIN genero g                     -- 1b. JOIN com segunda tabela
+    ON m.id_genero = g.id_genero        -- 1c. Condição do JOIN
+WHERE m.duracao > 180                   -- 2. Filtra músicas longas
+ORDER BY m.titulo;                      -- 5. Ordena resultado
+```
+
+**Processamento:**
+1. FROM + JOIN: Combina `musica` com `genero` baseado no `id_genero`
+2. WHERE: Filtra músicas com duração > 180 segundos
+3. SELECT: Seleciona título da música e nome do gênero
+4. ORDER BY: Ordena por título
+
 ### 1. Introdução ao Comando SELECT
 
-O comando SELECT é usado para recuperar dados de uma ou mais tabelas do banco de dados. É o comando mais utilizado em SQL e a base para criação de relatórios e análises.
+O comando SELECT é o coração da linguagem SQL e a ferramenta principal para **consultar e recuperar dados** de um banco de dados. É o comando mais utilizado em SQL, representando cerca de 80-90% das operações em sistemas de produção, e serve como base fundamental para criação de relatórios, análises e visualizações de dados.
+
+**Por que o SELECT é importante?**
+- **Leitura de Dados**: É a única forma de visualizar informações armazenadas no banco
+- **Base para Análises**: Todo relatório, dashboard ou análise começa com um SELECT
+- **Não Destrutivo**: Diferente de INSERT, UPDATE ou DELETE, o SELECT apenas lê dados sem modificá-los
+- **Versatilidade**: Pode realizar desde consultas simples até análises complexas com múltiplas tabelas
 
 #### 1.1 Sintaxe Básica do SELECT
 
@@ -35,15 +199,86 @@ FROM tabela
 [ORDER BY colunas];
 ```
 
-**Componentes principais:**
-- **SELECT**: Define quais colunas serão retornadas
-- **FROM**: Especifica de qual(is) tabela(s) os dados serão extraídos
-- **WHERE**: Filtra os registros (opcional)
-- **GROUP BY**: Agrupa registros (opcional)
-- **HAVING**: Filtra grupos (opcional)
-- **ORDER BY**: Define a ordenação dos resultados (opcional)
+**Componentes principais explicados:**
+
+- **SELECT**: Define **quais colunas** serão retornadas no resultado
+  - É como escolher quais informações você quer ver em um relatório
+  - Pode incluir colunas, cálculos, funções e expressões
+  - Exemplo: `SELECT nome, idade, salario * 1.1`
+
+- **FROM**: Especifica de **qual(is) tabela(s)** os dados serão extraídos
+  - Identifica a fonte dos dados
+  - Pode incluir uma ou múltiplas tabelas (com JOINs)
+  - Exemplo: `FROM funcionarios` ou `FROM funcionarios f JOIN departamentos d`
+
+- **WHERE**: Filtra os **registros** (linhas) baseado em condições (opcional)
+  - Funciona como um filtro que decide quais linhas incluir
+  - Avaliado ANTES do agrupamento
+  - Exemplo: `WHERE salario > 5000 AND departamento = 'TI'`
+
+- **GROUP BY**: Agrupa registros para cálculos de **agregação** (opcional)
+  - Usado quando você quer resumir dados (somar, contar, calcular médias)
+  - Agrupa linhas que têm valores iguais nas colunas especificadas
+  - Exemplo: `GROUP BY departamento` para ver totais por departamento
+
+- **HAVING**: Filtra os **grupos** criados pelo GROUP BY (opcional)
+  - Similar ao WHERE, mas aplicado após o agrupamento
+  - Pode usar funções de agregação (COUNT, SUM, AVG, etc.)
+  - Exemplo: `HAVING COUNT(*) > 10` para mostrar apenas grupos com mais de 10 itens
+
+- **ORDER BY**: Define a **ordenação** dos resultados (opcional)
+  - Organiza os resultados em ordem crescente (ASC) ou decrescente (DESC)
+  - É a última operação executada
+  - Exemplo: `ORDER BY salario DESC` para ordenar do maior para o menor salário
+
+#### 1.2 Quando Usar Cada Cláusula
+
+**Cenário 1: Consulta Simples** (apenas SELECT e FROM)
+```sql
+SELECT nome, email FROM usuario;
+```
+**Uso**: Ver dados básicos sem filtros ou ordenação
+
+**Cenário 2: Consulta com Filtro** (SELECT, FROM, WHERE)
+```sql
+SELECT nome, email FROM usuario WHERE ativo = 'S';
+```
+**Uso**: Ver apenas registros que atendem certas condições
+
+**Cenário 3: Consulta com Ordenação** (SELECT, FROM, ORDER BY)
+```sql
+SELECT nome, email FROM usuario ORDER BY nome;
+```
+**Uso**: Ver dados organizados alfabeticamente ou por valor
+
+**Cenário 4: Consulta Agregada** (SELECT, FROM, GROUP BY)
+```sql
+SELECT pais_origem, COUNT(*) as total 
+FROM artista 
+GROUP BY pais_origem;
+```
+**Uso**: Ver totalizações e resumos (quantos artistas por país)
+
+**Cenário 5: Consulta Agregada com Filtro de Grupo** (todas as cláusulas)
+```sql
+SELECT pais_origem, COUNT(*) as total 
+FROM artista 
+WHERE ativo = 'S'
+GROUP BY pais_origem 
+HAVING COUNT(*) > 5
+ORDER BY total DESC;
+```
+**Uso**: Análises complexas com filtros em linhas e grupos
 
 ### 2. Consultas Simples (Uma Tabela)
+
+As consultas simples envolvem apenas uma tabela e são a base para compreender o SELECT. Dominar estas técnicas é essencial antes de avançar para consultas mais complexas com múltiplas tabelas.
+
+**Por que começar com consultas simples?**
+- Mais fáceis de entender e debugar
+- Performance geralmente melhor (uma só tabela)
+- Base para construir consultas complexas
+- Úteis para exploração inicial de dados
 
 #### 2.1 Selecionando Todas as Colunas
 
@@ -58,7 +293,23 @@ SELECT * FROM genero;
 SELECT * FROM usuario;
 ```
 
-**Observação**: O uso de `*` retorna todas as colunas. Em produção, é recomendado especificar apenas as colunas necessárias para melhor performance.
+**Como funciona:**
+- O asterisco (`*`) é um atalho que significa "todas as colunas"
+- O banco retorna todas as colunas na ordem em que foram definidas na criação da tabela
+- Equivale a escrever `SELECT coluna1, coluna2, coluna3, ...`
+
+**Por que usar:**
+- **Exploração**: Útil quando você ainda não conhece a estrutura da tabela
+- **Desenvolvimento**: Rápido para ver todos os dados durante testes
+- **Simplicidade**: Menos código para escrever inicialmente
+
+**Quando evitar:**
+- **Produção**: Em sistemas reais, sempre especifique colunas necessárias
+- **Performance**: Retornar dados desnecessários desperdiça memória e rede
+- **Segurança**: Pode expor dados sensíveis não intencionalmente
+- **Manutenção**: Se a tabela mudar (novas colunas), a query retorna dados inesperados
+
+**Observação**: O uso de `*` retorna todas as colunas. Em produção, é recomendado especificar apenas as colunas necessárias para melhor performance e segurança.
 
 #### 2.2 Selecionando Colunas Específicas
 
@@ -76,6 +327,29 @@ SELECT id_usuario, nome_usuario, email, data_cadastro
 FROM usuario;
 ```
 
+**Como funciona:**
+- Você especifica exatamente quais colunas quer ver
+- O banco retorna apenas essas colunas, na ordem que você definiu
+- Reduz o volume de dados trafegados entre banco e aplicação
+
+**Por que usar:**
+- **Performance**: Menos dados = consulta mais rápida
+- **Segurança**: Não expõe dados sensíveis como senhas ou informações privadas
+- **Clareza**: Código mais legível - fica claro quais dados são necessários
+- **Manutenção**: Mudanças na estrutura da tabela afetam menos suas queries
+- **Boas Práticas**: É o padrão recomendado em sistemas profissionais
+
+**Exemplo prático:**
+Imagine uma tabela `usuario` com 20 colunas. Se você só precisa do nome e email:
+```sql
+-- Ruim: retorna 20 colunas desnecessárias
+SELECT * FROM usuario;
+
+-- Bom: retorna apenas 2 colunas necessárias
+SELECT nome_usuario, email FROM usuario;
+```
+O segundo exemplo é até 10x mais rápido em tabelas grandes!
+
 #### 2.3 Usando Aliases (Apelidos) para Colunas
 
 ```sql
@@ -92,6 +366,40 @@ SELECT
     ano_lancamento "Ano",
     numero_faixas "Número de Faixas"
 FROM album;
+```
+
+**Como funciona:**
+- A palavra-chave `AS` cria um "apelido" (alias) para a coluna
+- O alias substitui o nome original apenas no resultado da consulta
+- Não afeta o nome real da coluna na tabela
+- `AS` é opcional, mas recomendado para clareza
+
+**Por que usar:**
+- **Legibilidade**: Nomes mais descritivos e em português (se for o caso)
+- **Formatação**: Melhora apresentação em relatórios
+- **Cálculos**: Nomear expressões complexas (ex: `salario * 1.1 AS "Novo Salário"`)
+- **Espaços**: Permite nomes com espaços usando aspas duplas
+- **Case**: Força maiúsculas/minúsculas específicas
+
+**Quando usar:**
+- Em relatórios para usuários finais
+- Quando o nome da coluna não é autoexplicativo
+- Para expressões calculadas: `SELECT salario * 12 AS "Salário Anual"`
+- Em queries com JOIN onde há colunas com mesmo nome
+
+**Sintaxes válidas:**
+```sql
+-- Com AS (recomendado)
+SELECT nome_artista AS artista FROM artista;
+
+-- Sem AS (funciona mas menos claro)
+SELECT nome_artista artista FROM artista;
+
+-- Com aspas (para espaços ou case-sensitive)
+SELECT nome_artista AS "Nome Completo" FROM artista;
+
+-- Sem aspas (convertido para maiúsculas no Oracle)
+SELECT nome_artista AS artista FROM artista;
 ```
 
 #### 2.4 Ordenando Resultados (ORDER BY)
@@ -118,6 +426,41 @@ FROM album
 ORDER BY ano_lancamento DESC;
 ```
 
+**Como funciona:**
+- `ORDER BY` ordena os resultados após todas as outras operações
+- `ASC` = ascendente (A-Z, 0-9, menor para maior) - **padrão**
+- `DESC` = descendente (Z-A, 9-0, maior para menor)
+- Múltiplas colunas: ordena pela primeira, depois desempata pela segunda, etc.
+
+**Por que usar:**
+- **Apresentação**: Dados organizados são mais fáceis de ler
+- **Análise**: Encontrar top/bottom valores (maiores salários, datas mais recentes)
+- **Relatórios**: Agrupamento visual de dados similares
+- **Padrões**: Identificar padrões ordenando por data, valor, nome, etc.
+
+**Ordenação por múltiplas colunas:**
+```sql
+-- Primeiro ordena por país, depois por nome dentro de cada país
+SELECT nome_artista, pais_origem
+FROM artista
+ORDER BY pais_origem ASC, nome_artista ASC;
+```
+Resultado: todos artistas do Brasil em ordem alfabética, depois Portugal em ordem alfabética, etc.
+
+**Ordenação por posição:**
+```sql
+-- Pode usar número da coluna ao invés do nome
+SELECT nome_artista, pais_origem
+FROM artista
+ORDER BY 2, 1;  -- ordena pela 2ª coluna (país), depois 1ª (nome)
+```
+**Atenção**: Não recomendado! Dificulta manutenção se a ordem das colunas mudar.
+
+**Performance:**
+- ORDER BY é uma das operações mais custosas
+- Em tabelas grandes, pode ser lento sem índices adequados
+- Use LIMIT/FETCH se só precisa dos primeiros resultados
+
 #### 2.5 Eliminando Duplicatas (DISTINCT)
 
 ```sql
@@ -131,6 +474,53 @@ SELECT DISTINCT ano_lancamento
 FROM album
 WHERE ano_lancamento IS NOT NULL
 ORDER BY ano_lancamento DESC;
+```
+
+**Como funciona:**
+- `DISTINCT` remove linhas duplicadas do resultado
+- Compara **todas as colunas** selecionadas para determinar duplicatas
+- Internamente, o banco ordena ou cria hash table para encontrar duplicatas
+- Retorna apenas uma ocorrência de cada combinação única de valores
+
+**Por que usar:**
+- **Valores Únicos**: Listar categorias, tags, ou valores distintos
+- **Análise Exploratória**: Descobrir quantos valores diferentes existem
+- **Evitar Contagem Dupla**: Em JOINs que podem gerar duplicatas
+- **Listas**: Criar listas de opções (países, categorias, anos, etc.)
+
+**Exemplo prático:**
+```sql
+-- Sem DISTINCT: pode retornar "Brasil" 50 vezes se houver 50 artistas brasileiros
+SELECT pais_origem FROM artista;
+
+-- Com DISTINCT: retorna "Brasil" apenas uma vez
+SELECT DISTINCT pais_origem FROM artista;
+```
+
+**DISTINCT com múltiplas colunas:**
+```sql
+-- Considera COMBINAÇÃO de país E ano como única
+SELECT DISTINCT pais_origem, EXTRACT(YEAR FROM data_formacao) as ano
+FROM artista
+WHERE data_formacao IS NOT NULL;
+```
+Retorna cada combinação país-ano apenas uma vez.
+
+**Impactos de Performance:**
+- DISTINCT requer processamento adicional (ordenação ou hashing)
+- Pode ser lento em grandes volumes de dados
+- Prefira GROUP BY quando precisar contar ou agregar
+- Considere se o problema real não está em um JOIN mal feito
+
+**DISTINCT vs GROUP BY:**
+```sql
+-- DISTINCT: apenas valores únicos
+SELECT DISTINCT pais_origem FROM artista;
+
+-- GROUP BY: valores únicos + permite agregações
+SELECT pais_origem, COUNT(*) as total 
+FROM artista 
+GROUP BY pais_origem;
 ```
 
 #### 2.6 Limitando Resultados (ROWNUM ou FETCH)
@@ -147,6 +537,86 @@ FROM album
 ORDER BY ano_lancamento DESC
 FETCH FIRST 5 ROWS ONLY;
 ```
+
+**Como funciona:**
+- **ROWNUM** (Oracle clássico): Numera linhas conforme são retornadas
+- **FETCH FIRST** (Oracle 12c+, padrão SQL): Sintaxe moderna e mais clara
+- Limita a quantidade de linhas no resultado final
+- Essencial para paginação e visualização de amostras
+
+**Por que usar:**
+- **Performance**: Retornar milhões de linhas é impraticável
+- **Paginação**: Mostrar 10, 20, 50 resultados por página
+- **Amostragem**: Ver exemplos dos dados sem carregar tudo
+- **Top N**: Encontrar os N maiores/menores valores
+- **Teste**: Verificar query em amostra antes de executar em tudo
+
+**Diferença entre ROWNUM e FETCH:**
+
+**ROWNUM** (sintaxe antiga):
+```sql
+-- Atenção: ROWNUM é atribuído ANTES do ORDER BY!
+-- Isso NÃO retorna os 5 álbuns mais recentes:
+SELECT titulo, ano_lancamento
+FROM album
+WHERE ROWNUM <= 5
+ORDER BY ano_lancamento DESC;
+
+-- Correto com ROWNUM (precisa de subconsulta):
+SELECT * FROM (
+    SELECT titulo, ano_lancamento
+    FROM album
+    ORDER BY ano_lancamento DESC
+)
+WHERE ROWNUM <= 5;
+```
+
+**FETCH FIRST** (sintaxe moderna, recomendada):
+```sql
+-- Mais simples e correto
+SELECT titulo, ano_lancamento
+FROM album
+ORDER BY ano_lancamento DESC
+FETCH FIRST 5 ROWS ONLY;
+
+-- Com OFFSET para paginação
+SELECT titulo, ano_lancamento
+FROM album
+ORDER BY ano_lancamento DESC
+OFFSET 10 ROWS FETCH NEXT 5 ROWS ONLY;  -- linhas 11-15
+```
+
+**Casos de uso práticos:**
+
+**Top 10 Artistas:**
+```sql
+SELECT nome_artista, pais_origem
+FROM artista
+ORDER BY nome_artista
+FETCH FIRST 10 ROWS ONLY;
+```
+
+**Paginação (página 3, 20 itens por página):**
+```sql
+SELECT nome_artista, pais_origem
+FROM artista
+ORDER BY nome_artista
+OFFSET 40 ROWS    -- Pula primeiras 2 páginas (2 × 20)
+FETCH NEXT 20 ROWS ONLY;  -- Retorna página 3
+```
+
+**Amostra aleatória:**
+```sql
+SELECT nome_artista
+FROM artista
+ORDER BY DBMS_RANDOM.VALUE  -- Ordem aleatória
+FETCH FIRST 5 ROWS ONLY;    -- Pega 5 aleatórios
+```
+
+**Performance:**
+- Muito mais eficiente que retornar tudo e filtrar na aplicação
+- Banco para de processar após atingir o limite
+- Em tabelas indexadas, pode ser extremamente rápido
 
 ### 3. Consultas com Filtros (Cláusula WHERE)
 
