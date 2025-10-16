@@ -1739,15 +1739,56 @@ INNER JOIN artista ar ON al.id_artista = ar.id_artista;
 
 ### PARTE 2: TRANSAÇÕES E CONTROLE
 
+Transações são um dos conceitos mais importantes em bancos de dados, garantindo que operações complexas sejam executadas de forma confiável e consistente. Esta seção explora como controlar transações em SQL.
+
+**O que é uma Transação?**
+Uma transação é uma **unidade lógica de trabalho** que agrupa uma ou mais operações SQL. Todas as operações dentro de uma transação são tratadas como uma única unidade: ou todas são executadas com sucesso, ou nenhuma é aplicada.
+
+**Por que Transações são Fundamentais?**
+- **Integridade de Dados**: Garante consistência mesmo em caso de falhas
+- **Operações Atômicas**: Múltiplas alterações são tratadas como uma só
+- **Recuperação**: Permite desfazer operações em caso de erro
+- **Concorrência**: Múltiplos usuários podem trabalhar simultaneamente sem conflitos
+
 ### 5. Conceitos de Transações
 
 #### 5.1 Propriedades ACID
-- **Atomicidade**: Transação é indivisível (tudo ou nada)
-- **Consistência**: Dados ficam em estado válido
-- **Isolamento**: Transações não interferem entre si
-- **Durabilidade**: Mudanças persistem após COMMIT
+
+ACID é um acrônimo que define as quatro propriedades essenciais que toda transação deve garantir para manter a integridade dos dados.
+
+- **Atomicidade (Atomicity)**: Transação é indivisível (tudo ou nada)
+  - **Como funciona**: Uma transação é tratada como uma única unidade
+  - **Exemplo**: Transferência bancária deve debitar E creditar, ou não fazer nada
+  - **Garantia**: Se qualquer parte falha, TUDO é desfeito (rollback)
+  - **Analogia**: Como um átomo (indivisível) - não pode ser quebrada em partes
+  
+- **Consistência (Consistency)**: Dados ficam em estado válido
+  - **Como funciona**: Transação move o banco de um estado válido para outro estado válido
+  - **Exemplo**: Saldo total antes = saldo total depois (em transferência)
+  - **Garantia**: Todas as regras de negócio e constraints são respeitadas
+  - **Validação**: CHECK constraints, FOREIGN KEY, NOT NULL, etc., são verificados
+  
+- **Isolamento (Isolation)**: Transações não interferem entre si
+  - **Como funciona**: Cada transação vê o banco como se fosse a única executando
+  - **Exemplo**: Duas pessoas comprando o último item não devem ambas ter sucesso
+  - **Níveis**: READ UNCOMMITTED, READ COMMITTED, REPEATABLE READ, SERIALIZABLE
+  - **Trade-off**: Mais isolamento = mais consistência, mas menos concorrência
+  
+- **Durabilidade (Durability)**: Mudanças persistem após COMMIT
+  - **Como funciona**: Dados confirmados sobrevivem a falhas (queda de energia, crash)
+  - **Exemplo**: Após COMMIT, compra está garantida mesmo se servidor cair
+  - **Implementação**: Logs de transação (redo log), checkpoints, backup
+  - **Garantia**: Uma vez confirmada, transação NUNCA é perdida
+
+**Por que ACID é crucial?**
+Sem ACID, você poderia ter:
+- Dinheiro sumindo em transferências (sem Atomicidade)
+- Saldos negativos (sem Consistência)
+- Duas vendas do mesmo item (sem Isolamento)
+- Perda de dados após queda (sem Durabilidade)
 
 #### 5.2 Estados de uma Transação
+
 ```sql
 -- Transação iniciada implicitamente com primeiro DML
 INSERT INTO usuario (id_usuario, nome_usuario, email) 
@@ -1762,9 +1803,61 @@ COMMIT;
 -- ROLLBACK;
 ```
 
+**Estados de uma Transação:**
+
+1. **Ativa (Active)**: Transação está executando
+   - Primeiro comando DML (INSERT, UPDATE, DELETE) inicia transação
+   - Mudanças estão em memória, não visíveis para outros usuários
+   - Exemplo: `INSERT INTO ...` - transação está ativa
+
+2. **Parcialmente Confirmada (Partially Committed)**: Todos comandos executados
+   - Última operação completou com sucesso
+   - Ainda não foi confirmada com COMMIT
+   - Aguardando confirmação ou rollback
+
+3. **Confirmada (Committed)**: Transação completada com sucesso
+   - COMMIT foi executado
+   - Mudanças são persistentes e visíveis para todos
+   - Não pode ser desfeita (exceto com nova transação)
+
+4. **Falhada (Failed)**: Erro ocorreu durante execução
+   - Violação de constraint, erro de sintaxe, deadlock, etc.
+   - Sistema automaticamente vai para estado de Abortada
+
+5. **Abortada (Aborted)**: Transação foi desfeita
+   - ROLLBACK foi executado (manual ou automático)
+   - Banco de dados volta ao estado antes da transação
+   - Como se a transação nunca tivesse ocorrido
+
+**Fluxo típico:**
+```
+[Início] → Ativa → Parcialmente Confirmada → [COMMIT] → Confirmada
+                ↓                             
+             [Erro]                           
+                ↓                             
+            Falhada → [ROLLBACK] → Abortada
+```
+
+**Exemplo prático:**
+```sql
+-- Estado: Ativa
+INSERT INTO artista (id, nome) VALUES (999, 'Novo Artista');
+
+-- Estado: ainda Ativa
+UPDATE artista SET nome = 'Artista Atualizado' WHERE id = 999;
+
+-- Opcões:
+COMMIT;    -- Estado: Confirmada (mudanças persistem)
+-- OU
+ROLLBACK;  -- Estado: Abortada (mudanças desfeitas)
+```
+
 ### 6. Comandos de Controle de Transação
 
+Os comandos de controle de transação (TCL - Transaction Control Language) permitem gerenciar o ciclo de vida das transações, confirmando ou desfazendo mudanças.
+
 #### 6.1 COMMIT - Confirmar Mudanças
+
 ```sql
 -- Inserir um novo artista
 INSERT INTO artista (id_artista, nome_artista, pais_origem) 
@@ -1776,7 +1869,74 @@ COMMIT;
 -- Agora a mudança está persistente
 ```
 
+**Como funciona:**
+- COMMIT torna **permanentes** todas as mudanças da transação atual
+- Mudanças são escritas do buffer de memória para o disco
+- Outros usuários passam a ver as mudanças
+- Libera locks (bloqueios) mantidos pela transação
+- Cria um ponto de não-retorno (não pode desfazer depois)
+
+**Por que usar:**
+- **Persistência**: Garantir que dados importantes sejam salvos
+- **Visibilidade**: Tornar mudanças visíveis para outros usuários
+- **Liberação**: Liberar recursos (locks) para outras transações
+- **Checkpoint**: Marcar conclusão bem-sucedida de operações
+
+**Quando usar:**
+- Após completar com sucesso um conjunto de operações relacionadas
+- Quando você tem certeza que os dados estão corretos
+- Em pontos estratégicos de longas transações (com SAVEPOINTs)
+- Ao final de rotinas de importação/migração bem-sucedidas
+
+**Exemplo - Cadastro completo:**
+```sql
+-- Inserir artista
+INSERT INTO artista (id, nome, pais) VALUES (100, 'New Band', 'USA');
+
+-- Inserir álbum do artista
+INSERT INTO album (id, titulo, id_artista) VALUES (500, 'First Album', 100);
+
+-- Inserir músicas do álbum
+INSERT INTO musica (id, titulo, id_album) VALUES (1000, 'Song 1', 500);
+INSERT INTO musica (id, titulo, id_album) VALUES (1001, 'Song 2', 500);
+
+-- Tudo certo? Confirmar todas as operações de uma vez
+COMMIT;
+
+-- Agora artista, álbum e músicas estão permanentemente no banco
+```
+
+**Comportamento em diferentes cenários:**
+```sql
+-- Autocommit OFF (controle manual):
+SET AUTOCOMMIT OFF;
+INSERT INTO usuario VALUES (1, 'João');
+-- Mudança ainda não é permanente
+COMMIT;  -- Agora é permanente
+
+-- Autocommit ON (commit automático):
+SET AUTOCOMMIT ON;
+INSERT INTO usuario VALUES (2, 'Maria');
+-- Mudança JÁ é permanente automaticamente (commit implícito)
+```
+
+**COMMIT implícito:**
+Alguns comandos fazem COMMIT automático:
+- DDL: CREATE, ALTER, DROP, TRUNCATE
+- DCL: GRANT, REVOKE
+- Desconexão normal do banco
+- EXIT ou fechamento normal da sessão
+
+**Atenção:**
+```sql
+INSERT INTO artista VALUES (1, 'Test');
+CREATE TABLE temp (id NUMBER);  -- DDL faz COMMIT implícito!
+-- INSERT anterior foi confirmado automaticamente
+ROLLBACK;  -- Não desfaz o INSERT porque já foi commitado pelo CREATE
+```
+
 #### 6.2 ROLLBACK - Desfazer Mudanças
+
 ```sql
 -- Iniciar uma transação
 INSERT INTO album (id_album, titulo, id_artista) 
@@ -1792,7 +1952,79 @@ SELECT * FROM artista WHERE id_artista = 200;
 SELECT * FROM album WHERE id_album = 300;
 ```
 
+**Como funciona:**
+- ROLLBACK **desfaz** todas as mudanças não confirmadas da transação atual
+- Restaura o banco ao estado antes da transação começar
+- Libera locks mantidos pela transação
+- Cancela a transação como se ela nunca tivesse acontecido
+
+**Por que usar:**
+- **Correção de Erros**: Desfazer operações executadas por engano
+- **Validação Falhou**: Quando detecta que dados estão incorretos
+- **Tratamento de Exceções**: Em caso de erro durante processamento
+- **Testes**: Experimentar queries sem afetar dados reais
+
+**Quando usar:**
+- Quando detectar erro lógico nas operações
+- Em caso de violação de regra de negócio
+- Durante testes (fazer ROLLBACK ao invés de COMMIT)
+- Quando usuário cancela operação
+- Em blocos de tratamento de exceções (Exception Handler)
+
+**Exemplo - Detecção de erro:**
+```sql
+-- Iniciar transferência entre playlists
+DELETE FROM playlist_musica WHERE id_playlist = 10 AND id_musica = 123;
+
+-- Tentar inserir na nova playlist
+INSERT INTO playlist_musica VALUES (20, 123, 1);
+-- Erro! Playlist 20 não existe
+
+-- Desfazer tudo
+ROLLBACK;
+-- Música volta para playlist 10 (DELETE foi desfeito)
+```
+
+**ROLLBACK completo vs ROLLBACK TO SAVEPOINT:**
+```sql
+-- ROLLBACK completo: desfaz TUDO
+INSERT INTO artista VALUES (1, 'Test 1');
+INSERT INTO artista VALUES (2, 'Test 2');
+INSERT INTO artista VALUES (3, 'Test 3');
+ROLLBACK;  -- Desfaz os 3 INSERTs
+
+-- ROLLBACK TO SAVEPOINT: desfaz parcialmente (ver próxima seção)
+INSERT INTO artista VALUES (1, 'Test 1');
+SAVEPOINT sp1;
+INSERT INTO artista VALUES (2, 'Test 2');
+ROLLBACK TO sp1;  -- Desfaz apenas Test 2, mantém Test 1
+COMMIT;  -- Confirma Test 1
+```
+
+**Exemplo prático - Importação com validação:**
+```sql
+-- Importar dados
+BEGIN
+    INSERT INTO artista SELECT * FROM artista_temp;
+    
+    -- Validar: todos devem ter país
+    IF EXISTS (SELECT 1 FROM artista WHERE pais_origem IS NULL) THEN
+        ROLLBACK;
+        RAISE_APPLICATION_ERROR(-20001, 'Artistas sem país encontrados');
+    ELSE
+        COMMIT;
+    END IF;
+END;
+/
+```
+
+**Performance:**
+- ROLLBACK é geralmente rápido (desfaz mudanças em memória)
+- Pode ser lento se transação fez muitas mudanças
+- ROLLBACK de transações longas pode demorar segundos ou minutos
+
 #### 6.3 SAVEPOINT - Pontos de Salvamento
+
 ```sql
 -- Iniciar transação
 INSERT INTO usuario (id_usuario, nome_usuario, email) 
@@ -1818,9 +2050,159 @@ ROLLBACK TO playlist_inserted;
 COMMIT;
 ```
 
+**Como funciona:**
+- SAVEPOINT cria um **ponto de restauração** dentro de uma transação
+- Permite **ROLLBACK parcial** - desfazer apenas parte das mudanças
+- Múltiplos SAVEPOINTs podem existir em uma transação
+- Não confirma mudanças (use COMMIT para isso)
+- Útil para transações complexas com várias etapas
+
+**Por que usar:**
+- **Transações Longas**: Desfazer apenas parte sem perder tudo
+- **Processamento em Etapas**: Cada etapa tem seu SAVEPOINT
+- **Tentativa e Erro**: Experimentar operações sem comprometer transação
+- **Recuperação Granular**: Voltar a pontos específicos em caso de erro
+
+**Sintaxe:**
+```sql
+SAVEPOINT nome_do_savepoint;           -- Criar savepoint
+ROLLBACK TO SAVEPOINT nome_do_savepoint; -- Voltar ao savepoint
+-- ou simplesmente:
+ROLLBACK TO nome_do_savepoint;         -- Sintaxe alternativa
+```
+
+**Exemplo completo - Processo multi-etapas:**
+```sql
+-- Etapa 1: Criar usuário
+INSERT INTO usuario (id, nome, email) VALUES (100, 'João', 'joao@email.com');
+SAVEPOINT usuario_criado;
+
+-- Etapa 2: Criar playlist
+INSERT INTO playlist (id, nome, id_usuario) VALUES (200, 'Favoritas', 100);
+SAVEPOINT playlist_criada;
+
+-- Etapa 3: Adicionar músicas (pode falhar)
+INSERT INTO playlist_musica VALUES (200, 999, 1); -- Música não existe!
+-- Erro! Mas não queremos perder usuário e playlist
+
+-- Voltar apenas à playlist (mantém usuário)
+ROLLBACK TO playlist_criada;
+
+-- Ou voltar até usuário (perde playlist também)
+-- ROLLBACK TO usuario_criado;
+
+-- Finalizar o que deu certo
+COMMIT;  -- Confirma usuário e playlist (músicas foram descartadas)
+```
+
+**SAVEPOINTs aninhados:**
+```sql
+INSERT INTO tabela1 VALUES (1);
+SAVEPOINT sp1;
+
+    INSERT INTO tabela2 VALUES (2);
+    SAVEPOINT sp2;
+    
+        INSERT INTO tabela3 VALUES (3);
+        SAVEPOINT sp3;
+        
+        -- Voltar um nível
+        ROLLBACK TO sp2;  -- Desfaz sp3, mantém sp1 e sp2
+        
+    -- Voltar dois níveis
+    ROLLBACK TO sp1;  -- Desfaz sp2 e sp3, mantém sp1
+
+-- Confirmar tudo que restou
+COMMIT;
+```
+
+**Liberar SAVEPOINT (Oracle):**
+```sql
+SAVEPOINT sp1;
+-- ... operações ...
+
+-- Liberar savepoint (não é rollback!)
+-- Em Oracle, SAVEPOINTs são automaticamente liberados no COMMIT
+-- Em outros bancos: RELEASE SAVEPOINT sp1;
+```
+
+**Diferença: ROLLBACK vs ROLLBACK TO SAVEPOINT:**
+
+| ROLLBACK | ROLLBACK TO SAVEPOINT |
+|----------|----------------------|
+| Desfaz TODA a transação | Desfaz até o SAVEPOINT |
+| Termina a transação | Continua a transação |
+| Libera todos os locks | Mantém locks |
+| Precisa BEGIN para nova transação | Pode continuar mesma transação |
+
+**Exemplo prático - Importação de arquivo:**
+```sql
+BEGIN
+    -- Processar arquivo linha por linha
+    FOR i IN 1..1000 LOOP
+        -- A cada 100 linhas, criar savepoint
+        IF MOD(i, 100) = 0 THEN
+            SAVEPOINT lote_i;
+        END IF;
+        
+        BEGIN
+            -- Processar linha
+            INSERT INTO dados VALUES (i, ...);
+        EXCEPTION
+            WHEN OTHERS THEN
+                -- Erro na linha, voltar ao último lote
+                ROLLBACK TO lote_i;
+                LOG_ERROR(i, SQLERRM);
+        END;
+    END LOOP;
+    
+    COMMIT;  -- Confirma tudo que deu certo
+END;
+/
+```
+
+**Uso em procedures:**
+```sql
+CREATE OR REPLACE PROCEDURE processar_pedido(p_id NUMBER) AS
+    v_erro VARCHAR2(1000);
+BEGIN
+    SAVEPOINT inicio;
+    
+    -- Etapa 1: Atualizar estoque
+    UPDATE estoque SET quantidade = quantidade - 1 WHERE produto_id = p_id;
+    
+    -- Etapa 2: Criar pedido
+    INSERT INTO pedido VALUES (...);
+    
+    -- Etapa 3: Processar pagamento (pode falhar)
+    BEGIN
+        processar_pagamento(p_id);
+    EXCEPTION
+        WHEN OTHERS THEN
+            ROLLBACK TO inicio;  -- Desfaz tudo se pagamento falhar
+            RAISE;
+    END;
+    
+    COMMIT;  -- Sucesso
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;  -- Desfaz tudo em caso de erro
+        RAISE;
+END;
+/
+```
+
+**Performance:**
+- SAVEPOINTs têm custo mínimo (apenas marcam posição)
+- ROLLBACK TO SAVEPOINT pode ser lento se muitas mudanças após o savepoint
+- Evite criar muitos SAVEPOINTs desnecessários (overhead)
+
 ### 7. Autocommit e Controle Manual
 
+Autocommit controla se transações são confirmadas automaticamente ou requerem COMMIT explícito. Entender este mecanismo é crucial para gerenciar transações corretamente.
+
 #### 7.1 Configuração de Autocommit
+
 ```sql
 -- Verificar status atual
 SHOW AUTOCOMMIT;
@@ -1832,7 +2214,63 @@ SET AUTOCOMMIT OFF;
 SET AUTOCOMMIT ON;
 ```
 
+**Como funciona:**
+
+**AUTOCOMMIT ON (padrão em muitos clientes SQL):**
+- Cada comando DML (INSERT, UPDATE, DELETE) é automaticamente confirmado
+- Não precisa digitar COMMIT
+- Cada statement é uma transação separada
+- Não pode fazer ROLLBACK de comandos anteriores
+
+**AUTOCOMMIT OFF (recomendado para trabalho interativo):**
+- Você controla manualmente quando fazer COMMIT ou ROLLBACK
+- Múltiplos comandos fazem parte da mesma transação
+- Permite testar e desfazer se necessário
+- Mais seguro para operações críticas
+
+**Por que usar cada modo:**
+
+**Use AUTOCOMMIT ON quando:**
+- Executando comandos isolados e simples
+- Em scripts de importação onde cada linha é independente
+- Quando você TEM CERTEZA que cada operação deve ser permanente
+- Em aplicações onde framework gerencia transações
+
+**Use AUTOCOMMIT OFF quando:**
+- Executando operações relacionadas que devem ser atômicas
+- Trabalhando interativamente e quer revisar antes de confirmar
+- Testando queries de UPDATE/DELETE (pode fazer ROLLBACK se errar)
+- Aprendendo SQL (mais seguro!)
+
+**Exemplos práticos:**
+
+**Com AUTOCOMMIT ON:**
+```sql
+SET AUTOCOMMIT ON;
+
+INSERT INTO artista VALUES (1, 'Beatles');  -- Confirmado automaticamente
+INSERT INTO artista VALUES (2, 'Queen');    -- Confirmado automaticamente
+
+-- ERRO! Não pode desfazer
+ROLLBACK;  -- Não desfaz nada, já foi commitado
+```
+
+**Com AUTOCOMMIT OFF:**
+```sql
+SET AUTOCOMMIT OFF;
+
+INSERT INTO artista VALUES (1, 'Beatles');  -- Não confirmado ainda
+INSERT INTO artista VALUES (2, 'Queen');    -- Não confirmado ainda
+
+-- Opção 1: Confirmar tudo
+COMMIT;
+
+-- Opção 2: Desfazer tudo
+-- ROLLBACK;
+```
+
 #### 7.2 Transações Explícitas
+
 ```sql
 -- Iniciar transação explicitamente (alguns SGBDs)
 START TRANSACTION; -- ou BEGIN TRANSACTION;
@@ -1845,9 +2283,69 @@ COMMIT;
 -- ou ROLLBACK;
 ```
 
+**Diferenças entre SGBDs:**
+
+**Oracle:**
+```sql
+-- Transação inicia implicitamente no primeiro DML
+INSERT INTO tabela VALUES (...);  -- Transação já começou aqui
+UPDATE tabela SET ...;            -- Mesma transação
+COMMIT;  -- Confirma ambos
+```
+
+**MySQL/PostgreSQL:**
+```sql
+-- Precisa START TRANSACTION ou BEGIN
+START TRANSACTION;  -- ou BEGIN;
+INSERT INTO tabela VALUES (...);
+UPDATE tabela SET ...;
+COMMIT;
+```
+
+**SQL Server:**
+```sql
+-- Pode usar BEGIN TRANSACTION
+BEGIN TRANSACTION;
+INSERT INTO tabela VALUES (...);
+UPDATE tabela SET ...;
+COMMIT TRANSACTION;
+-- ou ROLLBACK TRANSACTION;
+```
+
+**Por que transações explícitas:**
+- **Clareza**: Deixa óbvio onde transação começa e termina
+- **Portabilidade**: Funciona consistentemente entre SGBDs
+- **Documentação**: Código auto-documenta escopo de transação
+- **Procedimentos**: Em stored procedures, delimitação clara de transação
+
+**Exemplo - Transferência bancária:**
+```sql
+BEGIN TRANSACTION;  -- Início explícito
+
+-- Debitar conta origem
+UPDATE conta 
+SET saldo = saldo - 100 
+WHERE id = 1;
+
+-- Creditar conta destino
+UPDATE conta 
+SET saldo = saldo + 100 
+WHERE id = 2;
+
+-- Verificar se ambos sucederam
+IF @@ROWCOUNT = 2 THEN
+    COMMIT;  -- Sucesso
+ELSE
+    ROLLBACK;  -- Falha
+END IF;
+```
+
 ### 8. Níveis de Isolamento
 
+Níveis de isolamento controlam **quanto uma transação é isolada de outras transações concorrentes**. É um trade-off entre consistência e performance/concorrência.
+
 #### 8.1 Configuração de Isolamento
+
 ```sql
 -- Verificar nível atual
 SELECT * FROM V$TRANSACTION;
@@ -1857,7 +2355,80 @@ SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
 -- Ou outros níveis: READ UNCOMMITTED, REPEATABLE READ, SERIALIZABLE
 ```
 
+**Os 4 Níveis de Isolamento (do menos ao mais restritivo):**
+
+**1. READ UNCOMMITTED (Leitura Suja)**
+- **Permite**: Ler dados não confirmados (dirty reads)
+- **Uso**: Quase nunca (muito perigoso)
+- **Performance**: Máxima (sem locks de leitura)
+- **Problema**: Pode ler dados que serão desfeitos
+
+```sql
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+-- Sessão A: UPDATE artista SET nome = 'Temp' WHERE id = 1; (sem COMMIT)
+-- Sessão B: SELECT nome FROM artista WHERE id = 1;
+-- Resultado: Vê 'Temp' mesmo sem COMMIT (pode ser desfeito!)
+```
+
+**2. READ COMMITTED (padrão na maioria dos SGBDs)**
+- **Garante**: Só lê dados confirmados
+- **Uso**: Padrão, bom para maioria dos casos
+- **Performance**: Boa (locks curtos)
+- **Problema**: Non-repeatable reads (mesma query, resultados diferentes)
+
+```sql
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+-- Sessão A: SELECT nome FROM artista WHERE id = 1;  → 'Beatles'
+-- Sessão B: UPDATE artista SET nome = 'The Beatles' WHERE id = 1; COMMIT;
+-- Sessão A: SELECT nome FROM artista WHERE id = 1;  → 'The Beatles' (mudou!)
+```
+
+**3. REPEATABLE READ**
+- **Garante**: Releituras retornam mesmo resultado
+- **Uso**: Quando precisa consistência dentro da transação
+- **Performance**: Média (locks mais longos)
+- **Problema**: Phantom reads (novas linhas aparecem)
+
+```sql
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+-- Sessão A: SELECT COUNT(*) FROM artista WHERE pais = 'Brasil';  → 10
+-- Sessão B: INSERT INTO artista VALUES (999, 'Novo', 'Brasil'); COMMIT;
+-- Sessão A: SELECT COUNT(*) FROM artista WHERE pais = 'Brasil';  → 10 (mesmo!)
+-- Mas se usar: SELECT * FROM artista WHERE pais = 'Brasil';  → nova linha aparece (phantom)
+```
+
+**4. SERIALIZABLE (máximo isolamento)**
+- **Garante**: Transações executam como se fossem sequenciais
+- **Uso**: Operações críticas que precisam isolamento total
+- **Performance**: Baixa (locks pesados, possíveis timeouts)
+- **Problema**: Mais lento, mais deadlocks
+
+```sql
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+-- Nenhuma interferência entre transações
+-- Como se só uma transação executasse por vez
+-- Muito seguro, mas muito lento
+```
+
+**Tabela Comparativa:**
+
+| Nível | Dirty Read | Non-Repeatable Read | Phantom Read | Performance |
+|-------|------------|---------------------|--------------|-------------|
+| READ UNCOMMITTED | ✓ Permite | ✓ Permite | ✓ Permite | ⚡⚡⚡⚡ |
+| READ COMMITTED | ✗ Previne | ✓ Permite | ✓ Permite | ⚡⚡⚡ |
+| REPEATABLE READ | ✗ Previne | ✗ Previne | ✓ Permite | ⚡⚡ |
+| SERIALIZABLE | ✗ Previne | ✗ Previne | ✗ Previne | ⚡ |
+
+**Quando usar cada nível:**
+
+**READ UNCOMMITTED**: Quase nunca (estatísticas aproximadas)
+**READ COMMITTED**: Maioria dos casos (padrão recomendado)
+**REPEATABLE READ**: Relatórios que precisam consistência
+**SERIALIZABLE**: Operações financeiras críticas
+
 #### 8.2 Problemas de Concorrência
+
+Diferentes níveis de isolamento previnem diferentes problemas de concorrência.
 
 **Dirty Read** - Ler dados não commitados:
 ```sql
@@ -1868,7 +2439,25 @@ UPDATE artista SET nome_artista = 'Nome Temporário' WHERE id_artista = 1;
 -- Sessão 2 (com READ UNCOMMITTED)
 SELECT nome_artista FROM artista WHERE id_artista = 1;
 -- Pode ver "Nome Temporário" mesmo sem commit
+
+-- Sessão 1
+ROLLBACK;  -- Desfaz a mudança
+
+-- Problema: Sessão 2 viu dado que nunca foi confirmado!
 ```
+
+**Como funciona:**
+- Transação A modifica dados mas não confirma
+- Transação B lê os dados modificados
+- Transação A faz ROLLBACK
+- Transação B leu dados "fantasmas" que nunca existiram oficialmente
+
+**Por que é problema:**
+- Decisões baseadas em dados incorretos
+- Relatórios com informações que serão desfeitas
+- Cálculos errados baseados em valores temporários
+
+**Solução:** Use READ COMMITTED ou superior
 
 **Non-Repeatable Read** - Leituras diferentes na mesma transação:
 ```sql
@@ -1884,9 +2473,53 @@ COMMIT;
 SELECT nome_artista FROM artista WHERE id_artista = 1; -- "Beatles" (diferente!)
 ```
 
+**Como funciona:**
+- Transação A lê um registro
+- Transação B modifica e confirma o mesmo registro
+- Transação A relê o registro e vê valor diferente
+- Mesmo dentro da mesma transação!
+
+**Por que é problema:**
+- Inconsistência dentro de uma transação
+- Cálculos baseados em valores que mudaram
+- Lógica de negócio pode quebrar (if valor_antes != valor_depois)
+
+**Solução:** Use REPEATABLE READ ou SERIALIZABLE
+
+**Phantom Read** - Novas linhas aparecem:
+```sql
+-- Sessão 1
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+SELECT COUNT(*) FROM artista WHERE pais = 'Brasil';  -- 10 artistas
+
+-- Sessão 2
+INSERT INTO artista (id, nome, pais) VALUES (999, 'Novo', 'Brasil');
+COMMIT;
+
+-- Sessão 1
+SELECT * FROM artista WHERE pais = 'Brasil';  -- 11 artistas! (Phantom)
+-- COUNT ainda retorna 10, mas SELECT * mostra 11
+```
+
+**Como funciona:**
+- Transação A conta/lista registros
+- Transação B insere novos registros que atendem critério
+- Transação A re-executa query e vê novos registros (phantoms)
+- REPEATABLE READ garante mesmos valores, mas não mesmas linhas
+
+**Por que é problema:**
+- Agregações podem mudar (COUNT, SUM)
+- Relatórios com quantidades inconsistentes
+- Lógica de paginação pode quebrar
+
+**Solução:** Use SERIALIZABLE
+
 ### 9. Locks e Concorrência
 
+Locks (bloqueios) são mecanismos que controlam acesso concorrente aos dados, prevenindo conflitos e garantindo integridade.
+
 #### 9.1 Tipos de Locks
+
 ```sql
 -- Lock exclusivo (para UPDATE/DELETE)
 SELECT * FROM artista WHERE id_artista = 1 FOR UPDATE;
@@ -1901,7 +2534,93 @@ SELECT * FROM artista WHERE id_artista = 1 FOR UPDATE WAIT 10;
 SELECT * FROM artista WHERE id_artista = 1 FOR UPDATE NOWAIT;
 ```
 
+**Tipos principais de locks:**
+
+**1. Shared Lock (S-Lock) - Bloqueio Compartilhado:**
+- **Uso**: Durante SELECT (em alguns níveis de isolamento)
+- **Permite**: Múltiplas transações ler simultaneamente
+- **Bloqueia**: Escritas (UPDATE/DELETE) até lock ser liberado
+- **Sintaxe**: `SELECT ... FOR SHARE` ou `SELECT ... LOCK IN SHARE MODE`
+
+```sql
+-- Múltiplas sessões podem ter S-Lock simultaneamente
+-- Sessão A:
+SELECT * FROM artista WHERE id = 1 FOR SHARE;  -- S-Lock
+
+-- Sessão B:
+SELECT * FROM artista WHERE id = 1 FOR SHARE;  -- OK! Também S-Lock
+
+-- Sessão C:
+UPDATE artista SET nome = 'X' WHERE id = 1;  -- ESPERA! Não pode modificar
+```
+
+**2. Exclusive Lock (X-Lock) - Bloqueio Exclusivo:**
+- **Uso**: Durante UPDATE, DELETE, INSERT
+- **Permite**: Apenas uma transação modificar
+- **Bloqueia**: Outras leituras e escritas
+- **Sintaxe**: `SELECT ... FOR UPDATE` ou automático em DML
+
+```sql
+-- Apenas uma sessão pode ter X-Lock
+-- Sessão A:
+SELECT * FROM artista WHERE id = 1 FOR UPDATE;  -- X-Lock
+
+-- Sessão B:
+SELECT * FROM artista WHERE id = 1 FOR UPDATE;  -- ESPERA!
+SELECT * FROM artista WHERE id = 1 FOR SHARE;   -- ESPERA!
+SELECT * FROM artista WHERE id = 1;             -- Depende do isolamento
+```
+
+**3. FOR UPDATE - Lock Explícito:**
+```sql
+-- Bloquear para atualização posterior
+SELECT * FROM conta WHERE id = 123 FOR UPDATE;
+-- Outros users não podem modificar ou bloquear esta linha
+-- até você fazer COMMIT ou ROLLBACK
+
+UPDATE conta SET saldo = saldo - 100 WHERE id = 123;
+COMMIT;  -- Libera o lock
+```
+
+**4. FOR UPDATE NOWAIT - Não Esperar:**
+```sql
+-- Tenta bloquear, mas não espera se já estiver bloqueado
+SELECT * FROM artista WHERE id = 1 FOR UPDATE NOWAIT;
+-- Se já bloqueado: retorna erro imediatamente
+-- Útil para: interfaces que não podem "travar"
+```
+
+**5. FOR UPDATE WAIT n - Esperar com Timeout:**
+```sql
+-- Espera até 10 segundos pelo lock
+SELECT * FROM artista WHERE id = 1 FOR UPDATE WAIT 10;
+-- Se não conseguir em 10s: retorna erro
+-- Útil para: evitar esperas infinitas
+```
+
+**Por que usar locks explícitos:**
+- **Consistência de Leitura**: Garantir que dados não mudem entre SELECT e UPDATE
+- **Operações Atômicas**: Ler, processar e atualizar atomicamente
+- **Evitar Lost Updates**: Duas transações não sobrescrevem mudanças uma da outra
+
+**Exemplo - Evitar Lost Update:**
+```sql
+-- PROBLEMA (sem lock):
+-- Sessão A: SELECT saldo FROM conta WHERE id = 1;  → 1000
+-- Sessão B: SELECT saldo FROM conta WHERE id = 1;  → 1000
+-- Sessão A: UPDATE conta SET saldo = 1000 - 100;   → 900
+-- Sessão B: UPDATE conta SET saldo = 1000 - 50;    → 950 (perdeu update de A!)
+
+-- SOLUÇÃO (com lock):
+-- Sessão A: SELECT saldo FROM conta WHERE id = 1 FOR UPDATE;  → 1000, bloqueado
+-- Sessão B: SELECT saldo FROM conta WHERE id = 1 FOR UPDATE;  → ESPERA...
+-- Sessão A: UPDATE conta SET saldo = 1000 - 100; COMMIT;       → 900, libera lock
+-- Sessão B: (agora consegue lock) SELECT retorna → 900
+-- Sessão B: UPDATE conta SET saldo = 900 - 50; COMMIT;         → 850 (correto!)
+```
+
 #### 9.2 Detecção de Deadlocks
+
 ```sql
 -- Monitorar locks ativos
 SELECT 
@@ -1914,6 +2633,124 @@ SELECT
 FROM v$locked_object l
 JOIN dba_objects o ON l.object_id = o.object_id
 JOIN v$session s ON l.session_id = s.sid;
+```
+
+**O que é Deadlock:**
+Deadlock ocorre quando duas ou mais transações esperam eternamente uma pela outra, criando um ciclo de espera sem solução.
+
+**Exemplo clássico de deadlock:**
+```sql
+-- Sessão A:
+UPDATE artista SET nome = 'X' WHERE id = 1;  -- Lock em artista.id=1
+-- Agora quer:
+UPDATE album SET titulo = 'Y' WHERE id = 1;  -- ESPERA lock em album.id=1
+
+-- Sessão B (executando ao mesmo tempo):
+UPDATE album SET titulo = 'Z' WHERE id = 1;  -- Lock em album.id=1
+-- Agora quer:
+UPDATE artista SET nome = 'W' WHERE id = 1;  -- ESPERA lock em artista.id=1
+
+-- DEADLOCK! A espera B, B espera A → ciclo infinito
+```
+
+**Como funciona a detecção:**
+- SGBD monitora grafos de espera de transações
+- Periodicamente verifica se há ciclos
+- Quando detecta deadlock, escolhe uma "vítima" para abortar
+- Vítima recebe erro de deadlock e faz ROLLBACK automático
+- Outra transação pode prosseguir
+
+**Como prevenir deadlocks:**
+
+**1. Ordem Consistente de Acesso:**
+```sql
+-- RUIM: Ordens diferentes
+-- Transação A: UPDATE tabela1, depois tabela2
+-- Transação B: UPDATE tabela2, depois tabela1
+-- Pode causar deadlock!
+
+-- BOM: Mesma ordem sempre
+-- Todas transações: UPDATE tabela1 primeiro, depois tabela2
+-- Nunca deadlock!
+```
+
+**2. Transações Curtas:**
+```sql
+-- RUIM: Transação longa
+BEGIN;
+UPDATE artista ...;
+-- processamento demorado, cálculos...
+-- SLEEP(60);  -- 60 segundos!
+UPDATE album ...;
+COMMIT;
+
+-- BOM: Transação rápida
+-- Fazer processamento FORA da transação
+calcular_valores();  -- Fora
+BEGIN;
+UPDATE artista ...;
+UPDATE album ...;
+COMMIT;  -- Rápido!
+```
+
+**3. Lock Explícito com Ordem:**
+```sql
+-- Bloquear tudo que precisa logo no início
+BEGIN;
+SELECT * FROM artista WHERE id IN (1,2,3) FOR UPDATE;
+SELECT * FROM album WHERE id IN (10,20) FOR UPDATE;
+-- Agora pode UPDATE sem risco de deadlock
+UPDATE artista...;
+UPDATE album...;
+COMMIT;
+```
+
+**4. Usar NOWAIT ou WAIT com timeout:**
+```sql
+BEGIN
+    -- Tenta bloquear sem esperar
+    SELECT * FROM artista WHERE id = 1 FOR UPDATE NOWAIT;
+EXCEPTION
+    WHEN resource_busy THEN
+        -- Não conseguiu lock, tenta depois
+        ROLLBACK;
+        RAISE_APPLICATION_ERROR(-20001, 'Recurso ocupado, tente novamente');
+END;
+```
+
+**Tratando deadlocks na aplicação:**
+```sql
+-- Pseudocódigo
+max_tentativas = 3;
+tentativa = 0;
+
+WHILE tentativa < max_tentativas LOOP
+    BEGIN
+        -- Tenta executar transação
+        BEGIN TRANSACTION;
+        UPDATE ...;
+        COMMIT;
+        EXIT;  -- Sucesso, sai do loop
+    EXCEPTION
+        WHEN deadlock_detected THEN
+            tentativa++;
+            ROLLBACK;
+            SLEEP(RANDOM(1,5));  -- Espera tempo aleatório
+            -- Tenta novamente
+    END;
+END LOOP;
+```
+
+**Monitoramento de deadlocks (Oracle):**
+```sql
+-- Ver deadlocks recentes
+SELECT * FROM V$DEADLOCK;
+
+-- Alertas no arquivo trace
+-- Oracle grava detalhes de deadlock em arquivos trace
+
+-- Configurar detecção
+ALTER SYSTEM SET ddl_lock_timeout = 30;  -- Timeout de 30s
 ```
 
 ### PARTE 3: CRIAÇÃO DE RELATÓRIOS AVANÇADOS
