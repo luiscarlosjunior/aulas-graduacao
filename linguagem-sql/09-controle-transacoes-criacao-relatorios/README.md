@@ -2755,9 +2755,26 @@ ALTER SYSTEM SET ddl_lock_timeout = 30;  -- Timeout de 30s
 
 ### PARTE 3: CRIAÇÃO DE RELATÓRIOS AVANÇADOS
 
+Relatórios são a principal forma de apresentar informações do banco de dados de maneira organizada e compreensível. Esta seção ensina como criar relatórios profissionais usando SQL.
+
+**O que são Relatórios SQL:**
+- Consultas SELECT formatadas e organizadas para apresentação
+- Agregações, totalizações e resumos de dados
+- Informações estruturadas para tomada de decisão
+- Base para dashboards, gráficos e análises
+
+**Por que aprender criação de relatórios:**
+- **Comunicação**: Traduzir dados brutos em informações úteis
+- **Análise**: Identificar padrões, tendências e insights
+- **Monitoramento**: Acompanhar KPIs e métricas de negócio
+- **Decisão**: Fornecer dados para decisões estratégicas
+
 ### 10. Criação de Relatórios Básicos
 
+Relatórios básicos combinam SELECT, agregações (COUNT, SUM, AVG) e agrupamentos (GROUP BY) para resumir grandes volumes de dados em informações compreensíveis.
+
 #### 10.1 Relatório de Artistas por País
+
 ```sql
 -- Relatório básico formatado
 SELECT 
@@ -2771,7 +2788,72 @@ GROUP BY pais_origem
 ORDER BY COUNT(*) DESC;
 ```
 
+**Como funciona:**
+- **GROUP BY pais_origem**: Agrupa todos artistas do mesmo país
+- **COUNT(*)**: Conta total de artistas em cada grupo (país)
+- **COUNT(CASE...)**: Conta condicionalmente (apenas ativos ou inativos)
+- **ORDER BY COUNT(*) DESC**: Países com mais artistas aparecem primeiro
+- **WHERE IS NOT NULL**: Exclui artistas sem país definido
+
+**Por que usar este formato:**
+- **Agregação**: Resumir muitos registros em poucos
+- **Comparação**: Fácil ver quais países têm mais artistas
+- **Categorização**: Dividir em ativos/inativos mostra status
+- **Organização**: Ordem decrescente destaca principais países
+
+**Funções de agregação usadas:**
+
+**COUNT(*)** - Conta todas as linhas:
+```sql
+SELECT pais_origem, COUNT(*) as total
+FROM artista
+GROUP BY pais_origem;
+-- Retorna quantidade de artistas por país
+```
+
+**COUNT(CASE WHEN ... THEN 1 END)** - Conta condicional:
+```sql
+COUNT(CASE WHEN ativo = 'S' THEN 1 END)
+-- Conta apenas quando condição é verdadeira
+-- Equivale a COUNT com filtro
+```
+
+**Exemplo de resultado:**
+```
+País        | Total Artistas | Ativos | Inativos
+------------|----------------|--------|----------
+Brasil      | 150            | 120    | 30
+EUA         | 200            | 180    | 20
+Inglaterra  | 100            | 85     | 15
+```
+
+**Variações úteis:**
+
+**Com percentual:**
+```sql
+SELECT 
+    pais_origem as "País",
+    COUNT(*) as "Total",
+    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(), 2) as "Percentual(%)"
+FROM artista
+WHERE pais_origem IS NOT NULL
+GROUP BY pais_origem
+ORDER BY COUNT(*) DESC;
+```
+
+**Com filtro de mínimo:**
+```sql
+-- Apenas países com 10+ artistas
+SELECT pais_origem, COUNT(*) as total
+FROM artista
+WHERE pais_origem IS NOT NULL
+GROUP BY pais_origem
+HAVING COUNT(*) >= 10
+ORDER BY total DESC;
+```
+
 #### 10.2 Relatório de Albums por Década
+
 ```sql
 -- Relatório com agrupamento por década
 SELECT 
@@ -2803,7 +2885,72 @@ GROUP BY
 ORDER BY "Década";
 ```
 
+**Como funciona:**
+- **CASE WHEN**: Transforma anos em décadas (categorizando valores numéricos)
+- **GROUP BY CASE**: Agrupa por resultado do CASE (década)
+- **COUNT(*)**: Conta álbuns em cada década
+- **AVG(numero_faixas)**: Calcula média de faixas por álbum na década
+- **ROUND(..., 1)**: Arredonda média para 1 casa decimal
+
+**Por que usar CASE para agrupamento:**
+- **Categorização**: Transforma valores contínuos em categorias
+- **Flexibilidade**: Define categorias customizadas (décadas, faixas de preço, etc.)
+- **Legibilidade**: Resultado mais compreensível que anos individuais
+- **Análise**: Identifica tendências ao longo do tempo
+
+**Técnica: Categorização com CASE:**
+```sql
+-- Categorizar em faixas
+CASE
+    WHEN valor < 10 THEN 'Baixo'
+    WHEN valor BETWEEN 10 AND 50 THEN 'Médio'
+    WHEN valor > 50 THEN 'Alto'
+    ELSE 'Não definido'
+END
+```
+
+**Exemplo de resultado:**
+```
+Década | Total Álbuns | Média Faixas
+-------|--------------|-------------
+1960s  | 120          | 12.3
+1970s  | 250          | 10.8
+1980s  | 340          | 11.5
+1990s  | 450          | 13.2
+2000s  | 520          | 14.1
+2010s  | 480          | 12.9
+2020s  | 150          | 11.7
+```
+
+**Variação: usando FLOOR para década:**
+```sql
+-- Alternativa mais simples (mas menos legível)
+SELECT 
+    FLOOR(ano_lancamento / 10) * 10 || 's' as "Década",
+    COUNT(*) as "Total"
+FROM album
+WHERE ano_lancamento IS NOT NULL
+GROUP BY FLOOR(ano_lancamento / 10)
+ORDER BY FLOOR(ano_lancamento / 10);
+-- 1960 → 196 → 1960
+-- 1975 → 197 → 1970
+```
+
+**Outras agregações úteis:**
+```sql
+SELECT 
+    ... as "Década",
+    COUNT(*) as "Total",
+    AVG(numero_faixas) as "Média Faixas",
+    MIN(numero_faixas) as "Mínimo Faixas",
+    MAX(numero_faixas) as "Máximo Faixas",
+    SUM(numero_faixas) as "Total Faixas"
+FROM album
+GROUP BY ...
+```
+
 #### 10.3 Relatório de Top Músicas por Gênero
+
 ```sql
 -- Relatório com ranking
 SELECT 
@@ -2822,9 +2969,83 @@ HAVING COUNT(hr.id_historico) > 0
 ORDER BY g.nome_genero, "Reproduções" DESC;
 ```
 
+**Como funciona:**
+- **Multiple JOINs**: Combina dados de 5 tabelas relacionadas
+- **COUNT(hr.id_historico)**: Conta reproduções de cada música
+- **RANK() OVER**: Função analítica que cria ranking dentro de cada gênero
+- **PARTITION BY g.nome_genero**: Reinicia ranking para cada gênero
+- **ORDER BY COUNT(...) DESC**: Ordem do ranking (mais reproduções = rank 1)
+- **HAVING COUNT(...) > 0**: Apenas músicas com pelo menos 1 reprodução
+
+**Por que usar RANK():**
+- **Rankings**: Criar top N dentro de categorias
+- **Comparação**: Ver posição relativa dentro do grupo
+- **Análise**: Identificar melhores/piores de cada categoria
+- **Flexibilidade**: Pode fazer top 10 de cada gênero em uma query
+
+**Funções de janela (Window Functions):**
+
+**RANK()** - Ranking com gaps:
+```sql
+RANK() OVER (ORDER BY reproducoes DESC)
+-- 1, 2, 2, 4, 5 (empate em 2º, próximo é 4º)
+```
+
+**DENSE_RANK()** - Ranking sem gaps:
+```sql
+DENSE_RANK() OVER (ORDER BY reproducoes DESC)
+-- 1, 2, 2, 3, 4 (empate em 2º, próximo é 3º)
+```
+
+**ROW_NUMBER()** - Número sequencial único:
+```sql
+ROW_NUMBER() OVER (ORDER BY reproducoes DESC)
+-- 1, 2, 3, 4, 5 (sem empates, ordem arbitrária para empates)
+```
+
+**PARTITION BY** - Reinicia contagem por grupo:
+```sql
+RANK() OVER (PARTITION BY genero ORDER BY reproducoes DESC)
+-- Rank 1, 2, 3... para cada gênero separadamente
+```
+
+**Exemplo de resultado:**
+```
+Gênero | Música        | Artista    | Reproduções | Rank
+-------|---------------|------------|-------------|-----
+Rock   | Imagine       | John Lennon| 1500        | 1
+Rock   | Hey Jude      | Beatles    | 1400        | 2
+Rock   | Bohemian Rhap | Queen      | 1300        | 3
+Pop    | Thriller      | MJ         | 2000        | 1
+Pop    | Billie Jean   | MJ         | 1800        | 2
+```
+
+**Filtrar apenas Top N:**
+```sql
+-- Usar subquery ou CTE para filtrar por rank
+WITH RankedSongs AS (
+    SELECT 
+        g.nome_genero,
+        m.titulo,
+        COUNT(hr.id_historico) as reproducoes,
+        RANK() OVER (PARTITION BY g.nome_genero 
+                     ORDER BY COUNT(hr.id_historico) DESC) as rank
+    FROM genero g
+    JOIN musica m ON g.id_genero = m.id_genero
+    LEFT JOIN historico_reproducao hr ON m.id_musica = hr.id_musica
+    GROUP BY g.nome_genero, m.titulo, m.id_musica
+)
+SELECT *
+FROM RankedSongs
+WHERE rank <= 10;  -- Top 10 de cada gênero
+```
+
 ### 11. Formatação de Relatórios
 
+A formatação adequada torna relatórios mais legíveis e profissionais, especialmente quando executados em ferramentas de linha de comando como SQL*Plus.
+
 #### 11.1 Configuração de Formato
+
 ```sql
 -- Configurar formato da página
 SET PAGESIZE 50;
@@ -2838,7 +3059,82 @@ COLUMN total_albums FORMAT 999,999 HEADING 'Total|Álbuns';
 COLUMN media_duracao FORMAT 99.99 HEADING 'Duração|Média(min)';
 ```
 
+**Comandos de formatação:**
+
+**SET PAGESIZE n** - Linhas por página:
+- Define quantas linhas antes de repetir cabeçalho
+- `SET PAGESIZE 50` = cabeçalho a cada 50 linhas
+- `SET PAGESIZE 0` = sem quebra de página
+- **Por que usar**: Relatórios longos ficam mais legíveis
+
+**SET LINESIZE n** - Largura da linha:
+- Define largura máxima da linha (caracteres)
+- `SET LINESIZE 120` = linhas com até 120 caracteres
+- **Por que usar**: Evita quebra de linhas no meio
+
+**SET FEEDBACK OFF/ON** - Mensagem "N rows selected":
+- OFF: Esconde mensagem de linhas retornadas
+- ON: Mostra mensagem (padrão)
+- **Por que usar OFF**: Relatórios mais limpos
+
+**SET HEADING OFF/ON** - Cabeçalhos de coluna:
+- OFF: Esconde nomes de colunas
+- ON: Mostra nomes (padrão)
+- **Por que usar OFF**: Exportar apenas dados
+
+**COLUMN** - Formatação de coluna específica:
+
+**FORMAT A30** - String com 30 caracteres:
+```sql
+COLUMN nome FORMAT A30;  -- Nome ocupará 30 caracteres
+```
+
+**FORMAT 999,999** - Número com separador de milhar:
+```sql
+COLUMN salario FORMAT 999,999.99;  -- Ex: 12,345.67
+```
+
+**HEADING** - Título customizado:
+```sql
+COLUMN total HEADING 'Total de|Registros';  -- | cria quebra de linha no título
+```
+
+**Outros formatos numéricos:**
+```sql
+COLUMN valor FORMAT 999999999;     -- 9 dígitos, sem formatação
+COLUMN preco FORMAT $999,999.99;   -- Com símbolo de moeda
+COLUMN percent FORMAT 999.99;      -- Decimais
+```
+
+**Exemplo prático:**
+```sql
+-- Configuração completa de relatório
+SET PAGESIZE 60;
+SET LINESIZE 150;
+SET FEEDBACK OFF;
+
+COLUMN artista FORMAT A25 HEADING 'Artista';
+COLUMN albums FORMAT 999 HEADING 'Qtd|Álbuns';
+COLUMN musicas FORMAT 9,999 HEADING 'Total|Músicas';
+COLUMN duracao FORMAT 9,999.9 HEADING 'Duração|Média';
+
+SELECT 
+    a.nome_artista as artista,
+    COUNT(DISTINCT al.id_album) as albums,
+    COUNT(m.id_musica) as musicas,
+    AVG(m.duracao/60.0) as duracao
+FROM artista a
+LEFT JOIN album al ON a.id_artista = al.id_artista
+LEFT JOIN musica m ON al.id_album = m.id_album
+GROUP BY a.nome_artista
+ORDER BY albums DESC;
+
+-- Limpar formatação
+CLEAR COLUMNS;
+```
+
 #### 11.2 Relatório com Formatação Avançada
+
 ```sql
 -- Relatório bem formatado
 SET PAGESIZE 60;
@@ -2875,9 +3171,124 @@ TTITLE OFF;
 BTITLE OFF;
 ```
 
+**Comandos avançados de formatação:**
+
+**TTITLE** - Título no topo da página:
+```sql
+TTITLE CENTER 'RELATÓRIO DE VENDAS' SKIP 2;
+-- CENTER: centralizado
+-- LEFT/RIGHT: alinhamento
+-- SKIP 2: pula 2 linhas após título
+```
+
+**BTITLE** - Título no rodapé da página:
+```sql
+BTITLE LEFT 'Confidencial' CENTER 'Página: SQL.PNO' RIGHT '&_DATE';
+-- Pode combinar múltiplos elementos
+-- SQL.PNO: número da página
+-- &_DATE: data atual
+```
+
+**BREAK ON** - Quebras e subtotais:
+```sql
+BREAK ON pais_origem SKIP 1 ON REPORT;
+-- SKIP 1: pula linha quando país muda
+-- ON REPORT: adiciona linha de total no final
+```
+
+**COMPUTE** - Cálculos em quebras:
+```sql
+COMPUTE SUM OF salario ON pais_origem;
+COMPUTE SUM OF salario ON REPORT;
+-- Soma salários por país e total geral
+```
+
+**Exemplo com quebras e subtotais:**
+```sql
+SET PAGESIZE 60;
+SET LINESIZE 100;
+
+COLUMN pais FORMAT A15 HEADING 'País';
+COLUMN artista FORMAT A25 HEADING 'Artista';
+COLUMN albums FORMAT 999 HEADING 'Álbuns';
+
+BREAK ON pais SKIP 1 ON REPORT;
+COMPUTE SUM OF albums ON pais;
+COMPUTE SUM OF albums ON REPORT;
+
+SELECT 
+    a.pais_origem as pais,
+    a.nome_artista as artista,
+    COUNT(al.id_album) as albums
+FROM artista a
+LEFT JOIN album al ON a.id_artista = al.id_artista
+WHERE a.pais_origem IS NOT NULL
+GROUP BY a.pais_origem, a.nome_artista
+ORDER BY a.pais_origem, albums DESC;
+
+CLEAR BREAKS;
+CLEAR COMPUTES;
+```
+
+**Resultado esperado:**
+```
+País           Artista                   Álbuns
+------------   ------------------------- ------
+Brasil         Roberto Carlos                 45
+Brasil         Caetano Veloso                 38
+Brasil         Gilberto Gil                   32
+               ******                        ---
+               sum                           115
+
+EUA            Michael Jackson                15
+EUA            Madonna                        13
+               ******                        ---
+               sum                            28
+
+                                          =====
+                                   sum        143
+```
+
+**Formatação de datas:**
+```sql
+COLUMN data FORMAT A12;
+SELECT TO_CHAR(data_cadastro, 'DD/MM/YYYY') as data FROM usuario;
+```
+
+**Formatação condicional (usando CASE):**
+```sql
+SELECT 
+    nome,
+    salario,
+    CASE 
+        WHEN salario < 3000 THEN 'BAIXO'
+        WHEN salario BETWEEN 3000 AND 7000 THEN 'MÉDIO'
+        ELSE 'ALTO'
+    END as faixa_salarial
+FROM funcionarios;
+```
+
+**Limpar formatação:**
+```sql
+CLEAR COLUMNS;   -- Limpa todas formatações de COLUMN
+CLEAR BREAKS;    -- Limpa todas quebras
+CLEAR COMPUTES;  -- Limpa todos cálculos
+TTITLE OFF;      -- Desliga título superior
+BTITLE OFF;      -- Desliga título inferior
+```
+
 ### 12. Transações em Cenários Práticos
 
+Esta seção demonstra como aplicar transações em situações do mundo real, combinando todos os conceitos aprendidos para resolver problemas comuns de sistemas de informação.
+
+**Por que cenários práticos são importantes:**
+- **Aplicação Real**: Mostra como usar conceitos em situações reais
+- **Boas Práticas**: Demonstra padrões de código profissional
+- **Tratamento de Erros**: Ensina como lidar com falhas adequadamente
+- **Atomicidade**: Garante consistência em operações complexas
+
 #### 12.1 Transferência de Playlist
+
 ```sql
 -- Transação para transferir músicas entre playlists
 SAVEPOINT inicio_transferencia;
@@ -2902,7 +3313,98 @@ ELSE
 END IF;
 ```
 
+**Como funciona:**
+1. **SAVEPOINT**: Marca ponto de restauração antes de iniciar operações
+2. **DELETE**: Remove músicas da playlist origem
+3. **SQL%ROWCOUNT**: Verifica quantas linhas foram afetadas
+4. **Validação**: Se nenhuma linha deletada, algo está errado
+5. **ROLLBACK TO**: Em caso de erro, volta ao savepoint
+6. **INSERT**: Se DELETE ok, insere na playlist destino
+7. **COMMIT**: Confirma ambas operações atomicamente
+
+**Por que esta abordagem:**
+- **Atomicidade**: Ou transfere tudo ou não transfere nada
+- **Validação**: Verifica sucesso antes de prosseguir
+- **Rollback Parcial**: SAVEPOINT permite desfazer apenas esta operação
+- **Feedback**: Mensagens informam o que aconteceu
+
+**Versão melhorada com tratamento de exceções:**
+```sql
+CREATE OR REPLACE PROCEDURE transferir_musicas(
+    p_playlist_origem NUMBER,
+    p_playlist_destino NUMBER,
+    p_musicas VARCHAR2  -- IDs separados por vírgula: '1,2,3'
+) AS
+    v_count NUMBER;
+    v_max_ordem NUMBER;
+BEGIN
+    SAVEPOINT inicio_transferencia;
+    
+    -- Validar playlists existem
+    SELECT COUNT(*) INTO v_count 
+    FROM playlist 
+    WHERE id_playlist IN (p_playlist_origem, p_playlist_destino);
+    
+    IF v_count < 2 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Playlist origem ou destino não existe');
+    END IF;
+    
+    -- Obter próxima ordem da playlist destino
+    SELECT NVL(MAX(ordem_reproducao), 0) INTO v_max_ordem
+    FROM playlist_musica
+    WHERE id_playlist = p_playlist_destino;
+    
+    -- Remover da origem
+    DELETE FROM playlist_musica
+    WHERE id_playlist = p_playlist_origem
+    AND id_musica IN (SELECT REGEXP_SUBSTR(p_musicas, '[^,]+', 1, LEVEL)
+                      FROM dual
+                      CONNECT BY LEVEL <= REGEXP_COUNT(p_musicas, ',') + 1);
+    
+    v_count := SQL%ROWCOUNT;
+    
+    IF v_count = 0 THEN
+        ROLLBACK TO inicio_transferencia;
+        RAISE_APPLICATION_ERROR(-20002, 'Nenhuma música encontrada na playlist origem');
+    END IF;
+    
+    -- Adicionar ao destino
+    INSERT INTO playlist_musica (id_playlist, id_musica, ordem_reproducao)
+    SELECT 
+        p_playlist_destino,
+        REGEXP_SUBSTR(p_musicas, '[^,]+', 1, LEVEL),
+        v_max_ordem + LEVEL
+    FROM dual
+    CONNECT BY LEVEL <= REGEXP_COUNT(p_musicas, ',') + 1;
+    
+    -- Atualizar contadores
+    UPDATE playlist 
+    SET numero_musicas = (SELECT COUNT(*) FROM playlist_musica WHERE id_playlist = p_playlist_origem)
+    WHERE id_playlist = p_playlist_origem;
+    
+    UPDATE playlist 
+    SET numero_musicas = (SELECT COUNT(*) FROM playlist_musica WHERE id_playlist = p_playlist_destino)
+    WHERE id_playlist = p_playlist_destino;
+    
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('Transferência de ' || v_count || ' música(s) concluída');
+    
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK TO inicio_transferencia;
+        RAISE_APPLICATION_ERROR(-20003, 'Erro na transferência: ' || SQLERRM);
+END;
+/
+```
+
+**Uso:**
+```sql
+-- Transferir músicas 1, 2 e 3 da playlist 10 para playlist 20
+EXEC transferir_musicas(10, 20, '1,2,3');
+```
+
 #### 12.2 Atualização de Estatísticas Consistente
+
 ```sql
 -- Atualizar estatísticas de forma atômica
 BEGIN
@@ -2934,6 +3436,218 @@ BEGIN
 END;
 /
 ```
+
+**Como funciona:**
+1. **UPDATE com subconsulta**: Calcula valores agregados e atualiza em uma operação
+2. **Múltiplos UPDATEs**: Atualiza diferentes tabelas relacionadas
+3. **Atomicidade**: Todas estatísticas atualizam juntas ou nenhuma atualiza
+4. **SQL%ROWCOUNT**: Verifica se operações foram bem-sucedidas
+5. **COMMIT/ROLLBACK**: Confirma ou desfaz baseado em sucesso
+
+**Por que esta abordagem:**
+- **Consistência**: Todas estatísticas ficam sincronizadas
+- **Performance**: UPDATE com subconsulta é mais rápido que loops
+- **Transacional**: Garante que estado do banco fica consistente
+- **Manutenibilidade**: Fácil adicionar novas estatísticas
+
+**Versão com tratamento robusto:**
+```sql
+CREATE OR REPLACE PROCEDURE atualizar_estatisticas AS
+    v_usuarios_atualizados NUMBER := 0;
+    v_playlists_atualizadas NUMBER := 0;
+    v_erro VARCHAR2(4000);
+BEGIN
+    -- Atualizar estatísticas de usuários
+    BEGIN
+        UPDATE usuario u
+        SET total_reproducoes = (
+            SELECT COUNT(*) 
+            FROM historico_reproducao hr 
+            WHERE hr.id_usuario = u.id_usuario
+        ),
+        ultima_reproducao = (
+            SELECT MAX(data_reproducao) 
+            FROM historico_reproducao hr 
+            WHERE hr.id_usuario = u.id_usuario
+        );
+        
+        v_usuarios_atualizados := SQL%ROWCOUNT;
+        
+    EXCEPTION
+        WHEN OTHERS THEN
+            v_erro := 'Erro ao atualizar usuários: ' || SQLERRM;
+            RAISE;
+    END;
+    
+    -- Atualizar estatísticas de playlists
+    BEGIN
+        UPDATE playlist p
+        SET numero_musicas = (
+            SELECT COUNT(*) 
+            FROM playlist_musica pm 
+            WHERE pm.id_playlist = p.id_playlist
+        ),
+        duracao_total = (
+            SELECT NVL(SUM(m.duracao), 0)
+            FROM playlist_musica pm
+            JOIN musica m ON pm.id_musica = m.id_musica
+            WHERE pm.id_playlist = p.id_playlist
+        );
+        
+        v_playlists_atualizadas := SQL%ROWCOUNT;
+        
+    EXCEPTION
+        WHEN OTHERS THEN
+            v_erro := 'Erro ao atualizar playlists: ' || SQLERRM;
+            RAISE;
+    END;
+    
+    -- Atualizar estatísticas de artistas (popularidade)
+    UPDATE artista a
+    SET popularidade = (
+        SELECT COUNT(DISTINCT hr.id_usuario)
+        FROM album al
+        JOIN musica m ON al.id_album = m.id_album
+        JOIN historico_reproducao hr ON m.id_musica = hr.id_musica
+        WHERE al.id_artista = a.id_artista
+    );
+    
+    COMMIT;
+    
+    DBMS_OUTPUT.PUT_LINE('Estatísticas atualizadas:');
+    DBMS_OUTPUT.PUT_LINE('- Usuários: ' || v_usuarios_atualizados);
+    DBMS_OUTPUT.PUT_LINE('- Playlists: ' || v_playlists_atualizadas);
+    
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+        RAISE_APPLICATION_ERROR(-20001, 
+            'Falha na atualização de estatísticas: ' || NVL(v_erro, SQLERRM));
+END;
+/
+```
+
+**Uso em job agendado:**
+```sql
+-- Agendar atualização diária às 2h da manhã
+BEGIN
+    DBMS_SCHEDULER.CREATE_JOB(
+        job_name        => 'ATUALIZAR_STATS_DIARIO',
+        job_type        => 'PLSQL_BLOCK',
+        job_action      => 'BEGIN atualizar_estatisticas; END;',
+        start_date      => SYSTIMESTAMP,
+        repeat_interval => 'FREQ=DAILY; BYHOUR=2',
+        enabled         => TRUE
+    );
+END;
+/
+```
+
+**Casos de uso adicionais:**
+
+**Importação de dados com validação:**
+```sql
+CREATE OR REPLACE PROCEDURE importar_artistas_lote(
+    p_lote_id NUMBER
+) AS
+    v_importados NUMBER := 0;
+    v_erros NUMBER := 0;
+BEGIN
+    SAVEPOINT inicio_importacao;
+    
+    -- Importar artistas validados
+    INSERT INTO artista (id_artista, nome_artista, pais_origem)
+    SELECT id, nome, pais
+    FROM artista_staging
+    WHERE lote_id = p_lote_id
+    AND nome IS NOT NULL
+    AND pais_origem IS NOT NULL;
+    
+    v_importados := SQL%ROWCOUNT;
+    
+    -- Marcar registros inválidos
+    UPDATE artista_staging
+    SET status = 'ERRO',
+        mensagem_erro = 'Dados incompletos'
+    WHERE lote_id = p_lote_id
+    AND (nome IS NULL OR pais_origem IS NULL);
+    
+    v_erros := SQL%ROWCOUNT;
+    
+    -- Só confirma se houver importados
+    IF v_importados > 0 THEN
+        COMMIT;
+        DBMS_OUTPUT.PUT_LINE('Importados: ' || v_importados || ', Erros: ' || v_erros);
+    ELSE
+        ROLLBACK TO inicio_importacao;
+        RAISE_APPLICATION_ERROR(-20001, 'Nenhum registro válido para importar');
+    END IF;
+    
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+        RAISE;
+END;
+/
+```
+
+**Reserva de recursos (padrão pessimista):**
+```sql
+CREATE OR REPLACE FUNCTION reservar_ingresso(
+    p_evento_id NUMBER,
+    p_usuario_id NUMBER,
+    p_quantidade NUMBER
+) RETURN NUMBER AS
+    v_disponiveis NUMBER;
+    v_reserva_id NUMBER;
+BEGIN
+    -- Bloquear linha para evitar venda simultânea
+    SELECT ingressos_disponiveis 
+    INTO v_disponiveis
+    FROM evento
+    WHERE id_evento = p_evento_id
+    FOR UPDATE NOWAIT;  -- Não espera se já bloqueado
+    
+    -- Verificar disponibilidade
+    IF v_disponiveis < p_quantidade THEN
+        ROLLBACK;
+        RETURN -1;  -- Sem ingressos suficientes
+    END IF;
+    
+    -- Reduzir disponíveis
+    UPDATE evento
+    SET ingressos_disponiveis = ingressos_disponiveis - p_quantidade
+    WHERE id_evento = p_evento_id;
+    
+    -- Criar reserva
+    INSERT INTO reserva (id_usuario, id_evento, quantidade)
+    VALUES (p_usuario_id, p_evento_id, p_quantidade)
+    RETURNING id_reserva INTO v_reserva_id;
+    
+    COMMIT;
+    RETURN v_reserva_id;
+    
+EXCEPTION
+    WHEN resource_busy THEN
+        -- Linha bloqueada por outro usuário
+        RETURN -2;
+    WHEN OTHERS THEN
+        ROLLBACK;
+        RETURN -3;
+END;
+/
+```
+
+**Boas práticas demonstradas:**
+
+1. **SAVEPOINTs**: Permitem rollback parcial em procedures complexas
+2. **Validação**: Sempre validar dados antes de modificar
+3. **Tratamento de Exceções**: Capturar e tratar erros apropriadamente
+4. **COMMIT/ROLLBACK**: Sempre finalizar transação explicitamente
+5. **SQL%ROWCOUNT**: Verificar resultado de DMLs
+6. **Mensagens**: Informar usuário sobre resultado das operações
+7. **FOR UPDATE**: Bloquear registros quando necessário
+8. **Atomicidade**: Operações relacionadas na mesma transação
 
 ## Exercícios Práticos
 
