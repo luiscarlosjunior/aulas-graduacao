@@ -620,9 +620,30 @@ FETCH FIRST 5 ROWS ONLY;    -- Pega 5 aleatórios
 
 ### 3. Consultas com Filtros (Cláusula WHERE)
 
-A cláusula WHERE permite filtrar registros baseado em condições específicas.
+A cláusula WHERE é uma das ferramentas mais poderosas do SQL, permitindo **filtrar registros** baseado em condições específicas. É essencial para trabalhar com grandes volumes de dados, retornando apenas as informações relevantes.
+
+**Por que WHERE é importante?**
+- **Performance**: Filtra dados no banco (mais rápido que filtrar na aplicação)
+- **Precisão**: Retorna exatamente os dados necessários
+- **Economia**: Reduz tráfego de rede e uso de memória
+- **Segurança**: Limita acesso a dados específicos
+
+**Como funciona:**
+- WHERE é executado **após FROM/JOIN** e **antes de GROUP BY**
+- Cada linha é avaliada individualmente
+- Apenas linhas onde a condição é TRUE são incluídas
+- Pode combinar múltiplas condições com AND, OR, NOT
+
+**Sintaxe:**
+```sql
+SELECT colunas
+FROM tabela
+WHERE condição;
+```
 
 #### 3.1 Operadores de Comparação
+
+Os operadores de comparação permitem testar valores de colunas contra valores específicos ou outras colunas.
 
 ```sql
 -- Igualdade (=)
@@ -656,7 +677,43 @@ FROM musica
 WHERE duracao <= 180; -- músicas com até 3 minutos
 ```
 
+**Como funcionam:**
+- `=` : Igualdade exata (case-sensitive para texto)
+- `<>` ou `!=` : Diferente de (ambas sintaxes funcionam igual)
+- `>` : Maior que (exclusivo - não inclui o valor)
+- `<` : Menor que (exclusivo - não inclui o valor)
+- `>=` : Maior ou igual (inclusivo - inclui o valor)
+- `<=` : Menor ou igual (inclusivo - inclui o valor)
+
+**Por que usar:**
+- **Filtros Numéricos**: Encontrar valores acima/abaixo de limites (preços, idades, quantidades)
+- **Filtros de Data**: Registros antes/depois de datas específicas
+- **Filtros de Texto**: Comparação exata de strings (menos comum que LIKE)
+- **Exclusão**: Remover valores específicos com `<>` ou `!=`
+
+**Comportamento com NULL:**
+```sql
+-- INCORRETO: Comparação com NULL sempre retorna NULL (nem TRUE nem FALSE)
+SELECT * FROM artista WHERE data_formacao = NULL;  -- Não retorna nada!
+
+-- CORRETO: Use IS NULL ou IS NOT NULL
+SELECT * FROM artista WHERE data_formacao IS NULL;  -- Funciona!
+```
+
+**Dicas de Performance:**
+- Filtros em colunas indexadas são muito mais rápidos
+- Evite aplicar funções na coluna do WHERE (quebra uso de índice)
+```sql
+-- Lento (não usa índice):
+WHERE UPPER(nome) = 'JOÃO'
+
+-- Rápido (usa índice):
+WHERE nome = 'João'  -- ou WHERE nome = UPPER('joão') se índice for case-insensitive
+```
+
 #### 3.2 Operadores Lógicos (AND, OR, NOT)
+
+Operadores lógicos permitem combinar múltiplas condições em um único filtro, criando critérios de seleção mais complexos e precisos.
 
 ```sql
 -- AND: Todas as condições devem ser verdadeiras
@@ -682,6 +739,68 @@ WHERE (ano_lancamento BETWEEN 2000 AND 2010)
   AND (numero_faixas > 10 OR numero_faixas < 5);
 ```
 
+**Como funcionam:**
+
+**AND** - Lógica de Conjunção:
+- Retorna TRUE apenas se TODAS as condições forem TRUE
+- Uso: Filtros restritivos (quanto mais AND, menos resultados)
+- Exemplo: "Artistas do Brasil AND formados depois de 2000"
+
+**OR** - Lógica de Disjunção:
+- Retorna TRUE se PELO MENOS UMA condição for TRUE
+- Uso: Filtros expansivos (quanto mais OR, mais resultados)
+- Exemplo: "Artistas do Brasil OR Portugal OR Argentina"
+
+**NOT** - Negação:
+- Inverte o resultado da condição
+- `NOT (condição)` é o oposto de `condição`
+- Exemplo: "NOT (pais = 'Brasil')" = "todos países exceto Brasil"
+
+**Por que usar:**
+- **Filtros Complexos**: Combinar múltiplos critérios
+- **Cenários Reais**: Requisitos de negócio raramente são simples
+- **Flexibilidade**: Criar filtros dinâmicos baseados em preferências do usuário
+- **Eficiência**: Uma query com múltiplas condições é melhor que várias queries simples
+
+**Precedência de Operadores:**
+```sql
+-- Sem parênteses: NOT > AND > OR
+-- Com parênteses: força ordem de avaliação
+
+-- AMBÍGUO (evitar):
+WHERE pais = 'Brasil' OR pais = 'Portugal' AND ativo = 'S'
+-- Interpretado como: pais = 'Brasil' OR (pais = 'Portugal' AND ativo = 'S')
+
+-- CLARO (usar parênteses):
+WHERE (pais = 'Brasil' OR pais = 'Portugal') AND ativo = 'S'
+-- Retorna artistas brasileiros OU portugueses que estejam ativos
+```
+
+**Tabela Verdade:**
+```
+A = TRUE, B = TRUE:   A AND B = TRUE,  A OR B = TRUE
+A = TRUE, B = FALSE:  A AND B = FALSE, A OR B = TRUE  
+A = FALSE, B = TRUE:  A AND B = FALSE, A OR B = TRUE
+A = FALSE, B = FALSE: A AND B = FALSE, A OR B = FALSE
+```
+
+**Exemplos práticos:**
+
+**Busca de álbuns específicos:**
+```sql
+-- Álbuns dos anos 2000 com muitas ou poucas faixas
+WHERE ano_lancamento BETWEEN 2000 AND 2010
+  AND (numero_faixas > 15 OR numero_faixas < 8);
+```
+
+**Filtro de múltiplos países exceto um:**
+```sql
+-- Artistas latinos exceto Brasil
+WHERE (pais_origem = 'Argentina' OR pais_origem = 'México')
+  AND NOT (pais_origem = 'Brasil');
+-- Ou simplesmente: WHERE pais_origem IN ('Argentina', 'México')
+```
+
 #### 3.3 Operador IN (Lista de Valores)
 
 ```sql
@@ -700,6 +819,57 @@ SELECT nome_artista, pais_origem
 FROM artista
 WHERE pais_origem NOT IN ('Brasil', 'Estados Unidos');
 ```
+
+**Como funciona:**
+- IN testa se um valor existe em uma lista de valores
+- Equivale a múltiplos OR: `WHERE x IN (1,2,3)` = `WHERE x = 1 OR x = 2 OR x = 3`
+- Mais legível e conciso que vários OR
+- Pode conter valores literais ou resultado de subconsulta
+
+**Por que usar:**
+- **Legibilidade**: Mais claro que múltiplos OR
+- **Manutenção**: Fácil adicionar/remover valores da lista
+- **Performance**: Em muitos bancos, IN é otimizado melhor que OR
+- **Listas Dinâmicas**: Pode usar subconsulta: `WHERE id IN (SELECT ...)`
+
+**IN vs OR:**
+```sql
+-- Com OR (verboso):
+WHERE pais = 'Brasil' OR pais = 'Portugal' OR pais = 'Argentina' OR pais = 'Chile'
+
+-- Com IN (conciso):
+WHERE pais IN ('Brasil', 'Portugal', 'Argentina', 'Chile')
+```
+
+**NOT IN - Cuidados:**
+```sql
+-- CUIDADO: NOT IN com NULL não funciona como esperado
+-- Se a lista contém NULL, NOT IN pode retornar resultado vazio
+
+-- Lista com NULL:
+WHERE id NOT IN (1, 2, NULL)  -- Pode não retornar nada!
+
+-- Solução: filtrar NULL ou usar NOT EXISTS
+WHERE id NOT IN (SELECT id FROM outra_tabela WHERE id IS NOT NULL)
+```
+
+**IN com Subconsulta:**
+```sql
+-- Artistas que têm álbuns
+SELECT nome_artista
+FROM artista
+WHERE id_artista IN (SELECT id_artista FROM album);
+
+-- Usuários que criaram playlists
+SELECT nome_usuario
+FROM usuario
+WHERE id_usuario IN (SELECT id_usuario FROM playlist);
+```
+
+**Performance:**
+- IN é eficiente para listas pequenas (< 1000 valores)
+- Para listas grandes, considere JOIN ou tabela temporária
+- Com subconsultas, o otimizador decide entre IN e EXISTS
 
 #### 3.4 Operador BETWEEN (Intervalo de Valores)
 
@@ -721,6 +891,65 @@ FROM usuario
 WHERE data_cadastro BETWEEN TO_DATE('2023-01-01', 'YYYY-MM-DD') 
                        AND TO_DATE('2023-12-31', 'YYYY-MM-DD');
 ```
+
+**Como funciona:**
+- BETWEEN testa se valor está em um intervalo **inclusivo** (inclui os extremos)
+- `WHERE x BETWEEN a AND b` é equivalente a `WHERE x >= a AND x <= b`
+- Funciona com números, datas, e até strings (ordem alfabética)
+- Sempre use valor menor primeiro, depois maior
+
+**Por que usar:**
+- **Legibilidade**: Mais claro que usar >= e <=
+- **Conciso**: Uma palavra ao invés de duas comparações
+- **Intenção Clara**: Deixa óbvio que você quer um intervalo
+- **Comum**: Intervalos são muito comuns (faixas de preço, períodos, idades)
+
+**BETWEEN é Inclusivo:**
+```sql
+-- BETWEEN inclui os valores dos extremos
+WHERE ano BETWEEN 2000 AND 2010
+-- Inclui álbuns de 2000 E de 2010
+
+-- Equivalente a:
+WHERE ano >= 2000 AND ano <= 2010
+```
+
+**BETWEEN com Datas (cuidado com horas):**
+```sql
+-- CUIDADO: Se data tem hora, BETWEEN pode não incluir último dia completo
+WHERE data_cadastro BETWEEN TO_DATE('2023-01-01', 'YYYY-MM-DD')
+                       AND TO_DATE('2023-12-31', 'YYYY-MM-DD')
+-- Se data_cadastro tem hora (timestamp), registros de 31/12/2023 23:59:59 são incluídos,
+-- mas isso funciona porque BETWEEN é inclusivo
+
+-- Alternativa mais segura para o dia seguinte:
+WHERE data_cadastro >= TO_DATE('2023-01-01', 'YYYY-MM-DD')
+  AND data_cadastro < TO_DATE('2024-01-01', 'YYYY-MM-DD')
+```
+
+**BETWEEN com Texto:**
+```sql
+-- Artistas cujo nome começa com A, B ou C
+SELECT nome_artista
+FROM artista
+WHERE nome_artista BETWEEN 'A' AND 'D'
+ORDER BY nome_artista;
+-- Retorna: 'Arctic Monkeys', 'Beatles', 'Coldplay' mas não 'David Bowie'
+```
+
+**NOT BETWEEN:**
+```sql
+-- Músicas muito curtas ou muito longas (exclui intervalo médio)
+SELECT titulo, duracao
+FROM musica
+WHERE duracao NOT BETWEEN 120 AND 300;
+-- Equivalente a: WHERE duracao < 120 OR duracao > 300
+```
+
+**Performance:**
+- BETWEEN pode usar índices eficientemente
+- Mais eficiente que OR em muitos casos
+- Em colunas indexadas, performance é excelente
 
 #### 3.5 Operador LIKE (Busca por Padrões)
 
@@ -751,6 +980,98 @@ FROM artista
 WHERE UPPER(nome_artista) LIKE '%ROCK%';
 ```
 
+**Como funciona:**
+- LIKE busca padrões em texto usando **curingas** (wildcards)
+- `%` = zero ou mais caracteres de qualquer tipo
+- `_` = exatamente um caractere de qualquer tipo
+- Case-sensitive na maioria dos bancos (incluindo Oracle)
+
+**Curingas:**
+- **`%`** - Representa qualquer sequência de caracteres (0 ou mais)
+  - `'The%'` = começa com "The": "The Beatles", "The Who", "The"
+  - `'%Band'` = termina com "Band": "Blues Band", "Band"
+  - `'%Rock%'` = contém "Rock": "Rock Band", "The Rockers", "Rock"
+  
+- **`_`** - Representa exatamente UM caractere
+  - `'B_nd'` = "Band", "Bind", "Bond" (mas não "Bound" - 5 letras)
+  - `'_____'` = exatamente 5 caracteres: "Blues", "Rock", etc.
+  - `'A__'` = começa com A + 2 caracteres: "ABC", "All"
+
+**Por que usar:**
+- **Buscas Parciais**: Encontrar registros sem saber texto completo
+- **Autocomplete**: Implementar sugestões enquanto usuário digita
+- **Filtros Flexíveis**: "Mostre artistas com 'rock' no nome"
+- **Validação**: Verificar padrões (ex: emails, telefones)
+
+**Padrões Comuns:**
+
+**Começa com:**
+```sql
+WHERE nome LIKE 'The%'  -- "The Beatles", "The Who"
+```
+
+**Termina com:**
+```sql
+WHERE nome LIKE '%Jr.'  -- "Robert Downey Jr.", "Jr."
+```
+
+**Contém:**
+```sql
+WHERE email LIKE '%@gmail.com'  -- Emails do Gmail
+WHERE titulo LIKE '%love%'       -- Músicas com "love" no título
+```
+
+**Comprimento Específico:**
+```sql
+WHERE codigo LIKE '___'    -- Códigos com exatamente 3 caracteres
+WHERE telefone LIKE '(__)_____-____'  -- Formato: (11)98765-4321
+```
+
+**Padrão com posição específica:**
+```sql
+WHERE placa LIKE '___-____'  -- ABC-1234 (3 letras, hífen, 4 números)
+```
+
+**Case-Insensitive:**
+```sql
+-- Oracle: usar UPPER() ou LOWER()
+WHERE UPPER(nome) LIKE UPPER('%rock%')  -- Encontra "Rock", "ROCK", "rock"
+
+-- Alguns bancos têm ILIKE:
+WHERE nome ILIKE '%rock%'  -- PostgreSQL
+```
+
+**Performance - CUIDADO:**
+```sql
+-- LENTO: % no início não pode usar índice
+WHERE nome LIKE '%Beatles'      -- Scans toda tabela
+WHERE nome LIKE '%Beatles%'     -- Scans toda tabela
+
+-- RÁPIDO: sem % no início pode usar índice
+WHERE nome LIKE 'Beatles%'      -- Usa índice
+WHERE nome LIKE 'The B%'        -- Usa índice
+
+-- SOLUÇÃO para busca full-text: índices especializados
+-- Oracle: índices CONTEXT, PostgreSQL: índices GIN, MySQL: FULLTEXT
+```
+
+**Escape de caracteres especiais:**
+```sql
+-- Se você quer buscar literal "%" ou "_"
+WHERE descricao LIKE '%100\%%' ESCAPE '\'  -- Encontra "100%"
+-- Neste exemplo, \% significa o caractere literal "%"
+```
+
+**LIKE vs =:**
+```sql
+-- = é exato e mais rápido
+WHERE nome = 'The Beatles'  -- Exatamente "The Beatles"
+
+-- LIKE é para padrões
+WHERE nome LIKE 'The Beatles'  -- Também exatamente, mas mais lento que =
+WHERE nome LIKE 'The%'  -- Padrão: começa com "The"
+```
+
 #### 3.6 Operador IS NULL / IS NOT NULL
 
 ```sql
@@ -771,9 +1092,132 @@ FROM album
 WHERE ano_lancamento IS NULL;
 ```
 
+**Como funciona:**
+- NULL representa **ausência de valor** (não é zero, não é string vazia)
+- IS NULL testa se valor está ausente/indefinido
+- IS NOT NULL testa se valor está presente/definido
+- NULL não pode ser comparado com = ou <> (sempre retorna NULL, não TRUE/FALSE)
+
+**Por que NULL é especial:**
+```sql
+-- INCORRETO: Não funciona!
+WHERE data_formacao = NULL   -- Sempre retorna nenhuma linha
+WHERE data_formacao <> NULL  -- Sempre retorna nenhuma linha
+
+-- CORRETO: Use IS NULL / IS NOT NULL
+WHERE data_formacao IS NULL
+WHERE data_formacao IS NOT NULL
+```
+
+**Por que usar:**
+- **Dados Incompletos**: Identificar registros com informações faltantes
+- **Validação**: Encontrar campos obrigatórios não preenchidos
+- **Limpeza de Dados**: Listar registros que precisam ser atualizados
+- **Regras de Negócio**: Diferentes comportamentos para valores definidos vs. indefinidos
+- **Reports**: Separar dados completos de incompletos
+
+**NULL em diferentes contextos:**
+
+**Encontrar dados faltantes:**
+```sql
+-- Artistas sem biografia
+SELECT nome_artista FROM artista WHERE biografia IS NULL;
+
+-- Usuários sem telefone
+SELECT nome_usuario FROM usuario WHERE telefone IS NULL;
+```
+
+**Filtrar dados completos:**
+```sql
+-- Apenas álbuns com ano de lançamento conhecido
+SELECT titulo, ano_lancamento
+FROM album
+WHERE ano_lancamento IS NOT NULL
+ORDER BY ano_lancamento DESC;
+```
+
+**Combinar com outros filtros:**
+```sql
+-- Artistas brasileiros sem data de formação
+SELECT nome_artista, pais_origem
+FROM artista
+WHERE pais_origem = 'Brasil' AND data_formacao IS NULL;
+```
+
+**Comportamento do NULL em operações:**
+```sql
+-- NULL em comparações retorna NULL (nem TRUE nem FALSE)
+NULL = NULL    --> NULL (não TRUE!)
+NULL <> NULL   --> NULL
+NULL > 10      --> NULL
+'ABC' = NULL   --> NULL
+
+-- NULL em lógica booleana
+TRUE AND NULL  --> NULL
+FALSE AND NULL --> FALSE
+TRUE OR NULL   --> TRUE
+FALSE OR NULL  --> NULL
+NOT NULL       --> NULL
+```
+
+**COALESCE - Substituir NULL:**
+```sql
+-- Mostrar valor padrão quando NULL
+SELECT 
+    nome_artista,
+    COALESCE(pais_origem, 'Desconhecido') as pais,
+    COALESCE(data_formacao, TO_DATE('1900-01-01', 'YYYY-MM-DD')) as data
+FROM artista;
+```
+
+**NVL (Oracle específico) - Substituir NULL:**
+```sql
+SELECT 
+    nome_artista,
+    NVL(pais_origem, 'Não informado') as pais
+FROM artista;
+```
+
+**Count e NULL:**
+```sql
+-- COUNT(*) conta todas as linhas
+SELECT COUNT(*) FROM artista;  -- Conta tudo, incluindo NULL
+
+-- COUNT(coluna) ignora NULL
+SELECT COUNT(data_formacao) FROM artista;  -- Conta apenas não-NULL
+
+-- COUNT(DISTINCT coluna) ignora NULL e duplicatas
+SELECT COUNT(DISTINCT pais_origem) FROM artista;  -- Países únicos, ignora NULL
+```
+
+**Performance:**
+- IS NULL pode usar índices parciais/específicos
+- IS NOT NULL normalmente faz full table scan (a menos que coluna seja NOT NULL)
+- Em tabelas grandes com muitos NULL, considere índices parciais
+
 ### 4. Consultas com JOINs (Múltiplas Tabelas)
 
-JOINs permitem combinar dados de duas ou mais tabelas baseado em relacionamentos entre elas.
+JOINs são uma das funcionalidades mais poderosas do SQL, permitindo **combinar dados de duas ou mais tabelas** baseado em relacionamentos entre elas. Em bancos de dados relacionais, informações geralmente estão distribuídas em várias tabelas, e JOINs permitem reuni-las de forma significativa.
+
+**Por que JOINs são fundamentais?**
+- **Normalização**: Bancos relacionais dividem dados em tabelas para evitar redundância
+- **Relacionamentos**: Dados do mundo real têm relacionamentos (artistas → álbuns → músicas)
+- **Consultas Complexas**: Relatórios precisam de dados de múltiplas fontes
+- **Integridade**: Evita duplicação e inconsistência de dados
+
+**Como JOINs funcionam:**
+- Combinam linhas de duas tabelas baseado em uma **condição de junção** (geralmente chaves)
+- Diferentes tipos de JOIN controlam quais linhas aparecem no resultado
+- São processados na fase FROM (antes de WHERE, GROUP BY, etc.)
+- Podem ser encadeados: tabela1 JOIN tabela2 JOIN tabela3...
+
+**Tipos principais de JOIN:**
+1. **INNER JOIN**: Apenas registros com correspondência em ambas as tabelas
+2. **LEFT JOIN**: Todos da esquerda + correspondências da direita
+3. **RIGHT JOIN**: Todos da direita + correspondências da esquerda
+4. **FULL OUTER JOIN**: Todos de ambas as tabelas
+5. **SELF JOIN**: Tabela junta consigo mesma
+6. **CROSS JOIN**: Produto cartesiano (raramente usado)
 
 #### 4.1 INNER JOIN (Correspondência em Ambas as Tabelas)
 
@@ -809,6 +1253,72 @@ WHERE g.nome_genero = 'Rock'
 ORDER BY m.titulo;
 ```
 
+**Como funciona:**
+- INNER JOIN retorna **apenas linhas com correspondência em AMBAS as tabelas**
+- É o tipo mais comum de JOIN (mais de 80% dos casos)
+- Se um artista não tem álbuns, ele não aparece no resultado
+- Se um álbum não tem artista, ele não aparece no resultado
+
+**Sintaxe:**
+```sql
+SELECT colunas
+FROM tabela1 t1
+INNER JOIN tabela2 t2 ON t1.chave = t2.chave;
+```
+
+**Por que usar:**
+- **Dados Relacionados**: Quando você precisa de informações de tabelas relacionadas
+- **Filtro Implícito**: Automaticamente exclui registros órfãos
+- **Mais Comum**: Maioria dos relatórios usa INNER JOIN
+- **Performance**: Geralmente mais rápido que outros tipos de JOIN
+
+**Exemplo conceitual:**
+```
+Tabela artista:          Tabela album:
+id | nome                id | titulo        | id_artista
+1  | Beatles             101| Abbey Road    | 1
+2  | Pink Floyd          102| The Wall      | 2
+3  | Queen               103| A Night...    | 3
+4  | Sem Álbum           (nenhum álbum para id_artista=4)
+
+INNER JOIN resultado:
+Beatles    | Abbey Road
+Pink Floyd | The Wall
+Queen      | A Night...
+(Artista 4 "Sem Álbum" NÃO aparece - sem correspondência)
+```
+
+**Aliases de tabela:**
+```sql
+-- Sem alias (verboso):
+SELECT artista.nome_artista, album.titulo
+FROM artista
+INNER JOIN album ON artista.id_artista = album.id_artista;
+
+-- Com alias (recomendado):
+SELECT a.nome_artista, al.titulo
+FROM artista a
+INNER JOIN album al ON a.id_artista = al.id_artista;
+```
+
+**Múltiplos JOINs:**
+```sql
+-- Encadeamento: música → álbum → artista
+SELECT 
+    ar.nome_artista,
+    al.titulo,
+    m.titulo AS musica
+FROM musica m                            -- Tabela base
+INNER JOIN album al                      -- 1º JOIN
+    ON m.id_album = al.id_album
+INNER JOIN artista ar                    -- 2º JOIN
+    ON al.id_artista = ar.id_artista;
+```
+
+**Quando NÃO usar:**
+- Quando você precisa de registros mesmo sem correspondência (use LEFT JOIN)
+- Para listar todos os registros de uma tabela (use LEFT ou RIGHT JOIN)
+
 #### 4.2 LEFT JOIN (Todos os Registros da Tabela à Esquerda)
 
 ```sql
@@ -839,6 +1349,79 @@ GROUP BY u.id_usuario, u.nome_usuario
 ORDER BY COUNT(p.id_playlist) DESC;
 ```
 
+**Como funciona:**
+- LEFT JOIN (ou LEFT OUTER JOIN) retorna **TODAS as linhas da tabela da ESQUERDA**
+- Para linhas sem correspondência à direita, colunas da direita ficam NULL
+- Garante que nenhum registro da tabela esquerda seja perdido
+- "Esquerda" = tabela antes do JOIN, "Direita" = tabela após o JOIN
+
+**Sintaxe:**
+```sql
+SELECT colunas
+FROM tabela_esquerda t1
+LEFT JOIN tabela_direita t2 ON t1.chave = t2.chave;
+```
+
+**Por que usar:**
+- **Garantir Completude**: Ver todos os registros da tabela principal
+- **Encontrar Órfãos**: Identificar registros sem relacionamentos (WHERE direita IS NULL)
+- **Contagens Totais**: Incluir zeros em agregações
+- **Relatórios Completos**: Não perder dados mesmo sem correspondência
+
+**Exemplo conceitual:**
+```
+Tabela artista:          Tabela album:
+id | nome                id | titulo        | id_artista
+1  | Beatles             101| Abbey Road    | 1
+2  | Pink Floyd          102| The Wall      | 2
+3  | Queen               (nenhum álbum para id=3)
+4  | Sem Álbum           (nenhum álbum para id=4)
+
+LEFT JOIN resultado:
+Beatles    | Abbey Road
+Pink Floyd | The Wall
+Queen      | NULL          (aparece mesmo sem álbum)
+Sem Álbum  | NULL          (aparece mesmo sem álbum)
+```
+
+**Encontrar registros órfãos:**
+```sql
+-- Artistas que NÃO têm álbuns
+SELECT a.nome_artista
+FROM artista a
+LEFT JOIN album al ON a.id_artista = al.id_artista
+WHERE al.id_album IS NULL;  -- Chave: testar se direita é NULL
+```
+
+**LEFT JOIN com agregação:**
+```sql
+-- Contar álbuns por artista (incluindo artistas com 0 álbuns)
+SELECT 
+    a.nome_artista,
+    COUNT(al.id_album) AS total_albuns  -- COUNT(coluna) ignora NULL
+FROM artista a
+LEFT JOIN album al ON a.id_artista = al.id_artista
+GROUP BY a.id_artista, a.nome_artista;
+
+-- Artista sem álbum retorna: "Nome | 0"
+-- Com INNER JOIN, artista sem álbum não apareceria
+```
+
+**Diferença crucial: COUNT(*) vs COUNT(coluna):**
+```sql
+-- COUNT(*) conta linhas (incluindo NULL)
+SELECT a.nome_artista, COUNT(*) 
+FROM artista a LEFT JOIN album al ON a.id_artista = al.id_artista
+GROUP BY a.nome_artista;
+-- Artista sem álbum: retorna 1 (conta a linha com NULL)
+
+-- COUNT(coluna) ignora NULL - CORRETO para LEFT JOIN!
+SELECT a.nome_artista, COUNT(al.id_album)
+FROM artista a LEFT JOIN album al ON a.id_artista = al.id_artista
+GROUP BY a.nome_artista;
+-- Artista sem álbum: retorna 0 (não conta NULL)
+```
+
 #### 4.3 RIGHT JOIN (Todos os Registros da Tabela à Direita)
 
 ```sql
@@ -860,6 +1443,51 @@ GROUP BY g.id_genero, g.nome_genero
 ORDER BY COUNT(m.id_musica) DESC;
 ```
 
+**Como funciona:**
+- RIGHT JOIN (ou RIGHT OUTER JOIN) retorna **TODAS as linhas da tabela da DIREITA**
+- Para linhas sem correspondência à esquerda, colunas da esquerda ficam NULL
+- É o oposto do LEFT JOIN
+- Menos comum que LEFT JOIN (preferência: reorganizar query para usar LEFT JOIN)
+
+**Por que usar:**
+- **Todos da Direita**: Garantir que registros da segunda tabela não sejam perdidos
+- **Menos Comum**: Maioria dos desenvolvedores prefere LEFT JOIN e inverte as tabelas
+- **Simetria**: Útil quando a lógica natural coloca a tabela "completa" à direita
+
+**LEFT vs RIGHT:**
+```sql
+-- Estas duas queries são equivalentes:
+
+-- Com LEFT JOIN:
+SELECT a.nome, al.titulo
+FROM artista a
+LEFT JOIN album al ON a.id_artista = al.id_artista;
+
+-- Com RIGHT JOIN (menos intuitivo):
+SELECT a.nome, al.titulo
+FROM album al
+RIGHT JOIN artista a ON a.id_artista = al.id_artista;
+```
+
+**Recomendação:** Prefira LEFT JOIN reorganizando tabelas. É mais intuitivo:
+- Tabela principal (todos os registros) → esquerda
+- Tabela secundária (correspondências) → direita
+- Use LEFT JOIN
+
+**Exemplo conceitual:**
+```
+Tabela artista:          Tabela album:
+id | nome                id | titulo        | id_artista
+1  | Beatles             101| Abbey Road    | 1
+2  | Pink Floyd          102| The Wall      | 2
+                           103| Órfão         | 999 (artista não existe)
+
+RIGHT JOIN resultado (artista RIGHT JOIN album):
+Beatles    | Abbey Road
+Pink Floyd | The Wall
+NULL       | Órfão          (álbum aparece mesmo sem artista)
+```
+
 #### 4.4 FULL OUTER JOIN (Todos os Registros de Ambas as Tabelas)
 
 ```sql
@@ -870,6 +1498,57 @@ SELECT
 FROM artista a
 FULL OUTER JOIN album al ON a.id_artista = al.id_artista
 ORDER BY a.nome_artista, al.titulo;
+```
+
+**Como funciona:**
+- FULL OUTER JOIN retorna **TODAS as linhas de AMBAS as tabelas**
+- Combina LEFT JOIN + RIGHT JOIN
+- Linhas sem correspondência têm NULL nas colunas da outra tabela
+- Raramente usado (maioria dos casos usa LEFT ou INNER JOIN)
+
+**Por que usar:**
+- **Auditoria**: Encontrar todas as inconsistências (órfãos de ambos os lados)
+- **Relatórios Completos**: Ver tudo, independente de correspondência
+- **Análise de Integridade**: Identificar problemas de dados
+- **Raro**: Menos de 5% dos JOINs em produção
+
+**Exemplo conceitual:**
+```
+Tabela artista:          Tabela album:
+id | nome                id | titulo        | id_artista
+1  | Beatles             101| Abbey Road    | 1
+2  | Sem Álbum           102| Órfão         | 999
+3  | Pink Floyd          
+
+FULL OUTER JOIN resultado:
+Beatles    | Abbey Road    (correspondência)
+Sem Álbum  | NULL          (artista sem álbum)
+NULL       | Órfão         (álbum sem artista)
+Pink Floyd | NULL          (artista sem álbum)
+```
+
+**Identificar problemas de integridade:**
+```sql
+-- Encontrar artistas sem álbuns E álbuns sem artistas
+SELECT 
+    a.nome_artista,
+    al.titulo,
+    CASE 
+        WHEN a.id_artista IS NULL THEN 'Álbum órfão'
+        WHEN al.id_album IS NULL THEN 'Artista sem álbum'
+        ELSE 'OK'
+    END AS status
+FROM artista a
+FULL OUTER JOIN album al ON a.id_artista = al.id_artista
+WHERE a.id_artista IS NULL OR al.id_album IS NULL;
+```
+
+**Alternativa ao FULL OUTER JOIN:**
+```sql
+-- Maioria dos bancos suporta UNION:
+SELECT a.nome, al.titulo FROM artista a LEFT JOIN album al ON ...
+UNION
+SELECT a.nome, al.titulo FROM artista a RIGHT JOIN album al ON ...;
 ```
 
 #### 4.5 SELF JOIN (Junção de uma Tabela com Ela Mesma)
@@ -885,6 +1564,71 @@ FROM artista a1
 INNER JOIN artista a2 ON a1.pais_origem = a2.pais_origem
 WHERE a1.id_artista < a2.id_artista
 ORDER BY a1.pais_origem, a1.nome_artista;
+```
+
+**Como funciona:**
+- SELF JOIN junta uma tabela **consigo mesma**
+- Usa aliases DIFERENTES para a mesma tabela (a1, a2)
+- Trata a mesma tabela como se fossem duas tabelas separadas
+- Útil para relacionamentos hierárquicos ou comparações dentro da mesma tabela
+
+**Por que usar:**
+- **Hierarquias**: Funcionário → Gerente (mesma tabela)
+- **Comparações**: Encontrar pares, duplicatas, relacionamentos
+- **Árvores**: Categorias com subcategorias
+- **Grafos**: Qualquer estrutura de relacionamento auto-referencial
+
+**Exemplo: Hierarquia de funcionários**
+```sql
+-- Tabela: funcionario (id, nome, id_gerente)
+SELECT 
+    f.nome AS "Funcionário",
+    g.nome AS "Gerente"
+FROM funcionario f
+LEFT JOIN funcionario g ON f.id_gerente = g.id;
+-- Usa LEFT JOIN porque CEO não tem gerente (NULL)
+```
+
+**Exemplo: Encontrar duplicatas**
+```sql
+-- Artistas com nomes similares
+SELECT 
+    a1.nome_artista AS "Nome 1",
+    a2.nome_artista AS "Nome 2"
+FROM artista a1
+INNER JOIN artista a2 ON UPPER(a1.nome_artista) = UPPER(a2.nome_artista)
+WHERE a1.id_artista < a2.id_artista;  -- Evita pares duplicados
+```
+
+**Por que `a1.id < a2.id`?**
+```sql
+-- Sem filtro: pares duplicados
+Artista 1  | Artista 2
+Beatles    | Pink Floyd
+Pink Floyd | Beatles    ← Duplicata!
+
+-- Com a1.id < a2.id: sem duplicatas
+Artista 1  | Artista 2
+Beatles    | Pink Floyd   (apenas uma direção)
+```
+
+**Exemplo: Recomendações**
+```sql
+-- "Usuários que gostam de artistas similares"
+-- Encontrar usuários que gostaram do mesmo artista
+SELECT DISTINCT
+    u1.nome_usuario AS "Usuário 1",
+    u2.nome_usuario AS "Usuário 2",
+    a.nome_artista AS "Artista em Comum"
+FROM historico_reproducao h1
+INNER JOIN historico_reproducao h2 
+    ON h1.id_musica = h2.id_musica
+INNER JOIN usuario u1 ON h1.id_usuario = u1.id_usuario
+INNER JOIN usuario u2 ON h2.id_usuario = u2.id_usuario
+INNER JOIN musica m ON h1.id_musica = m.id_musica
+INNER JOIN album al ON m.id_album = al.id_album
+INNER JOIN artista a ON al.id_artista = a.id_artista
+WHERE u1.id_usuario < u2.id_usuario;
 ```
 
 #### 4.6 Consultas Complexas com Múltiplos JOINs
@@ -920,6 +1664,77 @@ INNER JOIN historico_reproducao hr ON m.id_musica = hr.id_musica
 GROUP BY ar.nome_artista, m.titulo, g.nome_genero, m.id_musica
 ORDER BY COUNT(hr.id_historico) DESC
 FETCH FIRST 10 ROWS ONLY;
+```
+
+**Como estruturar JOINs complexos:**
+
+**1. Identifique o caminho dos relacionamentos:**
+```
+musica → album → artista
+musica → genero
+musica → historico_reproducao → usuario
+```
+
+**2. Comece pela tabela central:**
+```sql
+FROM musica m  -- Tabela central
+```
+
+**3. Adicione JOINs sequencialmente:**
+```sql
+INNER JOIN album al ON m.id_album = al.id_album      -- 1º nível
+INNER JOIN artista ar ON al.id_artista = ar.id_artista  -- 2º nível
+INNER JOIN genero g ON m.id_genero = g.id_genero     -- 1º nível (paralelo)
+```
+
+**4. Escolha o tipo correto de JOIN:**
+- INNER JOIN: para dados obrigatórios (música sempre tem álbum)
+- LEFT JOIN: para dados opcionais (música pode não ter reproduções)
+
+**5. Use aliases consistentes:**
+```sql
+artista → ar (não a, art, artista...)
+album → al
+musica → m
+genero → g
+```
+
+**Performance em múltiplos JOINs:**
+- **Ordem importa**: O otimizador pode reorganizar, mas ajude começando por tabelas menores
+- **Índices**: TODAS as colunas de JOIN devem ser indexadas
+- **Evite JOIN desnecessários**: Só junte tabelas que você realmente precisa
+- **WHERE antes de JOIN**: Filtrar reduz dados para JOIN processar
+
+**Exemplo de otimização:**
+```sql
+-- MENOS EFICIENTE: JOIN depois filtra
+SELECT ar.nome, m.titulo
+FROM musica m
+INNER JOIN album al ON m.id_album = al.id_album
+INNER JOIN artista ar ON al.id_artista = ar.id_artista
+WHERE ar.pais_origem = 'Brasil';
+
+-- MAIS EFICIENTE: Filtra artistas primeiro (se tabela grande)
+SELECT ar.nome, m.titulo
+FROM artista ar  -- Começa pela tabela filtrada
+INNER JOIN album al ON ar.id_artista = al.id_artista
+INNER JOIN musica m ON al.id_album = m.id_album
+WHERE ar.pais_origem = 'Brasil';
+-- Ou use subconsulta para filtrar antes do JOIN
+```
+
+**Debugar JOINs complexos:**
+```sql
+-- Construa incrementalmente:
+-- Passo 1: Teste primeiro JOIN
+SELECT * FROM musica m INNER JOIN album al ON m.id_album = al.id_album;
+
+-- Passo 2: Adicione segundo JOIN
+SELECT * FROM musica m 
+INNER JOIN album al ON m.id_album = al.id_album
+INNER JOIN artista ar ON al.id_artista = ar.id_artista;
+
+-- Passo 3: Continue adicionando...
 ```
 
 ### PARTE 2: TRANSAÇÕES E CONTROLE
