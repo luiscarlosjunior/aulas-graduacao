@@ -3,6 +3,9 @@
 ## Objetivos de Aprendizagem
 
 Ao final deste módulo, o aluno será capaz de:
+- Compreender e construir consultas SELECT básicas e avançadas
+- Aplicar filtros e condições em consultas
+- Utilizar JOINs para combinar dados de múltiplas tabelas
 - Compreender e aplicar conceitos de transações em bancos de dados
 - Utilizar comandos COMMIT, ROLLBACK e SAVEPOINT
 - Implementar controle de concorrência e isolamento
@@ -13,15 +16,453 @@ Ao final deste módulo, o aluno será capaz de:
 
 ## Conteúdo Teórico
 
-### 1. Conceitos de Transações
+### PARTE 1: FUNDAMENTOS DE CONSULTAS SELECT
 
-#### 1.1 Propriedades ACID
+Antes de trabalhar com transações e relatórios complexos, é essencial dominar o comando SELECT, que é a base para recuperação de dados em SQL. Vamos progredir desde consultas simples até operações mais complexas.
+
+### 1. Introdução ao Comando SELECT
+
+O comando SELECT é usado para recuperar dados de uma ou mais tabelas do banco de dados. É o comando mais utilizado em SQL e a base para criação de relatórios e análises.
+
+#### 1.1 Sintaxe Básica do SELECT
+
+```sql
+SELECT coluna1, coluna2, ...
+FROM tabela
+[WHERE condições]
+[GROUP BY colunas]
+[HAVING condições]
+[ORDER BY colunas];
+```
+
+**Componentes principais:**
+- **SELECT**: Define quais colunas serão retornadas
+- **FROM**: Especifica de qual(is) tabela(s) os dados serão extraídos
+- **WHERE**: Filtra os registros (opcional)
+- **GROUP BY**: Agrupa registros (opcional)
+- **HAVING**: Filtra grupos (opcional)
+- **ORDER BY**: Define a ordenação dos resultados (opcional)
+
+### 2. Consultas Simples (Uma Tabela)
+
+#### 2.1 Selecionando Todas as Colunas
+
+```sql
+-- Selecionar todos os artistas
+SELECT * FROM artista;
+
+-- Selecionar todos os gêneros musicais
+SELECT * FROM genero;
+
+-- Selecionar todos os usuários
+SELECT * FROM usuario;
+```
+
+**Observação**: O uso de `*` retorna todas as colunas. Em produção, é recomendado especificar apenas as colunas necessárias para melhor performance.
+
+#### 2.2 Selecionando Colunas Específicas
+
+```sql
+-- Selecionar apenas nome e país dos artistas
+SELECT nome_artista, pais_origem 
+FROM artista;
+
+-- Selecionar informações básicas de álbuns
+SELECT titulo, ano_lancamento, numero_faixas
+FROM album;
+
+-- Selecionar dados de usuários (sem senha)
+SELECT id_usuario, nome_usuario, email, data_cadastro
+FROM usuario;
+```
+
+#### 2.3 Usando Aliases (Apelidos) para Colunas
+
+```sql
+-- Aliases tornam os resultados mais legíveis
+SELECT 
+    nome_artista AS "Nome do Artista",
+    pais_origem AS "País",
+    data_formacao AS "Formado em"
+FROM artista;
+
+-- Aliases sem AS (sintaxe alternativa)
+SELECT 
+    titulo "Título do Álbum",
+    ano_lancamento "Ano",
+    numero_faixas "Número de Faixas"
+FROM album;
+```
+
+#### 2.4 Ordenando Resultados (ORDER BY)
+
+```sql
+-- Ordenar artistas por nome (A-Z)
+SELECT nome_artista, pais_origem
+FROM artista
+ORDER BY nome_artista;
+
+-- Ordenar artistas por nome em ordem decrescente (Z-A)
+SELECT nome_artista, pais_origem
+FROM artista
+ORDER BY nome_artista DESC;
+
+-- Ordenar por múltiplas colunas
+SELECT nome_artista, pais_origem, data_formacao
+FROM artista
+ORDER BY pais_origem, nome_artista;
+
+-- Ordenar álbuns por ano de lançamento (mais recentes primeiro)
+SELECT titulo, ano_lancamento
+FROM album
+ORDER BY ano_lancamento DESC;
+```
+
+#### 2.5 Eliminando Duplicatas (DISTINCT)
+
+```sql
+-- Listar países de origem únicos
+SELECT DISTINCT pais_origem
+FROM artista
+ORDER BY pais_origem;
+
+-- Listar anos de lançamento únicos
+SELECT DISTINCT ano_lancamento
+FROM album
+WHERE ano_lancamento IS NOT NULL
+ORDER BY ano_lancamento DESC;
+```
+
+#### 2.6 Limitando Resultados (ROWNUM ou FETCH)
+
+```sql
+-- Primeiros 10 artistas (Oracle com ROWNUM)
+SELECT nome_artista, pais_origem
+FROM artista
+WHERE ROWNUM <= 10;
+
+-- Primeiros 5 álbuns mais recentes (Oracle 12c+ com FETCH)
+SELECT titulo, ano_lancamento
+FROM album
+ORDER BY ano_lancamento DESC
+FETCH FIRST 5 ROWS ONLY;
+```
+
+### 3. Consultas com Filtros (Cláusula WHERE)
+
+A cláusula WHERE permite filtrar registros baseado em condições específicas.
+
+#### 3.1 Operadores de Comparação
+
+```sql
+-- Igualdade (=)
+SELECT nome_artista, pais_origem
+FROM artista
+WHERE pais_origem = 'Brasil';
+
+-- Diferente (<> ou !=)
+SELECT nome_artista, pais_origem
+FROM artista
+WHERE pais_origem <> 'Brasil';
+
+-- Maior que (>)
+SELECT titulo, ano_lancamento
+FROM album
+WHERE ano_lancamento > 2000;
+
+-- Menor que (<)
+SELECT titulo, ano_lancamento
+FROM album
+WHERE ano_lancamento < 1980;
+
+-- Maior ou igual (>=)
+SELECT titulo, numero_faixas
+FROM album
+WHERE numero_faixas >= 15;
+
+-- Menor ou igual (<=)
+SELECT titulo, duracao
+FROM musica
+WHERE duracao <= 180; -- músicas com até 3 minutos
+```
+
+#### 3.2 Operadores Lógicos (AND, OR, NOT)
+
+```sql
+-- AND: Todas as condições devem ser verdadeiras
+SELECT nome_artista, pais_origem, data_formacao
+FROM artista
+WHERE pais_origem = 'Brasil' 
+  AND data_formacao > TO_DATE('2000-01-01', 'YYYY-MM-DD');
+
+-- OR: Pelo menos uma condição deve ser verdadeira
+SELECT nome_artista, pais_origem
+FROM artista
+WHERE pais_origem = 'Brasil' OR pais_origem = 'Portugal';
+
+-- NOT: Inverte a condição
+SELECT nome_artista, pais_origem
+FROM artista
+WHERE NOT (pais_origem = 'Brasil');
+
+-- Combinação de operadores lógicos
+SELECT titulo, ano_lancamento, numero_faixas
+FROM album
+WHERE (ano_lancamento BETWEEN 2000 AND 2010)
+  AND (numero_faixas > 10 OR numero_faixas < 5);
+```
+
+#### 3.3 Operador IN (Lista de Valores)
+
+```sql
+-- Selecionar artistas de países específicos
+SELECT nome_artista, pais_origem
+FROM artista
+WHERE pais_origem IN ('Brasil', 'Portugal', 'Argentina');
+
+-- Selecionar álbuns de anos específicos
+SELECT titulo, ano_lancamento
+FROM album
+WHERE ano_lancamento IN (1990, 1995, 2000, 2005, 2010);
+
+-- NOT IN: Excluir valores específicos
+SELECT nome_artista, pais_origem
+FROM artista
+WHERE pais_origem NOT IN ('Brasil', 'Estados Unidos');
+```
+
+#### 3.4 Operador BETWEEN (Intervalo de Valores)
+
+```sql
+-- Álbuns lançados entre 2000 e 2010
+SELECT titulo, ano_lancamento
+FROM album
+WHERE ano_lancamento BETWEEN 2000 AND 2010
+ORDER BY ano_lancamento;
+
+-- Músicas com duração entre 3 e 5 minutos
+SELECT titulo, duracao
+FROM musica
+WHERE duracao BETWEEN 180 AND 300;
+
+-- BETWEEN com datas
+SELECT nome_usuario, data_cadastro
+FROM usuario
+WHERE data_cadastro BETWEEN TO_DATE('2023-01-01', 'YYYY-MM-DD') 
+                       AND TO_DATE('2023-12-31', 'YYYY-MM-DD');
+```
+
+#### 3.5 Operador LIKE (Busca por Padrões)
+
+```sql
+-- Nomes que começam com 'The'
+SELECT nome_artista
+FROM artista
+WHERE nome_artista LIKE 'The%';
+
+-- Nomes que terminam com 'Band'
+SELECT nome_artista
+FROM artista
+WHERE nome_artista LIKE '%Band';
+
+-- Nomes que contêm 'Rock'
+SELECT nome_artista
+FROM artista
+WHERE nome_artista LIKE '%Rock%';
+
+-- Nomes com exatamente 5 caracteres
+SELECT nome_genero
+FROM genero
+WHERE nome_genero LIKE '_____';
+
+-- Busca case-insensitive (Oracle)
+SELECT nome_artista
+FROM artista
+WHERE UPPER(nome_artista) LIKE '%ROCK%';
+```
+
+#### 3.6 Operador IS NULL / IS NOT NULL
+
+```sql
+-- Artistas sem data de formação definida
+SELECT nome_artista, data_formacao
+FROM artista
+WHERE data_formacao IS NULL;
+
+-- Artistas com data de formação definida
+SELECT nome_artista, data_formacao
+FROM artista
+WHERE data_formacao IS NOT NULL
+ORDER BY data_formacao;
+
+-- Álbuns sem ano de lançamento
+SELECT titulo
+FROM album
+WHERE ano_lancamento IS NULL;
+```
+
+### 4. Consultas com JOINs (Múltiplas Tabelas)
+
+JOINs permitem combinar dados de duas ou mais tabelas baseado em relacionamentos entre elas.
+
+#### 4.1 INNER JOIN (Correspondência em Ambas as Tabelas)
+
+```sql
+-- Listar álbuns com nome do artista
+SELECT 
+    a.nome_artista AS "Artista",
+    al.titulo AS "Álbum",
+    al.ano_lancamento AS "Ano"
+FROM artista a
+INNER JOIN album al ON a.id_artista = al.id_artista
+ORDER BY a.nome_artista, al.ano_lancamento;
+
+-- Listar músicas com álbum e artista
+SELECT 
+    ar.nome_artista AS "Artista",
+    al.titulo AS "Álbum",
+    m.titulo AS "Música",
+    m.duracao AS "Duração (seg)"
+FROM musica m
+INNER JOIN album al ON m.id_album = al.id_album
+INNER JOIN artista ar ON al.id_artista = ar.id_artista
+ORDER BY ar.nome_artista, al.titulo, m.numero_faixa;
+
+-- Músicas com gênero
+SELECT 
+    m.titulo AS "Música",
+    g.nome_genero AS "Gênero",
+    m.duracao AS "Duração"
+FROM musica m
+INNER JOIN genero g ON m.id_genero = g.id_genero
+WHERE g.nome_genero = 'Rock'
+ORDER BY m.titulo;
+```
+
+#### 4.2 LEFT JOIN (Todos os Registros da Tabela à Esquerda)
+
+```sql
+-- Listar todos os artistas, mesmo sem álbuns
+SELECT 
+    a.nome_artista AS "Artista",
+    COUNT(al.id_album) AS "Total de Álbuns"
+FROM artista a
+LEFT JOIN album al ON a.id_artista = al.id_artista
+GROUP BY a.id_artista, a.nome_artista
+ORDER BY COUNT(al.id_album) DESC, a.nome_artista;
+
+-- Artistas sem álbuns cadastrados
+SELECT 
+    a.nome_artista AS "Artista",
+    a.pais_origem AS "País"
+FROM artista a
+LEFT JOIN album al ON a.id_artista = al.id_artista
+WHERE al.id_album IS NULL;
+
+-- Todos os usuários com total de playlists (incluindo sem playlists)
+SELECT 
+    u.nome_usuario AS "Usuário",
+    COUNT(p.id_playlist) AS "Total Playlists"
+FROM usuario u
+LEFT JOIN playlist p ON u.id_usuario = p.id_usuario
+GROUP BY u.id_usuario, u.nome_usuario
+ORDER BY COUNT(p.id_playlist) DESC;
+```
+
+#### 4.3 RIGHT JOIN (Todos os Registros da Tabela à Direita)
+
+```sql
+-- Todos os álbuns com seus artistas (garante que todos os álbuns apareçam)
+SELECT 
+    al.titulo AS "Álbum",
+    a.nome_artista AS "Artista"
+FROM artista a
+RIGHT JOIN album al ON a.id_artista = al.id_artista
+ORDER BY al.titulo;
+
+-- Todos os gêneros com contagem de músicas
+SELECT 
+    g.nome_genero AS "Gênero",
+    COUNT(m.id_musica) AS "Total Músicas"
+FROM musica m
+RIGHT JOIN genero g ON m.id_genero = g.id_genero
+GROUP BY g.id_genero, g.nome_genero
+ORDER BY COUNT(m.id_musica) DESC;
+```
+
+#### 4.4 FULL OUTER JOIN (Todos os Registros de Ambas as Tabelas)
+
+```sql
+-- Todos os artistas e álbuns (incluindo artistas sem álbuns e álbuns sem artistas)
+SELECT 
+    a.nome_artista AS "Artista",
+    al.titulo AS "Álbum"
+FROM artista a
+FULL OUTER JOIN album al ON a.id_artista = al.id_artista
+ORDER BY a.nome_artista, al.titulo;
+```
+
+#### 4.5 SELF JOIN (Junção de uma Tabela com Ela Mesma)
+
+```sql
+-- Exemplo: Se houver uma coluna de artistas relacionados/similares
+-- Encontrar pares de artistas do mesmo país
+SELECT 
+    a1.nome_artista AS "Artista 1",
+    a2.nome_artista AS "Artista 2",
+    a1.pais_origem AS "País"
+FROM artista a1
+INNER JOIN artista a2 ON a1.pais_origem = a2.pais_origem
+WHERE a1.id_artista < a2.id_artista
+ORDER BY a1.pais_origem, a1.nome_artista;
+```
+
+#### 4.6 Consultas Complexas com Múltiplos JOINs
+
+```sql
+-- Relatório completo: Músicas com artista, álbum, gênero e reproduções
+SELECT 
+    ar.nome_artista AS "Artista",
+    al.titulo AS "Álbum",
+    m.titulo AS "Música",
+    g.nome_genero AS "Gênero",
+    m.duracao AS "Duração (seg)",
+    COUNT(hr.id_historico) AS "Reproduções"
+FROM musica m
+INNER JOIN album al ON m.id_album = al.id_album
+INNER JOIN artista ar ON al.id_artista = ar.id_artista
+INNER JOIN genero g ON m.id_genero = g.id_genero
+LEFT JOIN historico_reproducao hr ON m.id_musica = hr.id_musica
+GROUP BY ar.nome_artista, al.titulo, m.titulo, g.nome_genero, m.duracao
+ORDER BY COUNT(hr.id_historico) DESC, ar.nome_artista;
+
+-- Top 10 músicas mais tocadas com informações completas
+SELECT 
+    ar.nome_artista AS "Artista",
+    m.titulo AS "Música",
+    g.nome_genero AS "Gênero",
+    COUNT(hr.id_historico) AS "Reproduções"
+FROM musica m
+INNER JOIN album al ON m.id_album = al.id_album
+INNER JOIN artista ar ON al.id_artista = ar.id_artista
+INNER JOIN genero g ON m.id_genero = g.id_genero
+INNER JOIN historico_reproducao hr ON m.id_musica = hr.id_musica
+GROUP BY ar.nome_artista, m.titulo, g.nome_genero, m.id_musica
+ORDER BY COUNT(hr.id_historico) DESC
+FETCH FIRST 10 ROWS ONLY;
+```
+
+### PARTE 2: TRANSAÇÕES E CONTROLE
+
+### 5. Conceitos de Transações
+
+#### 5.1 Propriedades ACID
 - **Atomicidade**: Transação é indivisível (tudo ou nada)
 - **Consistência**: Dados ficam em estado válido
 - **Isolamento**: Transações não interferem entre si
 - **Durabilidade**: Mudanças persistem após COMMIT
 
-#### 1.2 Estados de uma Transação
+#### 5.2 Estados de uma Transação
 ```sql
 -- Transação iniciada implicitamente com primeiro DML
 INSERT INTO usuario (id_usuario, nome_usuario, email) 
@@ -36,9 +477,9 @@ COMMIT;
 -- ROLLBACK;
 ```
 
-### 2. Comandos de Controle de Transação
+### 6. Comandos de Controle de Transação
 
-#### 2.1 COMMIT - Confirmar Mudanças
+#### 6.1 COMMIT - Confirmar Mudanças
 ```sql
 -- Inserir um novo artista
 INSERT INTO artista (id_artista, nome_artista, pais_origem) 
@@ -50,7 +491,7 @@ COMMIT;
 -- Agora a mudança está persistente
 ```
 
-#### 2.2 ROLLBACK - Desfazer Mudanças
+#### 6.2 ROLLBACK - Desfazer Mudanças
 ```sql
 -- Iniciar uma transação
 INSERT INTO album (id_album, titulo, id_artista) 
@@ -66,7 +507,7 @@ SELECT * FROM artista WHERE id_artista = 200;
 SELECT * FROM album WHERE id_album = 300;
 ```
 
-#### 2.3 SAVEPOINT - Pontos de Salvamento
+#### 6.3 SAVEPOINT - Pontos de Salvamento
 ```sql
 -- Iniciar transação
 INSERT INTO usuario (id_usuario, nome_usuario, email) 
@@ -92,9 +533,9 @@ ROLLBACK TO playlist_inserted;
 COMMIT;
 ```
 
-### 3. Autocommit e Controle Manual
+### 7. Autocommit e Controle Manual
 
-#### 3.1 Configuração de Autocommit
+#### 7.1 Configuração de Autocommit
 ```sql
 -- Verificar status atual
 SHOW AUTOCOMMIT;
@@ -106,7 +547,7 @@ SET AUTOCOMMIT OFF;
 SET AUTOCOMMIT ON;
 ```
 
-#### 3.2 Transações Explícitas
+#### 7.2 Transações Explícitas
 ```sql
 -- Iniciar transação explicitamente (alguns SGBDs)
 START TRANSACTION; -- ou BEGIN TRANSACTION;
@@ -119,9 +560,9 @@ COMMIT;
 -- ou ROLLBACK;
 ```
 
-### 4. Níveis de Isolamento
+### 8. Níveis de Isolamento
 
-#### 4.1 Configuração de Isolamento
+#### 8.1 Configuração de Isolamento
 ```sql
 -- Verificar nível atual
 SELECT * FROM V$TRANSACTION;
@@ -131,7 +572,7 @@ SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
 -- Ou outros níveis: READ UNCOMMITTED, REPEATABLE READ, SERIALIZABLE
 ```
 
-#### 4.2 Problemas de Concorrência
+#### 8.2 Problemas de Concorrência
 
 **Dirty Read** - Ler dados não commitados:
 ```sql
@@ -158,9 +599,9 @@ COMMIT;
 SELECT nome_artista FROM artista WHERE id_artista = 1; -- "Beatles" (diferente!)
 ```
 
-### 5. Locks e Concorrência
+### 9. Locks e Concorrência
 
-#### 5.1 Tipos de Locks
+#### 9.1 Tipos de Locks
 ```sql
 -- Lock exclusivo (para UPDATE/DELETE)
 SELECT * FROM artista WHERE id_artista = 1 FOR UPDATE;
@@ -175,7 +616,7 @@ SELECT * FROM artista WHERE id_artista = 1 FOR UPDATE WAIT 10;
 SELECT * FROM artista WHERE id_artista = 1 FOR UPDATE NOWAIT;
 ```
 
-#### 5.2 Detecção de Deadlocks
+#### 9.2 Detecção de Deadlocks
 ```sql
 -- Monitorar locks ativos
 SELECT 
@@ -190,9 +631,11 @@ JOIN dba_objects o ON l.object_id = o.object_id
 JOIN v$session s ON l.session_id = s.sid;
 ```
 
-### 6. Criação de Relatórios Básicos
+### PARTE 3: CRIAÇÃO DE RELATÓRIOS AVANÇADOS
 
-#### 6.1 Relatório de Artistas por País
+### 10. Criação de Relatórios Básicos
+
+#### 10.1 Relatório de Artistas por País
 ```sql
 -- Relatório básico formatado
 SELECT 
@@ -206,7 +649,7 @@ GROUP BY pais_origem
 ORDER BY COUNT(*) DESC;
 ```
 
-#### 6.2 Relatório de Albums por Década
+#### 10.2 Relatório de Albums por Década
 ```sql
 -- Relatório com agrupamento por década
 SELECT 
@@ -238,7 +681,7 @@ GROUP BY
 ORDER BY "Década";
 ```
 
-#### 6.3 Relatório de Top Músicas por Gênero
+#### 10.3 Relatório de Top Músicas por Gênero
 ```sql
 -- Relatório com ranking
 SELECT 
@@ -257,9 +700,9 @@ HAVING COUNT(hr.id_historico) > 0
 ORDER BY g.nome_genero, "Reproduções" DESC;
 ```
 
-### 7. Formatação de Relatórios
+### 11. Formatação de Relatórios
 
-#### 7.1 Configuração de Formato
+#### 11.1 Configuração de Formato
 ```sql
 -- Configurar formato da página
 SET PAGESIZE 50;
@@ -273,7 +716,7 @@ COLUMN total_albums FORMAT 999,999 HEADING 'Total|Álbuns';
 COLUMN media_duracao FORMAT 99.99 HEADING 'Duração|Média(min)';
 ```
 
-#### 7.2 Relatório com Formatação Avançada
+#### 11.2 Relatório com Formatação Avançada
 ```sql
 -- Relatório bem formatado
 SET PAGESIZE 60;
@@ -310,9 +753,9 @@ TTITLE OFF;
 BTITLE OFF;
 ```
 
-### 8. Transações em Cenários Práticos
+### 12. Transações em Cenários Práticos
 
-#### 8.1 Transferência de Playlist
+#### 12.1 Transferência de Playlist
 ```sql
 -- Transação para transferir músicas entre playlists
 SAVEPOINT inicio_transferencia;
@@ -337,7 +780,7 @@ ELSE
 END IF;
 ```
 
-#### 8.2 Atualização de Estatísticas Consistente
+#### 12.2 Atualização de Estatísticas Consistente
 ```sql
 -- Atualizar estatísticas de forma atômica
 BEGIN
@@ -376,7 +819,105 @@ Consulte a pasta `exercicios` para atividades práticas que reforçam os conceit
 
 ## Perguntas e Respostas
 
-### 1. Quais são as propriedades ACID e por que são fundamentais?
+### 1. Qual a diferença entre SELECT com INNER JOIN, LEFT JOIN e RIGHT JOIN?
+
+**Resposta**: Cada tipo de JOIN tem comportamento diferente para combinação de dados:
+
+**INNER JOIN** - Retorna apenas registros com correspondência em ambas as tabelas:
+```sql
+-- Retorna apenas artistas que têm álbuns
+SELECT a.nome_artista, al.titulo
+FROM artista a
+INNER JOIN album al ON a.id_artista = al.id_artista;
+```
+- **Uso**: Quando você precisa apenas de registros que existem em ambas as tabelas
+- **Exemplo**: Listar músicas com seus álbuns (música sem álbum não aparece)
+
+**LEFT JOIN** - Retorna todos os registros da tabela à esquerda, mesmo sem correspondência:
+```sql
+-- Retorna todos os artistas, incluindo os sem álbuns
+SELECT a.nome_artista, COUNT(al.id_album) as total_albums
+FROM artista a
+LEFT JOIN album al ON a.id_artista = al.id_artista
+GROUP BY a.id_artista, a.nome_artista;
+```
+- **Uso**: Quando você quer garantir que todos os registros da tabela principal apareçam
+- **Exemplo**: Listar todos os artistas e seus álbuns (artistas sem álbuns aparecem com COUNT = 0)
+
+**RIGHT JOIN** - Retorna todos os registros da tabela à direita, mesmo sem correspondência:
+```sql
+-- Retorna todos os álbuns, incluindo os sem artista (raro)
+SELECT a.nome_artista, al.titulo
+FROM artista a
+RIGHT JOIN album al ON a.id_artista = al.id_artista;
+```
+- **Uso**: Menos comum, similar ao LEFT JOIN mas inverte a direção
+- **Dica**: Prefira LEFT JOIN e reordene as tabelas para melhor legibilidade
+
+### 2. Como usar WHERE eficientemente para filtrar grandes volumes de dados?
+
+**Resposta**: Boas práticas para filtros eficientes:
+
+**Use índices nas colunas de filtro**:
+```sql
+-- Rápido se houver índice em pais_origem
+SELECT nome_artista FROM artista WHERE pais_origem = 'Brasil';
+```
+
+**Evite funções em colunas indexadas**:
+```sql
+-- Lento (índice não é usado):
+SELECT nome_artista FROM artista WHERE UPPER(nome_artista) = 'THE BEATLES';
+
+-- Rápido (índice é usado):
+SELECT nome_artista FROM artista WHERE nome_artista = 'The Beatles';
+```
+
+**Use operadores apropriados**:
+```sql
+-- IN é eficiente para listas pequenas
+WHERE pais_origem IN ('Brasil', 'Portugal', 'Argentina');
+
+-- BETWEEN é eficiente para intervalos
+WHERE ano_lancamento BETWEEN 2000 AND 2010;
+
+-- LIKE com % no início é lento (não usa índice)
+WHERE nome_artista LIKE '%Beatles'; -- Evitar se possível
+
+-- LIKE sem % no início é rápido (usa índice)
+WHERE nome_artista LIKE 'Beatles%'; -- Preferível
+```
+
+### 3. Quando usar DISTINCT e quais os impactos de performance?
+
+**Resposta**: DISTINCT remove duplicatas, mas tem custo computacional:
+
+**Uso apropriado de DISTINCT**:
+```sql
+-- Bom uso: Listar países únicos
+SELECT DISTINCT pais_origem FROM artista;
+
+-- Bom uso: Contagem de valores únicos
+SELECT COUNT(DISTINCT pais_origem) FROM artista;
+```
+
+**Evite DISTINCT desnecessário**:
+```sql
+-- Desnecessário se id_artista já é único
+SELECT DISTINCT id_artista, nome_artista FROM artista;
+
+-- Melhor: Use GROUP BY quando apropriado
+SELECT pais_origem, COUNT(*) 
+FROM artista 
+GROUP BY pais_origem;
+```
+
+**Impactos de performance**:
+- DISTINCT requer ordenação/hash dos resultados
+- Pode ser lento em grandes volumes de dados
+- Considere se o problema não está no JOIN que gera duplicatas
+
+### 4. Quais são as propriedades ACID e por que são fundamentais?
 
 **Resposta**: ACID garante confiabilidade das transações:
 
@@ -399,7 +940,7 @@ Consulte a pasta `exercicios` para atividades práticas que reforçam os conceit
 - Mudanças confirmadas persistem mesmo com falhas do sistema
 - Garantida através de logs de transação e backup
 
-### 2. Quando usar COMMIT vs. ROLLBACK vs. SAVEPOINT?
+### 5. Quando usar COMMIT vs. ROLLBACK vs. SAVEPOINT?
 
 **Resposta**:
 **COMMIT**: Para confirmar mudanças
@@ -428,7 +969,7 @@ ROLLBACK TO sp1; -- Cancela apenas 'Banda B'
 COMMIT; -- Confirma 'Banda A'
 ```
 
-### 3. Como diferentes níveis de isolamento afetam a concorrência?
+### 6. Como diferentes níveis de isolamento afetam a concorrência?
 
 **Resposta**: Trade-off entre consistência e performance:
 
@@ -452,7 +993,7 @@ COMMIT; -- Confirma 'Banda A'
 - Evita todos os problemas de concorrência
 - Menor performance devido a locks
 
-### 4. Como identificar e resolver deadlocks?
+### 7. Como identificar e resolver deadlocks?
 
 **Resposta**: Estratégias de prevenção e resolução:
 
@@ -476,7 +1017,7 @@ UPDATE artista SET nome = 'The Beatles Updated' WHERE id = 1; -- DEADLOCK!
 
 **Resolução automática**: SGBD detecta e mata uma das transações.
 
-### 5. Qual a diferença entre bloqueio otimista e pessimista?
+### 8. Qual a diferença entre bloqueio otimista e pessimista?
 
 **Resposta**:
 **Bloqueio Pessimista**: Assume que conflitos vão ocorrer
@@ -500,7 +1041,7 @@ WHERE id = 123 AND version = @version_original;
 - **Vantagem**: Maior concorrência
 - **Desvantagem**: Necessita retry em caso de conflito
 
-### 6. Como estruturar relatórios SQL eficientes?
+### 9. Como estruturar relatórios SQL eficientes?
 
 **Resposta**: Boas práticas para relatórios:
 
@@ -525,7 +1066,7 @@ ORDER BY total_musicas DESC;
 - Use LIMIT para relatórios paginados
 - Considere views para relatórios complexos reutilizáveis
 
-### 7. Quando usar transações explícitas vs. auto-commit?
+### 10. Quando usar transações explícitas vs. auto-commit?
 
 **Resposta**:
 **Auto-commit** (padrão): Cada comando é uma transação
