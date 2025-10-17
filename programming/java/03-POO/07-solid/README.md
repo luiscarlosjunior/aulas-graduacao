@@ -8,7 +8,7 @@ Este documento apresenta os cinco princípios SOLID com exemplos práticos, caso
 
 | Seção | Descrição | O que você vai aprender |
 |-------|-----------|------------------------|
-| [📖 Contextualização](#-contextualização-histórica-a-crise-do-software) | História e importância | Por que SOLID existe e qual problema resolve |
+| [📖 Contextualização](#contextualização-histórica-a-crise-do-software) | História e importância | Por que SOLID existe e qual problema resolve |
 | [1️⃣ SRP](#1️⃣-single-responsibility-principle-srp) | Responsabilidade Única | Uma classe, uma responsabilidade |
 | [2️⃣ OCP](#2️⃣-openclosed-principle-ocp) | Aberto/Fechado | Extensão sem modificação |
 | [3️⃣ LSP](#3️⃣-liskov-substitution-principle-lsp) | Substituição de Liskov | Subtipos devem ser substituíveis |
