@@ -14,7 +14,7 @@ Este documento apresenta os cinco princípios SOLID com exemplos práticos, caso
 | [3️⃣ LSP](#3️⃣-liskov-substitution-principle-lsp) | Substituição de Liskov | Subtipos devem ser substituíveis |
 | [4️⃣ ISP](#4️⃣-interface-segregation-principle-isp) | Segregação de Interface | Interfaces específicas, não genéricas |
 | [5️⃣ DIP](#5️⃣-dependency-inversion-principle-dip) | Inversão de Dependência | Dependa de abstrações |
-| [🎓 Exercícios](#-exercícios-práticos-e-estudos-de-caso) | Prática guiada | 7 exercícios com soluções |
+| [🎓 Exercícios](#exercícios-práticos-e-estudos-de-caso) | Prática guiada | 7 exercícios com soluções |
 | [📚 Casos Reais](#-casos-reais-de-aplicação-na-indústria) | Indústria | Netflix, Amazon, Spotify, Google |
 
 ### 🎯 Casos de Uso por Princípio
