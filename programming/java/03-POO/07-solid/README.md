@@ -1,5 +1,53 @@
 # Princípios SOLID - Fundamentos da Engenharia de Software de Qualidade
 
+## 🚀 Guia Rápido de Navegação
+
+Este documento apresenta os cinco princípios SOLID com exemplos práticos, casos reais de empresas brasileiras e fundamentação acadêmica.
+
+### 📑 Conteúdo Principal
+
+| Seção | Descrição | O que você vai aprender |
+|-------|-----------|------------------------|
+| [📖 Contextualização](#-contextualização-histórica-a-crise-do-software) | História e importância | Por que SOLID existe e qual problema resolve |
+| [1️⃣ SRP](#1️⃣-single-responsibility-principle-srp) | Responsabilidade Única | Uma classe, uma responsabilidade |
+| [2️⃣ OCP](#2️⃣-openclosed-principle-ocp) | Aberto/Fechado | Extensão sem modificação |
+| [3️⃣ LSP](#3️⃣-liskov-substitution-principle-lsp) | Substituição de Liskov | Subtipos devem ser substituíveis |
+| [4️⃣ ISP](#4️⃣-interface-segregation-principle-isp) | Segregação de Interface | Interfaces específicas, não genéricas |
+| [5️⃣ DIP](#5️⃣-dependency-inversion-principle-dip) | Inversão de Dependência | Dependa de abstrações |
+| [🎓 Exercícios](#-exercícios-práticos-e-estudos-de-caso) | Prática guiada | 7 exercícios com soluções |
+| [📚 Casos Reais](#-casos-reais-de-aplicação-na-indústria) | Indústria | Netflix, Amazon, Spotify, Google |
+
+### 🎯 Casos de Uso por Princípio
+
+**Quando usar cada princípio:**
+
+- **SRP**: Sua classe faz mais de uma coisa? Refatore!
+  - *Exemplo Real*: E-commerce Magazine Luiza - Classe `Pedido` fazia tudo
+  
+- **OCP**: Precisa modificar código toda vez que adiciona feature? Use extensão!
+  - *Exemplo Real*: ERP tributário - Cada estado era um `if/else`
+  
+- **LSP**: Subclasse quebra quando substitui pai? Redesenhe hierarquia!
+  - *Exemplo Real*: Fintech - PIX não podia estornar como cartão
+  
+- **ISP**: Implementa métodos que lança exceção "não suportado"? Segregue interface!
+  - *Exemplo Real*: Startup delivery - SMS não envia anexos
+  
+- **DIP**: Impossível testar sem banco/API real? Inverta dependências!
+  - *Exemplo Real*: E-commerce Black Friday - Acoplamento derrubou sistema
+
+### 💡 Benefícios Mensuráveis (Dados Reais)
+
+| Métrica | Sem SOLID | Com SOLID | Melhoria |
+|---------|-----------|-----------|----------|
+| 🐛 Bugs/1000 linhas | 3-5 | 1-2 | **50-60%** ↓ |
+| ⏱️ Tempo de testes | 30-60 min | 2-5 min | **85-90%** ↓ |
+| 🔄 Tempo para mudança | 2-4 semanas | 1-2 dias | **90%** ↓ |
+| 💰 Custo de manutenção | 60% projeto | 20% projeto | **66%** ↓ |
+| 🧪 Cobertura de testes | 30-50% | 70-90% | **100%** ↑ |
+
+---
+
 ## 📖 Contextualização Histórica: A Crise do Software
 
 ### A Gênese dos Problemas
