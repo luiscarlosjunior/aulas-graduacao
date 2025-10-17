@@ -1765,7 +1765,7 @@ Nossa solução elimina este smell através de interfaces role-based.
 - FOWLER, M. (2018). *Refactoring: Improving the Design of Existing Code*. 2nd Ed. Addison-Wesley.
 - LAAKSO, K.; SEPPÄNEN, M. (2010). "Effects of Interface Segregation on Software Maintainability". *Nordic Workshop on Programming Theory*.
 - Caso baseado em experiência real documentada em MARTIN, R. C. (2002). *Agile Software Development*, Cap. 12.
-- ABCOMM (2021). "Relatório Setorial de Delivery no Brasil".
+- ABComm (2021). "Relatório Setorial de Delivery no Brasil".
 
 ---
 
