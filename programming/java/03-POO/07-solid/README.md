@@ -869,7 +869,7 @@ public class CalculadoraArea {
 - ⚡ **Expectativa de instantaneidade**: 67% dos consumidores abandonam compra se pagamento demora > 30s
 
 **Impacto nos Negócios**:
-Pesquisa da Conpas (Confederação Nacional das Empresas de Comércio) mostra:
+Pesquisa da ABComm (Associação Brasileira de Comércio Eletrônico) mostra<sup>[1](https://abcomm.org/estatisticas/)</sup>:
 - 📉 **35% de abandono de carrinho** devido a falta de método de pagamento preferido
 - 💸 **Taxa de conversão**: Oferecer PIX aumenta conversão em 15-20%
 - 🎯 **Ticket médio**: Parcelamento no cartão aumenta ticket em 30%
