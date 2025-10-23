@@ -1737,6 +1737,539 @@ INNER JOIN artista ar ON al.id_artista = ar.id_artista;
 -- Passo 3: Continue adicionando...
 ```
 
+#### 4.7 Exemplos Práticos de JOINs em SQL Developer
+
+Esta seção apresenta exemplos práticos de JOINs que você pode executar diretamente no Oracle SQL Developer, com foco em cenários reais e boas práticas de desenvolvimento.
+
+**Por que esta seção é importante:**
+- **Prática Guiada**: Exemplos prontos para executar no SQL Developer
+- **Cenários Reais**: Situações comuns em sistemas de informação
+- **Visualização**: Como interpretar resultados no SQL Developer
+- **Troubleshooting**: Soluções para problemas comuns
+
+##### 4.7.1 JOIN para Relatórios de Negócio
+
+**Exemplo 1: Relatório de Catálogo Completo**
+```sql
+-- Listar todas as músicas com suas informações completas
+-- Use este exemplo para entender a estrutura do banco de dados
+SELECT 
+    ar.nome_artista AS "Artista",
+    ar.pais_origem AS "País",
+    al.titulo AS "Álbum",
+    al.ano_lancamento AS "Ano",
+    m.titulo AS "Música",
+    m.numero_faixa AS "Faixa",
+    TRUNC(m.duracao / 60) || ':' || 
+        LPAD(MOD(m.duracao, 60), 2, '0') AS "Duração",
+    g.nome_genero AS "Gênero"
+FROM musica m
+INNER JOIN album al ON m.id_album = al.id_album
+INNER JOIN artista ar ON al.id_artista = ar.id_artista
+INNER JOIN genero g ON m.id_genero = g.id_genero
+ORDER BY ar.nome_artista, al.ano_lancamento, m.numero_faixa;
+```
+
+**Como usar no SQL Developer:**
+1. Copie e cole o código na worksheet
+2. Clique em "Run Script" (F5) para ver os resultados formatados
+3. Use "Export" para salvar como CSV ou Excel
+4. Ajuste as colunas do resultado para melhor visualização
+
+**Resultado esperado:**
+```
+Artista         | País   | Álbum      | Ano  | Música        | Faixa | Duração | Gênero
+----------------|--------|------------|------|---------------|-------|---------|--------
+The Beatles     | UK     | Abbey Road | 1969 | Come Together | 1     | 4:19    | Rock
+The Beatles     | UK     | Abbey Road | 1969 | Something     | 2     | 3:02    | Rock
+```
+
+**Exemplo 2: Análise de Popularidade por Gênero**
+```sql
+-- Descobrir quais gêneros são mais populares
+SELECT 
+    g.nome_genero AS "Gênero",
+    COUNT(DISTINCT ar.id_artista) AS "Artistas",
+    COUNT(DISTINCT al.id_album) AS "Álbuns",
+    COUNT(DISTINCT m.id_musica) AS "Músicas",
+    ROUND(AVG(m.duracao) / 60, 2) AS "Duração Média (min)"
+FROM genero g
+LEFT JOIN musica m ON g.id_genero = m.id_genero
+LEFT JOIN album al ON m.id_album = al.id_album
+LEFT JOIN artista ar ON al.id_artista = ar.id_artista
+GROUP BY g.id_genero, g.nome_genero
+HAVING COUNT(DISTINCT m.id_musica) > 0
+ORDER BY COUNT(DISTINCT m.id_musica) DESC;
+```
+
+**Por que usar LEFT JOIN aqui:**
+- Garante que todos os gêneros apareçam, mesmo sem músicas cadastradas
+- Gêneros sem músicas terão contagens zero
+- Útil para identificar gêneros não utilizados no catálogo
+
+**Dica SQL Developer:**
+- Clique com botão direito no resultado → "Export" → escolha formato
+- Use "Copy" para colar em apresentações
+- "Pin" a query para acesso rápido depois
+
+**Exemplo 3: Descobrir Artistas Prolíficos**
+```sql
+-- Artistas com mais álbuns e músicas (TOP 20)
+SELECT 
+    ar.nome_artista AS "Artista",
+    ar.pais_origem AS "País",
+    COUNT(DISTINCT al.id_album) AS "Álbuns",
+    COUNT(m.id_musica) AS "Músicas",
+    SUM(m.duracao) / 3600 AS "Horas Totais",
+    ROUND(AVG(m.duracao), 0) AS "Duração Média (seg)"
+FROM artista ar
+LEFT JOIN album al ON ar.id_artista = al.id_artista
+LEFT JOIN musica m ON al.id_album = m.id_album
+GROUP BY ar.id_artista, ar.nome_artista, ar.pais_origem
+HAVING COUNT(DISTINCT al.id_album) >= 1
+ORDER BY COUNT(DISTINCT al.id_album) DESC, COUNT(m.id_musica) DESC
+FETCH FIRST 20 ROWS ONLY;
+```
+
+**Análise do resultado:**
+- Identifica artistas com maior produção
+- Útil para destacar artistas principais do catálogo
+- Pode ser usado em páginas de "Artistas em Destaque"
+
+##### 4.7.2 JOINs com Agregações e Estatísticas
+
+**Exemplo 4: Playlists Mais Populares**
+```sql
+-- Descobrir as playlists mais seguidas/escutadas
+SELECT 
+    p.nome_playlist AS "Playlist",
+    u.nome_usuario AS "Criador",
+    p.publica AS "Pública",
+    COUNT(DISTINCT pm.id_musica) AS "Músicas",
+    SUM(m.duracao) / 60 AS "Duração Total (min)"
+FROM playlist p
+INNER JOIN usuario u ON p.id_usuario = u.id_usuario
+LEFT JOIN playlist_musica pm ON p.id_playlist = pm.id_playlist
+LEFT JOIN musica m ON pm.id_musica = m.id_musica
+GROUP BY p.id_playlist, p.nome_playlist, u.nome_usuario, p.publica
+ORDER BY COUNT(DISTINCT pm.id_musica) DESC;
+```
+
+**Notas importantes:**
+- `LEFT JOIN playlist_musica`: Inclui playlists vazias (recém-criadas)
+- `COUNT(DISTINCT pm.id_musica)`: Evita contar duplicatas
+- Útil para relatórios administrativos
+
+**Exemplo 5: Músicas Mais Tocadas por Período**
+```sql
+-- Top 10 músicas mais reproduzidas no último mês
+SELECT 
+    ar.nome_artista AS "Artista",
+    m.titulo AS "Música",
+    al.titulo AS "Álbum",
+    COUNT(hr.id_historico) AS "Reproduções",
+    COUNT(DISTINCT hr.id_usuario) AS "Usuários Únicos",
+    MIN(hr.data_reproducao) AS "Primeira Reprodução",
+    MAX(hr.data_reproducao) AS "Última Reprodução"
+FROM historico_reproducao hr
+INNER JOIN musica m ON hr.id_musica = m.id_musica
+INNER JOIN album al ON m.id_album = al.id_album
+INNER JOIN artista ar ON al.id_artista = ar.id_artista
+WHERE hr.data_reproducao >= ADD_MONTHS(SYSDATE, -1)
+GROUP BY ar.nome_artista, m.titulo, al.titulo, m.id_musica
+ORDER BY COUNT(hr.id_historico) DESC
+FETCH FIRST 10 ROWS ONLY;
+```
+
+**Funcionalidades Oracle usadas:**
+- `ADD_MONTHS(SYSDATE, -1)`: Data de 1 mês atrás
+- `COUNT(DISTINCT hr.id_usuario)`: Usuários únicos que ouviram
+- `FETCH FIRST 10 ROWS ONLY`: Sintaxe moderna Oracle (12c+)
+
+**Dica SQL Developer:**
+- Salve esta query como "Report" → Botão direito → "Save As Report"
+- Configure parâmetros para tornar reutilizável
+- Agende execução automática (Tools → Scheduler)
+
+**Exemplo 6: Análise de Comportamento de Usuários**
+```sql
+-- Usuários mais ativos e seus gêneros favoritos
+SELECT 
+    u.nome_usuario AS "Usuário",
+    u.email AS "Email",
+    COUNT(DISTINCT hr.id_musica) AS "Músicas Diferentes",
+    COUNT(hr.id_historico) AS "Total Reproduções",
+    g.nome_genero AS "Gênero Mais Ouvido"
+FROM usuario u
+INNER JOIN historico_reproducao hr ON u.id_usuario = hr.id_usuario
+INNER JOIN musica m ON hr.id_musica = m.id_musica
+INNER JOIN genero g ON m.id_genero = g.id_genero
+GROUP BY u.id_usuario, u.nome_usuario, u.email, g.id_genero, g.nome_genero
+HAVING COUNT(hr.id_historico) > 100
+ORDER BY COUNT(hr.id_historico) DESC;
+```
+
+**Observação:** 
+Esta query pode retornar múltiplas linhas por usuário se ele ouvir múltiplos gêneros. Para obter apenas o gênero mais ouvido, use window functions (seção avançada).
+
+##### 4.7.3 JOINs para Análise de Dados Faltantes
+
+**Exemplo 7: Identificar Álbuns Sem Músicas**
+```sql
+-- Encontrar álbuns que não têm músicas cadastradas
+SELECT 
+    ar.nome_artista AS "Artista",
+    al.titulo AS "Álbum Incompleto",
+    al.ano_lancamento AS "Ano",
+    al.numero_faixas AS "Faixas Esperadas"
+FROM album al
+INNER JOIN artista ar ON al.id_artista = ar.id_artista
+LEFT JOIN musica m ON al.id_album = m.id_album
+WHERE m.id_musica IS NULL
+ORDER BY ar.nome_artista, al.ano_lancamento;
+```
+
+**Uso prático:**
+- Qualidade de dados: identifica catálogo incompleto
+- Administração: lista de álbuns para completar cadastro
+- `WHERE m.id_musica IS NULL`: Chave para encontrar LEFT JOIN sem correspondência
+
+**Como executar no SQL Developer:**
+1. Execute a query
+2. Se retornar resultados, há álbuns incompletos
+3. Use os IDs para corrigir os dados
+4. Re-execute para validar correção
+
+**Exemplo 8: Artistas Sem Produção**
+```sql
+-- Artistas cadastrados mas sem álbuns ou músicas
+SELECT 
+    ar.nome_artista AS "Artista",
+    ar.pais_origem AS "País",
+    ar.data_formacao AS "Ano Formação",
+    CASE 
+        WHEN al.id_album IS NULL THEN 'Sem álbuns'
+        WHEN m.id_musica IS NULL THEN 'Com álbuns mas sem músicas'
+        ELSE 'OK'
+    END AS "Status"
+FROM artista ar
+LEFT JOIN album al ON ar.id_artista = al.id_artista
+LEFT JOIN musica m ON al.id_album = m.id_album
+WHERE al.id_album IS NULL OR m.id_musica IS NULL
+GROUP BY ar.id_artista, ar.nome_artista, ar.pais_origem, 
+         ar.data_formacao, al.id_album, m.id_musica
+ORDER BY ar.nome_artista;
+```
+
+**Categoria de problemas identificados:**
+1. **Sem álbuns**: Artista cadastrado mas sem produção
+2. **Com álbuns mas sem músicas**: Álbuns vazios
+3. Útil para limpeza e manutenção do banco
+
+**Exemplo 9: Gêneros Não Utilizados**
+```sql
+-- Gêneros cadastrados mas sem músicas associadas
+SELECT 
+    g.nome_genero AS "Gênero Não Utilizado",
+    g.id_genero AS "ID"
+FROM genero g
+LEFT JOIN musica m ON g.id_genero = m.id_genero
+WHERE m.id_musica IS NULL
+ORDER BY g.nome_genero;
+```
+
+**Ação recomendada:**
+- Se retornar resultados, considere remover gêneros não utilizados
+- Ou planeje criar músicas desses gêneros
+- Mantém banco de dados limpo e organizado
+
+##### 4.7.4 JOINs Complexos com Subconsultas
+
+**Exemplo 10: Artistas com Álbuns em Múltiplas Décadas**
+```sql
+-- Artistas com carreira duradoura (álbuns em diferentes décadas)
+SELECT 
+    ar.nome_artista AS "Artista",
+    COUNT(DISTINCT TRUNC(al.ano_lancamento / 10) * 10) AS "Décadas Ativas",
+    MIN(al.ano_lancamento) AS "Primeiro Álbum",
+    MAX(al.ano_lancamento) AS "Último Álbum",
+    MAX(al.ano_lancamento) - MIN(al.ano_lancamento) AS "Anos de Carreira"
+FROM artista ar
+INNER JOIN album al ON ar.id_artista = al.id_artista
+WHERE al.ano_lancamento IS NOT NULL
+GROUP BY ar.id_artista, ar.nome_artista
+HAVING COUNT(DISTINCT TRUNC(al.ano_lancamento / 10) * 10) >= 3
+ORDER BY COUNT(DISTINCT TRUNC(al.ano_lancamento / 10) * 10) DESC;
+```
+
+**Análise:**
+- `TRUNC(al.ano_lancamento / 10) * 10`: Converte ano em década
+- `HAVING ... >= 3`: Apenas artistas com 3+ décadas de carreira
+- Identifica artistas longevos e consistentes
+
+**Exemplo 11: Comparação de Duração Média entre Gêneros e Décadas**
+```sql
+-- Evolução da duração das músicas por gênero ao longo do tempo
+SELECT 
+    g.nome_genero AS "Gênero",
+    TRUNC(al.ano_lancamento / 10) * 10 AS "Década",
+    COUNT(m.id_musica) AS "Músicas",
+    ROUND(AVG(m.duracao) / 60, 2) AS "Duração Média (min)",
+    ROUND(MIN(m.duracao) / 60, 2) AS "Mais Curta (min)",
+    ROUND(MAX(m.duracao) / 60, 2) AS "Mais Longa (min)"
+FROM musica m
+INNER JOIN genero g ON m.id_genero = g.id_genero
+INNER JOIN album al ON m.id_album = al.id_album
+WHERE al.ano_lancamento IS NOT NULL
+GROUP BY g.nome_genero, TRUNC(al.ano_lancamento / 10) * 10
+HAVING COUNT(m.id_musica) >= 10
+ORDER BY g.nome_genero, TRUNC(al.ano_lancamento / 10) * 10;
+```
+
+**Insights possíveis:**
+- Músicas de Rock ficaram mais longas nos anos 70?
+- Pop tem músicas mais curtas que Jazz?
+- Tendências musicais ao longo das décadas
+
+**Exemplo 12: Músicas em Múltiplas Playlists (Popularidade)**
+```sql
+-- Músicas mais adicionadas em playlists (indica popularidade)
+SELECT 
+    m.titulo AS "Música",
+    ar.nome_artista AS "Artista",
+    al.titulo AS "Álbum",
+    COUNT(DISTINCT pm.id_playlist) AS "Em Playlists",
+    COUNT(DISTINCT hr.id_usuario) AS "Ouvintes Únicos"
+FROM musica m
+INNER JOIN album al ON m.id_album = al.id_album
+INNER JOIN artista ar ON al.id_artista = ar.id_artista
+INNER JOIN playlist_musica pm ON m.id_musica = pm.id_musica
+LEFT JOIN historico_reproducao hr ON m.id_musica = hr.id_musica
+GROUP BY m.id_musica, m.titulo, ar.nome_artista, al.titulo
+HAVING COUNT(DISTINCT pm.id_playlist) >= 5
+ORDER BY COUNT(DISTINCT pm.id_playlist) DESC, 
+         COUNT(DISTINCT hr.id_usuario) DESC;
+```
+
+**Métrica de popularidade:**
+- Quanto mais playlists contêm a música, mais popular ela é
+- Combina popularidade (playlists) com alcance (ouvintes)
+- Útil para criar playlists automáticas de "hits"
+
+##### 4.7.5 Troubleshooting de JOINs no SQL Developer
+
+**Problema 1: Query retorna menos resultados que esperado**
+
+```sql
+-- PROBLEMA: Usando INNER JOIN quando deveria usar LEFT JOIN
+-- INCORRETO: Perde artistas sem álbuns
+SELECT ar.nome_artista, COUNT(al.id_album)
+FROM artista ar
+INNER JOIN album al ON ar.id_artista = al.id_artista
+GROUP BY ar.nome_artista;
+
+-- CORRETO: Inclui todos os artistas
+SELECT ar.nome_artista, COUNT(al.id_album)
+FROM artista ar
+LEFT JOIN album al ON ar.id_artista = al.id_artista
+GROUP BY ar.nome_artista;
+```
+
+**Como verificar no SQL Developer:**
+1. Execute primeiro `SELECT COUNT(*) FROM artista;`
+2. Execute o JOIN e conte resultados
+3. Se números não batem, revise tipo de JOIN
+
+**Problema 2: Query retorna duplicatas inesperadas**
+
+```sql
+-- PROBLEMA: JOIN cartesiano acidental
+-- INCORRETO: Duplica resultados
+SELECT ar.nome_artista, m.titulo
+FROM artista ar
+INNER JOIN album al ON ar.id_artista = al.id_artista
+INNER JOIN musica m ON ar.id_artista = m.id_artista; -- ERRADO!
+
+-- CORRETO: JOIN pela relação correta
+SELECT ar.nome_artista, m.titulo
+FROM artista ar
+INNER JOIN album al ON ar.id_artista = al.id_artista
+INNER JOIN musica m ON al.id_album = m.id_album; -- CERTO!
+```
+
+**Dica de debug:**
+- Adicione COUNT(*) para detectar duplicatas
+- Use DISTINCT temporariamente para verificar
+- Revise relacionamentos entre tabelas
+
+**Problema 3: Performance lenta em JOINs**
+
+```sql
+-- PROBLEMA: JOIN sem índices ou com muitos dados
+-- SOLUÇÃO 1: Adicionar índices (se DBA)
+CREATE INDEX idx_album_artista ON album(id_artista);
+CREATE INDEX idx_musica_album ON musica(id_album);
+
+-- SOLUÇÃO 2: Filtrar antes de JOIN
+-- Menos eficiente
+SELECT ar.nome_artista, m.titulo
+FROM artista ar
+INNER JOIN album al ON ar.id_artista = al.id_artista
+INNER JOIN musica m ON al.id_album = m.id_album
+WHERE ar.pais_origem = 'Brasil';
+
+-- Mais eficiente (para grandes volumes)
+SELECT ar.nome_artista, m.titulo
+FROM (SELECT * FROM artista WHERE pais_origem = 'Brasil') ar
+INNER JOIN album al ON ar.id_artista = al.id_artista
+INNER JOIN musica m ON al.id_album = m.id_album;
+```
+
+**Ferramentas SQL Developer para diagnóstico:**
+- **F10 (Explain Plan)**: Ver plano de execução
+- **Autotrace**: Analisar estatísticas de performance
+- **SQL Tuning Advisor**: Sugestões automáticas (Oracle)
+
+**Problema 4: Condição de JOIN incorreta**
+
+```sql
+-- PROBLEMA: Usar WHERE ao invés de ON
+-- INCORRETO: Pode gerar resultados inesperados
+SELECT ar.nome_artista, al.titulo
+FROM artista ar
+INNER JOIN album al
+WHERE ar.id_artista = al.id_artista; -- Deveria ser ON!
+
+-- CORRETO: Condição de JOIN no ON
+SELECT ar.nome_artista, al.titulo
+FROM artista ar
+INNER JOIN album al ON ar.id_artista = al.id_artista;
+```
+
+**Diferença:**
+- **ON**: Condição de junção das tabelas
+- **WHERE**: Filtro aplicado após JOIN
+- Ambos funcionam com INNER JOIN, mas semanticamente ON é correto
+
+**Problema 5: NULL values em agregações**
+
+```sql
+-- PROBLEMA: COUNT(*) vs COUNT(coluna) com LEFT JOIN
+SELECT 
+    ar.nome_artista,
+    COUNT(*) AS total_linhas,           -- Conta linhas (inclui NULL)
+    COUNT(al.id_album) AS total_albums  -- Conta valores (ignora NULL)
+FROM artista ar
+LEFT JOIN album al ON ar.id_artista = al.id_artista
+GROUP BY ar.nome_artista;
+
+-- Artista sem álbum:
+-- total_linhas = 1 (conta a linha com NULL)
+-- total_albums = 0 (não conta NULL)
+```
+
+**Regra de ouro:**
+- Com LEFT/RIGHT JOIN: Use `COUNT(coluna)` da tabela opcional
+- Com INNER JOIN: `COUNT(*)` e `COUNT(coluna)` são equivalentes
+
+##### 4.7.6 Boas Práticas de JOINs no SQL Developer
+
+**1. Use aliases descritivos e consistentes:**
+```sql
+-- BOM
+SELECT 
+    ar.nome_artista,
+    al.titulo,
+    m.titulo
+FROM artista ar
+INNER JOIN album al ON ar.id_artista = al.id_artista
+INNER JOIN musica m ON al.id_album = m.id_album;
+
+-- RUIM (inconsistente)
+SELECT 
+    artista.nome_artista,
+    a.titulo,
+    music.titulo
+FROM artista
+INNER JOIN album a ON artista.id_artista = a.id_artista
+INNER JOIN musica music ON a.id_album = music.id_album;
+```
+
+**2. Formate queries para legibilidade:**
+```sql
+-- BOM (fácil de ler e manter)
+SELECT 
+    ar.nome_artista AS "Artista",
+    al.titulo AS "Álbum",
+    COUNT(m.id_musica) AS "Músicas"
+FROM artista ar
+    INNER JOIN album al 
+        ON ar.id_artista = al.id_artista
+    INNER JOIN musica m 
+        ON al.id_album = m.id_album
+GROUP BY 
+    ar.id_artista,
+    ar.nome_artista,
+    al.id_album,
+    al.titulo
+ORDER BY 
+    COUNT(m.id_musica) DESC;
+
+-- RUIM (difícil de ler)
+SELECT ar.nome_artista, al.titulo, COUNT(m.id_musica) FROM artista ar INNER JOIN album al ON ar.id_artista = al.id_artista INNER JOIN musica m ON al.id_album = m.id_album GROUP BY ar.id_artista, ar.nome_artista, al.id_album, al.titulo ORDER BY COUNT(m.id_musica) DESC;
+```
+
+**3. Documente queries complexas:**
+```sql
+-- Relatório de produtividade de artistas
+-- Mostra artistas com mais de 5 álbuns e pelo menos 50 músicas
+-- Ordenado por total de músicas
+-- Atualizado: 2025-10-23
+SELECT 
+    ar.nome_artista AS "Artista",
+    COUNT(DISTINCT al.id_album) AS "Álbuns",
+    COUNT(m.id_musica) AS "Músicas"
+FROM artista ar
+    INNER JOIN album al ON ar.id_artista = al.id_artista
+    INNER JOIN musica m ON al.id_album = m.id_album
+GROUP BY ar.id_artista, ar.nome_artista
+HAVING 
+    COUNT(DISTINCT al.id_album) >= 5
+    AND COUNT(m.id_musica) >= 50
+ORDER BY COUNT(m.id_musica) DESC;
+```
+
+**4. Teste incrementalmente:**
+```sql
+-- PASSO 1: Teste a tabela base
+SELECT * FROM artista WHERE ROWNUM <= 10;
+
+-- PASSO 2: Adicione primeiro JOIN
+SELECT ar.nome_artista, al.titulo
+FROM artista ar
+INNER JOIN album al ON ar.id_artista = al.id_artista
+WHERE ROWNUM <= 10;
+
+-- PASSO 3: Complete a query
+SELECT ar.nome_artista, al.titulo, COUNT(m.id_musica)
+FROM artista ar
+INNER JOIN album al ON ar.id_artista = al.id_artista
+INNER JOIN musica m ON al.id_album = m.id_album
+GROUP BY ar.nome_artista, al.titulo;
+```
+
+**5. Use SQL Developer Snippets:**
+- Salve queries úteis como Snippets (View → Snippets)
+- Organize por categoria (Reports, Joins, etc.)
+- Compartilhe com equipe via export/import
+
+**Recursos do SQL Developer para JOINs:**
+- **Code Template**: CTRL+SPACE para autocompletar JOINs
+- **Explain Plan (F10)**: Analisar performance
+- **Query Builder**: Ferramenta visual para criar JOINs
+- **SQL History**: Recuperar queries anteriores
+- **Format (CTRL+F7)**: Auto-formatar SQL
+
 ### PARTE 2: TRANSAÇÕES E CONTROLE
 
 Transações são um dos conceitos mais importantes em bancos de dados, garantindo que operações complexas sejam executadas de forma confiável e consistente. Esta seção explora como controlar transações em SQL.
