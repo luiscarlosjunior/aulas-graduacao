@@ -1,3 +1,93 @@
+-- Contar o número de músicas em cada álbum
+SELECT id_album, COUNT(*) AS total_musicas FROM musica GROUP BY id_album;
+
+-- Contar o número de playlists criadas por cada usuário
+SELECT id_usuario, COUNT(*) AS total_playlists FROM playlist GROUP BY id_usuario;
+
+-- Contar o número de reproduções de cada música
+SELECT id_musica, SUM(total_reproducoes) AS total_reproducoes FROM musica GROUP BY id_musica;
+
+-- Calcular a duração média das músicas em cada álbum
+SELECT id_album, AVG(duracao) AS duracao_media FROM musica GROUP BY id_album;
+
+-- Fltro em group by sem having
+
+SELECT id_album, COUNT(*) AS total_musicas
+FROM musica
+GROUP BY id_album
+-- Aqui não podemos usar WHERE total_musicas > 5
+
+SELECT *
+FROM (
+    SELECT id_album, COUNT(*) AS total_musicas
+    FROM musica
+    GROUP BY id_album
+) sub
+WHERE total_musicas > 5;
+
+
+SELECT id_album, COUNT(*) AS total_musicas
+FROM musica
+GROUP BY id_album;
+
+
+--2 – O desafio: filtrar depois da agregação**
+
+--“E se quisermos filtrar os resultados agregados?”
+
+SELECT id_album, COUNT(*) AS total_musicas
+FROM musica
+GROUP BY id_album
+-- Aqui não podemos usar WHERE total_musicas > 5
+
+
+
+--Criamos uma subquery que primeiro calcula a agregação.
+--Depois, aplicamos `WHERE` na query externa para filtrar.
+
+
+SELECT *
+FROM (
+    SELECT id_album, COUNT(*) AS total_musicas
+    FROM musica
+    GROUP BY id_album
+) sub
+WHERE total_musicas > 5;
+
+
+--* O `HAVING` foi criado para **filtrar resultados de funções agregadas**.
+--* Permite aplicar a condição **diretamente na query com GROUP BY**, sem subquery.
+
+SELECT id_album, COUNT(*) AS total_musicas
+FROM musica
+GROUP BY id_album
+HAVING COUNT(*) > 5;
+
+
+-- “Sempre que quiser filtrar agregações, use `HAVING` — mas agora sabemos que, em último caso, subquery também resolve.”
+
+
+-- “Mostre todos os usuários que criaram mais de 3 playlists.”
+
+--Com subquery:
+
+
+SELECT *
+FROM (
+    SELECT id_usuario, COUNT(*) AS total_playlists
+    FROM playlist
+    GROUP BY id_usuario
+) sub
+WHERE total_playlists > 3;
+
+
+-- Com HAVING:
+
+SELECT id_usuario, COUNT(*) AS total_playlists
+FROM playlist
+GROUP BY id_usuario
+HAVING COUNT(*) > 3;
+
 
 
 -- Total de músicas por gênero (somente gêneros com mais de 10 músicas)
