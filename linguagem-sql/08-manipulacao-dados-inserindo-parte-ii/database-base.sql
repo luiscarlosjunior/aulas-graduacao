@@ -212,3 +212,16 @@ CREATE TABLE historico_reproducao (
     -- Constraints de validação
     CONSTRAINT ck_duracao_ouvida CHECK (duracao_ouvida >= 0)
 );
+
+-- Inserindo dados iniciais nas tabelas
+SELECT nome_artista
+FROM artista
+WHERE nome_artista LIKE '_e%';
+
+
+
+
+
+
+
+
