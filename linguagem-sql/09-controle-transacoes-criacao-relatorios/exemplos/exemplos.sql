@@ -188,6 +188,20 @@ ORDER BY gasto_medio DESC;
 
 -- 1. INNER JOIN
 
+-- Sem join
+SELECT titulo,
+       (SELECT COUNT(*)
+        FROM musica m
+        WHERE m.id_album = a.id_album) AS total_musicas
+FROM album a;
+
+SELECT a.titulo, COUNT(m.id_musica) AS total_musicas
+FROM album a
+JOIN musica m ON m.id_album = a.id_album
+GROUP BY a.titulo;
+
+
+
 -- Retorna apenas os registros que possuem correspondência nas duas tabelas.
 
 SELECT 
@@ -292,3 +306,23 @@ LEFT JOIN musica m ON a.id_album = m.id_album
 GROUP BY ar.nome_artista
 HAVING SUM(CASE WHEN m.id_musica IS NULL THEN 1 ELSE 0 END) > 0
 ORDER BY albuns_sem_musicas DESC;
+
+
+-----------
+
+
+SELECT 
+    u.id_usuario,
+    u.nome_usuario,
+    COUNT(DISTINCT p.id_playlist) AS total_playlists,
+    SUM(pm.total_musicas_playlist) AS total_musicas_usuario
+FROM usuario u
+JOIN playlist p ON p.id_usuario = u.id_usuario
+JOIN (
+    -- Subquery: contar músicas por playlist
+    SELECT pm.id_playlist, COUNT(*) AS total_musicas_playlist
+    FROM playlist_musica pm
+    GROUP BY pm.id_playlist
+) pm ON pm.id_playlist = p.id_playlist
+GROUP BY u.id_usuario, u.nome_usuario
+HAVING SUM(pm.total_musicas_playlist) > 3;
