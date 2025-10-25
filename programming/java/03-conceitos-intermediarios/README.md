@@ -70,7 +70,7 @@ A programação genérica permite a criação de componentes altamente reutiliz�
 
 - **Type Erasure (Apagamento de Tipos)**: Compreensão do mecanismo interno pelo qual o compilador Java implementa Generics mantendo compatibilidade binária com código pré-Generics. O compilador remove informações de tipo em tempo de compilação e insere casts onde necessário, resultando em bytecode que não contém informações sobre type parameters. Entenda as limitações impostas por type erasure, como a impossibilidade de criar arrays de tipos parametrizados ou verificar instanceof com tipos genéricos.
 
-### [03 - Enumerações](03-enum/)
+### [03 - Enumerações](03-enumeracao/)
 **Tipos Enumerados: Modelagem Type-Safe de Conjuntos Finitos**
 
 Enumerações (Enums) são tipos especiais introduzidos no Java 5 que representam um grupo fixo de constantes relacionadas. Diferentemente de simples constantes inteiras ou strings, Enums em Java são classes completas que podem ter campos, métodos, construtores e implementar interfaces, proporcionando uma forma robusta e type-safe de representar conjuntos finitos de valores.
