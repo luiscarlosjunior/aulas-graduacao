@@ -12,7 +12,7 @@ public class TesteAbstractFactory {
         System.out.println("🏭 DEMONSTRAÇÃO DO PADRÃO ABSTRACT FACTORY\n");
         
         // Exemplo 1: Aplicação com tema claro
-        System.out.println("=" .repeat(70));
+        System.out.println("=".repeat(70));
         System.out.println("📱 EXEMPLO 1: Aplicação com Tema Claro");
         System.out.println("=".repeat(70));
         
