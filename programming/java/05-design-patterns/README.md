@@ -137,6 +137,10 @@ Para facilitar o entendimento inicial, aqui estão exemplos básicos de alguns p
 /**
  * Exemplo simples de Singleton
  * Garante apenas uma instância da classe
+ * 
+ * NOTA EDUCACIONAL: Esta é uma versão simplificada para demonstração.
+ * Para ambientes multi-thread, use synchronized, double-checked locking,
+ * ou implementação com enum (veja exemplos completos nos subdiretórios).
  */
 public class ConfiguracaoApp {
     // Única instância (estática)
@@ -240,8 +244,9 @@ logistica.planejarEntrega(); // "Entrega por terra usando caminhão"
 /**
  * Exemplo simples de Observer
  * Notifica múltiplos objetos sobre mudanças de estado
+ * 
+ * NOTA: Em código real, imports ficam no topo do arquivo
  */
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -312,6 +317,9 @@ canal.publicarNoticia("Nova versão disponível!");
 /**
  * Exemplo simples de Strategy
  * Permite trocar algoritmos de validação dinamicamente
+ * 
+ * NOTA EDUCACIONAL: As validações são simplificadas para demonstração.
+ * Em produção, use bibliotecas especializadas para validação.
  */
 
 // Interface Strategy
@@ -322,12 +330,15 @@ interface EstrategiaValidacao {
 // Estratégias concretas
 class ValidacaoEmail implements EstrategiaValidacao {
     public boolean validar(String texto) {
+        // Validação simplificada: contém @ e .
+        // Em produção, use regex completo ou biblioteca
         return texto.contains("@") && texto.contains(".");
     }
 }
 
 class ValidacaoTelefone implements EstrategiaValidacao {
     public boolean validar(String texto) {
+        // Valida telefone brasileiro: 10 ou 11 dígitos
         return texto.matches("\\d{10,11}");
     }
 }
@@ -335,8 +346,8 @@ class ValidacaoTelefone implements EstrategiaValidacao {
 class ValidacaoSenhaForte implements EstrategiaValidacao {
     public boolean validar(String texto) {
         return texto.length() >= 8 && 
-               texto.matches(".*[A-Z].*") && 
-               texto.matches(".*[0-9].*");
+               texto.matches(".*[A-Z].*") &&  // Tem maiúscula
+               texto.matches(".*[0-9].*");    // Tem número
     }
 }
 
@@ -349,6 +360,9 @@ class ValidadorCampo {
     }
     
     public boolean validar(String texto) {
+        if (estrategia == null) {
+            throw new IllegalStateException("Estratégia não definida");
+        }
         return estrategia.validar(texto);
     }
 }
