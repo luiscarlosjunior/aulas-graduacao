@@ -261,3 +261,18 @@ GROUP BY g.nome_genero
 ORDER BY total_musicas DESC;
 
 COMMIT;
+
+
+SELECT
+    a.nome_artista AS "Artista",
+    COUNT(DISTINCT h.id_usuario) AS "Ouvintes Únicos",
+    COUNT(h.id_historico) AS "Total de Reproduções",
+    COUNT(DISTINCT m.id_musica) AS "Músicas Diferentes Ouvidas",
+    ROUND( COUNT(h.id_historico) / COUNT(DISTINCT h.id_usuario), 2 ) 
+        AS "Média Reproduções por Usuário"
+FROM historico_reproducao h
+INNER JOIN musica m ON h.id_musica = m.id_musica
+INNER JOIN album al ON m.id_album = al.id_album
+INNER JOIN artista a ON al.id_artista = a.id_artista
+GROUP BY a.nome_artista
+ORDER BY "Ouvintes Únicos" DESC, "Total de Reproduções" DESC;
