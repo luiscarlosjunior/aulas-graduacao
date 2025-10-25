@@ -27,7 +27,11 @@ for pattern in "${PATTERNS[@]}"; do
     echo "Testando: $pattern"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     
-    cd "$pattern" || exit 1
+    cd "$pattern" || {
+        echo "✗ Erro: diretório não encontrado"
+        FAILED=$((FAILED + 1))
+        continue
+    }
     
     # Clean previous compilation
     rm -f *.class 2>/dev/null
@@ -39,11 +43,14 @@ for pattern in "${PATTERNS[@]}"; do
         # Find and run test class
         TEST_CLASS=$(ls Teste*.java 2>/dev/null | head -1 | sed 's/.java//')
         if [ -n "$TEST_CLASS" ]; then
-            if java "$TEST_CLASS" > /dev/null 2>&1; then
+            OUTPUT=$(java "$TEST_CLASS" 2>&1)
+            if [ $? -eq 0 ]; then
                 echo "✓ Execução OK"
                 SUCCESS=$((SUCCESS + 1))
             else
                 echo "✗ Erro na execução"
+                echo "Saída do erro:"
+                echo "$OUTPUT" | head -20
                 FAILED=$((FAILED + 1))
             fi
         fi
@@ -59,8 +66,8 @@ done
 echo "╔════════════════════════════════════════════════════════════╗"
 echo "║                    RESULTADO FINAL                        ║"
 echo "╠════════════════════════════════════════════════════════════╣"
-echo "║  Sucesso: $SUCCESS/${#PATTERNS[@]}                                           ║"
-echo "║  Falhas:  $FAILED/${#PATTERNS[@]}                                            ║"
+printf "║  Sucesso: %-2d/%-2d                                          ║\n" "$SUCCESS" "${#PATTERNS[@]}"
+printf "║  Falhas:  %-2d/%-2d                                          ║\n" "$FAILED" "${#PATTERNS[@]}"
 echo "╚════════════════════════════════════════════════════════════╝"
 
 if [ $FAILED -eq 0 ]; then
