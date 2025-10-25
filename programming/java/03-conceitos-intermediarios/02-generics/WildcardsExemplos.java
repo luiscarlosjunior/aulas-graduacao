@@ -79,7 +79,7 @@ class UpperBoundedWildcardExemplos {
         }
         // numeros.add(5); // ❌ Erro: não pode adicionar
         // numeros.add(5.0); // ❌ Erro: não pode adicionar
-        // numeros.add(new Integer(5)); // ❌ Erro: não pode adicionar
+        // numeros.add(Integer.valueOf(5)); // ❌ Erro: não pode adicionar
         return soma;
     }
     
