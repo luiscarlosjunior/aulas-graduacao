@@ -5,7 +5,6 @@
  * BENEFÍCIO: Flexibilidade para trocar implementações sem modificar código cliente.
  * Facilita testes com mocks.
  */
-import java.util.*;
 
 // ✅ Interfaces definem contratos
 interface GatewayPagamento {
