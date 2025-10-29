@@ -505,6 +505,58 @@ Complexo desde início → Muita complexidade não utilizada → Código difíci
 - Antecipar necessidades futuras em ambiente de incerteza leva a decisões subótimas
 - "Last Responsible Moment" (Lean): Decidir quando tem informação máxima
 
+## 🧭 **YAGNI – You Aren’t Gonna Need It**
+
+O princípio **YAGNI**, sigla para **“You Aren’t Gonna Need It”** (em tradução livre, “Você não vai precisar disso”), é um dos pilares fundamentais das boas práticas de desenvolvimento de software, especialmente dentro do **mundo ágil** e da filosofia **Extreme Programming (XP)**. Ele serve como um lembrete direto e prático de que os desenvolvedores **não devem implementar funcionalidades, métodos ou estruturas que ainda não são necessários** no momento atual do projeto.
+
+Em essência, YAGNI é um **antídoto contra a sobreengenharia** — aquele impulso natural que muitos desenvolvedores têm de tentar prever o futuro, criando sistemas extremamente flexíveis, genéricos e cheios de opções “para o caso de um dia precisarmos disso”. O problema é que esse “um dia” quase nunca chega, e o que sobra é **código desnecessário**, **complexidade desproporcional** e **tempo desperdiçado**.
+
+O princípio nasceu dentro da **metodologia Extreme Programming (XP)**, criada por **Kent Beck** e outros pioneiros da programação ágil no final da década de 1990. O XP surgiu como uma resposta à rigidez dos métodos tradicionais de desenvolvimento, incentivando práticas como **entregas rápidas, código limpo, refatoração constante e feedback contínuo**. Dentro desse contexto, YAGNI se tornou uma regra de ouro para manter o foco no que realmente agrega valor ao cliente no momento presente.
+
+A ideia central do YAGNI pode ser resumida da seguinte forma:
+
+> “Não implemente algo até que seja realmente necessário para atender a uma necessidade atual e comprovada.”
+
+Isso significa que, mesmo que o desenvolvedor imagine que uma determinada funcionalidade possa ser útil no futuro, ele **não deve implementá-la até que haja uma demanda real e clara**.
+
+Por exemplo, imagine que uma equipe está criando um sistema de autenticação simples para uma aplicação interna. Durante o desenvolvimento, alguém sugere adicionar suporte para login via Google, GitHub e autenticação multifatorial. A aplicação, no entanto, será usada apenas por 20 funcionários dentro da empresa, com autenticação por e-mail e senha.
+Aplicando YAGNI, a equipe decide **não implementar essas integrações agora**, pois elas não são necessárias. Se um dia o sistema precisar ser aberto ao público, então o código será adaptado para isso. Até lá, o foco é entregar valor rápido e funcionalidade real.
+
+YAGNI está profundamente ligado à **filosofia ágil**, que valoriza **entregas incrementais**, **simplicidade** e **resposta rápida às mudanças**. Em vez de tentar adivinhar o futuro e construir uma base complexa para possíveis cenários, o desenvolvedor deve **entregar o mínimo necessário para o sistema funcionar corretamente hoje**. Quando surgir uma nova necessidade, o código é **refatorado** para se adaptar. Isso mantém o sistema mais limpo, enxuto e de fácil manutenção.
+
+Esse princípio também está intimamente relacionado a outros conceitos fundamentais do desenvolvimento de software, como:
+
+* **KISS (Keep It Simple, Stupid):** ambos pregam a simplicidade e a clareza, evitando complexidades desnecessárias;
+* **DRY (Don’t Repeat Yourself):** incentiva o reaproveitamento de código e a eliminação de redundâncias, o que, quando combinado com YAGNI, ajuda a manter o foco no essencial;
+* **Lean Thinking:** filosofia que valoriza a eliminação de desperdícios — e código não utilizado é, de fato, um desperdício;
+* **Refatoração:** uma prática que complementa YAGNI, pois permite ajustar o código quando novas necessidades realmente surgem, sem precisar antecipar tudo.
+
+Aplicar YAGNI no dia a dia exige disciplina. Muitos desenvolvedores, especialmente os mais experientes, caem na armadilha da **“antecipação do problema”**, criando estruturas genéricas e classes excessivamente abstratas “para o futuro”. Isso leva à chamada **complexidade acidental** — complexidade criada por nós mesmos, não pelo problema em si.
+
+O custo disso é alto: manutenção mais difícil, curva de aprendizado maior, testes mais demorados e menor clareza no código. Além disso, funcionalidades “adicionais” que nunca são usadas acabam se tornando **dívida técnica**, ocupando espaço, consumindo tempo e desviando o foco da equipe.
+
+Entretanto, é importante compreender que YAGNI **não significa ignorar o bom design**. Ele não prega escrever código apressado ou mal estruturado, mas sim **focar apenas no que é comprovadamente necessário**. Projetar um sistema de forma modular, que possa crescer no futuro, é saudável — desde que você **não implemente funcionalidades hipotéticas antes da hora**. Em outras palavras, **prepare o terreno, mas não construa a casa antes de precisar dela**.
+
+Um bom exemplo prático:
+Em vez de criar uma arquitetura complexa de plug-ins para um software que “poderá” um dia suportar extensões, o desenvolvedor pode começar com uma implementação simples e clara. Se, mais adiante, o cliente realmente solicitar suporte a plug-ins, a equipe poderá refatorar o código, com base em um **requisito real**, não em suposições.
+
+Os benefícios do YAGNI são claros e tangíveis:
+
+* **Economia de tempo e recursos:** você só desenvolve o que é realmente necessário.
+* **Maior velocidade de entrega:** funcionalidades chegam mais rápido ao cliente.
+* **Código mais limpo e legível:** menos abstrações e dependências desnecessárias.
+* **Facilidade de manutenção:** sistemas simples são mais fáceis de compreender e modificar.
+* **Redução de riscos:** menos código significa menos lugares para bugs se esconderem.
+
+Por outro lado, desrespeitar o YAGNI leva a consequências negativas: projetos com funcionalidades “fantasmas” que ninguém usa, desperdício de horas de desenvolvimento e um aumento no custo total de manutenção ao longo do tempo.
+
+Em resumo, o princípio **YAGNI** nos ensina uma lição poderosa: **não programe para o futuro — programe para o presente, e esteja preparado para evoluir quando o futuro chegar.**
+Ele é um lembrete constante de que o valor do software está na **entrega efetiva de soluções reais**, e não em previsões de problemas que talvez nunca existam.
+
+> “Você não vai precisar disso — até o momento em que realmente precisar. E quando esse momento chegar, você será capaz de adicionar com clareza e propósito.”
+
+Essa é a essência do **YAGNI**: simplicidade orientada ao valor, guiada pelo pragmatismo e sustentada pela experiência.
+
 #### 💻 Exemplos Práticos
 
 **❌ Exemplo Violando YAGNI (Funcionalidade Especulativa):**
