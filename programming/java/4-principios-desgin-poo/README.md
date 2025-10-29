@@ -1473,8 +1473,41 @@ public class DescontoVIP extends Desconto {
 }
 ```
 
----
+## **Princípio DRY – Don’t Repeat Yourself**
 
+O princípio **DRY**, sigla para *Don’t Repeat Yourself* (“Não se repita”), é um dos fundamentos da engenharia de software moderna e está diretamente ligado à qualidade, manutenção e evolução de sistemas. Ele foi formulado originalmente por **Andy Hunt e Dave Thomas**, autores do clássico livro *The Pragmatic Programmer* (1999), e desde então se tornou uma das diretrizes mais respeitadas da programação profissional.
+A ideia central do DRY é simples, mas poderosa: **cada parte do conhecimento ou lógica de um sistema deve existir em apenas um lugar**. Ou seja, quando um comportamento, regra de negócio ou estrutura de dados é repetido em vários pontos do código, cria-se uma **duplicação desnecessária**, que pode gerar inconsistências, dificultar a manutenção e aumentar as chances de erro.
+
+Em termos práticos, o DRY diz que o desenvolvedor deve **evitar a repetição de código, lógica ou informação**. Isso não significa apenas copiar e colar trechos de código — a repetição pode ocorrer também em nível conceitual, como quando uma mesma validação é reimplementada em múltiplos módulos, ou quando regras de negócio são replicadas em diferentes camadas da aplicação.
+O objetivo do DRY é manter o sistema **coeso e consistente**, de modo que qualquer mudança precise ser feita em apenas um ponto, refletindo-se automaticamente em todo o sistema.
+
+Quando o princípio é violado, surgem problemas clássicos de manutenção. Imagine, por exemplo, uma aplicação que calcula impostos e possui a mesma fórmula copiada em cinco funções diferentes. Se a legislação mudar, o desenvolvedor precisará encontrar e alterar todas as ocorrências. Basta esquecer uma delas para o sistema produzir resultados incorretos. Essa situação é conhecida como **duplicação lógica**, e é exatamente o tipo de armadilha que o DRY busca evitar.
+Em contrapartida, ao concentrar essa lógica em uma única função, classe ou módulo, a manutenção se torna simples e segura: altera-se o código uma única vez, e toda a aplicação herda o novo comportamento.
+
+O DRY também está profundamente ligado a outros princípios de design de software. Ele se complementa com o **KISS (Keep It Simple, Stupid)**, pois ambos buscam simplicidade e clareza, e com o **Single Responsibility Principle** (do SOLID), que defende que cada componente deve ter apenas uma responsabilidade. Enquanto o SRP evita acúmulo de funções dentro de um mesmo módulo, o DRY evita **repetição dessas funções em módulos diferentes**.
+Esses princípios, quando aplicados juntos, promovem um código mais limpo, sustentável e fácil de evoluir.
+
+Aplicar DRY não significa eliminar toda e qualquer repetição. Em certos casos, **um pouco de duplicação pode ser aceitável** para manter o código mais legível ou para evitar abstrações prematuras. O grande desafio está no equilíbrio: abstrair quando há um padrão real e repetitivo, mas não complicar o sistema em nome de uma economia exagerada de linhas. Como diz o ditado entre engenheiros de software: *“duplication is better than the wrong abstraction”* (duplicar é melhor do que abstrair de forma errada).
+Portanto, o DRY deve ser aplicado com discernimento — **nem tudo que se repete deve ser abstraído**, mas tudo que representa o mesmo conceito ou regra deve estar centralizado em um único ponto de verdade.
+
+Na prática, o princípio DRY pode ser observado em diversas situações:
+
+* **Funções reutilizáveis**: em vez de escrever o mesmo cálculo ou validação várias vezes, encapsula-se o comportamento em uma função e chama-se sempre que necessário.
+* **Classes e herança**: uma classe base pode conter comportamentos comuns a várias subclasses, evitando repetições.
+* **Módulos e bibliotecas**: centralizar utilitários, constantes e configurações em módulos compartilhados mantém a consistência.
+* **Bancos de dados**: evitar duplicação de dados, normalizando as tabelas, é a aplicação do DRY no nível da modelagem.
+* **Documentação e comentários**: descrever o mesmo processo em vários lugares gera divergência; centralizar a explicação em um único local facilita a atualização e a compreensão.
+
+Os benefícios do DRY são numerosos e evidentes. Um código que segue o princípio é **mais fácil de manter**, **menos sujeito a bugs**, **mais limpo** e **mais flexível para evoluções futuras**. Além disso, o DRY favorece a colaboração em equipe: quando todos os desenvolvedores sabem onde determinada lógica está implementada, o retrabalho diminui e a comunicação melhora.
+Por outro lado, violar o DRY leva ao chamado **“código espaguete”**, cheio de duplicações e dependências ocultas, o que aumenta o custo de manutenção e torna o sistema vulnerável a erros sutis e inconsistentes.
+
+Em resumo, o princípio DRY é uma **disciplina de consistência**. Ele ensina que o conhecimento deve ser **único, verificável e centralizado**, e que qualquer repetição de lógica ou informação é um ponto potencial de falha.
+Aplicar DRY é um ato de respeito à clareza, à eficiência e à equipe que continuará o projeto no futuro. Assim como o KISS, ele reforça que o melhor código não é o mais complexo, mas o mais **coerente e reutilizável**.
+
+> Em poucas palavras: **escreva menos, pense mais.**
+> Cada linha de código repetida é uma oportunidade de erro — e o DRY existe para eliminá-las.
+
+---
 
 ## 🏛️ Princípios SOLID
 
