@@ -1,0 +1,3 @@
+interface Botao {
+    void renderizar();
+}
