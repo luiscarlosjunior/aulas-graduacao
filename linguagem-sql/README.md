@@ -20,6 +20,7 @@ O curso está organizado em módulos sequenciais que devem ser estudados em orde
 - **07 - Manipulação de Dados - Inserindo Dados (Parte I)**: Comandos INSERT básicos
 - **08 - Manipulação de Dados - Inserindo Dados (Parte II)**: Comandos INSERT avançados
 - **09 - Controle de Transações e Criação de Relatórios**: COMMIT, ROLLBACK e relatórios básicos
+- **17 - Manipulação de Dados: UPDATE e DELETE**: Atualização e remoção de dados
 
 ### Módulo 4: Consultas e Relatórios
 - **10 - Relatórios com Filtros e Operadores**: WHERE, operadores relacionais e lógicos
