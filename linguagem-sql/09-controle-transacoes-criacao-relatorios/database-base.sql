@@ -786,3 +786,54 @@ INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, loc
 VALUES (4, 600, 'Tablet', 'Madrid - Espanha', 'Alta', 4, 5);
 INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
 VALUES (5, 420, 'Smart TV', 'Rio de Janeiro - Brasil', 'Lossless', 5, 4);
+-- Adicionando mais 30 linhas na tabela historico_reproducao
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (6, 180, 'iPhone', 'Curitiba - Brasil', 'Alta', 6, 6);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (7, 300, 'Android', 'Porto - Portugal', 'Média', 7, 7);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (8, 240, 'PC', 'Los Angeles - EUA', 'Alta', 8, 8);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (9, 360, 'Tablet', 'Barcelona - Espanha', 'Alta', 9, 9);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (10, 420, 'Smart TV', 'Salvador - Brasil', 'Lossless', 10, 10);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (11, 200, 'iPhone', 'Recife - Brasil', 'Alta', 11, 11);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (12, 150, 'Android', 'Coimbra - Portugal', 'Média', 12, 12);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (13, 240, 'PC', 'Chicago - EUA', 'Alta', 13, 13);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (14, 600, 'Tablet', 'Sevilha - Espanha', 'Alta', 14, 14);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (15, 420, 'Smart TV', 'Fortaleza - Brasil', 'Lossless', 15, 15);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (16, 300, 'iPhone', 'Manaus - Brasil', 'Alta', 16, 16);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (17, 180, 'Android', 'Braga - Portugal', 'Média', 17, 17);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (18, 240, 'PC', 'Houston - EUA', 'Alta', 18, 18);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (19, 360, 'Tablet', 'Valência - Espanha', 'Alta', 19, 19);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (20, 420, 'Smart TV', 'Belém - Brasil', 'Lossless', 20, 20);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (21, 200, 'iPhone', 'Florianópolis - Brasil', 'Alta', 21, 21);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (22, 150, 'Android', 'Faro - Portugal', 'Média', 22, 22);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (23, 240, 'PC', 'Miami - EUA', 'Alta', 23, 23);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (24, 600, 'Tablet', 'Bilbao - Espanha', 'Alta', 24, 24);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (25, 420, 'Smart TV', 'Natal - Brasil', 'Lossless', 25, 25);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (26, 300, 'iPhone', 'Campinas - Brasil', 'Alta', 26, 26);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (27, 180, 'Android', 'Évora - Portugal', 'Média', 27, 27);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (28, 240, 'PC', 'San Francisco - EUA', 'Alta', 28, 28);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (29, 360, 'Tablet', 'Málaga - Espanha', 'Alta', 29, 29);
+INSERT INTO historico_reproducao (id_historico, duracao_ouvida, dispositivo, localizacao, qualidade_reproduzida, id_usuario, id_musica) 
+VALUES (30, 420, 'Smart TV', 'João Pessoa - Brasil', 'Lossless', 30, 30);
