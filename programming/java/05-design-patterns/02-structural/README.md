@@ -66,6 +66,19 @@ Os padrões estruturais aplicam o princípio da **composição sobre herança**,
 
 **Exemplo Prático**: Sistema de arquivos onde tanto arquivos quanto pastas podem ser tratados uniformemente.
 
+### [Flyweight](flyweight/)
+**Propósito**: Minimiza o uso de memória compartilhando o máximo de dados possível entre objetos similares. Separa estado intrínseco (compartilhado) de estado extrínseco (único).
+
+**Cenários de Uso**:
+- Editores de texto (compartilhar estilos de caracteres)
+- Jogos 3D (compartilhar modelos, texturas, sprites)
+- Sistemas de UI (compartilhar componentes visuais)
+- Sistemas de mapas (compartilhar ícones de marcadores)
+- Connection pools e thread pools
+- Caching de objetos imutáveis
+
+**Exemplo Prático**: Editor de texto onde milhões de caracteres compartilham poucos objetos de estilo (fonte, tamanho, cor), economizando 80-99% de memória.
+
 ### [Proxy](proxy/)
 **Propósito**: Fornece um substituto ou placeholder para controlar o acesso a um objeto. Adiciona funcionalidade de controle sem alterar o objeto original.
 
@@ -86,6 +99,7 @@ Os padrões estruturais aplicam o princípio da **composição sobre herança**,
 | Decorator | Média | Adicionar responsabilidades | Sim |
 | Facade | Baixa | Simplificar interface | Não |
 | Composite | Média | Estruturas hierárquicas | Não |
+| Flyweight | Média | Economia de memória | Não |
 | Proxy | Média | Controlar acesso | Pode controlar |
 
 ## 🔍 Quando Usar Cada Padrão
@@ -132,6 +146,20 @@ Os padrões estruturais aplicam o princípio da **composição sobre herança**,
 - Estrutura não é hierárquica
 - Componentes individuais e composições têm interfaces muito diferentes
 
+### Flyweight
+✅ **Use quando**:
+- Aplicação usa enorme quantidade de objetos similares
+- Custo de armazenamento é alto e pode causar problemas de memória
+- Maior parte do estado do objeto pode ser compartilhado (intrínseco)
+- Estado extrínseco pode ser facilmente calculado ou armazenado separadamente
+- Identidade dos objetos não é importante
+
+❌ **Evite quando**:
+- Há poucas instâncias (overhead não compensa)
+- Objetos têm muito estado único (pouco para compartilhar)
+- Estado é difícil de separar em intrínseco vs extrínseco
+- Performance de acesso é mais crítica que memória
+
 ### Proxy
 ✅ **Use quando**:
 - Precisa de referência mais versátil ou sofisticada que um ponteiro simples
@@ -162,6 +190,14 @@ Os padrões estruturais aplicam o princípio da **composição sobre herança**,
 **Facade vs Adapter**:
 - **Similaridade**: Ambos envolvem wrapping de interfaces
 - **Diferença**: Facade simplifica muitas interfaces; Adapter adapta uma interface
+
+**Flyweight vs Proxy**:
+- **Similaridade**: Ambos compartilham aspectos de controle de objetos
+- **Diferença**: Flyweight foca em economia de memória via compartilhamento; Proxy foca em controlar acesso
+
+**Flyweight vs Singleton**:
+- **Similaridade**: Ambos envolvem compartilhamento/reuso de objetos
+- **Diferença**: Flyweight tem múltiplas instâncias em pool; Singleton tem apenas uma instância global
 
 ## 🚀 Como Executar os Exemplos
 
