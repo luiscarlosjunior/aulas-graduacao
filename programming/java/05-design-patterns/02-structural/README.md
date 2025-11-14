@@ -33,6 +33,17 @@ Os padrões estruturais aplicam o princípio da **composição sobre herança**,
 
 **Exemplo Prático**: Sistema de pagamento que precisa integrar diferentes gateways (PayPal, Stripe, PagSeguro) com interfaces diferentes.
 
+### [Bridge](bridge/)
+**Propósito**: Desacopla uma abstração de sua implementação, permitindo que ambas variem independentemente. Separa interface de implementação em hierarquias distintas.
+
+**Cenários de Uso**:
+- Sistemas multiplataforma (Windows, Linux, Mac)
+- Drivers de dispositivos (abstração de dispositivo vs implementação específica)
+- Sistemas com múltiplas dimensões de variação
+- Evitar explosão de classes por combinações
+
+**Exemplo Prático**: Sistema de controles remotos que controla diferentes dispositivos (TV, Rádio) onde controles e dispositivos podem evoluir independentemente.
+
 ### [Decorator](decorator/)
 **Propósito**: Adiciona responsabilidades a objetos dinamicamente, fornecendo alternativa flexível à herança para estender funcionalidades.
 
@@ -96,6 +107,7 @@ Os padrões estruturais aplicam o princípio da **composição sobre herança**,
 | Padrão | Complexidade | Propósito Principal | Modifica Comportamento? |
 |--------|-------------|---------------------|------------------------|
 | Adapter | Baixa | Compatibilidade de interfaces | Não |
+| Bridge | Média | Separar abstração de implementação | Não |
 | Decorator | Média | Adicionar responsabilidades | Sim |
 | Facade | Baixa | Simplificar interface | Não |
 | Composite | Média | Estruturas hierárquicas | Não |
@@ -113,6 +125,19 @@ Os padrões estruturais aplicam o princípio da **composição sobre herança**,
 ❌ **Evite quando**:
 - Pode modificar a interface original
 - Sistema ainda está em design inicial (considere já projetar interfaces compatíveis)
+
+### Bridge
+✅ **Use quando**:
+- Quer evitar vínculo permanente entre abstração e implementação
+- Abstrações e implementações devem ser extensíveis independentemente
+- Tem explosão de classes devido a múltiplas dimensões de variação
+- Precisa trocar implementação em runtime
+- Quer compartilhar implementações entre múltiplos objetos
+
+❌ **Evite quando**:
+- Sistema é simples com apenas uma dimensão de variação
+- Abstração e implementação não precisam variar independentemente
+- Overhead adicional não é justificável
 
 ### Decorator
 ✅ **Use quando**:
@@ -178,6 +203,14 @@ Os padrões estruturais aplicam o princípio da **composição sobre herança**,
 **Adapter vs Proxy**:
 - **Similaridade**: Ambos são wrappers ao redor de outros objetos
 - **Diferença**: Adapter muda interface; Proxy mantém mesma interface
+
+**Bridge vs Adapter**:
+- **Similaridade**: Ambos envolvem separação de responsabilidades
+- **Diferença**: Bridge é planejado antecipadamente; Adapter é retrofitting
+
+**Bridge vs Strategy**:
+- **Similaridade**: Ambos usam composição e delegação
+- **Diferença**: Bridge separa duas hierarquias; Strategy separa algoritmos
 
 **Decorator vs Proxy**:
 - **Similaridade**: Ambos envolvem objeto e delegam chamadas
