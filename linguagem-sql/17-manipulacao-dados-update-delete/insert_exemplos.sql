@@ -9,61 +9,61 @@ INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (2, 'Pop', 'Músic
 INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (3, 'Jazz', 'Improvisação e harmonias complexas');
 INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (4, 'Eletrônica', 'Músicas com sintetizadores e batidas eletrônicas');
 INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (5, 'Clássica', 'Composições orquestrais tradicionais');
-INSERT INTO genero VALUES (6, 'Hip Hop', 'Beats marcantes e rimas');
-INSERT INTO genero VALUES (7, 'Reggae', 'Batidas relaxantes e mensagens positivas');
-INSERT INTO genero VALUES (8, 'Metal', 'Riffs pesados e vocais intensos');
-INSERT INTO genero VALUES (9, 'Country', 'Músicas com influência rural e folk');
-INSERT INTO genero VALUES (10, 'Blues', 'Guitarra emocionada e ritmos lentos');
-INSERT INTO genero VALUES (11, 'Samba', 'Ritmos brasileiros com percussão e alegria');
-INSERT INTO genero VALUES (12, 'Funk', 'Batidas dançantes e grooves marcantes');
-INSERT INTO genero VALUES (13, 'Soul', 'Vocais emocionantes e melodias suaves');
-INSERT INTO genero VALUES (14, 'Gospel', 'Músicas religiosas e inspiradoras');
-INSERT INTO genero VALUES (15, 'Forró', 'Ritmos nordestinos com sanfona e zabumba');
-INSERT INTO genero VALUES (16, 'MPB', 'Música Popular Brasileira com influências diversas');
-INSERT INTO genero VALUES (17, 'Bossa Nova', 'Ritmos suaves e harmonias sofisticadas');
-INSERT INTO genero VALUES (18, 'Rap', 'Rimas rápidas e mensagens sociais');
-INSERT INTO genero VALUES (19, 'Punk', 'Músicas rápidas e com atitude rebelde');
-INSERT INTO genero VALUES (20, 'Disco', 'Batidas dançantes e estilo retrô');
-INSERT INTO genero VALUES (21, 'K-Pop', 'Música pop coreana com coreografias elaboradas');
-INSERT INTO genero VALUES (22, 'Reggaeton', 'Batidas latinas e letras envolventes');
-INSERT INTO genero VALUES (23, 'Trap', 'Subgênero do hip hop com batidas eletrônicas');
-INSERT INTO genero VALUES (24, 'House', 'Música eletrônica com batidas repetitivas');
-INSERT INTO genero VALUES (25, 'Techno', 'Música eletrônica com foco em sintetizadores');
-INSERT INTO genero VALUES (26, 'Dubstep', 'Batidas eletrônicas com drops intensos');
-INSERT INTO genero VALUES (27, 'Indie', 'Música independente com estilos variados');
-INSERT INTO genero VALUES (28, 'Alternativo', 'Gênero que foge do mainstream');
-INSERT INTO genero VALUES (29, 'Afrobeat', 'Ritmos africanos com influências modernas');
-INSERT INTO genero VALUES (30, 'Sertanejo', 'Música rural brasileira com letras românticas');
-INSERT INTO genero VALUES (31, 'Opera', 'Música vocal clássica com orquestra');
-INSERT INTO genero VALUES (32, 'Chillout', 'Música relaxante e atmosférica');
-INSERT INTO genero VALUES (33, 'Ambient', 'Música instrumental com foco em texturas sonoras');
-INSERT INTO genero VALUES (34, 'Experimental', 'Música inovadora e não convencional');
-INSERT INTO genero VALUES (35, 'Grunge', 'Subgênero do rock com letras introspectivas');
-INSERT INTO genero VALUES (36, 'Post-Rock', 'Rock instrumental com influências atmosféricas');
-INSERT INTO genero VALUES (37, 'Shoegaze', 'Guitarras distorcidas e vocais etéreos');
-INSERT INTO genero VALUES (38, 'Psychedelic', 'Música com influências psicodélicas');
-INSERT INTO genero VALUES (39, 'Hardcore', 'Subgênero do punk com intensidade elevada');
-INSERT INTO genero VALUES (40, 'Progressive Rock', 'Rock com estruturas musicais complexas');
-INSERT INTO genero VALUES (41, 'New Wave', 'Música pop com influências punk e eletrônicas');
-INSERT INTO genero VALUES (42, 'Synthpop', 'Pop com forte uso de sintetizadores');
-INSERT INTO genero VALUES (43, 'Industrial', 'Música com sons mecânicos e eletrônicos');
-INSERT INTO genero VALUES (44, 'World Music', 'Música tradicional de diversas culturas');
-INSERT INTO genero VALUES (45, 'Latin Pop', 'Pop com influências latinas');
-INSERT INTO genero VALUES (46, 'Cumbia', 'Gênero musical colombiano com ritmos dançantes');
-INSERT INTO genero VALUES (47, 'Ska', 'Gênero jamaicano com influências de jazz e R&B');
-INSERT INTO genero VALUES (48, 'Bluegrass', 'Subgênero do country com instrumentos acústicos');
-INSERT INTO genero VALUES (49, 'Flamenco', 'Música tradicional espanhola com guitarra e palmas');
-INSERT INTO genero VALUES (50, 'Bolero', 'Música romântica com ritmo lento');
-INSERT INTO genero VALUES (51, 'Tango', 'Música e dança tradicional da Argentina');
-INSERT INTO genero VALUES (52, 'Zouk', 'Música caribenha com ritmos sensuais');
-INSERT INTO genero VALUES (53, 'Kizomba', 'Gênero musical angolano com influências africanas');
-INSERT INTO genero VALUES (54, 'Afro House', 'Fusão de música house com ritmos africanos');
-INSERT INTO genero VALUES (55, 'Moombahton', 'Fusão de reggaeton com música eletrônica');
-INSERT INTO genero VALUES (56, 'Future Bass', 'Subgênero da música eletrônica com sons melódicos');
-INSERT INTO genero VALUES (57, 'Lo-fi', 'Música com estética de baixa fidelidade');
-INSERT INTO genero VALUES (58, 'Vaporwave', 'Gênero eletrônico com estética retrô');
-INSERT INTO genero VALUES (59, 'Chiptune', 'Música eletrônica com sons de videogames antigos');
-INSERT INTO genero VALUES (60, 'Hardstyle', 'Subgênero da música eletrônica com batidas intensas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (6, 'Hip Hop', 'Beats marcantes e rimas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (7, 'Reggae', 'Batidas relaxantes e mensagens positivas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (8, 'Metal', 'Riffs pesados e vocais intensos');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (9, 'Country', 'Músicas com influência rural e folk');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (10, 'Blues', 'Guitarra emocionada e ritmos lentos');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (11, 'Samba', 'Ritmos brasileiros com percussão e alegria');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (12, 'Funk', 'Batidas dançantes e grooves marcantes');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (13, 'Soul', 'Vocais emocionantes e melodias suaves');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (14, 'Gospel', 'Músicas religiosas e inspiradoras');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (15, 'Forró', 'Ritmos nordestinos com sanfona e zabumba');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (16, 'MPB', 'Música Popular Brasileira com influências diversas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (17, 'Bossa Nova', 'Ritmos suaves e harmonias sofisticadas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (18, 'Rap', 'Rimas rápidas e mensagens sociais');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (19, 'Punk', 'Músicas rápidas e com atitude rebelde');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (20, 'Disco', 'Batidas dançantes e estilo retrô');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (21, 'K-Pop', 'Música pop coreana com coreografias elaboradas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (22, 'Reggaeton', 'Batidas latinas e letras envolventes');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (23, 'Trap', 'Subgênero do hip hop com batidas eletrônicas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (24, 'House', 'Música eletrônica com batidas repetitivas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (25, 'Techno', 'Música eletrônica com foco em sintetizadores');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (26, 'Dubstep', 'Batidas eletrônicas com drops intensos');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (27, 'Indie', 'Música independente com estilos variados');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (28, 'Alternativo', 'Gênero que foge do mainstream');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (29, 'Afrobeat', 'Ritmos africanos com influências modernas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (30, 'Sertanejo', 'Música rural brasileira com letras românticas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (31, 'Opera', 'Música vocal clássica com orquestra');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (32, 'Chillout', 'Música relaxante e atmosférica');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (33, 'Ambient', 'Música instrumental com foco em texturas sonoras');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (34, 'Experimental', 'Música inovadora e não convencional');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (35, 'Grunge', 'Subgênero do rock com letras introspectivas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (36, 'Post-Rock', 'Rock instrumental com influências atmosféricas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (37, 'Shoegaze', 'Guitarras distorcidas e vocais etéreos');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (38, 'Psychedelic', 'Música com influências psicodélicas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (39, 'Hardcore', 'Subgênero do punk com intensidade elevada');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (40, 'Progressive Rock', 'Rock com estruturas musicais complexas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (41, 'New Wave', 'Música pop com influências punk e eletrônicas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (42, 'Synthpop', 'Pop com forte uso de sintetizadores');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (43, 'Industrial', 'Música com sons mecânicos e eletrônicos');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (44, 'World Music', 'Música tradicional de diversas culturas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (45, 'Latin Pop', 'Pop com influências latinas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (46, 'Cumbia', 'Gênero musical colombiano com ritmos dançantes');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (47, 'Ska', 'Gênero jamaicano com influências de jazz e R&B');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (48, 'Bluegrass', 'Subgênero do country com instrumentos acústicos');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (49, 'Flamenco', 'Música tradicional espanhola com guitarra e palmas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (50, 'Bolero', 'Música romântica com ritmo lento');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (51, 'Tango', 'Música e dança tradicional da Argentina');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (52, 'Zouk', 'Música caribenha com ritmos sensuais');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (53, 'Kizomba', 'Gênero musical angolano com influências africanas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (54, 'Afro House', 'Fusão de música house com ritmos africanos');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (55, 'Moombahton', 'Fusão de reggaeton com música eletrônica');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (56, 'Future Bass', 'Subgênero da música eletrônica com sons melódicos');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (57, 'Lo-fi', 'Música com estética de baixa fidelidade');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (58, 'Vaporwave', 'Gênero eletrônico com estética retrô');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (59, 'Chiptune', 'Música eletrônica com sons de videogames antigos');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (60, 'Hardstyle', 'Subgênero da música eletrônica com batidas intensas');
 -------------------------
 -- TABELA USUARIO
 -------------------------
@@ -77,31 +77,56 @@ INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pa
 VALUES (4, 'Maria Oliveira', 'maria@email.com', 'senha@123', TO_DATE('2000-03-10','YYYY-MM-DD'), 'Brasil');
 INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
 VALUES (5, 'Pedro Costa', 'pedro@email.com', 'qwerty', TO_DATE('1992-07-08','YYYY-MM-DD'), 'Espanha');
-INSERT INTO usuario VALUES (6, 'Lucas Mendes', 'lucas@email.com', 'senha1', TO_DATE('1998-08-20','YYYY-MM-DD'), 'Brasil', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (7, 'Juliana Costa', 'juliana@email.com', 'senha2', TO_DATE('1987-03-14','YYYY-MM-DD'), 'Brasil', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (8, 'Emily Clark', 'emily@email.com', 'senha3', TO_DATE('1993-12-11','YYYY-MM-DD'), 'EUA', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (9, 'Miguel Torres', 'miguel@email.com', 'senha4', TO_DATE('1996-06-02','YYYY-MM-DD'), 'Espanha', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (10, 'Sofia Martins', 'sofia@email.com', 'senha5', TO_DATE('2001-01-28','YYYY-MM-DD'), 'Portugal', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (11, 'Gabriel Lima', 'gabriel@email.com', 'senha6', TO_DATE('1997-04-15','YYYY-MM-DD'), 'Brasil', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (12, 'Laura Santos', 'laura@email.com', 'senha7', TO_DATE('1990-11-22','YYYY-MM-DD'), 'Portugal', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (13, 'Michael Brown', 'michael@email.com', 'senha8', TO_DATE('1985-02-18','YYYY-MM-DD'), 'EUA', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (14, 'Camila Rocha', 'camila@email.com', 'senha9', TO_DATE('1999-09-09','YYYY-MM-DD'), 'Brasil', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (15, 'Ricardo Alves', 'ricardo@email.com', 'senha10', TO_DATE('1993-07-30','YYYY-MM-DD'), 'Espanha', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (16, 'Isabela Costa', 'isabela@email.com', 'senha11', TO_DATE('1991-12-05','YYYY-MM-DD'), 'Brasil', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (17, 'Daniel Oliveira', 'daniel@email.com', 'senha12', TO_DATE('1989-03-25','YYYY-MM-DD'), 'Portugal', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (18, 'Sophia Johnson', 'sophia@email.com', 'senha13', TO_DATE('1994-10-10','YYYY-MM-DD'), 'EUA', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (19, 'Lucas Ferreira', 'lucasf@email.com', 'senha14', TO_DATE('1996-06-18','YYYY-MM-DD'), 'Brasil', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (20, 'Mariana Dias', 'mariana@email.com', 'senha15', TO_DATE('1992-08-08','YYYY-MM-DD'), 'Portugal', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (21, 'Ethan Wilson', 'ethan@email.com', 'senha16', TO_DATE('1998-01-01','YYYY-MM-DD'), 'EUA', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (22, 'Alice Martins', 'alice@email.com', 'senha17', TO_DATE('1990-04-14','YYYY-MM-DD'), 'Brasil', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (23, 'Henry White', 'henry@email.com', 'senha18', TO_DATE('1987-07-07','YYYY-MM-DD'), 'EUA', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (24, 'Victoria Cruz', 'victoria@email.com', 'senha19', TO_DATE('1995-05-25','YYYY-MM-DD'), 'Portugal', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (25, 'Benjamin Torres', 'benjamin@email.com', 'senha20', TO_DATE('1993-09-12','YYYY-MM-DD'), 'Espanha', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (26, 'Chloe Garcia', 'chloe@email.com', 'senha21', TO_DATE('1997-02-20','YYYY-MM-DD'), 'Brasil', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (27, 'Oliver Martinez', 'oliver@email.com', 'senha22', TO_DATE('1991-11-11','YYYY-MM-DD'), 'EUA', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (28, 'Emma Lopez', 'emma@email.com', 'senha23', TO_DATE('1999-03-03','YYYY-MM-DD'), 'Portugal', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (29, 'Liam Gonzalez', 'liam@email.com', 'senha24', TO_DATE('1994-06-06','YYYY-MM-DD'), 'Espanha', SYSDATE, NULL, 'S');
-INSERT INTO usuario VALUES (30, 'Mia Rodriguez', 'mia@email.com', 'senha25', TO_DATE('1992-12-12','YYYY-MM-DD'), 'Brasil', SYSDATE, NULL, 'S');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (6, 'Lucas Mendes', 'lucas@email.com', 'senha1', TO_DATE('1998-08-20','YYYY-MM-DD'), 'Brasil');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (7, 'Juliana Costa', 'juliana@email.com', 'senha2', TO_DATE('1987-03-14','YYYY-MM-DD'), 'Brasil');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (8, 'Emily Clark', 'emily@email.com', 'senha3', TO_DATE('1993-12-11','YYYY-MM-DD'), 'EUA');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (9, 'Miguel Torres', 'miguel@email.com', 'senha4', TO_DATE('1996-06-02','YYYY-MM-DD'), 'Espanha');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (10, 'Sofia Martins', 'sofia@email.com', 'senha5', TO_DATE('2001-01-28','YYYY-MM-DD'), 'Portugal');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (11, 'Gabriel Lima', 'gabriel@email.com', 'senha6', TO_DATE('1997-04-15','YYYY-MM-DD'), 'Brasil');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (12, 'Laura Santos', 'laura@email.com', 'senha7', TO_DATE('1990-11-22','YYYY-MM-DD'), 'Portugal');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (13, 'Michael Brown', 'michael@email.com', 'senha8', TO_DATE('1985-02-18','YYYY-MM-DD'), 'EUA');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (14, 'Camila Rocha', 'camila@email.com', 'senha9', TO_DATE('1999-09-09','YYYY-MM-DD'), 'Brasil');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (15, 'Ricardo Alves', 'ricardo@email.com', 'senha10', TO_DATE('1993-07-30','YYYY-MM-DD'), 'Espanha');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (16, 'Isabela Costa', 'isabela@email.com', 'senha11', TO_DATE('1991-12-05','YYYY-MM-DD'), 'Brasil');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (17, 'Daniel Oliveira', 'daniel@email.com', 'senha12', TO_DATE('1989-03-25','YYYY-MM-DD'), 'Portugal');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (18, 'Sophia Johnson', 'sophia@email.com', 'senha13', TO_DATE('1994-10-10','YYYY-MM-DD'), 'EUA');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (19, 'Lucas Ferreira', 'lucasf@email.com', 'senha14', TO_DATE('1996-06-18','YYYY-MM-DD'), 'Brasil');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (20, 'Mariana Dias', 'mariana@email.com', 'senha15', TO_DATE('1992-08-08','YYYY-MM-DD'), 'Portugal');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (21, 'Ethan Wilson', 'ethan@email.com', 'senha16', TO_DATE('1998-01-01','YYYY-MM-DD'), 'EUA');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (22, 'Alice Martins', 'alice@email.com', 'senha17', TO_DATE('1990-04-14','YYYY-MM-DD'), 'Brasil');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (23, 'Henry White', 'henry@email.com', 'senha18', TO_DATE('1987-07-07','YYYY-MM-DD'), 'EUA');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (24, 'Victoria Cruz', 'victoria@email.com', 'senha19', TO_DATE('1995-05-25','YYYY-MM-DD'), 'Portugal');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (25, 'Benjamin Torres', 'benjamin@email.com', 'senha20', TO_DATE('1993-09-12','YYYY-MM-DD'), 'Espanha');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (26, 'Chloe Garcia', 'chloe@email.com', 'senha21', TO_DATE('1997-02-20','YYYY-MM-DD'), 'Brasil');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (27, 'Oliver Martinez', 'oliver@email.com', 'senha22', TO_DATE('1991-11-11','YYYY-MM-DD'), 'EUA');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (28, 'Emma Lopez', 'emma@email.com', 'senha23', TO_DATE('1999-03-03','YYYY-MM-DD'), 'Portugal');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (29, 'Liam Gonzalez', 'liam@email.com', 'senha24', TO_DATE('1994-06-06','YYYY-MM-DD'), 'Espanha');
+INSERT INTO usuario (id_usuario, nome_usuario, email, senha, data_nascimento, pais) 
+VALUES (30, 'Mia Rodriguez', 'mia@email.com', 'senha25', TO_DATE('1992-12-12','YYYY-MM-DD'), 'Brasil');
 
 -------------------------
 -- TABELA ARTISTA
