@@ -262,7 +262,7 @@ FROM (
         NTILE(5) OVER (ORDER BY m.total_reproducoes DESC) AS quintil
     FROM musica m
     WHERE m.total_reproducoes > 0
-)
+) musicas_top
 WHERE quintil = 1
 
 UNION ALL
@@ -276,7 +276,7 @@ FROM (
         NTILE(5) OVER (ORDER BY m.total_reproducoes DESC) AS quintil
     FROM musica m
     WHERE m.total_reproducoes > 0
-)
+) musicas_bottom
 WHERE quintil = 5
 
 ORDER BY categoria, total_reproducoes DESC;
@@ -308,7 +308,7 @@ FROM (
     JOIN genero g ON m.id_genero = g.id_genero
     WHERE g.nome_genero = generos_unicos.nome_genero
     GROUP BY u.pais
-)
+) generos_pais
 WHERE generos_exclusivos IS NOT NULL;
 
 -- =====================================================
@@ -653,7 +653,7 @@ FROM (
     SELECT 1 FROM historico_reproducao hr 
     WHERE NOT EXISTS (SELECT 1 FROM usuario u WHERE u.id_usuario = hr.id_usuario)
        OR NOT EXISTS (SELECT 1 FROM musica m WHERE m.id_musica = hr.id_musica)
-);
+) verificacoes_integridade;
 
 PROMPT =====================================================
 PROMPT CONSULTAS AVANÇADAS CONCLUÍDAS!

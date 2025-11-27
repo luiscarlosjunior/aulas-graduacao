@@ -180,7 +180,7 @@ FROM (
     JOIN album al ON m.id_album = al.id_album
     JOIN artista ar ON al.id_artista = ar.id_artista
     ORDER BY m.total_reproducoes DESC
-)
+) top_musicas
 WHERE ROWNUM <= 10;
 
 PROMPT ===== 5.2 - USUÁRIOS MAIS ATIVOS =====

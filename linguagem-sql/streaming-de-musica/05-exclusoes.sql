@@ -500,7 +500,7 @@ FROM (
     SELECT 1 FROM historico_reproducao hr 
     WHERE NOT EXISTS (SELECT 1 FROM usuario u WHERE u.id_usuario = hr.id_usuario)
        OR NOT EXISTS (SELECT 1 FROM musica m WHERE m.id_musica = hr.id_musica)
-);
+) verificacoes;
 
 -- Cleanup final - remover dados de teste criados
 DELETE FROM usuario WHERE email LIKE 'removido@%sistema';
