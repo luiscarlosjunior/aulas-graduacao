@@ -6,6 +6,28 @@ Este documento apresenta uma **revisão abrangente e aprofundada** de todos os c
 
 O conteúdo está organizado em seções temáticas, cada uma com explicações teóricas profundas, exemplos práticos e casos de uso do sistema MusiStream (streaming de música).
 
+### 📖 Como Utilizar Este Material
+
+Este documento de revisão foi estruturado para atender diferentes necessidades de estudo:
+
+**Para estudo inicial:**
+- Leia cada seção na ordem apresentada
+- Execute os exemplos em seu ambiente SQL
+- Preste atenção nas explicações de "Por que usar" e "Quando usar"
+
+**Para consulta rápida:**
+- Use o índice para navegar diretamente ao tópico desejado
+- Cada seção é independente e pode ser consultada isoladamente
+
+**Para preparação de avaliações:**
+- Foque nas tabelas comparativas e resumos
+- Revise o checklist ao final do documento
+- Pratique os exemplos sem consultar o material
+
+**Para aplicação profissional:**
+- Consulte as seções de boas práticas e otimização
+- Use os exemplos como templates para suas próprias consultas
+
 ---
 
 ## 📋 Índice de Conteúdo
@@ -26,19 +48,45 @@ O conteúdo está organizado em seções temáticas, cada uma com explicações 
 
 ## 1. Fundamentos de Banco de Dados e SQL
 
+Esta seção estabelece a base teórica necessária para compreender todos os demais conceitos de SQL. Dominar estes fundamentos é essencial, pois eles são a base sobre a qual todo o restante do conhecimento em banco de dados é construído.
+
 ### 1.1 O que é SQL?
 
 **SQL (Structured Query Language)** é a linguagem padrão para gerenciamento de bancos de dados relacionais. Desenvolvida nos anos 1970 pela IBM e padronizada pela ANSI/ISO, é utilizada em praticamente todos os sistemas de gerenciamento de banco de dados (SGBDs) modernos.
 
+**Por que SQL é importante?**
+
+SQL é uma das habilidades mais demandadas no mercado de tecnologia porque:
+- É utilizada em **praticamente todas as aplicações** que armazenam dados estruturados
+- É a **linguagem universal** para comunicação com bancos de dados relacionais
+- Permite desde consultas simples até **análises de dados complexas**
+- É essencial para profissionais de desenvolvimento, análise de dados, ciência de dados e administração de sistemas
+
 **Características principais:**
-- **Declarativa**: Você especifica O QUE quer, não COMO fazer
-- **Baseada em conjuntos**: Opera sobre conjuntos de dados
-- **Padronizada**: Sintaxe consistente entre diferentes SGBDs
-- **Poderosa**: Permite desde consultas simples até análises complexas
+- **Declarativa**: Você especifica O QUE quer, não COMO fazer. Isso significa que você descreve o resultado desejado e o banco de dados determina a melhor forma de obtê-lo
+- **Baseada em conjuntos**: Opera sobre conjuntos de dados inteiros de uma vez, não linha por linha. Isso torna operações em massa muito eficientes
+- **Padronizada**: Sintaxe consistente entre diferentes SGBDs, embora cada um possa ter extensões proprietárias
+- **Poderosa**: Permite desde consultas simples até análises complexas com agregações, subconsultas e funções analíticas
+
+**Exemplo prático de natureza declarativa:**
+
+Em uma linguagem procedural, você diria:
+```
+1. Abra a tabela de artistas
+2. Percorra cada linha
+3. Se o país for 'Brasil', adicione à lista de resultados
+4. Retorne a lista
+```
+
+Em SQL, você simplesmente declara:
+```sql
+SELECT nome_artista FROM artista WHERE pais_origem = 'Brasil';
+```
+O banco de dados decide internamente a melhor forma de executar essa consulta.
 
 ### 1.2 Divisões da Linguagem SQL
 
-A linguagem SQL é dividida em subcategorias conforme o tipo de operação:
+A linguagem SQL é dividida em subcategorias conforme o tipo de operação. Entender essas divisões ajuda a compreender o propósito de cada comando e quando utilizá-lo.
 
 | Categoria | Significado | Comandos Principais | Propósito |
 |-----------|-------------|---------------------|-----------|
@@ -47,31 +95,102 @@ A linguagem SQL é dividida em subcategorias conforme o tipo de operação:
 | **DCL** | Data Control Language | GRANT, REVOKE | Controlar acesso |
 | **TCL** | Transaction Control Language | COMMIT, ROLLBACK, SAVEPOINT | Gerenciar transações |
 
+**Explicação detalhada de cada categoria:**
+
+**DDL (Data Definition Language) - Linguagem de Definição de Dados:**
+- Usada para criar, modificar e excluir estruturas do banco de dados
+- Os comandos DDL afetam o *esquema* do banco, não os dados em si
+- Exemplos de uso: criar uma nova tabela, adicionar uma coluna, remover um índice
+- **Quando usar**: Ao projetar o banco de dados ou fazer manutenção na estrutura
+
+**DML (Data Manipulation Language) - Linguagem de Manipulação de Dados:**
+- Usada para inserir, consultar, atualizar e excluir dados
+- É a categoria mais usada no dia a dia (especialmente SELECT)
+- Os comandos DML afetam os *dados* armazenados nas tabelas
+- **Quando usar**: Em operações rotineiras de leitura e escrita de dados
+
+**DCL (Data Control Language) - Linguagem de Controle de Dados:**
+- Usada para gerenciar permissões e segurança
+- Controla quem pode fazer o quê no banco de dados
+- **Quando usar**: Ao configurar segurança e permissões de usuários
+
+**TCL (Transaction Control Language) - Linguagem de Controle de Transações:**
+- Usada para gerenciar transações (conjuntos de operações atômicas)
+- Permite confirmar ou reverter mudanças
+- **Quando usar**: Ao executar operações que devem ser tratadas como unidade indivisível
+
 ### 1.3 Modelo Relacional
 
-O modelo relacional organiza dados em **tabelas (relações)** compostas por:
-- **Linhas (tuplas)**: Representam registros individuais
-- **Colunas (atributos)**: Representam características dos dados
-- **Chaves primárias**: Identificadores únicos de cada registro
-- **Chaves estrangeiras**: Estabelecem relacionamentos entre tabelas
+O modelo relacional é o fundamento teórico dos bancos de dados SQL. Criado por Edgar F. Codd em 1970, organiza dados em **tabelas (relações)** que se conectam através de chaves.
+
+**Por que o modelo relacional é importante?**
+
+O modelo relacional revolucionou o armazenamento de dados porque:
+- **Elimina redundância**: Dados são armazenados uma única vez e referenciados quando necessário
+- **Garante integridade**: Regras (constraints) garantem que os dados permaneçam consistentes
+- **Facilita consultas**: A estrutura tabular permite consultas poderosas e flexíveis
+- **Separa lógica de física**: Você trabalha com dados abstratos, não com detalhes de armazenamento
+
+**Componentes principais do modelo relacional:**
+
+- **Linhas (tuplas)**: Representam registros individuais. Cada linha é uma instância de uma entidade (por exemplo, um artista específico)
+- **Colunas (atributos)**: Representam características dos dados. Cada coluna armazena um tipo específico de informação (por exemplo, nome do artista)
+- **Chaves primárias (PK)**: Identificadores únicos de cada registro. Garantem que não existam duplicatas
+- **Chaves estrangeiras (FK)**: Estabelecem relacionamentos entre tabelas. Referenciam a chave primária de outra tabela
 
 **Exemplo do Sistema MusiStream:**
 
+O diagrama abaixo mostra como as tabelas se relacionam:
+
 ```
 ARTISTA (id_artista PK, nome_artista, pais_origem, data_formacao, ativo)
-    ↓ 1:N
+    ↓ 1:N (Um artista pode ter muitos álbuns)
 ALBUM (id_album PK, titulo, id_artista FK, ano_lancamento, numero_faixas)
-    ↓ 1:N
+    ↓ 1:N (Um álbum pode ter muitas músicas)
 MUSICA (id_musica PK, titulo, id_album FK, id_genero FK, duracao, numero_faixa)
 ```
+
+**Leitura do diagrama:**
+- `PK` significa Primary Key (Chave Primária) - identifica unicamente cada registro
+- `FK` significa Foreign Key (Chave Estrangeira) - referencia registro de outra tabela
+- `1:N` significa relacionamento "um para muitos" - um registro pode se relacionar com muitos outros
+
+**Exemplo prático:**
+- O artista "The Beatles" (id_artista = 1) tem vários álbuns
+- O álbum "Abbey Road" (id_album = 101) pertence ao artista com id_artista = 1
+- A música "Come Together" (id_musica = 1001) pertence ao álbum com id_album = 101
 
 ---
 
 ## 2. Linguagem de Definição de Dados (DDL)
 
+A DDL (Data Definition Language) é o conjunto de comandos SQL utilizados para definir, modificar e remover estruturas do banco de dados. Estes comandos são fundamentais pois estabelecem o "esqueleto" sobre o qual os dados serão armazenados.
+
+**Por que aprender DDL?**
+
+Mesmo que você não seja responsável por criar bancos de dados, entender DDL é essencial porque:
+- Ajuda a compreender a estrutura das tabelas com as quais você trabalha
+- Permite fazer alterações necessárias em projetos de desenvolvimento
+- É pré-requisito para entender constraints e relacionamentos
+- É frequentemente cobrado em entrevistas técnicas e certificações
+
+**Comandos principais:**
+- `CREATE`: Cria novas estruturas (tabelas, índices, views)
+- `ALTER`: Modifica estruturas existentes
+- `DROP`: Remove estruturas permanentemente
+- `TRUNCATE`: Remove todos os dados de uma tabela (mantendo a estrutura)
+
 ### 2.1 CREATE TABLE - Criando Tabelas
 
-O comando **CREATE TABLE** define a estrutura de uma nova tabela, incluindo colunas, tipos de dados e constraints.
+O comando **CREATE TABLE** define a estrutura de uma nova tabela, incluindo colunas, tipos de dados e constraints. É o comando DDL mais utilizado e mais importante.
+
+**Por que CREATE TABLE é fundamental?**
+
+Antes de armazenar qualquer dado, você precisa criar a tabela que vai contê-lo. Uma tabela bem projetada:
+- Garante integridade dos dados através de constraints
+- Otimiza o desempenho através de tipos de dados adequados
+- Facilita manutenção futura com nomes claros e estrutura lógica
+- Documenta as regras de negócio através de validações
 
 **Sintaxe Completa:**
 
@@ -82,6 +201,12 @@ CREATE TABLE nome_tabela (
     [CONSTRAINT nome_constraint TIPO_CONSTRAINT (colunas)]
 );
 ```
+
+**Explicação da sintaxe:**
+- `nome_tabela`: Nome único que identifica a tabela no banco de dados
+- `nome_coluna`: Nome da coluna (deve ser único dentro da tabela)
+- `TIPO_DADO`: Define que tipo de informação a coluna armazena (texto, número, data, etc.)
+- `CONSTRAINT`: Regra de validação opcional (chave primária, não nulo, único, etc.)
 
 **Exemplo Prático - Tabela de Artistas:**
 
@@ -98,33 +223,66 @@ CREATE TABLE artista (
 );
 ```
 
+**Explicação linha por linha:**
+- `id_artista INTEGER PRIMARY KEY`: Número inteiro que identifica unicamente cada artista
+- `nome_artista VARCHAR2(200) NOT NULL`: Texto de até 200 caracteres, obrigatório
+- `pais_origem VARCHAR2(50)`: Texto opcional de até 50 caracteres
+- `data_formacao DATE`: Data opcional de formação da banda/artista
+- `numero_membros INTEGER DEFAULT 1`: Número inteiro, assume 1 se não informado
+- `biografia CLOB`: Texto longo para biografias extensas
+- `ativo CHAR(1) DEFAULT 'S' CHECK (...)`: Um caractere (S ou N), padrão S, validado
+- `data_cadastro TIMESTAMP DEFAULT SYSTIMESTAMP`: Data/hora de cadastro, automática
+
 **Tipos de Dados Principais (Oracle):**
 
-| Tipo | Descrição | Exemplo |
-|------|-----------|---------|
-| VARCHAR2(n) | Texto variável até n caracteres | VARCHAR2(200) |
-| CHAR(n) | Texto fixo de n caracteres | CHAR(1) |
-| NUMBER(p,s) | Número com precisão p e escala s | NUMBER(10,2) |
-| INTEGER | Número inteiro | INTEGER |
-| DATE | Data e hora | DATE |
-| TIMESTAMP | Data/hora com precisão de frações de segundo | TIMESTAMP |
-| CLOB | Texto longo (até 4GB) | CLOB |
-| BLOB | Dados binários | BLOB |
+Escolher o tipo de dado correto é fundamental para garantir integridade e otimizar armazenamento. Cada tipo tem características específicas:
+
+| Tipo | Descrição | Exemplo | Quando Usar |
+|------|-----------|---------|-------------|
+| VARCHAR2(n) | Texto variável até n caracteres | VARCHAR2(200) | Textos de tamanho variável (nomes, endereços) |
+| CHAR(n) | Texto fixo de n caracteres | CHAR(1) | Códigos de tamanho fixo (S/N, UF) |
+| NUMBER(p,s) | Número com precisão p e escala s | NUMBER(10,2) | Valores monetários, medidas precisas |
+| INTEGER | Número inteiro | INTEGER | Contadores, IDs, quantidades |
+| DATE | Data e hora | DATE | Datas de nascimento, vencimento |
+| TIMESTAMP | Data/hora com precisão de frações de segundo | TIMESTAMP | Logs, auditoria, operações precisas |
+| CLOB | Texto longo (até 4GB) | CLOB | Biografias, descrições extensas |
+| BLOB | Dados binários | BLOB | Imagens, arquivos (evitar quando possível) |
+
+**Dicas para escolha de tipos:**
+- **VARCHAR2 vs CHAR**: Use VARCHAR2 para textos de tamanho variável (economiza espaço); CHAR para códigos fixos
+- **NUMBER vs INTEGER**: Use NUMBER quando precisar de casas decimais; INTEGER para valores inteiros
+- **DATE vs TIMESTAMP**: Use DATE para datas simples; TIMESTAMP quando precisar de milissegundos ou fuso horário
 
 ### 2.2 Constraints (Restrições)
 
-As constraints garantem **integridade dos dados**:
+As constraints são regras que garantem **integridade dos dados**. Elas são fundamentais para manter a qualidade dos dados e prevenir erros.
+
+**Por que usar constraints?**
+
+Constraints são essenciais porque:
+- **Previnem dados inválidos**: O banco rejeita inserções/atualizações que violem as regras
+- **Documentam regras de negócio**: As constraints explicitam o que é permitido
+- **Simplificam a aplicação**: A validação é feita pelo banco, não apenas pela aplicação
+- **Garantem consistência**: Mesmo acessos diretos ao banco respeitam as regras
 
 **PRIMARY KEY - Chave Primária:**
+
+A chave primária identifica unicamente cada registro. É a constraint mais importante de uma tabela.
+
 ```sql
--- Forma inline
+-- Forma inline (na definição da coluna)
 id_artista INTEGER PRIMARY KEY
 
--- Forma nomeada
+-- Forma nomeada (no final da tabela) - recomendada para facilitar manutenção
 CONSTRAINT pk_artista PRIMARY KEY (id_artista)
 ```
 
+**Por que usar:** Todo registro precisa ser identificável de forma única. Sem chave primária, não há como referenciar registros específicos.
+
 **FOREIGN KEY - Chave Estrangeira:**
+
+A chave estrangeira estabelece relacionamentos entre tabelas, garantindo integridade referencial.
+
 ```sql
 -- Referência a outra tabela
 CREATE TABLE album (
@@ -138,75 +296,167 @@ CREATE TABLE album (
 );
 ```
 
+**Opções de ON DELETE:**
+- `CASCADE`: Ao excluir o artista, exclui também seus álbuns
+- `SET NULL`: Ao excluir o artista, os álbuns ficam com id_artista = NULL
+- `RESTRICT` (padrão): Impede exclusão do artista se houver álbuns
+
+**Por que usar:** Garante que não existam álbuns "órfãos" (sem artista válido).
+
 **NOT NULL - Obrigatório:**
+
+Garante que a coluna sempre terá um valor (não pode ser deixada vazia).
+
 ```sql
 nome_artista VARCHAR2(200) NOT NULL
 ```
 
+**Por que usar:** Para campos essenciais que não podem ficar vazios (nome, email principal, etc.).
+
 **UNIQUE - Valor Único:**
+
+Garante que não existam valores duplicados na coluna.
+
 ```sql
 email VARCHAR2(150) UNIQUE
 -- Ou
 CONSTRAINT uq_usuario_email UNIQUE (email)
 ```
 
+**Por que usar:** Para campos que devem ser únicos além da chave primária (email, CPF, código interno).
+
 **CHECK - Validação:**
+
+Permite definir regras customizadas de validação.
+
 ```sql
 duracao INTEGER CHECK (duracao > 0),
 avaliacao NUMBER(2,1) CHECK (avaliacao BETWEEN 0 AND 5),
 tipo_assinatura VARCHAR2(20) CHECK (tipo_assinatura IN ('gratuito', 'basico', 'premium'))
 ```
 
+**Por que usar:** Para garantir que os dados estejam dentro de faixas ou conjuntos válidos.
+
 **DEFAULT - Valor Padrão:**
+
+Define um valor automático quando nenhum é fornecido.
+
 ```sql
 ativo CHAR(1) DEFAULT 'S',
 data_cadastro TIMESTAMP DEFAULT SYSTIMESTAMP,
 numero_faixas INTEGER DEFAULT 0
 ```
 
+**Por que usar:** Para campos que geralmente têm um valor específico, simplificando inserções.
+
 ### 2.3 ALTER TABLE - Modificando Estrutura
 
+O comando ALTER TABLE permite modificar a estrutura de uma tabela existente sem precisar recriá-la. É essencial para evolução do banco de dados.
+
+**Por que usar ALTER TABLE?**
+
+- Adicionar novas colunas conforme os requisitos evoluem
+- Modificar tipos de dados para acomodar mudanças
+- Adicionar ou remover constraints
+- Renomear colunas ou a própria tabela
+
 **Adicionar coluna:**
+
+Adiciona uma nova coluna à tabela. Linhas existentes terão valor NULL na nova coluna (a menos que especificado um DEFAULT).
+
 ```sql
 ALTER TABLE artista ADD website VARCHAR2(300);
 ```
 
+**Quando usar:** Quando um novo campo se torna necessário (ex: adicionar campo de redes sociais).
+
 **Modificar coluna:**
+
+Altera características de uma coluna existente (tipo, tamanho, constraint).
+
 ```sql
 ALTER TABLE artista MODIFY nome_artista VARCHAR2(300);
 ```
 
+**Cuidado:** Modificações podem falhar se os dados existentes não forem compatíveis com a nova definição.
+
 **Remover coluna:**
+
+Remove permanentemente uma coluna e todos os seus dados.
+
 ```sql
 ALTER TABLE artista DROP COLUMN website;
 ```
 
+**Cuidado:** Esta operação é irreversível. Sempre faça backup antes.
+
 **Adicionar constraint:**
+
+Adiciona uma nova regra a uma tabela existente.
+
 ```sql
 ALTER TABLE album ADD CONSTRAINT fk_album_artista 
     FOREIGN KEY (id_artista) REFERENCES artista(id_artista);
 ```
 
+**Cuidado:** A constraint só será criada se todos os dados existentes a respeitarem.
+
 **Remover constraint:**
+
+Remove uma regra existente da tabela.
+
 ```sql
 ALTER TABLE album DROP CONSTRAINT fk_album_artista;
 ```
 
+**Quando usar:** Ao reestruturar relacionamentos ou remover validações desnecessárias.
+
 ### 2.4 DROP e TRUNCATE
 
+Estes comandos removem dados ou estruturas. Devem ser usados com extremo cuidado.
+
 **DROP TABLE - Remove tabela completamente:**
+
+Remove a tabela inteira, incluindo estrutura, dados, índices e constraints.
+
 ```sql
 DROP TABLE album;                    -- Falha se houver FK referenciando
 DROP TABLE album CASCADE CONSTRAINTS; -- Remove FKs automaticamente
 ```
 
+**Por que usar:** Para remover tabelas que não são mais necessárias.
+
+**⚠️ ATENÇÃO:** DROP TABLE é irreversível. Todos os dados serão perdidos permanentemente.
+
 **TRUNCATE - Remove todos os dados:**
+
+Remove todos os registros da tabela, mas mantém a estrutura (colunas, constraints, índices).
+
 ```sql
 TRUNCATE TABLE historico_reproducao;  -- Mais rápido que DELETE
 -- Não pode ser desfeito (não gera log de transação)
 ```
 
+**TRUNCATE vs DELETE:**
+| Aspecto | TRUNCATE | DELETE |
+|---------|----------|--------|
+| Velocidade | Muito rápido | Mais lento |
+| Rollback | Não permite | Permite |
+| WHERE | Não aceita | Aceita (filtra) |
+| Triggers | Não dispara | Dispara |
+| Uso | Limpar tabela inteira | Remover registros específicos |
+
+**Por que usar TRUNCATE:** Para limpar tabelas grandes rapidamente (ex: tabelas de log, dados temporários).
+
 ### 2.5 Sequences - Geração Automática de IDs
+
+Sequences são objetos que geram números sequenciais automaticamente, muito úteis para criar IDs únicos.
+
+**Por que usar Sequences?**
+
+- Garantem números únicos mesmo com múltiplos usuários simultâneos
+- Evitam conflitos de IDs duplicados
+- São mais eficientes que calcular MAX(id) + 1
 
 ```sql
 -- Criar sequence
@@ -221,23 +471,65 @@ CREATE SEQUENCE seq_artista
 INSERT INTO artista (id_artista, nome_artista)
 VALUES (seq_artista.NEXTVAL, 'The Beatles');
 
--- NEXTVAL: próximo valor
--- CURRVAL: valor atual (só após NEXTVAL na sessão)
+-- NEXTVAL: próximo valor (incrementa a sequence)
+-- CURRVAL: valor atual (só funciona após NEXTVAL na mesma sessão)
+```
+
+**Parâmetros explicados:**
+- `START WITH 1`: Inicia em 1
+- `INCREMENT BY 1`: Incrementa de 1 em 1
+- `MAXVALUE`: Valor máximo permitido
+- `NOCACHE`: Não pré-aloca valores (mais seguro, menos eficiente)
+- `NOCYCLE`: Não reinicia quando atinge o máximo (gera erro)
 ```
 
 ---
 
 ## 3. Linguagem de Manipulação de Dados (DML)
 
+A DML (Data Manipulation Language) é o conjunto de comandos SQL utilizados para inserir, consultar, atualizar e excluir dados. São os comandos mais utilizados no dia a dia, especialmente o SELECT.
+
+**Por que a DML é importante?**
+
+- É o que você usará 90% do tempo trabalhando com bancos de dados
+- Permite todas as operações CRUD (Create, Read, Update, Delete)
+- SELECT é fundamental para relatórios, análises e extração de dados
+- INSERT, UPDATE e DELETE são essenciais para manter os dados atualizados
+
+**Comandos principais:**
+- `INSERT`: Adiciona novos registros
+- `SELECT`: Consulta dados (mais usado)
+- `UPDATE`: Modifica registros existentes
+- `DELETE`: Remove registros
+
 ### 3.1 INSERT - Inserindo Dados
 
+O comando INSERT adiciona novos registros a uma tabela. É a forma de popular o banco com dados.
+
+**Por que entender INSERT?**
+
+- Todo dado no banco foi inserido via INSERT em algum momento
+- É essencial para carregar dados iniciais e novos registros
+- Entender INSERT ajuda a entender a estrutura das tabelas
+
 **Inserção Simples:**
+
+A forma mais básica de INSERT especifica colunas e valores correspondentes.
+
 ```sql
 INSERT INTO artista (id_artista, nome_artista, pais_origem, data_formacao)
 VALUES (1, 'The Beatles', 'Reino Unido', DATE '1960-08-17');
 ```
 
+**Explicação:**
+- `INSERT INTO artista`: Tabela onde inserir
+- `(id_artista, nome_artista, ...)`: Colunas que receberão valores
+- `VALUES (1, 'The Beatles', ...)`: Valores correspondentes às colunas
+
 **Inserção Múltipla (Oracle INSERT ALL):**
+
+Permite inserir vários registros em um único comando, mais eficiente que múltiplos INSERTs.
+
 ```sql
 INSERT ALL
     INTO genero (id_genero, nome_genero) VALUES (1, 'Rock')
@@ -248,7 +540,14 @@ INSERT ALL
 SELECT * FROM dual;
 ```
 
+**Por que usar INSERT ALL:**
+- Mais rápido que vários INSERTs separados
+- Reduz tráfego de rede
+- Todas as inserções ocorrem em uma única transação
+
 **INSERT... SELECT - Inserção de Consulta:**
+
+Insere dados baseados no resultado de uma consulta. Muito útil para copiar ou transformar dados.
 ```sql
 -- Copiar dados de outra tabela com transformação
 INSERT INTO estatistica_artista (id_artista, nome_artista, total_reproducoes)
@@ -264,6 +563,9 @@ GROUP BY ar.id_artista, ar.nome_artista;
 ```
 
 **Inserção Condicional (NOT EXISTS):**
+
+Insere apenas se o registro não existir. Útil para evitar duplicatas.
+
 ```sql
 -- Inserir apenas se não existir
 INSERT INTO genero (id_genero, nome_genero, descricao)
@@ -274,9 +576,17 @@ WHERE NOT EXISTS (
 );
 ```
 
+**Por que usar:** Evita erros de duplicação quando você não tem certeza se o registro já existe.
+
 ### 3.2 MERGE - Inserir ou Atualizar (UPSERT)
 
-O comando MERGE combina INSERT e UPDATE em uma única operação:
+O comando MERGE combina INSERT e UPDATE em uma única operação. Se o registro existe, atualiza; se não existe, insere.
+
+**Por que usar MERGE?**
+
+- Evita a lógica "primeiro SELECT, depois decide se INSERT ou UPDATE"
+- Mais eficiente que fazer duas operações separadas
+- Garante atomicidade (tudo acontece em uma única transação)
 
 ```sql
 MERGE INTO estatistica_mensal est
@@ -302,14 +612,33 @@ WHEN NOT MATCHED THEN
     VALUES (src.id_musica, src.mes, src.ano, src.total_reproducoes);
 ```
 
+**Explicação do MERGE:**
+- `MERGE INTO`: Tabela alvo onde inserir/atualizar
+- `USING`: Fonte de dados (pode ser tabela, view ou subconsulta)
+- `ON`: Condição que determina se é match (atualiza) ou não (insere)
+- `WHEN MATCHED THEN UPDATE`: O que fazer se encontrar correspondência
+- `WHEN NOT MATCHED THEN INSERT`: O que fazer se não encontrar
+
 **Quando usar MERGE:**
 - Sincronização de dados entre sistemas
 - Cargas incrementais em data warehouses
 - Atualização de tabelas de cache ou summary
+- Consolidação de dados de múltiplas fontes
 
 ### 3.3 UPDATE - Atualizando Dados
 
+O comando UPDATE modifica dados existentes em uma tabela.
+
+**Por que entender UPDATE?**
+
+- Dados mudam constantemente (endereços, status, preferências)
+- Correção de erros em dados existentes
+- Atualização de campos calculados ou estatísticas
+
+**⚠️ CUIDADO:** UPDATE sem WHERE atualiza TODAS as linhas da tabela!
+
 **UPDATE Simples:**
+
 ```sql
 UPDATE artista 
 SET pais_origem = 'Inglaterra',
@@ -317,7 +646,15 @@ SET pais_origem = 'Inglaterra',
 WHERE nome_artista = 'The Beatles';
 ```
 
+**Explicação:**
+- `UPDATE artista`: Tabela a modificar
+- `SET coluna = valor`: Colunas e novos valores
+- `WHERE condição`: **ESSENCIAL** - define quais linhas atualizar
+
 **UPDATE com Subconsulta:**
+
+Atualiza uma coluna com valor calculado de outra tabela.
+
 ```sql
 -- Atualizar estatísticas de artistas
 UPDATE artista a
@@ -329,6 +666,8 @@ SET popularidade = (
     WHERE al.id_artista = a.id_artista
 );
 ```
+
+**Por que usar:** Para atualizar campos com valores que dependem de outras tabelas.
 
 **UPDATE com JOIN (Sintaxe Oracle):**
 ```sql
@@ -342,11 +681,25 @@ SET numero_faixas = contagem;
 
 ### 3.4 DELETE - Removendo Dados
 
+O comando DELETE remove registros de uma tabela.
+
+**Por que usar DELETE?**
+
+- Remover dados obsoletos ou incorretos
+- Limpar registros antigos (logs, histórico)
+- Manter o banco limpo e com boa performance
+
+**⚠️ CUIDADO:** DELETE sem WHERE remove TODOS os registros da tabela!
+
 **DELETE Simples:**
 ```sql
 DELETE FROM historico_reproducao
 WHERE data_reproducao < SYSDATE - 365;  -- Remover histórico > 1 ano
 ```
+
+**Explicação:**
+- `DELETE FROM tabela`: Tabela de onde remover
+- `WHERE condição`: **ESSENCIAL** - define quais linhas remover
 
 **DELETE com Subconsulta:**
 ```sql
@@ -376,7 +729,24 @@ DELETE FROM artista WHERE id_artista = 123;
 
 ## 4. Consultas SELECT e Relatórios
 
+O comando SELECT é o coração da linguagem SQL - é utilizado para consultar e recuperar dados do banco de dados. Estima-se que 80-90% das operações SQL em sistemas de produção sejam consultas SELECT.
+
+**Por que SELECT é tão importante?**
+
+- É a única forma de visualizar dados armazenados no banco
+- Base para todos os relatórios, dashboards e análises
+- É não-destrutivo (apenas lê, não modifica dados)
+- Permite desde consultas simples até análises complexas
+
 ### 4.1 Ordem de Execução do SELECT
+
+Entender a ordem de execução é fundamental para escrever consultas corretas e evitar erros comuns.
+
+**Por que a ordem importa?**
+
+- Explica por que alguns aliases funcionam e outros não
+- Ajuda a entender onde colocar filtros (WHERE vs HAVING)
+- Fundamental para otimização de performance
 
 A ordem de **escrita** difere da ordem de **execução**:
 
@@ -390,36 +760,62 @@ A ordem de **escrita** difere da ordem de **execução**:
 | 6 | ORDER BY | 6 | Ordena resultado |
 | 7 | LIMIT/FETCH | 7 | Limita quantidade |
 
+**Explicação da ordem de execução:**
+
+1. **FROM**: Primeiro, o banco identifica de onde vêm os dados
+2. **WHERE**: Depois, filtra as linhas individuais
+3. **GROUP BY**: Agrupa as linhas filtradas
+4. **HAVING**: Filtra os grupos (não as linhas)
+5. **SELECT**: Escolhe quais colunas retornar
+6. **ORDER BY**: Ordena o resultado final
+7. **LIMIT/FETCH**: Limita a quantidade de linhas
+
 **Implicações Práticas:**
 
 ```sql
 -- Aliases do SELECT não funcionam no WHERE (execução anterior)
--- ❌ INCORRETO
+-- ❌ INCORRETO - 'artista' ainda não existe quando WHERE executa
 SELECT nome_artista AS artista FROM artista WHERE artista LIKE 'The%';
 
--- ✅ CORRETO  
+-- ✅ CORRETO - use o nome original da coluna  
 SELECT nome_artista AS artista FROM artista WHERE nome_artista LIKE 'The%';
 
 -- Aliases funcionam no ORDER BY (execução posterior)
--- ✅ CORRETO
+-- ✅ CORRETO - 'artista' já existe quando ORDER BY executa
 SELECT nome_artista AS artista FROM artista ORDER BY artista;
 ```
 
 ### 4.2 SELECT Básico
+
+A forma mais simples de consulta, usada para recuperar dados de uma única tabela.
 
 **Selecionar todas as colunas:**
 ```sql
 SELECT * FROM artista;  -- Evitar em produção
 ```
 
-**Selecionar colunas específicas:**
+**Por que evitar SELECT * em produção?**
+- Retorna dados desnecessários (desperdiça memória e rede)
+- Se a tabela mudar (novas colunas), a query pode quebrar
+- Dificulta identificar quais dados são realmente usados
+- Pode expor dados sensíveis acidentalmente
+
+**Selecionar colunas específicas (recomendado):**
 ```sql
 SELECT nome_artista, pais_origem, data_formacao
 FROM artista
 WHERE ativo = 'S';
 ```
 
+**Vantagens de especificar colunas:**
+- Mais eficiente (menos dados trafegados)
+- Código mais claro e documentado
+- Mais seguro (não expõe dados sensíveis)
+
 **Aliases para colunas:**
+
+Aliases dão nomes mais descritivos às colunas no resultado.
+
 ```sql
 SELECT 
     nome_artista AS "Nome do Artista",
@@ -428,21 +824,41 @@ SELECT
 FROM artista;
 ```
 
+**Quando usar aliases:**
+- Para tornar relatórios mais legíveis
+- Quando o nome da coluna não é autoexplicativo
+- Em expressões calculadas: `salario * 12 AS "Salário Anual"`
+
 **DISTINCT - Valores únicos:**
+
+Remove duplicatas do resultado.
+
 ```sql
 SELECT DISTINCT pais_origem FROM artista ORDER BY pais_origem;
 ```
 
+**Quando usar DISTINCT:**
+- Para listar valores únicos (categorias, países, tags)
+- Para contar valores distintos: `COUNT(DISTINCT pais_origem)`
+
 ### 4.3 Ordenação (ORDER BY)
 
+Organiza o resultado em uma ordem específica.
+
+**Por que ordenar?**
+
+- Facilita a leitura e compreensão dos dados
+- Permite encontrar valores extremos (maiores, menores, mais recentes)
+- Essencial para relatórios profissionais
+
 ```sql
--- Ordenação simples
+-- Ordenação simples (ascendente por padrão)
 SELECT nome_artista, pais_origem FROM artista ORDER BY nome_artista;
 
--- Ordenação descendente
+-- Ordenação descendente (Z-A, maior para menor)
 SELECT titulo, ano_lancamento FROM album ORDER BY ano_lancamento DESC;
 
--- Múltiplas colunas (primeiro país, depois nome)
+-- Múltiplas colunas (primeiro país, depois nome dentro de cada país)
 SELECT nome_artista, pais_origem 
 FROM artista 
 ORDER BY pais_origem ASC, nome_artista ASC;
@@ -476,36 +892,72 @@ SELECT * FROM (
 
 ## 5. Filtros e Operadores
 
+A cláusula WHERE é uma das ferramentas mais poderosas do SQL, permitindo filtrar registros baseado em condições específicas. Dominar filtros é essencial para trabalhar com grandes volumes de dados.
+
+**Por que filtros são importantes?**
+
+- Retornam apenas dados relevantes (não tudo)
+- Melhoram drasticamente a performance
+- Essenciais para relatórios e análises específicas
+- Economizam memória e tráfego de rede
+
 ### 5.1 Operadores de Comparação
 
-| Operador | Descrição | Exemplo |
-|----------|-----------|---------|
-| = | Igual a | WHERE pais = 'Brasil' |
-| <> ou != | Diferente de | WHERE status <> 'Inativo' |
-| > | Maior que | WHERE duracao > 300 |
-| < | Menor que | WHERE ano < 2000 |
-| >= | Maior ou igual | WHERE avaliacao >= 4 |
-| <= | Menor ou igual | WHERE preco <= 100 |
+Os operadores de comparação testam valores de colunas contra valores específicos ou outras colunas.
+
+| Operador | Descrição | Exemplo | Quando Usar |
+|----------|-----------|---------|-------------|
+| = | Igual a | WHERE pais = 'Brasil' | Correspondência exata |
+| <> ou != | Diferente de | WHERE status <> 'Inativo' | Excluir valores |
+| > | Maior que | WHERE duracao > 300 | Valores acima de limite |
+| < | Menor que | WHERE ano < 2000 | Valores abaixo de limite |
+| >= | Maior ou igual | WHERE avaliacao >= 4 | Valor mínimo (inclusivo) |
+| <= | Menor ou igual | WHERE preco <= 100 | Valor máximo (inclusivo) |
+
+**Exemplos práticos:**
 
 ```sql
 -- Músicas com mais de 5 minutos (300 segundos)
+-- Por que: Encontrar músicas longas, talvez para uma playlist especial
 SELECT titulo, duracao/60 AS minutos
 FROM musica
 WHERE duracao > 300
 ORDER BY duracao DESC;
 
 -- Álbuns lançados antes de 1980
+-- Por que: Análise de catálogo vintage
 SELECT titulo, ano_lancamento
 FROM album
 WHERE ano_lancamento < 1980
 ORDER BY ano_lancamento;
 ```
 
+**Dica importante sobre NULL:**
+```sql
+-- INCORRETO: Comparação com NULL não funciona!
+SELECT * FROM artista WHERE data_formacao = NULL;  -- Não retorna nada
+
+-- CORRETO: Use IS NULL
+SELECT * FROM artista WHERE data_formacao IS NULL;
+```
+
 ### 5.2 Operadores Lógicos
 
-**AND - Todas condições verdadeiras:**
+Operadores lógicos combinam múltiplas condições, permitindo filtros complexos.
+
+**Por que usar operadores lógicos?**
+
+- Combinar múltiplos critérios em uma consulta
+- Criar filtros precisos e específicos
+- Implementar regras de negócio complexas
+
+**AND - Todas condições devem ser verdadeiras:**
+
+Restringe o resultado - quanto mais AND, menos resultados.
+
 ```sql
 -- Artistas brasileiros ativos formados após 2000
+-- Todas as 3 condições devem ser verdadeiras
 SELECT nome_artista, data_formacao
 FROM artista
 WHERE pais_origem = 'Brasil' 
@@ -516,34 +968,52 @@ WHERE pais_origem = 'Brasil'
 **OR - Pelo menos uma condição verdadeira:**
 ```sql
 -- Artistas do Brasil OU Portugal
+-- Pelo menos uma condição deve ser verdadeira
 SELECT nome_artista, pais_origem
 FROM artista
 WHERE pais_origem = 'Brasil' OR pais_origem = 'Portugal';
 ```
 
 **NOT - Negação:**
+
+Inverte o resultado da condição.
+
 ```sql
 -- Artistas que não são do Brasil
 SELECT nome_artista FROM artista WHERE NOT pais_origem = 'Brasil';
--- Ou equivalente:
+-- Ou equivalente (mais comum):
 SELECT nome_artista FROM artista WHERE pais_origem <> 'Brasil';
 ```
 
-**Precedência e Parênteses:**
+**Precedência e Parênteses - MUITO IMPORTANTE:**
+
+Sem parênteses, a ordem é: NOT > AND > OR. Use parênteses para clareza!
+
 ```sql
 -- Precedência: NOT > AND > OR
--- ❌ AMBÍGUO (AND avaliado antes de OR)
+-- ❌ AMBÍGUO (AND avaliado antes de OR) - evite!
 SELECT * FROM artista
 WHERE pais_origem = 'Brasil' OR pais_origem = 'Portugal' AND numero_membros > 3;
 -- Resultado: Brasil (todos) + Portugal com >3 membros
+-- Não é o que provavelmente se queria!
 
--- ✅ CLARO (parênteses explícitos)
+-- ✅ CLARO (parênteses explícitos) - use sempre!
 SELECT * FROM artista
 WHERE (pais_origem = 'Brasil' OR pais_origem = 'Portugal') AND numero_membros > 3;
 -- Resultado: Brasil ou Portugal, apenas com >3 membros
 ```
 
+**Dica:** Sempre use parênteses ao combinar AND e OR para evitar ambiguidade.
+
 ### 5.3 Operador IN
+
+O operador IN testa se um valor está em uma lista de valores. É uma forma mais legível de escrever múltiplos OR.
+
+**Por que usar IN?**
+
+- Mais legível que múltiplos OR
+- Mais fácil de manter (adicionar/remover valores)
+- Permite usar subconsultas
 
 ```sql
 -- Artistas de países específicos
@@ -551,13 +1021,14 @@ SELECT nome_artista, pais_origem
 FROM artista
 WHERE pais_origem IN ('Brasil', 'Argentina', 'Chile', 'Uruguai');
 
--- Equivalente a múltiplos OR
+-- Equivalente a múltiplos OR (mas IN é mais legível):
 WHERE pais_origem = 'Brasil' 
    OR pais_origem = 'Argentina' 
    OR pais_origem = 'Chile' 
    OR pais_origem = 'Uruguai';
 
--- IN com subconsulta
+-- IN com subconsulta - muito poderoso!
+-- Artistas que lançaram álbuns a partir de 2020
 SELECT nome_artista
 FROM artista
 WHERE id_artista IN (
@@ -570,18 +1041,29 @@ FROM artista
 WHERE pais_origem NOT IN ('Estados Unidos', 'Reino Unido');
 ```
 
+**⚠️ Cuidado com NOT IN e NULL:** Se a lista contém NULL, NOT IN pode não retornar resultado esperado.
+
 ### 5.4 Operador BETWEEN
+
+O operador BETWEEN testa se um valor está dentro de um intervalo. É **inclusivo** (inclui os extremos).
+
+**Por que usar BETWEEN?**
+
+- Mais legível que usar >= e <=
+- Deixa clara a intenção de intervalo
+- Comum para datas, idades, faixas de preço
 
 ```sql
 -- Álbuns lançados na década de 70 (BETWEEN é INCLUSIVO)
+-- Inclui 1970 E 1979
 SELECT titulo, ano_lancamento
 FROM album
 WHERE ano_lancamento BETWEEN 1970 AND 1979;
 
--- Equivalente a:
+-- Equivalente a (mas BETWEEN é mais legível):
 WHERE ano_lancamento >= 1970 AND ano_lancamento <= 1979;
 
--- Músicas com duração entre 3 e 5 minutos
+-- Músicas com duração entre 3 e 5 minutos (180 a 300 segundos)
 SELECT titulo, duracao/60 AS minutos
 FROM musica
 WHERE duracao BETWEEN 180 AND 300;
@@ -592,10 +1074,20 @@ FROM usuario
 WHERE data_cadastro BETWEEN DATE '2023-01-01' AND DATE '2023-12-31';
 ```
 
+**Dica para datas:** Se a coluna tem hora (timestamp), considere usar >= e < ao invés de BETWEEN para evitar problemas.
+
 ### 5.5 Operador LIKE
 
-**Wildcards:**
-- `%` = zero ou mais caracteres
+O operador LIKE busca padrões em texto. Essencial para buscas flexíveis.
+
+**Por que usar LIKE?**
+
+- Buscas parciais (começa com, termina com, contém)
+- Implementar autocomplete e filtros de busca
+- Encontrar padrões em textos
+
+**Wildcards (curingas):**
+- `%` = zero ou mais caracteres de qualquer tipo
 - `_` = exatamente um caractere
 
 ```sql
@@ -607,11 +1099,11 @@ SELECT nome_artista FROM artista WHERE nome_artista LIKE 'The%';
 SELECT nome_artista FROM artista WHERE nome_artista LIKE '%Band';
 -- Resultado: Dave Matthews Band, Blues Band
 
--- Contém "Rock"
+-- Contém "Rock" (em qualquer posição)
 SELECT nome_artista FROM artista WHERE nome_artista LIKE '%Rock%';
 -- Resultado: Rock Nation, The Rockers, Hard Rock Cafe
 
--- Exatamente 4 caracteres
+-- Exatamente 4 caracteres (cada _ é um caractere)
 SELECT nome_genero FROM genero WHERE nome_genero LIKE '____';
 -- Resultado: Jazz, Rock, Soul
 
@@ -668,28 +1160,50 @@ FROM artista;
 
 ## 6. Operadores Aritméticos e Funções Matemáticas
 
+Esta seção cobre como realizar cálculos matemáticos diretamente em consultas SQL. Isso é extremamente útil para relatórios, análises e transformações de dados.
+
+**Por que fazer cálculos em SQL?**
+
+- Mais eficiente que calcular na aplicação (banco otimiza operações)
+- Reduz tráfego de dados (só retorna resultado calculado)
+- Permite agregações poderosas (médias, somas, estatísticas)
+- Garante consistência (mesma fórmula para todos os usuários)
+
 ### 6.1 Operadores Aritméticos
 
-| Operador | Descrição | Exemplo |
-|----------|-----------|---------|
-| + | Adição | duracao + 60 |
-| - | Subtração | ano_atual - ano_lancamento |
-| * | Multiplicação | preco * 1.1 |
-| / | Divisão | duracao / 60 |
+Os operadores básicos funcionam como em matemática, mas aplicados a colunas.
+
+| Operador | Descrição | Exemplo | Uso Comum |
+|----------|-----------|---------|-----------|
+| + | Adição | duracao + 60 | Adicionar valores |
+| - | Subtração | ano_atual - ano_lancamento | Calcular diferenças, idade |
+| * | Multiplicação | preco * 1.1 | Aplicar percentuais, taxas |
+| / | Divisão | duracao / 60 | Converter unidades |
+
+**Exemplo prático - Conversão de unidades:**
 
 ```sql
--- Cálculos em consultas
+-- Cálculos em consultas - convertendo segundos para formato legível
 SELECT 
     titulo,
     duracao AS segundos,
-    duracao / 60 AS minutos_inteiro,
-    duracao / 60.0 AS minutos_decimal,
-    ROUND(duracao / 60.0, 2) AS minutos_arredondado,
-    FLOOR(duracao / 60) || ':' || LPAD(MOD(duracao, 60), 2, '0') AS formato_mm_ss
+    duracao / 60 AS minutos_inteiro,         -- Divisão inteira
+    duracao / 60.0 AS minutos_decimal,       -- Divisão decimal (mais preciso)
+    ROUND(duracao / 60.0, 2) AS minutos_arredondado,  -- Arredondado 2 casas
+    FLOOR(duracao / 60) || ':' || LPAD(MOD(duracao, 60), 2, '0') AS formato_mm_ss  -- Formato 3:45
 FROM musica;
 ```
 
+**Explicação do exemplo:**
+- `duracao / 60`: Divisão inteira (pode perder precisão)
+- `duracao / 60.0`: Divisão decimal (mantém precisão)
+- `FLOOR(duracao / 60)`: Minutos completos
+- `MOD(duracao, 60)`: Segundos restantes
+- `LPAD(..., 2, '0')`: Adiciona zero à esquerda se necessário
+
 ### 6.2 Funções de Arredondamento
+
+Diferentes funções para controlar como números decimais são tratados.
 
 ```sql
 SELECT 
@@ -700,35 +1214,67 @@ SELECT
     FLOOR(duracao / 60.0) AS arredondado_baixo,
     TRUNC(duracao / 60.0, 1) AS truncado_1_casa
 FROM musica;
-
--- ROUND: arredondamento padrão
--- CEIL: sempre arredonda para cima
--- FLOOR: sempre arredonda para baixo
--- TRUNC: remove decimais sem arredondar
 ```
 
+**Explicação das funções:**
+- **ROUND(valor, casas)**: Arredondamento padrão (4.5 → 5, 4.4 → 4)
+- **CEIL(valor)**: Sempre arredonda para CIMA (4.1 → 5)
+- **FLOOR(valor)**: Sempre arredonda para BAIXO (4.9 → 4)
+- **TRUNC(valor, casas)**: Remove decimais SEM arredondar (4.999 → 4.9)
+
+**Quando usar cada uma:**
+- **ROUND**: Uso geral, valores monetários formatados
+- **CEIL**: Calcular recursos necessários (ex: quantos servidores)
+- **FLOOR**: Calcular minutos completos, idade
+- **TRUNC**: Quando precisa cortar precisão sem arredondar
+
 ### 6.3 Funções Estatísticas
+
+Funções de agregação para análises estatísticas.
+
+**Por que usar funções estatísticas?**
+
+- Resumir grandes volumes de dados
+- Identificar padrões e tendências
+- Gerar relatórios de KPIs
+- Análises de performance e comportamento
 
 ```sql
 SELECT 
     nome_genero,
-    COUNT(*) AS total_musicas,
-    MIN(duracao) AS duracao_minima,
-    MAX(duracao) AS duracao_maxima,
-    ROUND(AVG(duracao), 2) AS duracao_media,
-    SUM(duracao) AS duracao_total,
-    ROUND(STDDEV(duracao), 2) AS desvio_padrao,
-    ROUND(VARIANCE(duracao), 2) AS variancia
+    COUNT(*) AS total_musicas,              -- Quantidade de músicas
+    MIN(duracao) AS duracao_minima,         -- Menor duração
+    MAX(duracao) AS duracao_maxima,         -- Maior duração
+    ROUND(AVG(duracao), 2) AS duracao_media, -- Média de duração
+    SUM(duracao) AS duracao_total,          -- Soma de todas durações
+    ROUND(STDDEV(duracao), 2) AS desvio_padrao,  -- Variabilidade
+    ROUND(VARIANCE(duracao), 2) AS variancia     -- Variação
 FROM musica m
 JOIN genero g ON m.id_genero = g.id_genero
 GROUP BY g.id_genero, nome_genero
 ORDER BY total_musicas DESC;
 ```
 
+**Explicação das funções:**
+- **COUNT(*)**: Conta todas as linhas do grupo
+- **MIN/MAX**: Encontra valores extremos
+- **AVG**: Calcula a média aritmética
+- **SUM**: Soma todos os valores
+- **STDDEV**: Desvio padrão (mede dispersão dos dados)
+- **VARIANCE**: Variância (quadrado do desvio padrão)
+
 ### 6.4 Evitando Divisão por Zero
 
+Divisão por zero causa erro. Sempre proteja suas consultas!
+
+**Por que isso é importante?**
+
+- Dados reais podem ter zeros inesperados
+- Um erro pode parar todo um relatório
+- Melhor retornar NULL ou zero que falhar
+
 ```sql
--- Usando CASE
+-- Usando CASE (mais legível)
 SELECT 
     nome_artista,
     total_reproducoes,
@@ -756,78 +1302,125 @@ FROM vendas_album;
 
 ## 7. Funções de Banco de Dados
 
+As funções de banco de dados são ferramentas poderosas para transformar e manipular dados. Esta seção cobre as principais categorias de funções.
+
+**Por que usar funções?**
+
+- Transformar dados no formato desejado
+- Extrair informações de datas e textos
+- Realizar conversões entre tipos
+- Agregar e resumir dados
+
 ### 7.1 Funções de String
+
+Funções para manipular textos são essenciais para formatação e busca.
+
+**Por que funções de string são importantes?**
+
+- Padronizar capitalização de textos
+- Extrair partes de strings
+- Limpar dados (remover espaços)
+- Combinar informações
 
 ```sql
 SELECT 
     nome_artista AS original,
-    UPPER(nome_artista) AS maiusculo,
-    LOWER(nome_artista) AS minusculo,
-    INITCAP(nome_artista) AS primeira_maiuscula,
-    LENGTH(nome_artista) AS tamanho,
-    TRIM(nome_artista) AS sem_espacos,
-    SUBSTR(nome_artista, 1, 10) AS primeiros_10,
-    REPLACE(nome_artista, ' ', '_') AS com_underscore,
-    INSTR(nome_artista, 'The') AS posicao_the
+    UPPER(nome_artista) AS maiusculo,              -- BEATLES
+    LOWER(nome_artista) AS minusculo,              -- beatles
+    INITCAP(nome_artista) AS primeira_maiuscula,   -- Beatles
+    LENGTH(nome_artista) AS tamanho,               -- 8
+    TRIM(nome_artista) AS sem_espacos,             -- Remove espaços extras
+    SUBSTR(nome_artista, 1, 10) AS primeiros_10,   -- Primeiros 10 caracteres
+    REPLACE(nome_artista, ' ', '_') AS com_underscore,  -- Substitui espaços
+    INSTR(nome_artista, 'The') AS posicao_the      -- Posição de 'The' (0 se não encontrar)
 FROM artista;
 ```
 
-**Concatenação:**
-```sql
--- Operador || (Oracle)
-SELECT nome_artista || ' (' || pais_origem || ')' AS artista_info FROM artista;
+**Explicação das funções:**
+- **UPPER/LOWER**: Muda capitalização (útil para comparações case-insensitive)
+- **INITCAP**: Primeira letra maiúscula de cada palavra
+- **LENGTH**: Conta caracteres
+- **TRIM**: Remove espaços em branco do início e fim
+- **SUBSTR(texto, início, tamanho)**: Extrai parte do texto
+- **REPLACE(texto, busca, substituição)**: Substitui ocorrências
+- **INSTR(texto, busca)**: Encontra posição de uma substring
 
--- Função CONCAT
+**Concatenação - combinando textos:**
+```sql
+-- Operador || (Oracle) - mais usado
+SELECT nome_artista || ' (' || pais_origem || ')' AS artista_info FROM artista;
+-- Resultado: "The Beatles (Reino Unido)"
+
+-- Função CONCAT (limitada a 2 argumentos)
 SELECT CONCAT(nome_artista, CONCAT(' - ', pais_origem)) AS artista_info FROM artista;
 ```
 
 ### 7.2 Funções de Data e Tempo
 
+Trabalhar com datas é muito comum em SQL. Estas funções facilitam extrações e cálculos.
+
+**Por que funções de data são importantes?**
+
+- Extrair partes de datas (ano, mês, dia)
+- Calcular diferenças entre datas (idade, tempo decorrido)
+- Formatar datas para exibição
+- Agrupar por períodos (mês, trimestre, ano)
+
 ```sql
--- Funções de extração
+-- Funções de extração - tirando partes de uma data
 SELECT 
     titulo,
     data_lancamento,
-    EXTRACT(YEAR FROM data_lancamento) AS ano,
-    EXTRACT(MONTH FROM data_lancamento) AS mes,
-    EXTRACT(DAY FROM data_lancamento) AS dia,
-    TO_CHAR(data_lancamento, 'Day') AS dia_semana,
-    TO_CHAR(data_lancamento, 'Month YYYY') AS mes_ano
+    EXTRACT(YEAR FROM data_lancamento) AS ano,     -- 1970
+    EXTRACT(MONTH FROM data_lancamento) AS mes,    -- 6
+    EXTRACT(DAY FROM data_lancamento) AS dia,      -- 26
+    TO_CHAR(data_lancamento, 'Day') AS dia_semana, -- Friday
+    TO_CHAR(data_lancamento, 'Month YYYY') AS mes_ano  -- June 1970
 FROM album;
 
--- Cálculos com datas
+-- Cálculos com datas - quanto tempo passou?
 SELECT 
     titulo,
     data_lancamento,
-    SYSDATE - data_lancamento AS dias_desde_lancamento,
-    ADD_MONTHS(data_lancamento, 12) AS um_ano_depois,
+    SYSDATE - data_lancamento AS dias_desde_lancamento,  -- Diferença em dias
+    ADD_MONTHS(data_lancamento, 12) AS um_ano_depois,    -- Adiciona meses
     MONTHS_BETWEEN(SYSDATE, data_lancamento) AS meses_desde_lancamento,
     TRUNC(MONTHS_BETWEEN(SYSDATE, data_lancamento)/12) AS anos_desde_lancamento
 FROM album;
 
--- Data atual
+-- Data atual - diferentes formas
 SELECT 
-    SYSDATE AS data_hora_atual,
-    CURRENT_DATE AS data_atual,
-    SYSTIMESTAMP AS timestamp_atual
+    SYSDATE AS data_hora_atual,      -- Data/hora do servidor
+    CURRENT_DATE AS data_atual,      -- Data da sessão
+    SYSTIMESTAMP AS timestamp_atual  -- Timestamp com fração de segundos
 FROM dual;
 ```
 
 ### 7.3 Funções de Conversão
 
+Convertem dados entre diferentes tipos e formatos.
+
+**Por que conversão é importante?**
+
+- Formatar números e datas para exibição
+- Converter strings para datas em filtros
+- Garantir comparações corretas entre tipos
+
 ```sql
 -- TO_CHAR: converter para string formatada
+-- Útil para exibição formatada em relatórios
 SELECT 
     nome_artista,
-    TO_CHAR(data_formacao, 'DD/MM/YYYY') AS data_formatada,
-    TO_CHAR(COUNT(*), '999,999') AS total_formatado,
-    TO_CHAR(AVG(duracao), '999.99') AS media_formatada
+    TO_CHAR(data_formacao, 'DD/MM/YYYY') AS data_formatada,  -- 17/08/1960
+    TO_CHAR(COUNT(*), '999,999') AS total_formatado,         -- 1,234
+    TO_CHAR(AVG(duracao), '999.99') AS media_formatada       -- 234.56
 FROM artista a
 JOIN album al ON a.id_artista = al.id_artista
 JOIN musica m ON al.id_album = m.id_album
 GROUP BY a.id_artista, nome_artista, data_formacao;
 
 -- TO_DATE: converter string para data
+-- Essencial quando dados vêm como texto
 SELECT * FROM album 
 WHERE data_lancamento = TO_DATE('26/06/1970', 'DD/MM/YYYY');
 
@@ -917,35 +1510,69 @@ ORDER BY data;
 
 ## 8. Subqueries (Subconsultas)
 
+Subqueries são consultas aninhadas dentro de outras consultas. São uma das ferramentas mais poderosas do SQL, permitindo consultas complexas e análises avançadas.
+
+**Por que usar subqueries?**
+
+- Fazer comparações com valores calculados (ex: acima da média)
+- Filtrar baseado em dados de outras tabelas
+- Criar conjuntos de dados intermediários
+- Resolver problemas que JOINs não conseguem
+
+**Tipos principais:**
+- **Subquery não-correlacionada**: Executa uma vez, independente da query externa
+- **Subquery correlacionada**: Executa para cada linha da query externa
+
 ### 8.1 Subquery Não-Correlacionada
 
-Executa independentemente da query externa:
+Executa independentemente da query externa. O resultado é calculado uma vez e usado para todas as linhas.
+
+**Quando usar:** Quando você precisa comparar com um valor único calculado (média, máximo, etc.)
 
 ```sql
 -- Músicas com duração acima da média geral
+-- A subquery calcula a média UMA vez (ex: 240 segundos)
+-- Depois filtra todas as músicas > 240
 SELECT titulo, duracao
 FROM musica
 WHERE duracao > (SELECT AVG(duracao) FROM musica);
 ```
 
+**Como funciona:**
+1. Primeiro, a subquery executa: `SELECT AVG(duracao) FROM musica` → 240
+2. Depois, a query principal usa esse valor: `WHERE duracao > 240`
+
 ### 8.2 Subquery Correlacionada
 
-Depende de valores da query externa:
+Depende de valores da query externa. Executa uma vez para CADA linha da query externa.
+
+**Quando usar:** Quando a comparação depende de cada linha específica
 
 ```sql
--- Músicas com duração acima da média do seu álbum
+-- Músicas com duração acima da média do SEU álbum
+-- Para cada música, calcula a média das músicas do MESMO álbum
 SELECT m1.titulo, m1.duracao
 FROM musica m1
 WHERE m1.duracao > (
     SELECT AVG(m2.duracao) 
     FROM musica m2 
-    WHERE m2.id_album = m1.id_album
+    WHERE m2.id_album = m1.id_album  -- Correlação: usa m1.id_album
 );
 ```
 
+**Como funciona:**
+1. Para a música do álbum 1: calcula média do álbum 1, compara
+2. Para a música do álbum 2: calcula média do álbum 2, compara
+3. E assim por diante...
+
+**⚠️ Performance:** Subqueries correlacionadas podem ser lentas em grandes tabelas (executa para cada linha).
+
 ### 8.3 Operadores com Subqueries
 
-**IN:**
+**IN - verifica se valor está no conjunto:**
+
+Retorna true se o valor está na lista retornada pela subquery.
+
 ```sql
 -- Artistas que têm músicas de Rock
 SELECT nome_artista
@@ -959,21 +1586,33 @@ WHERE id_artista IN (
 );
 ```
 
-**EXISTS:**
+**Quando usar IN:** Quando você precisa verificar se um valor está em um conjunto de valores.
+
+**EXISTS - verifica se existe pelo menos um resultado:**
+
+Retorna true se a subquery retornar pelo menos uma linha.
+
 ```sql
 -- Usuários que criaram playlists
+-- EXISTS é mais eficiente que COUNT(*) > 0
 SELECT nome_usuario
 FROM usuario u
 WHERE EXISTS (
     SELECT 1 FROM playlist p WHERE p.id_usuario = u.id_usuario
 );
 
--- Artistas SEM álbuns
+-- Artistas SEM álbuns (NOT EXISTS)
 SELECT nome_artista
 FROM artista a
 WHERE NOT EXISTS (
     SELECT 1 FROM album al WHERE al.id_artista = a.id_artista
 );
+```
+
+**Quando usar EXISTS:**
+- Verificar se registro relacionado existe
+- Geralmente mais eficiente que IN para grandes conjuntos
+- Ideal para verificações de existência (não precisa dos dados, só saber se existe)
 ```
 
 **ANY e ALL:**
@@ -1058,20 +1697,39 @@ JOIN generos_principais gp ON m.id_genero = gp.id_genero;
 
 ## 9. JOINs e Múltiplas Tabelas
 
+JOINs são uma das funcionalidades mais importantes do SQL, permitindo combinar dados de duas ou mais tabelas baseado em relacionamentos entre elas.
+
+**Por que JOINs são fundamentais?**
+
+- Em bancos normalizados, dados estão distribuídos em várias tabelas
+- JOINs permitem "reconstruir" a informação completa
+- Essenciais para relatórios que precisam de dados de múltiplas fontes
+- São a base da maioria das consultas reais
+
+**Como JOINs funcionam:**
+- Combinam linhas de duas tabelas baseado em uma condição (geralmente chaves)
+- A condição ON define como as tabelas se relacionam
+- Diferentes tipos de JOIN controlam quais linhas aparecem no resultado
+
 ### 9.1 Tipos de JOIN
 
-| Tipo | Descrição | Resultado |
-|------|-----------|-----------|
-| INNER JOIN | Correspondência em ambas | Apenas matches |
-| LEFT JOIN | Todos da esquerda | Esquerda + matches |
-| RIGHT JOIN | Todos da direita | Direita + matches |
-| FULL OUTER JOIN | Todos de ambos | União completa |
-| CROSS JOIN | Produto cartesiano | Todas combinações |
+| Tipo | Descrição | Resultado | Quando Usar |
+|------|-----------|-----------|-------------|
+| INNER JOIN | Correspondência em ambas | Apenas matches | Dados relacionados |
+| LEFT JOIN | Todos da esquerda | Esquerda + matches | Garantir todos da principal |
+| RIGHT JOIN | Todos da direita | Direita + matches | Raramente (use LEFT) |
+| FULL OUTER JOIN | Todos de ambos | União completa | Comparações completas |
+| CROSS JOIN | Produto cartesiano | Todas combinações | Combinações possíveis |
 
 ### 9.2 INNER JOIN
 
+Retorna apenas registros que têm correspondência em AMBAS as tabelas. É o tipo mais comum de JOIN.
+
+**Quando usar:** Quando você só quer dados que existem em ambas as tabelas.
+
 ```sql
 -- Músicas com seus álbuns e artistas
+-- Só aparecem músicas que têm álbum E o álbum tem artista
 SELECT 
     ar.nome_artista,
     al.titulo AS album,
@@ -1083,27 +1741,52 @@ INNER JOIN artista ar ON al.id_artista = ar.id_artista
 ORDER BY ar.nome_artista, al.titulo, m.numero_faixa;
 ```
 
+**Visualização:**
+```
+ARTISTA                  ALBUM                    MUSICA
+[Beatles]  ←--MATCH--→  [Abbey Road]  ←--MATCH--→  [Come Together]
+[Queen]    ←--MATCH--→  [The Game]    ←--MATCH--→  [Another One Bites]
+[Órfão]    ←--SEM MATCH (não aparece)
+```
+
 ### 9.3 LEFT JOIN
 
+Retorna TODOS os registros da tabela à esquerda, mesmo sem correspondência na direita. Para registros sem match, colunas da direita ficam NULL.
+
+**Quando usar:**
+- Garantir que todos os registros da tabela principal apareçam
+- Encontrar registros "órfãos" (sem relacionamento)
+- Contagens que incluem zeros
+
 ```sql
--- Todos os artistas, com ou sem álbuns
+-- Todos os artistas, COM ou SEM álbuns
 SELECT 
     ar.nome_artista,
     ar.pais_origem,
-    COUNT(al.id_album) AS total_albuns
+    COUNT(al.id_album) AS total_albuns  -- Será 0 para artistas sem álbuns
 FROM artista ar
 LEFT JOIN album al ON ar.id_artista = al.id_artista
 GROUP BY ar.id_artista, ar.nome_artista, ar.pais_origem
 ORDER BY total_albuns DESC;
 
--- Encontrar artistas SEM álbuns
+-- Encontrar artistas SEM álbuns (padrão muito útil!)
 SELECT ar.nome_artista
 FROM artista ar
 LEFT JOIN album al ON ar.id_artista = al.id_artista
-WHERE al.id_album IS NULL;  -- Chave: onde a direita é NULL
+WHERE al.id_album IS NULL;  -- Chave: onde a direita é NULL = sem match
+```
+
+**Visualização:**
+```
+ARTISTA (TODOS)          ALBUM (SE EXISTIR)
+[Beatles]  ←--MATCH--→  [Abbey Road]
+[Queen]    ←--MATCH--→  [The Game]
+[Órfão]    ←--NULL--    (NULL - aparece mas sem álbum)
 ```
 
 ### 9.4 RIGHT JOIN
+
+Similar ao LEFT JOIN, mas retorna todos da tabela à DIREITA. Na prática, raramente usado (prefira LEFT JOIN e inverta a ordem das tabelas).
 
 ```sql
 -- Todas as músicas, mesmo sem reproduções
@@ -1118,6 +1801,8 @@ LEFT JOIN artista ar ON al.id_artista = ar.id_artista
 GROUP BY m.id_musica, m.titulo, ar.nome_artista
 ORDER BY vezes_tocada DESC;
 ```
+
+**Dica:** Este mesmo resultado pode ser obtido com LEFT JOIN invertendo a ordem das tabelas.
 
 ### 9.5 FULL OUTER JOIN
 
@@ -1176,16 +1861,39 @@ ORDER BY total_reproducoes DESC;
 
 ## 10. Controle de Transações
 
+Transações são conjuntos de operações que devem ser tratadas como uma unidade indivisível. Ou todas são executadas com sucesso, ou nenhuma é executada.
+
+**Por que transações são importantes?**
+
+- Garantem **integridade dos dados** em operações complexas
+- Permitem **desfazer erros** antes de torná-los permanentes
+- Controlam **concorrência** entre múltiplos usuários
+- São essenciais em sistemas financeiros, estoque, e qualquer aplicação crítica
+
+**Exemplo clássico - Transferência bancária:**
+```
+1. Debitar R$100 da conta A
+2. Creditar R$100 na conta B
+```
+Se o passo 2 falhar após o passo 1, o dinheiro "desaparece"! Transações garantem que ambos ocorram ou nenhum.
+
 ### 10.1 Propriedades ACID
 
-| Propriedade | Significado | Garantia |
-|-------------|-------------|----------|
-| **A**tomicidade | Tudo ou nada | Transação completa ou nenhuma mudança |
-| **C**onsistência | Estado válido | Regras de negócio mantidas |
-| **I**solamento | Independência | Transações não interferem |
-| **D**urabilidade | Permanência | Mudanças persistem após commit |
+As propriedades ACID são os pilares que garantem a confiabilidade das transações.
+
+| Propriedade | Significado | Garantia | Exemplo |
+|-------------|-------------|----------|---------|
+| **A**tomicidade | Tudo ou nada | Transação completa ou nenhuma mudança | Transferência bancária |
+| **C**onsistência | Estado válido | Regras de negócio mantidas | Saldo nunca negativo |
+| **I**solamento | Independência | Transações não interferem | Dois usuários comprando o mesmo produto |
+| **D**urabilidade | Permanência | Mudanças persistem após commit | Dados salvos mesmo se servidor cair |
 
 ### 10.2 COMMIT e ROLLBACK
+
+Os comandos fundamentais de controle de transação.
+
+**COMMIT** - Confirma as mudanças permanentemente
+**ROLLBACK** - Desfaz as mudanças e volta ao estado anterior
 
 ```sql
 -- Em Oracle, transações iniciam automaticamente com o primeiro DML
@@ -1194,47 +1902,83 @@ INSERT INTO artista (id_artista, nome_artista) VALUES (100, 'Novo Artista');
 INSERT INTO album (id_album, titulo, id_artista) VALUES (200, 'Primeiro Album', 100);
 
 -- Se tudo ok:
-COMMIT;  -- Confirma mudanças permanentemente
+COMMIT;  -- Confirma mudanças permanentemente - não há volta!
 
 -- Se houve erro:
-ROLLBACK;  -- Desfaz todas as mudanças desde o último COMMIT
+ROLLBACK;  -- Desfaz TODAS as mudanças desde o último COMMIT
 ```
+
+**Quando usar COMMIT:**
+- Após verificar que todas as operações foram bem-sucedidas
+- Quando quiser tornar as mudanças visíveis para outros usuários
+
+**Quando usar ROLLBACK:**
+- Quando detectar um erro em qualquer parte da operação
+- Quando quiser cancelar operações de teste
 
 ### 10.3 SAVEPOINT
 
+SAVEPOINTs permitem criar "pontos de restauração" dentro de uma transação, possibilitando rollback parcial.
+
+**Por que usar SAVEPOINT?**
+
+- Desfazer apenas parte de uma transação complexa
+- Tentar operações alternativas em caso de erro
+- Maior controle em transações longas
+
 ```sql
 -- Transação começa automaticamente no primeiro DML (Oracle)
-INSERT INTO artista VALUES (100, 'Artista A');
-SAVEPOINT sp1;
+INSERT INTO artista VALUES (100, 'Artista A');  -- ✓ Executado
+SAVEPOINT sp1;  -- Marca ponto 1
 
-INSERT INTO artista VALUES (101, 'Artista B');
-SAVEPOINT sp2;
+INSERT INTO artista VALUES (101, 'Artista B');  -- ✓ Executado
+SAVEPOINT sp2;  -- Marca ponto 2
 
-INSERT INTO artista VALUES (102, 'Artista C');  -- Erro aqui!
+INSERT INTO artista VALUES (102, 'Artista C');  -- ✗ Erro aqui!
 
-ROLLBACK TO sp2;  -- Desfaz apenas Artista C
+ROLLBACK TO sp2;  -- Desfaz apenas Artista C, mantém A e B
 
-INSERT INTO artista VALUES (103, 'Artista D');  -- Alternativa
+INSERT INTO artista VALUES (103, 'Artista D');  -- ✓ Alternativa
 
 COMMIT;  -- Confirma A, B, D (C foi desfeito)
 ```
 
 ### 10.4 Níveis de Isolamento
 
-| Nível | Dirty Read | Non-Repeatable Read | Phantom Read |
-|-------|------------|---------------------|--------------|
-| READ UNCOMMITTED | ✅ Permite | ✅ Permite | ✅ Permite |
-| READ COMMITTED | ❌ Evita | ✅ Permite | ✅ Permite |
-| REPEATABLE READ | ❌ Evita | ❌ Evita | ✅ Permite |
-| SERIALIZABLE | ❌ Evita | ❌ Evita | ❌ Evita |
+Controlam como transações concorrentes "veem" as mudanças umas das outras.
+
+**Por que isso importa?**
+
+- Mais isolamento = mais segurança, mas menos performance
+- Menos isolamento = mais performance, mas possíveis inconsistências
+
+| Nível | Dirty Read | Non-Repeatable Read | Phantom Read | Performance |
+|-------|------------|---------------------|--------------|-------------|
+| READ UNCOMMITTED | ✅ Permite | ✅ Permite | ✅ Permite | Mais rápido |
+| READ COMMITTED | ❌ Evita | ✅ Permite | ✅ Permite | Bom equilíbrio |
+| REPEATABLE READ | ❌ Evita | ❌ Evita | ✅ Permite | Mais lento |
+| SERIALIZABLE | ❌ Evita | ❌ Evita | ❌ Evita | Mais lento |
+
+**Explicação dos problemas:**
+- **Dirty Read**: Ler dados não confirmados (podem ser desfeitos)
+- **Non-Repeatable Read**: Mesma consulta retorna valores diferentes
+- **Phantom Read**: Novas linhas aparecem entre consultas
 
 ```sql
 -- Definir nível de isolamento (Oracle)
-SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
-SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;  -- Padrão Oracle
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;   -- Máximo isolamento
 ```
 
 ### 10.5 Locks
+
+Locks (bloqueios) controlam o acesso concorrente aos dados.
+
+**Por que usar locks explícitos?**
+
+- Garantir que dados não mudem entre SELECT e UPDATE
+- Evitar que dois usuários modifiquem o mesmo registro simultaneamente
+- Implementar lógica de reserva (ingressos, estoque)
 
 **SELECT FOR UPDATE - Bloqueio explícito:**
 ```sql
@@ -1245,14 +1989,16 @@ SELECT * FROM conta WHERE id = 123 FOR UPDATE;
 UPDATE conta SET saldo = saldo - 100 WHERE id = 123;
 COMMIT;  -- Libera o lock
 
--- Com NOWAIT (não espera)
+-- Com NOWAIT (não espera) - útil para interfaces
 SELECT * FROM conta WHERE id = 123 FOR UPDATE NOWAIT;
 -- Retorna erro imediatamente se já bloqueado
 
--- Com WAIT timeout
+-- Com WAIT timeout - compromisso entre esperar e falhar
 SELECT * FROM conta WHERE id = 123 FOR UPDATE WAIT 10;
 -- Espera até 10 segundos antes de erro
 ```
+
+**Quando usar FOR UPDATE NOWAIT:** Em aplicações web onde não é aceitável deixar o usuário esperando.
 
 ### 10.6 Evitando Deadlocks
 
@@ -1275,7 +2021,34 @@ SELECT * FROM conta WHERE id = 123 FOR UPDATE WAIT 10;
 
 ## 11. Otimização e Boas Práticas
 
+Esta seção aborda técnicas para melhorar a performance de consultas SQL e padrões de código que facilitam manutenção e evitam erros.
+
+**Por que otimização importa?**
+
+- Consultas lentas impactam diretamente a experiência do usuário
+- Em produção, a diferença entre 100ms e 10s é crítica
+- Boa performance reduz custos de infraestrutura
+- Código otimizado escala melhor
+
 ### 11.1 Índices
+
+Índices são estruturas que aceleram a busca de dados, como o índice de um livro.
+
+**Por que usar índices?**
+
+- Aceleram consultas de SELECT com filtros
+- Melhoram performance de JOINs
+- Essenciais para tabelas grandes (milhões de registros)
+
+**Quando criar índices:**
+- Colunas frequentemente usadas em WHERE
+- Colunas usadas em JOIN (chaves estrangeiras)
+- Colunas usadas em ORDER BY
+
+**Quando NÃO criar índices:**
+- Tabelas pequenas (< 1000 registros) - não vale a pena
+- Colunas com poucos valores distintos (ex: ativo S/N)
+- Tabelas com muitas inserções e poucas consultas
 
 ```sql
 -- Criar índices em colunas frequentemente filtradas
@@ -1286,6 +2059,7 @@ CREATE INDEX idx_historico_usuario ON historico_reproducao(id_usuario);
 CREATE INDEX idx_historico_data ON historico_reproducao(data_reproducao);
 
 -- Índice composto para consultas específicas
+-- Útil quando você sempre filtra por artista E ano juntos
 CREATE INDEX idx_album_artista_ano ON album(id_artista, ano_lancamento);
 
 -- Índice funcional (para buscas case-insensitive)
@@ -1294,41 +2068,66 @@ CREATE INDEX idx_artista_nome_upper ON artista(UPPER(nome_artista));
 
 ### 11.2 Evitar Funções em WHERE
 
+Funções aplicadas em colunas do WHERE impedem o uso de índices, tornando consultas lentas.
+
+**Por que isso é lento?**
+
+- Com função, o banco precisa calcular o resultado para CADA linha
+- Sem função, o banco pode usar o índice para pular diretamente
+
 ```sql
--- ❌ LENTO: Função impede uso de índice
+-- ❌ LENTO: Função impede uso de índice (precisa calcular para toda linha)
 WHERE EXTRACT(YEAR FROM data_lancamento) = 1970
 
--- ✅ RÁPIDO: Comparação direta usa índice
+-- ✅ RÁPIDO: Comparação direta usa índice (pula para o intervalo correto)
 WHERE data_lancamento >= DATE '1970-01-01' 
   AND data_lancamento < DATE '1971-01-01'
 
--- ❌ LENTO
+-- ❌ LENTO: UPPER() impede uso de índice normal
 WHERE UPPER(nome_artista) = 'THE BEATLES'
 
--- ✅ RÁPIDO (com índice funcional)
+-- ✅ RÁPIDO (com índice funcional criado para essa expressão)
 CREATE INDEX idx_upper ON artista(UPPER(nome_artista));
-WHERE UPPER(nome_artista) = 'THE BEATLES'  -- Agora usa índice
+WHERE UPPER(nome_artista) = 'THE BEATLES'  -- Agora usa índice funcional
 ```
 
+**Regra geral:** Mantenha as colunas "limpas" no WHERE; aplique funções no valor de comparação quando possível.
+
 ### 11.3 Seletividade de Filtros
+
+Seletividade é o quão específico um filtro é. Alta seletividade = poucos resultados = mais eficiente.
+
+**Por que a ordem importa?**
+
+- O banco processa filtros da esquerda para direita (geralmente)
+- Começar pelo mais seletivo reduz dados processados mais cedo
 
 ```sql
 -- ✅ MELHOR: Condição mais seletiva primeiro
 SELECT * FROM musica 
-WHERE id_album = 1              -- Alta seletividade (poucas músicas)
-  AND duracao > 180;            -- Baixa seletividade (muitas músicas)
+WHERE id_album = 1              -- Alta seletividade (poucas músicas neste álbum)
+  AND duracao > 180;            -- Baixa seletividade (muitas músicas > 3 min)
+-- Processo: 100.000 → 10 → 5 (filtra rápido)
 
--- Reduz: 100.000 → 10 → 5 (rápido)
-
--- ❌ MENOS EFICIENTE
+-- ❌ MENOS EFICIENTE (mesma lógica, ordem diferente)
 SELECT * FROM musica 
-WHERE duracao > 180             -- Baixa seletividade
+WHERE duracao > 180             -- Baixa seletividade (muitas músicas)
   AND id_album = 1;             -- Alta seletividade
-
--- Processa: 100.000 → 50.000 → 10 (mais dados intermediários)
+-- Processo: 100.000 → 50.000 → 10 (processa mais dados)
 ```
 
+**Nota:** Otimizadores modernos podem reordenar automaticamente, mas é boa prática escrever na ordem mais eficiente.
+
 ### 11.4 EXPLAIN PLAN
+
+EXPLAIN PLAN mostra como o banco vai executar sua consulta. Essencial para diagnóstico de performance.
+
+**Por que usar EXPLAIN PLAN?**
+
+- Ver se índices estão sendo usados
+- Identificar full table scans desnecessários
+- Entender o custo das operações
+- Validar otimizações
 
 ```sql
 -- Verificar plano de execução antes de otimizar
@@ -1340,17 +2139,18 @@ WHERE ar.pais_origem = 'Brasil';
 
 SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY());
 
--- Procurar por:
--- ✅ INDEX RANGE SCAN / INDEX UNIQUE SCAN (bom)
--- ❌ TABLE FULL SCAN em tabelas grandes (ruim)
--- ❌ CARTESIAN JOIN (muito ruim - geralmente erro)
+-- O que procurar:
+-- ✅ BOM: INDEX RANGE SCAN / INDEX UNIQUE SCAN (usando índice)
+-- ❌ RUIM: TABLE ACCESS FULL em tabelas grandes (sem índice)
+-- ❌ MUITO RUIM: CARTESIAN JOIN (geralmente erro no ON)
+-- ❌ RUIM: SORT ORDER BY em grandes conjuntos (considere índice)
 ```
 
 ### 11.5 Boas Práticas Gerais
 
 **Escrita de Consultas:**
 ```sql
--- ✅ Especificar colunas necessárias
+-- ✅ Especificar colunas necessárias (mais eficiente, mais seguro)
 SELECT nome_artista, pais_origem FROM artista;
 
 -- ❌ Evitar SELECT * em produção
