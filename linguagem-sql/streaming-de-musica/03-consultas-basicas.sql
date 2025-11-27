@@ -168,20 +168,19 @@ ORDER BY total_plays DESC NULLS LAST;
 PROMPT ===== 5.1 - TOP 10 MÚSICAS MAIS TOCADAS =====
 SELECT 
     ROWNUM AS ranking,
-    m.titulo,
-    ar.nome_artista,
-    m.total_reproducoes
+    titulo,
+    nome_artista,
+    total_reproducoes
 FROM (
     SELECT 
-        m.*,
-        ar.nome_artista
+        m.titulo,
+        ar.nome_artista,
+        m.total_reproducoes
     FROM musica m
     JOIN album al ON m.id_album = al.id_album
     JOIN artista ar ON al.id_artista = ar.id_artista
     ORDER BY m.total_reproducoes DESC
-) m
-JOIN album al ON m.id_album = al.id_album
-JOIN artista ar ON al.id_artista = ar.id_artista
+) top_musicas
 WHERE ROWNUM <= 10;
 
 PROMPT ===== 5.2 - USUÁRIOS MAIS ATIVOS =====

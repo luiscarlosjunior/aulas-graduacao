@@ -325,7 +325,7 @@ SELECT
 FROM (
     SELECT * FROM vw_musicas_completas 
     ORDER BY total_reproducoes DESC
-)
+) musicas_ordenadas
 WHERE ROWNUM <= 100;
 
 -- View: Estatísticas de usuários

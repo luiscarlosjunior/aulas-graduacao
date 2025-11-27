@@ -110,9 +110,9 @@ HISTORICO_REPRODUCAO (N:1) USUARIO
 ## 🚀 Como Usar Este Exemplo
 
 ### Pré-requisitos
-- Ambiente SQL configurado (Oracle, MySQL, PostgreSQL ou SQL Server)
+- Oracle Database 12c (12G) ou superior com SQL Developer
 - Conhecimento básico dos módulos 01-16 do curso
-- Editor SQL ou IDE de sua preferência
+- Editor SQL ou IDE de sua preferência (recomendado: Oracle SQL Developer)
 
 ### Sequência Recomendada
 
