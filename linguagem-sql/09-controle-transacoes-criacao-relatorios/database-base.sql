@@ -224,31 +224,31 @@ INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (2, 'Pop', 'Músic
 INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (3, 'Jazz', 'Improvisação e harmonias complexas');
 INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (4, 'Eletrônica', 'Músicas com sintetizadores e batidas eletrônicas');
 INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (5, 'Clássica', 'Composições orquestrais tradicionais');
-INSERT INTO genero VALUES (6, 'Hip Hop', 'Beats marcantes e rimas');
-INSERT INTO genero VALUES (7, 'Reggae', 'Batidas relaxantes e mensagens positivas');
-INSERT INTO genero VALUES (8, 'Metal', 'Riffs pesados e vocais intensos');
-INSERT INTO genero VALUES (9, 'Country', 'Músicas com influência rural e folk');
-INSERT INTO genero VALUES (10, 'Blues', 'Guitarra emocionada e ritmos lentos');
-INSERT INTO genero VALUES (11, 'Samba', 'Ritmos brasileiros com percussão e alegria');
-INSERT INTO genero VALUES (12, 'Funk', 'Batidas dançantes e grooves marcantes');
-INSERT INTO genero VALUES (13, 'Soul', 'Vocais emocionantes e melodias suaves');
-INSERT INTO genero VALUES (14, 'Gospel', 'Músicas religiosas e inspiradoras');
-INSERT INTO genero VALUES (15, 'Forró', 'Ritmos nordestinos com sanfona e zabumba');
-INSERT INTO genero VALUES (16, 'MPB', 'Música Popular Brasileira com influências diversas');
-INSERT INTO genero VALUES (17, 'Bossa Nova', 'Ritmos suaves e harmonias sofisticadas');
-INSERT INTO genero VALUES (18, 'Rap', 'Rimas rápidas e mensagens sociais');
-INSERT INTO genero VALUES (19, 'Punk', 'Músicas rápidas e com atitude rebelde');
-INSERT INTO genero VALUES (20, 'Disco', 'Batidas dançantes e estilo retrô');
-INSERT INTO genero VALUES (21, 'K-Pop', 'Música pop coreana com coreografias elaboradas');
-INSERT INTO genero VALUES (22, 'Reggaeton', 'Batidas latinas e letras envolventes');
-INSERT INTO genero VALUES (23, 'Trap', 'Subgênero do hip hop com batidas eletrônicas');
-INSERT INTO genero VALUES (24, 'House', 'Música eletrônica com batidas repetitivas');
-INSERT INTO genero VALUES (25, 'Techno', 'Música eletrônica com foco em sintetizadores');
-INSERT INTO genero VALUES (26, 'Dubstep', 'Batidas eletrônicas com drops intensos');
-INSERT INTO genero VALUES (27, 'Indie', 'Música independente com estilos variados');
-INSERT INTO genero VALUES (28, 'Alternativo', 'Gênero que foge do mainstream');
-INSERT INTO genero VALUES (29, 'Afrobeat', 'Ritmos africanos com influências modernas');
-INSERT INTO genero VALUES (30, 'Sertanejo', 'Música rural brasileira com letras românticas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (6, 'Hip Hop', 'Beats marcantes e rimas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (7, 'Reggae', 'Batidas relaxantes e mensagens positivas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (8, 'Metal', 'Riffs pesados e vocais intensos');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (9, 'Country', 'Músicas com influência rural e folk');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (10, 'Blues', 'Guitarra emocionada e ritmos lentos');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (11, 'Samba', 'Ritmos brasileiros com percussão e alegria');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (12, 'Funk', 'Batidas dançantes e grooves marcantes');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (13, 'Soul', 'Vocais emocionantes e melodias suaves');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (14, 'Gospel', 'Músicas religiosas e inspiradoras');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (15, 'Forró', 'Ritmos nordestinos com sanfona e zabumba');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (16, 'MPB', 'Música Popular Brasileira com influências diversas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (17, 'Bossa Nova', 'Ritmos suaves e harmonias sofisticadas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (18, 'Rap', 'Rimas rápidas e mensagens sociais');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (19, 'Punk', 'Músicas rápidas e com atitude rebelde');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (20, 'Disco', 'Batidas dançantes e estilo retrô');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (21, 'K-Pop', 'Música pop coreana com coreografias elaboradas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (22, 'Reggaeton', 'Batidas latinas e letras envolventes');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (23, 'Trap', 'Subgênero do hip hop com batidas eletrônicas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (24, 'House', 'Música eletrônica com batidas repetitivas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (25, 'Techno', 'Música eletrônica com foco em sintetizadores');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (26, 'Dubstep', 'Batidas eletrônicas com drops intensos');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (27, 'Indie', 'Música independente com estilos variados');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (28, 'Alternativo', 'Gênero que foge do mainstream');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (29, 'Afrobeat', 'Ritmos africanos com influências modernas');
+INSERT INTO genero (id_genero, nome_genero, descricao) VALUES (30, 'Sertanejo', 'Música rural brasileira com letras românticas');
 
 -------------------------
 -- TABELA USUARIO
@@ -302,31 +302,56 @@ INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_
 VALUES (4, 'DJ Electro', 'David Johnson', TO_DATE('1985-11-03','YYYY-MM-DD'), 'EUA', TO_DATE('2008-01-01','YYYY-MM-DD'), 1);
 INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
 VALUES (5, 'Orquestra Clássica', NULL, NULL, 'Alemanha', TO_DATE('1980-01-01','YYYY-MM-DD'), 20);
-INSERT INTO artista VALUES (6, 'HipHop Kings', NULL, NULL, 'EUA', TO_DATE('2010-01-01','YYYY-MM-DD'), 5);
-INSERT INTO artista VALUES (7, 'Reggae Roots', NULL, NULL, 'Jamaica', TO_DATE('2000-01-01','YYYY-MM-DD'), 6);
-INSERT INTO artista VALUES (8, 'Metal Fury', NULL, NULL, 'Alemanha', TO_DATE('2012-01-01','YYYY-MM-DD'), 4);
-INSERT INTO artista VALUES (9, 'Country Stars', NULL, NULL, 'EUA', TO_DATE('2005-01-01','YYYY-MM-DD'), 3);
-INSERT INTO artista VALUES (10, 'Blues Legend', 'Robert Green', TO_DATE('1975-09-05','YYYY-MM-DD'), 'EUA', TO_DATE('1995-01-01','YYYY-MM-DD'), 1);
-INSERT INTO artista VALUES (11, 'Pop Queens', 'Sophia Brown', TO_DATE('1990-03-15','YYYY-MM-DD'), 'Reino Unido', TO_DATE('2010-06-01','YYYY-MM-DD'), 3);
-INSERT INTO artista VALUES (12, 'Latin Beats', NULL, NULL, 'México', TO_DATE('2008-01-01','YYYY-MM-DD'), 5);
-INSERT INTO artista VALUES (13, 'Soulful Voices', 'Emily Davis', TO_DATE('1988-07-22','YYYY-MM-DD'), 'EUA', TO_DATE('2005-01-01','YYYY-MM-DD'), 1);
-INSERT INTO artista VALUES (14, 'Indie Stars', NULL, NULL, 'Canadá', TO_DATE('2015-01-01','YYYY-MM-DD'), 4);
-INSERT INTO artista VALUES (15, 'Electronic Masters', NULL, NULL, 'Suécia', TO_DATE('2012-01-01','YYYY-MM-DD'), 2);
-INSERT INTO artista VALUES (16, 'Folk Legends', 'John Carter', TO_DATE('1970-05-10','YYYY-MM-DD'), 'Irlanda', TO_DATE('1990-01-01','YYYY-MM-DD'), 1);
-INSERT INTO artista VALUES (17, 'Afrobeat Kings', NULL, NULL, 'Nigéria', TO_DATE('2000-01-01','YYYY-MM-DD'), 8);
-INSERT INTO artista VALUES (18, 'Disco Fever', NULL, NULL, 'EUA', TO_DATE('1978-01-01','YYYY-MM-DD'), 6);
-INSERT INTO artista VALUES (19, 'K-Pop Stars', NULL, NULL, 'Coreia do Sul', TO_DATE('2015-01-01','YYYY-MM-DD'), 7);
-INSERT INTO artista VALUES (20, 'Trap Lords', NULL, NULL, 'EUA', TO_DATE('2018-01-01','YYYY-MM-DD'), 3);
-INSERT INTO artista VALUES (21, 'House Beats', NULL, NULL, 'Holanda', TO_DATE('2010-01-01','YYYY-MM-DD'), 2);
-INSERT INTO artista VALUES (22, 'Techno Masters', NULL, NULL, 'Alemanha', TO_DATE('2005-01-01','YYYY-MM-DD'), 1);
-INSERT INTO artista VALUES (23, 'Dubstep Heroes', NULL, NULL, 'Reino Unido', TO_DATE('2012-01-01','YYYY-MM-DD'), 1);
-INSERT INTO artista VALUES (24, 'Alternative Vibes', NULL, NULL, 'Austrália', TO_DATE('2016-01-01','YYYY-MM-DD'), 4);
-INSERT INTO artista VALUES (25, 'Classical Ensemble', NULL, NULL, 'Itália', TO_DATE('1985-01-01','YYYY-MM-DD'), 15);
-INSERT INTO artista VALUES (26, 'Jazz Legends', NULL, NULL, 'EUA', TO_DATE('1990-01-01','YYYY-MM-DD'), 5);
-INSERT INTO artista VALUES (27, 'Rock Revival', NULL, NULL, 'Canadá', TO_DATE('2000-01-01','YYYY-MM-DD'), 4);
-INSERT INTO artista VALUES (28, 'Blues Revival', NULL, NULL, 'EUA', TO_DATE('1995-01-01','YYYY-MM-DD'), 3);
-INSERT INTO artista VALUES (29, 'Samba Kings', NULL, NULL, 'Brasil', TO_DATE('2010-01-01','YYYY-MM-DD'), 6);
-INSERT INTO artista VALUES (30, 'Forró Stars', NULL, NULL, 'Brasil', TO_DATE('2015-01-01','YYYY-MM-DD'), 5);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (6, 'HipHop Kings', NULL, NULL, 'EUA', TO_DATE('2010-01-01','YYYY-MM-DD'), 5);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (7, 'Reggae Roots', NULL, NULL, 'Jamaica', TO_DATE('2000-01-01','YYYY-MM-DD'), 6);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (8, 'Metal Fury', NULL, NULL, 'Alemanha', TO_DATE('2012-01-01','YYYY-MM-DD'), 4);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (9, 'Country Stars', NULL, NULL, 'EUA', TO_DATE('2005-01-01','YYYY-MM-DD'), 3);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (10, 'Blues Legend', 'Robert Green', TO_DATE('1975-09-05','YYYY-MM-DD'), 'EUA', TO_DATE('1995-01-01','YYYY-MM-DD'), 1);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (11, 'Pop Queens', 'Sophia Brown', TO_DATE('1990-03-15','YYYY-MM-DD'), 'Reino Unido', TO_DATE('2010-06-01','YYYY-MM-DD'), 3);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (12, 'Latin Beats', NULL, NULL, 'México', TO_DATE('2008-01-01','YYYY-MM-DD'), 5);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (13, 'Soulful Voices', 'Emily Davis', TO_DATE('1988-07-22','YYYY-MM-DD'), 'EUA', TO_DATE('2005-01-01','YYYY-MM-DD'), 1);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (14, 'Indie Stars', NULL, NULL, 'Canadá', TO_DATE('2015-01-01','YYYY-MM-DD'), 4);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (15, 'Electronic Masters', NULL, NULL, 'Suécia', TO_DATE('2012-01-01','YYYY-MM-DD'), 2);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (16, 'Folk Legends', 'John Carter', TO_DATE('1970-05-10','YYYY-MM-DD'), 'Irlanda', TO_DATE('1990-01-01','YYYY-MM-DD'), 1);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (17, 'Afrobeat Kings', NULL, NULL, 'Nigéria', TO_DATE('2000-01-01','YYYY-MM-DD'), 8);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (18, 'Disco Fever', NULL, NULL, 'EUA', TO_DATE('1978-01-01','YYYY-MM-DD'), 6);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (19, 'K-Pop Stars', NULL, NULL, 'Coreia do Sul', TO_DATE('2015-01-01','YYYY-MM-DD'), 7);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (20, 'Trap Lords', NULL, NULL, 'EUA', TO_DATE('2018-01-01','YYYY-MM-DD'), 3);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (21, 'House Beats', NULL, NULL, 'Holanda', TO_DATE('2010-01-01','YYYY-MM-DD'), 2);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (22, 'Techno Masters', NULL, NULL, 'Alemanha', TO_DATE('2005-01-01','YYYY-MM-DD'), 1);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (23, 'Dubstep Heroes', NULL, NULL, 'Reino Unido', TO_DATE('2012-01-01','YYYY-MM-DD'), 1);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (24, 'Alternative Vibes', NULL, NULL, 'Austrália', TO_DATE('2016-01-01','YYYY-MM-DD'), 4);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (25, 'Classical Ensemble', NULL, NULL, 'Itália', TO_DATE('1985-01-01','YYYY-MM-DD'), 15);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (26, 'Jazz Legends', NULL, NULL, 'EUA', TO_DATE('1990-01-01','YYYY-MM-DD'), 5);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (27, 'Rock Revival', NULL, NULL, 'Canadá', TO_DATE('2000-01-01','YYYY-MM-DD'), 4);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (28, 'Blues Revival', NULL, NULL, 'EUA', TO_DATE('1995-01-01','YYYY-MM-DD'), 3);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (29, 'Samba Kings', NULL, NULL, 'Brasil', TO_DATE('2010-01-01','YYYY-MM-DD'), 6);
+INSERT INTO artista (id_artista, nome_artista, nome_real, data_nascimento, pais_origem, data_inicio_carreira, numero_membros) 
+VALUES (30, 'Forró Stars', NULL, NULL, 'Brasil', TO_DATE('2015-01-01','YYYY-MM-DD'), 5);
 
 -------------------------
 -- TABELA ALBUM
@@ -341,41 +366,76 @@ INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_fai
 VALUES (4, 'Electro Beats', TO_DATE('2018-06-15','YYYY-MM-DD'), 2018, 15, 5400, 4, 4);
 INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
 VALUES (5, 'Sinfonia nº1', TO_DATE('1990-01-01','YYYY-MM-DD'), 1990, 5, 7200, 5, 5);
-INSERT INTO album VALUES (6, 'HipHop Kings Vol.1', TO_DATE('2018-02-12','YYYY-MM-DD'), 2018, 12, 4200, 6, 6);
-INSERT INTO album VALUES (7, 'Roots of Peace', TO_DATE('2016-07-20','YYYY-MM-DD'), 2016, 10, 3600, 7, 7);
-INSERT INTO album VALUES (8, 'Metal Rage', TO_DATE('2019-10-10','YYYY-MM-DD'), 2019, 11, 4500, 8, 8);
-INSERT INTO album VALUES (9, 'Country Roads', TO_DATE('2014-04-18','YYYY-MM-DD'), 2014, 9, 3300, 9, 9);
-INSERT INTO album VALUES (10, 'Blues Soul', TO_DATE('2005-03-01','YYYY-MM-DD'), 2005, 8, 3000, 10, 10);
-INSERT INTO album VALUES (11, 'Pop Queens Vol.1', TO_DATE('2010-06-01','YYYY-MM-DD'), 2010, 12, 3600, 11, 2);
-INSERT INTO album VALUES (12, 'Latin Beats', TO_DATE('2008-01-01','YYYY-MM-DD'), 2008, 10, 3000, 12, 7);
-INSERT INTO album VALUES (13, 'Soulful Melodies', TO_DATE('2005-01-01','YYYY-MM-DD'), 2005, 8, 2400, 13, 13);
-INSERT INTO album VALUES (14, 'Indie Dreams', TO_DATE('2015-01-01','YYYY-MM-DD'), 2015, 10, 3000, 14, 27);
-INSERT INTO album VALUES (15, 'Electronic Masters', TO_DATE('2012-01-01','YYYY-MM-DD'), 2012, 15, 5400, 15, 24);
-INSERT INTO album VALUES (16, 'Folk Legends', TO_DATE('1990-01-01','YYYY-MM-DD'), 1990, 12, 3600, 16, 9);
-INSERT INTO album VALUES (17, 'Afrobeat Kings', TO_DATE('2000-01-01','YYYY-MM-DD'), 2000, 10, 3000, 17, 29);
-INSERT INTO album VALUES (18, 'Disco Fever', TO_DATE('1978-01-01','YYYY-MM-DD'), 1978, 8, 2400, 18, 20);
-INSERT INTO album VALUES (19, 'K-Pop Stars Vol.1', TO_DATE('2015-01-01','YYYY-MM-DD'), 2015, 12, 3600, 19, 21);
-INSERT INTO album VALUES (20, 'Trap Lords', TO_DATE('2018-01-01','YYYY-MM-DD'), 2018, 10, 3000, 20, 23);
-INSERT INTO album VALUES (21, 'House Beats', TO_DATE('2010-01-01','YYYY-MM-DD'), 2010, 15, 5400, 21, 24);
-INSERT INTO album VALUES (22, 'Techno Masters', TO_DATE('2005-01-01','YYYY-MM-DD'), 2005, 12, 3600, 22, 25);
-INSERT INTO album VALUES (23, 'Dubstep Heroes', TO_DATE('2012-01-01','YYYY-MM-DD'), 2012, 10, 3000, 23, 26);
-INSERT INTO album VALUES (24, 'Alternative Vibes', TO_DATE('2016-01-01','YYYY-MM-DD'), 2016, 8, 2400, 24, 28);
-INSERT INTO album VALUES (25, 'Classical Ensemble', TO_DATE('1985-01-01','YYYY-MM-DD'), 1985, 15, 5400, 25, 5);
-INSERT INTO album VALUES (26, 'Jazz Legends', TO_DATE('1990-01-01','YYYY-MM-DD'), 1990, 12, 3600, 26, 3);
-INSERT INTO album VALUES (27, 'Rock Revival', TO_DATE('2000-01-01','YYYY-MM-DD'), 2000, 10, 3000, 27, 1);
-INSERT INTO album VALUES (28, 'Blues Revival', TO_DATE('1995-01-01','YYYY-MM-DD'), 1995, 8, 2400, 28, 10);
-INSERT INTO album VALUES (29, 'Samba Kings', TO_DATE('2010-01-01','YYYY-MM-DD'), 2010, 12, 3600, 29, 11);
-INSERT INTO album VALUES (30, 'Forró Stars', TO_DATE('2015-01-01','YYYY-MM-DD'), 2015, 10, 3000, 30, 15);
-INSERT INTO album VALUES (31, 'Rock Legends', TO_DATE('2005-01-01','YYYY-MM-DD'), 2005, 12, 3600, 1, 1);
-INSERT INTO album VALUES (32, 'Pop Classics', TO_DATE('2010-01-01','YYYY-MM-DD'), 2010, 10, 3000, 2, 2);
-INSERT INTO album VALUES (33, 'Jazz Classics', TO_DATE('2000-01-01','YYYY-MM-DD'), 2000, 8, 2400, 3, 3);
-INSERT INTO album VALUES (34, 'Electro Classics', TO_DATE('2015-01-01','YYYY-MM-DD'), 2015, 15, 5400, 4, 4);
-INSERT INTO album VALUES (35, 'Classical Symphony', TO_DATE('1990-01-01','YYYY-MM-DD'), 1990, 5, 7200, 5, 5);
-INSERT INTO album VALUES (36, 'HipHop Classics', TO_DATE('2018-01-01','YYYY-MM-DD'), 2018, 12, 4200, 6, 6);
-INSERT INTO album VALUES (37, 'Reggae Classics', TO_DATE('2016-01-01','YYYY-MM-DD'), 2016, 10, 3600, 7, 7);
-INSERT INTO album VALUES (38, 'Metal Classics', TO_DATE('2019-01-01','YYYY-MM-DD'), 2019, 11, 4500, 8, 8);
-INSERT INTO album VALUES (39, 'Country Classics', TO_DATE('2014-01-01','YYYY-MM-DD'), 2014, 9, 3300, 9, 9);
-INSERT INTO album VALUES (40, 'Blues Classics', TO_DATE('2005-01-01','YYYY-MM-DD'), 2005, 8, 3000, 10, 10);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (6, 'HipHop Kings Vol.1', TO_DATE('2018-02-12','YYYY-MM-DD'), 2018, 12, 4200, 6, 6);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (7, 'Roots of Peace', TO_DATE('2016-07-20','YYYY-MM-DD'), 2016, 10, 3600, 7, 7);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (8, 'Metal Rage', TO_DATE('2019-10-10','YYYY-MM-DD'), 2019, 11, 4500, 8, 8);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (9, 'Country Roads', TO_DATE('2014-04-18','YYYY-MM-DD'), 2014, 9, 3300, 9, 9);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (10, 'Blues Soul', TO_DATE('2005-03-01','YYYY-MM-DD'), 2005, 8, 3000, 10, 10);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (11, 'Pop Queens Vol.1', TO_DATE('2010-06-01','YYYY-MM-DD'), 2010, 12, 3600, 11, 2);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (12, 'Latin Beats', TO_DATE('2008-01-01','YYYY-MM-DD'), 2008, 10, 3000, 12, 7);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (13, 'Soulful Melodies', TO_DATE('2005-01-01','YYYY-MM-DD'), 2005, 8, 2400, 13, 13);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (14, 'Indie Dreams', TO_DATE('2015-01-01','YYYY-MM-DD'), 2015, 10, 3000, 14, 27);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (15, 'Electronic Masters', TO_DATE('2012-01-01','YYYY-MM-DD'), 2012, 15, 5400, 15, 24);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (16, 'Folk Legends', TO_DATE('1990-01-01','YYYY-MM-DD'), 1990, 12, 3600, 16, 9);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (17, 'Afrobeat Kings', TO_DATE('2000-01-01','YYYY-MM-DD'), 2000, 10, 3000, 17, 29);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (18, 'Disco Fever', TO_DATE('1978-01-01','YYYY-MM-DD'), 1978, 8, 2400, 18, 20);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (19, 'K-Pop Stars Vol.1', TO_DATE('2015-01-01','YYYY-MM-DD'), 2015, 12, 3600, 19, 21);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (20, 'Trap Lords', TO_DATE('2018-01-01','YYYY-MM-DD'), 2018, 10, 3000, 20, 23);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (21, 'House Beats', TO_DATE('2010-01-01','YYYY-MM-DD'), 2010, 15, 5400, 21, 24);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (22, 'Techno Masters', TO_DATE('2005-01-01','YYYY-MM-DD'), 2005, 12, 3600, 22, 25);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (23, 'Dubstep Heroes', TO_DATE('2012-01-01','YYYY-MM-DD'), 2012, 10, 3000, 23, 26);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (24, 'Alternative Vibes', TO_DATE('2016-01-01','YYYY-MM-DD'), 2016, 8, 2400, 24, 28);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (25, 'Classical Ensemble', TO_DATE('1985-01-01','YYYY-MM-DD'), 1985, 15, 5400, 25, 5);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (26, 'Jazz Legends', TO_DATE('1990-01-01','YYYY-MM-DD'), 1990, 12, 3600, 26, 3);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (27, 'Rock Revival', TO_DATE('2000-01-01','YYYY-MM-DD'), 2000, 10, 3000, 27, 1);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (28, 'Blues Revival', TO_DATE('1995-01-01','YYYY-MM-DD'), 1995, 8, 2400, 28, 10);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (29, 'Samba Kings', TO_DATE('2010-01-01','YYYY-MM-DD'), 2010, 12, 3600, 29, 11);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (30, 'Forró Stars', TO_DATE('2015-01-01','YYYY-MM-DD'), 2015, 10, 3000, 30, 15);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (31, 'Rock Legends', TO_DATE('2005-01-01','YYYY-MM-DD'), 2005, 12, 3600, 1, 1);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (32, 'Pop Classics', TO_DATE('2010-01-01','YYYY-MM-DD'), 2010, 10, 3000, 2, 2);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (33, 'Jazz Classics', TO_DATE('2000-01-01','YYYY-MM-DD'), 2000, 8, 2400, 3, 3);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (34, 'Electro Classics', TO_DATE('2015-01-01','YYYY-MM-DD'), 2015, 15, 5400, 4, 4);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (35, 'Classical Symphony', TO_DATE('1990-01-01','YYYY-MM-DD'), 1990, 5, 7200, 5, 5);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (36, 'HipHop Classics', TO_DATE('2018-01-01','YYYY-MM-DD'), 2018, 12, 4200, 6, 6);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (37, 'Reggae Classics', TO_DATE('2016-01-01','YYYY-MM-DD'), 2016, 10, 3600, 7, 7);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (38, 'Metal Classics', TO_DATE('2019-01-01','YYYY-MM-DD'), 2019, 11, 4500, 8, 8);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (39, 'Country Classics', TO_DATE('2014-01-01','YYYY-MM-DD'), 2014, 9, 3300, 9, 9);
+INSERT INTO album (id_album, titulo, data_lancamento, ano_lancamento, numero_faixas, duracao_total, id_artista, id_genero) 
+VALUES (40, 'Blues Classics', TO_DATE('2005-01-01','YYYY-MM-DD'), 2005, 8, 3000, 10, 10);
 
 -------------------------
 -- TABELA MUSICA
@@ -678,31 +738,56 @@ INSERT INTO tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, quali
 VALUES (4, 'Estudante', 14.90, 'Alta', 'S', 'S', 'S', 'Plano com desconto para estudantes');
 INSERT INTO tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
 VALUES (5, 'HiFi', 39.90, 'Lossless', 'S', 'S', 'S', 'Plano para audiófilos');
-INSERT INTO tipo_assinatura VALUES (6, 'Essencial', 19.90, 'Média', 'N', 'S', 'N', 'Plano básico com anúncios limitados');
-INSERT INTO tipo_assinatura VALUES (7, 'Kids', 9.90, 'Média', 'N', 'N', 'S', 'Plano para crianças com conteúdo filtrado');
-INSERT INTO tipo_assinatura VALUES (8, 'Empresarial', 99.90, 'Alta', 'S', 'S', 'S', 'Plano para empresas com múltiplas contas');
-INSERT INTO tipo_assinatura VALUES (9, 'Anual Premium', 299.90, 'Alta', 'S', 'S', 'S', 'Plano premium com pagamento anual');
-INSERT INTO tipo_assinatura VALUES (10, 'Anual Família', 499.90, 'Alta', 'S', 'S', 'S', 'Plano familiar com pagamento anual');
-INSERT INTO tipo_assinatura VALUES (11, 'Trial', 0, 'Média', 'N', 'N', 'N', 'Plano de teste gratuito por 30 dias');
-INSERT INTO tipo_assinatura VALUES (12, 'Estudante Plus', 19.90, 'Alta', 'S', 'S', 'S', 'Plano para estudantes com mais benefícios');
-INSERT INTO tipo_assinatura VALUES (13, 'HiFi Plus', 49.90, 'Lossless', 'S', 'S', 'S', 'Plano HiFi com mais recursos');
-INSERT INTO tipo_assinatura VALUES (14, 'Clássico', 24.90, 'Alta', 'N', 'S', 'N', 'Plano para amantes de música clássica');
-INSERT INTO tipo_assinatura VALUES (15, 'Podcast', 9.90, 'Média', 'N', 'N', 'N', 'Plano focado em podcasts');
-INSERT INTO tipo_assinatura VALUES (16, 'Fitness', 19.90, 'Alta', 'N', 'S', 'N', 'Plano para treinos e exercícios');
-INSERT INTO tipo_assinatura VALUES (17, 'Viagem', 14.90, 'Média', 'S', 'N', 'N', 'Plano para viagens com playlists offline');
-INSERT INTO tipo_assinatura VALUES (18, 'Cinema', 29.90, 'Alta', 'S', 'N', 'S', 'Plano com trilhas sonoras de filmes');
-INSERT INTO tipo_assinatura VALUES (19, 'Relax', 12.90, 'Média', 'N', 'N', 'N', 'Plano com músicas relaxantes');
-INSERT INTO tipo_assinatura VALUES (20, 'Gaming', 19.90, 'Alta', 'N', 'S', 'N', 'Plano para gamers com trilhas sonoras');
-INSERT INTO tipo_assinatura VALUES (21, 'Karaokê', 14.90, 'Alta', 'N', 'N', 'N', 'Plano com letras de músicas para karaokê');
-INSERT INTO tipo_assinatura VALUES (22, 'Estúdio', 59.90, 'Lossless', 'S', 'S', 'S', 'Plano para produtores musicais');
-INSERT INTO tipo_assinatura VALUES (23, 'VIP', 99.90, 'Lossless', 'S', 'S', 'S', 'Plano exclusivo com benefícios adicionais');
-INSERT INTO tipo_assinatura VALUES (24, 'Eventos', 49.90, 'Alta', 'S', 'N', 'S', 'Plano para eventos e festas');
-INSERT INTO tipo_assinatura VALUES (25, 'Audiobook', 19.90, 'Média', 'N', 'N', 'N', 'Plano focado em audiolivros');
-INSERT INTO tipo_assinatura VALUES (26, 'Estudante Básico', 9.90, 'Média', 'N', 'N', 'N', 'Plano básico para estudantes');
-INSERT INTO tipo_assinatura VALUES (27, 'HiFi Família', 59.90, 'Lossless', 'S', 'S', 'S', 'Plano HiFi para famílias');
-INSERT INTO tipo_assinatura VALUES (28, 'Premium Duo', 39.90, 'Alta', 'S', 'S', 'S', 'Plano para duas pessoas');
-INSERT INTO tipo_assinatura VALUES (29, 'Eco', 4.90, 'Baixa', 'N', 'N', 'N', 'Plano econômico com anúncios');
-INSERT INTO tipo_assinatura VALUES (30, 'Platinum', 199.90, 'Lossless', 'S', 'S', 'S', 'Plano premium com benefícios exclusivos');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (6, 'Essencial', 19.90, 'Média', 'N', 'S', 'N', 'Plano básico com anúncios limitados');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (7, 'Kids', 9.90, 'Média', 'N', 'N', 'S', 'Plano para crianças com conteúdo filtrado');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (8, 'Empresarial', 99.90, 'Alta', 'S', 'S', 'S', 'Plano para empresas com múltiplas contas');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (9, 'Anual Premium', 299.90, 'Alta', 'S', 'S', 'S', 'Plano premium com pagamento anual');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (10, 'Anual Família', 499.90, 'Alta', 'S', 'S', 'S', 'Plano familiar com pagamento anual');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (11, 'Trial', 0, 'Média', 'N', 'N', 'N', 'Plano de teste gratuito por 30 dias');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (12, 'Estudante Plus', 19.90, 'Alta', 'S', 'S', 'S', 'Plano para estudantes com mais benefícios');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (13, 'HiFi Plus', 49.90, 'Lossless', 'S', 'S', 'S', 'Plano HiFi com mais recursos');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (14, 'Clássico', 24.90, 'Alta', 'N', 'S', 'N', 'Plano para amantes de música clássica');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (15, 'Podcast', 9.90, 'Média', 'N', 'N', 'N', 'Plano focado em podcasts');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (16, 'Fitness', 19.90, 'Alta', 'N', 'S', 'N', 'Plano para treinos e exercícios');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (17, 'Viagem', 14.90, 'Média', 'S', 'N', 'N', 'Plano para viagens com playlists offline');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (18, 'Cinema', 29.90, 'Alta', 'S', 'N', 'S', 'Plano com trilhas sonoras de filmes');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (19, 'Relax', 12.90, 'Média', 'N', 'N', 'N', 'Plano com músicas relaxantes');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (20, 'Gaming', 19.90, 'Alta', 'N', 'S', 'N', 'Plano para gamers com trilhas sonoras');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (21, 'Karaokê', 14.90, 'Alta', 'N', 'N', 'N', 'Plano com letras de músicas para karaokê');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (22, 'Estúdio', 59.90, 'Lossless', 'S', 'S', 'S', 'Plano para produtores musicais');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (23, 'VIP', 99.90, 'Lossless', 'S', 'S', 'S', 'Plano exclusivo com benefícios adicionais');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (24, 'Eventos', 49.90, 'Alta', 'S', 'N', 'S', 'Plano para eventos e festas');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (25, 'Audiobook', 19.90, 'Média', 'N', 'N', 'N', 'Plano focado em audiolivros');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (26, 'Estudante Básico', 9.90, 'Média', 'N', 'N', 'N', 'Plano básico para estudantes');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (27, 'HiFi Família', 59.90, 'Lossless', 'S', 'S', 'S', 'Plano HiFi para famílias');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (28, 'Premium Duo', 39.90, 'Alta', 'S', 'S', 'S', 'Plano para duas pessoas');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (29, 'Eco', 4.90, 'Baixa', 'N', 'N', 'N', 'Plano econômico com anúncios');
+INSERT INTO tipo_assinatura tipo_assinatura (id_tipo_assinatura, nome_plano, preco_mensal, qualidade_audio, downloads_offline, pulos_ilimitados, sem_anuncios, descricao) 
+VALUES (30, 'Platinum', 199.90, 'Lossless', 'S', 'S', 'S', 'Plano premium com benefícios exclusivos');
 
 -------------------------
 -- TABELA ASSINATURA
