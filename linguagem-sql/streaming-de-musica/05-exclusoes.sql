@@ -112,11 +112,11 @@ SELECT
     hr.id_usuario,
     u.nome_usuario,
     COUNT(*) AS reproducoes_por_dia,
-    DATE(hr.data_reproducao) AS data_reproducao
+    TRUNC(hr.data_reproducao) AS data_reproducao
 FROM historico_reproducao hr
 JOIN usuario u ON hr.id_usuario = u.id_usuario
 WHERE hr.data_reproducao >= SYSDATE - 1
-GROUP BY hr.id_usuario, u.nome_usuario, DATE(hr.data_reproducao)
+GROUP BY hr.id_usuario, u.nome_usuario, TRUNC(hr.data_reproducao)
 HAVING COUNT(*) > 100; -- Mais de 100 reproduções por dia
 
 -- Remover reproduções muito rápidas (duração ouvida muito baixa)
@@ -370,10 +370,10 @@ PROMPT ===== 6.1 - LIMPEZA DE DADOS DUPLICADOS =====
 SELECT 
     id_usuario,
     id_musica,
-    DATE(data_reproducao) AS data_repr,
+    TRUNC(data_reproducao) AS data_repr,
     COUNT(*) AS total_reproducoes
 FROM historico_reproducao
-GROUP BY id_usuario, id_musica, DATE(data_reproducao)
+GROUP BY id_usuario, id_musica, TRUNC(data_reproducao)
 HAVING COUNT(*) > 10; -- Mais de 10 reproduções da mesma música no mesmo dia
 
 -- Criar duplicatas para demonstração
@@ -395,7 +395,7 @@ WHERE EXISTS (
     SELECT 1 FROM historico_reproducao hr2
     WHERE hr2.id_usuario = hr1.id_usuario
       AND hr2.id_musica = hr1.id_musica
-      AND DATE(hr2.data_reproducao) = DATE(hr1.data_reproducao)
+      AND TRUNC(hr2.data_reproducao) = TRUNC(hr1.data_reproducao)
       AND hr2.id_historico > hr1.id_historico
       AND hr2.duracao_ouvida = hr1.duracao_ouvida
 );

@@ -3,7 +3,7 @@
 -- =====================================================
 -- Scripts de criação das tabelas principais
 -- Versão simplificada focada na estrutura básica
--- Compatível com Oracle, PostgreSQL, MySQL e SQL Server
+-- Compatível com Oracle 12G SQLDeveloper
 -- =====================================================
 
 -- =====================================================
@@ -12,29 +12,16 @@
 
 -- Remover tabelas se existirem (descomentar se necessário)
 /*
--- Para Oracle/PostgreSQL/MySQL:
-DROP TABLE historico_reproducao CASCADE;
-DROP TABLE playlist_musica CASCADE;
-DROP TABLE playlist CASCADE;
-DROP TABLE assinatura CASCADE;
-DROP TABLE musica CASCADE;
-DROP TABLE album CASCADE;
-DROP TABLE artista CASCADE;
-DROP TABLE genero CASCADE;
-DROP TABLE usuario CASCADE;
-DROP TABLE tipo_assinatura CASCADE;
-
--- Para SQL Server:
--- DROP TABLE historico_reproducao;
--- DROP TABLE playlist_musica;
--- DROP TABLE playlist;
--- DROP TABLE assinatura;
--- DROP TABLE musica;
--- DROP TABLE album;
--- DROP TABLE artista;
--- DROP TABLE genero;
--- DROP TABLE usuario;
--- DROP TABLE tipo_assinatura;
+DROP TABLE historico_reproducao CASCADE CONSTRAINTS;
+DROP TABLE playlist_musica CASCADE CONSTRAINTS;
+DROP TABLE playlist CASCADE CONSTRAINTS;
+DROP TABLE assinatura CASCADE CONSTRAINTS;
+DROP TABLE musica CASCADE CONSTRAINTS;
+DROP TABLE album CASCADE CONSTRAINTS;
+DROP TABLE artista CASCADE CONSTRAINTS;
+DROP TABLE genero CASCADE CONSTRAINTS;
+DROP TABLE usuario CASCADE CONSTRAINTS;
+DROP TABLE tipo_assinatura CASCADE CONSTRAINTS;
 */
 
 -- =====================================================
@@ -43,24 +30,24 @@ DROP TABLE tipo_assinatura CASCADE;
 
 -- Tabela de Gêneros Musicais
 CREATE TABLE genero (
-    id_genero           INTEGER PRIMARY KEY,
-    nome_genero         VARCHAR(50) NOT NULL UNIQUE,
-    descricao           VARCHAR(200),
-    data_criacao        DATE DEFAULT CURRENT_DATE,
+    id_genero           NUMBER PRIMARY KEY,
+    nome_genero         VARCHAR2(50) NOT NULL UNIQUE,
+    descricao           VARCHAR2(200),
+    data_criacao        DATE DEFAULT SYSDATE,
     
     -- Validações
-    CONSTRAINT ck_genero_nome_min CHECK (CHAR_LENGTH(nome_genero) >= 2)
+    CONSTRAINT ck_genero_nome_min CHECK (LENGTH(nome_genero) >= 2)
 );
 
 -- Tabela de Usuários
 CREATE TABLE usuario (
-    id_usuario          INTEGER PRIMARY KEY,
-    nome_usuario        VARCHAR(50) NOT NULL,
-    email               VARCHAR(100) NOT NULL UNIQUE,
-    senha               VARCHAR(100) NOT NULL,
+    id_usuario          NUMBER PRIMARY KEY,
+    nome_usuario        VARCHAR2(50) NOT NULL,
+    email               VARCHAR2(100) NOT NULL UNIQUE,
+    senha               VARCHAR2(100) NOT NULL,
     data_nascimento     DATE,
-    pais                VARCHAR(50),
-    data_cadastro       DATE DEFAULT CURRENT_DATE,
+    pais                VARCHAR2(50),
+    data_cadastro       DATE DEFAULT SYSDATE,
     ultimo_acesso       TIMESTAMP,
     ativo               CHAR(1) DEFAULT 'S',
     
@@ -71,15 +58,15 @@ CREATE TABLE usuario (
 
 -- Tabela de Artistas
 CREATE TABLE artista (
-    id_artista          INTEGER PRIMARY KEY,
-    nome_artista        VARCHAR(100) NOT NULL,
-    nome_real           VARCHAR(100),
+    id_artista          NUMBER PRIMARY KEY,
+    nome_artista        VARCHAR2(100) NOT NULL,
+    nome_real           VARCHAR2(100),
     data_nascimento     DATE,
-    pais_origem         VARCHAR(50),
-    biografia           TEXT,
+    pais_origem         VARCHAR2(50),
+    biografia           CLOB,
     data_inicio_carreira DATE,
     ativo               CHAR(1) DEFAULT 'S',
-    website             VARCHAR(200),
+    website             VARCHAR2(200),
     
     -- Validações
     CONSTRAINT ck_artista_ativo CHECK (ativo IN ('S', 'N'))
@@ -87,14 +74,14 @@ CREATE TABLE artista (
 
 -- Tabela de Álbuns
 CREATE TABLE album (
-    id_album            INTEGER PRIMARY KEY,
-    titulo              VARCHAR(150) NOT NULL,
+    id_album            NUMBER PRIMARY KEY,
+    titulo              VARCHAR2(150) NOT NULL,
     data_lancamento     DATE,
-    numero_faixas       INTEGER,
-    duracao_total       INTEGER, -- em segundos
-    capa_url            VARCHAR(500),
-    tipo_album          VARCHAR(20) DEFAULT 'ALBUM',
-    id_artista          INTEGER NOT NULL,
+    numero_faixas       NUMBER,
+    duracao_total       NUMBER, -- em segundos
+    capa_url            VARCHAR2(500),
+    tipo_album          VARCHAR2(20) DEFAULT 'ALBUM',
+    id_artista          NUMBER NOT NULL,
     
     -- Chave estrangeira
     CONSTRAINT fk_album_artista FOREIGN KEY (id_artista) 
@@ -108,16 +95,16 @@ CREATE TABLE album (
 
 -- Tabela de Músicas
 CREATE TABLE musica (
-    id_musica           INTEGER PRIMARY KEY,
-    titulo              VARCHAR(150) NOT NULL,
-    duracao             INTEGER NOT NULL, -- em segundos
-    numero_faixa        INTEGER,
-    letra               TEXT,
-    arquivo_url         VARCHAR(500),
-    total_reproducoes   INTEGER DEFAULT 0,
-    data_upload         DATE DEFAULT CURRENT_DATE,
-    id_album            INTEGER NOT NULL,
-    id_genero           INTEGER,
+    id_musica           NUMBER PRIMARY KEY,
+    titulo              VARCHAR2(150) NOT NULL,
+    duracao             NUMBER NOT NULL, -- em segundos
+    numero_faixa        NUMBER,
+    letra               CLOB,
+    arquivo_url         VARCHAR2(500),
+    total_reproducoes   NUMBER DEFAULT 0,
+    data_upload         DATE DEFAULT SYSDATE,
+    id_album            NUMBER NOT NULL,
+    id_genero           NUMBER,
     
     -- Chaves estrangeiras
     CONSTRAINT fk_musica_album FOREIGN KEY (id_album) 
@@ -136,15 +123,15 @@ CREATE TABLE musica (
 
 -- Tabela de Playlists
 CREATE TABLE playlist (
-    id_playlist         INTEGER PRIMARY KEY,
-    nome_playlist       VARCHAR(100) NOT NULL,
-    descricao           VARCHAR(500),
+    id_playlist         NUMBER PRIMARY KEY,
+    nome_playlist       VARCHAR2(100) NOT NULL,
+    descricao           VARCHAR2(500),
     publica             CHAR(1) DEFAULT 'N',
-    data_criacao        DATE DEFAULT CURRENT_DATE,
+    data_criacao        DATE DEFAULT SYSDATE,
     data_atualizacao    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    total_musicas       INTEGER DEFAULT 0,
-    duracao_total       INTEGER DEFAULT 0, -- em segundos
-    id_usuario          INTEGER NOT NULL,
+    total_musicas       NUMBER DEFAULT 0,
+    duracao_total       NUMBER DEFAULT 0, -- em segundos
+    id_usuario          NUMBER NOT NULL,
     
     -- Chave estrangeira
     CONSTRAINT fk_playlist_usuario FOREIGN KEY (id_usuario) 
@@ -158,14 +145,14 @@ CREATE TABLE playlist (
 
 -- Tabela de Tipos de Assinatura
 CREATE TABLE tipo_assinatura (
-    id_tipo_assinatura  INTEGER PRIMARY KEY,
-    nome_plano          VARCHAR(50) NOT NULL UNIQUE,
-    preco_mensal        DECIMAL(8,2) NOT NULL,
-    qualidade_audio     VARCHAR(20),
+    id_tipo_assinatura  NUMBER PRIMARY KEY,
+    nome_plano          VARCHAR2(50) NOT NULL UNIQUE,
+    preco_mensal        NUMBER(8,2) NOT NULL,
+    qualidade_audio     VARCHAR2(20),
     downloads_offline   CHAR(1) DEFAULT 'N',
     pulos_ilimitados    CHAR(1) DEFAULT 'N',
     sem_anuncios        CHAR(1) DEFAULT 'N',
-    descricao           VARCHAR(200),
+    descricao           VARCHAR2(200),
     ativo               CHAR(1) DEFAULT 'S',
     
     -- Validações
@@ -178,16 +165,16 @@ CREATE TABLE tipo_assinatura (
 
 -- Tabela de Assinaturas dos Usuários
 CREATE TABLE assinatura (
-    id_assinatura       INTEGER PRIMARY KEY,
+    id_assinatura       NUMBER PRIMARY KEY,
     data_inicio         DATE NOT NULL,
     data_fim            DATE,
-    status_assinatura   VARCHAR(20) DEFAULT 'ATIVA',
-    metodo_pagamento    VARCHAR(50),
-    valor_pago          DECIMAL(8,2),
+    status_assinatura   VARCHAR2(20) DEFAULT 'ATIVA',
+    metodo_pagamento    VARCHAR2(50),
+    valor_pago          NUMBER(8,2),
     data_ultimo_pagamento DATE,
     renovacao_automatica CHAR(1) DEFAULT 'S',
-    id_usuario          INTEGER NOT NULL,
-    id_tipo_assinatura  INTEGER NOT NULL,
+    id_usuario          NUMBER NOT NULL,
+    id_tipo_assinatura  NUMBER NOT NULL,
     
     -- Chaves estrangeiras
     CONSTRAINT fk_assinatura_usuario FOREIGN KEY (id_usuario) 
@@ -208,10 +195,10 @@ CREATE TABLE assinatura (
 
 -- Tabela de Relacionamento Playlist-Música (N:M)
 CREATE TABLE playlist_musica (
-    id_playlist         INTEGER NOT NULL,
-    id_musica           INTEGER NOT NULL,
-    ordem_musica        INTEGER NOT NULL,
-    data_adicao         DATE DEFAULT CURRENT_DATE,
+    id_playlist         NUMBER NOT NULL,
+    id_musica           NUMBER NOT NULL,
+    ordem_musica        NUMBER NOT NULL,
+    data_adicao         DATE DEFAULT SYSDATE,
     
     -- Chave primária composta
     CONSTRAINT pk_playlist_musica PRIMARY KEY (id_playlist, id_musica),
@@ -231,15 +218,15 @@ CREATE TABLE playlist_musica (
 
 -- Tabela de Histórico de Reprodução
 CREATE TABLE historico_reproducao (
-    id_historico        INTEGER PRIMARY KEY,
+    id_historico        NUMBER PRIMARY KEY,
     data_reproducao     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    duracao_ouvida      INTEGER, -- em segundos
-    dispositivo         VARCHAR(50),
-    localizacao         VARCHAR(100),
-    qualidade_reproducao VARCHAR(20),
-    origem_reproducao   VARCHAR(50), -- playlist, busca, recomendacao, etc
-    id_usuario          INTEGER NOT NULL,
-    id_musica           INTEGER NOT NULL,
+    duracao_ouvida      NUMBER, -- em segundos
+    dispositivo         VARCHAR2(50),
+    localizacao         VARCHAR2(100),
+    qualidade_reproducao VARCHAR2(20),
+    origem_reproducao   VARCHAR2(50), -- playlist, busca, recomendacao, etc
+    id_usuario          NUMBER NOT NULL,
+    id_musica           NUMBER NOT NULL,
     
     -- Chaves estrangeiras
     CONSTRAINT fk_hist_usuario FOREIGN KEY (id_usuario) 
@@ -270,22 +257,8 @@ COMMENT ON TABLE historico_reproducao IS 'Log de reproduções de músicas pelos
 -- VERIFICAÇÃO DAS TABELAS CRIADAS
 -- =====================================================
 
--- Para verificar se as tabelas foram criadas corretamente
--- (descomentar as linhas conforme o SGBD utilizado)
-
--- PostgreSQL:
--- SELECT table_name FROM information_schema.tables 
--- WHERE table_schema = 'public' AND table_type = 'BASE TABLE'
--- ORDER BY table_name;
-
--- MySQL:
--- SHOW TABLES;
-
--- Oracle:
--- SELECT table_name FROM user_tables ORDER BY table_name;
-
--- SQL Server:
--- SELECT name FROM sys.tables ORDER BY name;
+-- Para verificar se as tabelas foram criadas corretamente no Oracle
+SELECT table_name FROM user_tables ORDER BY table_name;
 
 -- =====================================================
 -- FIM DOS SCRIPTS CREATE TABLE
