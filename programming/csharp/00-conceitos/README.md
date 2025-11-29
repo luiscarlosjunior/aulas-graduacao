@@ -86,6 +86,26 @@ class Program
 }
 ```
 
+## Explicação: Analisando Código com Roslyn
+
+Este exemplo demonstra como usar o **Roslyn**, a plataforma de análise de código aberto da Microsoft, para examinar a estrutura interna de um programa em C#.
+
+### Configuração Inicial
+
+O código começa importando as bibliotecas necessárias: `Microsoft.CodeAnalysis` fornece as APIs principais, enquanto `Microsoft.CodeAnalysis.CSharp` oferece funcionalidades específicas para análise de código C#. O método `Main` cria uma string contendo um programa C# completo (um simples "Olá, mundo!") usando a sintaxe de string verbatim (`@"..."`), que preserva quebras de linha e caracteres especiais.
+
+### Análise Sintática (Parsing)
+
+A linha `CSharpSyntaxTree.ParseText(code)` é o coração do processo. Ela transforma o texto do código em uma **árvore de sintaxe** — uma representação estruturada do código que o computador pode entender e manipular. Pense nisso como converter um documento de texto em um mapa hierárquico onde cada elemento (classe, método, instrução) tem uma posição e relacionamentos definidos.
+
+### Extração da Raiz
+
+`tree.GetRoot()` obtém o nó principal dessa árvore de sintaxe. Desde este ponto, você pode navegar por toda a estrutura do código de forma programática, acessando classes, métodos, variáveis e qualquer outro elemento.
+
+### Exibição da Estrutura
+
+Finalmente, `root.ToFullString()` converte a árvore completa de volta em uma representação de texto, mostrando toda a estrutura sintática. Este é um ponto de partida excelente para entender como o Roslyn decompõe e organiza o código.
+
 ### Geração de Código com Roslyn
 
 O exemplo a seguir mostra como gerar código C# dinamicamente:
@@ -119,6 +139,34 @@ class Program
     }
 }
 ```
+
+## Explicação: Geração de Código com Roslyn
+
+Este exemplo demonstra o processo inverso ao anterior: em vez de **analisar** código existente, você aprenderá como **gerar** código C# dinamicamente usando o Roslyn. Esta é uma técnica poderosa para criar ferramentas de scaffolding, geradores de código e automatizações.
+
+### Importações e Configuração
+
+O código importa `Microsoft.CodeAnalysis.CSharp.Syntax`, que fornece as classes factory necessárias para construir elementos sintáticos. A classe `SyntaxFactory` é a ferramenta principal — ela funciona como um "construtor de blocos de código" que permite montar programas C# peça por peça, de forma programática.
+
+### Construção da Declaração de Classe
+
+O ponto de partida é `SyntaxFactory.ClassDeclaration("MinhaClasse")`, que cria um nó representando uma classe chamada "MinhaClasse". Em seguida, `.AddModifiers()` adiciona modificadores — neste caso, a palavra-chave `public`, indicando que a classe é acessível publicamente. Este é um exemplo do padrão **fluent builder**, onde cada método retorna o objeto modificado, permitindo encadeamento.
+
+### Adição de Métodos à Classe
+
+O método `.AddMembers()` insere elementos dentro da classe. Aqui, você cria um método usando `SyntaxFactory.MethodDeclaration()`, passando o tipo de retorno (`void`) e o nome (`"MeuMetodo"`). Novamente, modificadores são adicionados com `.AddModifiers()`. O corpo do método é definido com `.WithBody()`, que recebe um bloco (`SyntaxFactory.Block()`) contendo instruções.
+
+### Preenchimento do Corpo do Método
+
+`SyntaxFactory.ParseStatement()` é um atalho conveniente que permite inserir código como string, a qual é automaticamente analisada e convertida em nós sintáticos. Neste caso, a instrução `Console.WriteLine("Método gerado com Roslyn!");` é incluída no bloco.
+
+### Geração e Normalização do Código
+
+Finalmente, `.NormalizeWhitespace()` formata o código gerado com indentação e espaçamento apropriados, tornando-o legível. `.ToFullString()` converte toda a árvore sintática em uma representação de texto. O resultado é um programa C# completo, gerado inteiramente de forma programática — sem nunca ter digitado manualmente uma linha de código!
+
+### Gotchas e Considerações
+
+Um detalhe importante: este exemplo tem um **erro sintático**. A chamada `SyntaxFactory.MethodDeclaration()` recebe dois argumentos, mas deveria ser estruturada corretamente para funcionar. Na prática, você construiria o tipo de retorno separadamente antes de passar para `MethodDeclaration()`. Mesmo assim, o conceito ilustra como Roslyn permite construir código complexo de forma declarativa e verificável em tempo de compilação.
 
 ## Conclusão
 
