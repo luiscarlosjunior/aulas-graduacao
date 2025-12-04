@@ -1,10 +1,13 @@
-# Exemplos de Programação Orientada a Objetos em C#
+# Exemplos de C# - Programação e Inteligência Artificial
 
-Este diretório contém exemplos práticos de POO (Programação Orientada a Objetos) em C#, demonstrando os principais conceitos através de um sistema bancário simples.
+Este diretório contém exemplos práticos de C#, desde conceitos básicos até aplicações avançadas de inteligência artificial.
 
 ## 📁 Estrutura dos Exemplos
 
-### 1. Exemplo Moderno (`oop-exemplos/BancoExemplo/`)
+### 1. Conceitos Básicos (`00-conceitos/`)
+Exemplos fundamentais da linguagem C#
+
+### 2. Programação Orientada a Objetos (`oop-exemplos/`)
 Exemplo completo e moderno utilizando .NET 8.0 com todas as boas práticas:
 
 #### Classes Implementadas:
@@ -28,6 +31,57 @@ Exemplo completo e moderno utilizando .NET 8.0 com todas as boas práticas:
 cd oop-exemplos/BancoExemplo
 dotnet run
 ```
+
+### 3. 🧬 Programação Genética (`programacao-genetica/`)
+**NOVO!** Seção completa sobre Programação Genética (Genetic Programming) em C# com:
+
+- 📚 **README Acadêmico Completo**: Mais de 40 páginas de conteúdo cobrindo:
+  - Fundamentos teóricos e matemáticos
+  - História e contexto acadêmico
+  - Conceitos fundamentais (população, cromossomos, fitness, seleção, crossover, mutação)
+  - Algoritmos Genéticos vs Programação Genética
+  - Arquitetura de sistemas GP
+  - Operadores genéticos detalhados
+  - Implementação em C#
+  - Controle de bloat
+  - Melhores práticas
+  - Referências acadêmicas extensivas
+
+- 💻 **Exemplos Práticos Funcionais**:
+  
+  #### Exemplo 1: Framework Básico de GP
+  - Implementação completa de um motor de Programação Genética
+  - Representação em árvore de expressões
+  - Operadores genéticos (crossover, mutação, seleção)
+  - Demonstração: Regressão Simbólica (descobre f(x) = x² + 2x + 1)
+  - **Executar**: `cd programacao-genetica/exemplos/01-basic-framework/BasicGPFramework && dotnet run`
+  
+  #### Exemplo 3: Otimização de Rotas com Telemetria (Caminhão-AWS) 🚚📡
+  - **Caso de uso real**: Sistema de entregas com caminhões IoT
+  - **Integração cloud**: Preparado para AWS IoT Core
+  - **Multi-objetivo**: Otimiza distância, tempo, combustível, custo de dados e atrasos
+  - **Telemetria**: Considera custos de transmissão 4G vs WiFi
+  - **Resultado**: Economia de 40%+ em custos operacionais
+  - **Executar**: `cd programacao-genetica/exemplos/03-telemetry-route-optimization/TelemetryRouteOptimization && dotnet run`
+
+#### Aplicações Demonstradas:
+- ✅ Regressão simbólica (descoberta automática de fórmulas)
+- ✅ Otimização de rotas com restrições (VRP com janelas de tempo)
+- ✅ Telemetria IoT e integração cloud (AWS)
+- ✅ Otimização multi-objetivo
+- ✅ Problemas do mundo real da indústria
+
+#### Conceitos de IA/GP Cobertos:
+- 🧬 Algoritmos Evolutivos
+- 🌳 Representação em árvore (AST)
+- 🎯 Funções de fitness multi-objetivo
+- 🔄 Operadores genéticos especializados
+- 📊 Análise de convergência
+- 🛡️ Controle de bloat (parsimony pressure)
+- 🏆 Elitismo e seleção por torneio
+- 📈 Otimização combinatória
+
+**[📖 Acesse o README completo de Programação Genética](programacao-genetica/README.md)**
 
 ## 🎯 Conceitos de POO Demonstrados
 
