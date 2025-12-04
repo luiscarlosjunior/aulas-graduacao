@@ -10,9 +10,9 @@ Este repositório contém uma coleção abrangente de exemplos práticos, exerc�
 
 ## 📚 Áreas Disciplinares
 
-Este repositório está organizado em **6 áreas principais** que cobrem os fundamentos essenciais da computação:
+Este repositório está organizado em **5 áreas principais** que cobrem os fundamentos essenciais da computação:
 
-### 💻 [Programming](programming/) - Programação Multiplataforma
+### 💻 [Programação](programacao/) - Programação Multiplataforma
 
 Área focada no desenvolvimento de habilidades de programação em múltiplas linguagens e paradigmas.
 
@@ -36,43 +36,28 @@ Este repositório está organizado em **6 áreas principais** que cobrem os fund
 
 ### 🗄️ [Banco de Dados](banco-dados/) - Sistemas de Banco de Dados
 
-Área dedicada ao estudo e prática de sistemas de gerenciamento de banco de dados.
+Área dedicada ao estudo completo de sistemas de gerenciamento de banco de dados, desde fundamentos até SQL avançado.
 
 **🎯 O que você aprenderá:**
+- **SQL Básico**: Fundamentos de SQL, modelagem e estruturas de tabelas (Módulos 01-09)
+- **SQL Avançado**: Consultas complexas, JOINs, subqueries, views e otimização (Módulos 10-17)
 - **Modelagem de Banco de Dados**: Design e estruturação de bancos relacionais
 - **Linguagem de Procedure**: PL/SQL e programação em banco de dados
-- **Scripts SQL**: Comandos DDL, DML e consultas avançadas
+- **Projetos Práticos**: Sistemas completos (MusiStream, E-commerce, Barbearia)
 
 **📁 Estrutura:**
+- `sql-basico/` - Curso SQL fundamentos (módulos 01-09)
+- `sql-avancado/` - Curso SQL avançado (módulos 10-17)
+- `projetos/` - Projetos práticos completos (streaming musical, e-commerce, etc)
 - `modelagem-banco-dados/` - Conceitos e práticas de modelagem
 - `linguagem-procedure/` - PL/SQL e procedimentos armazenados
-- `scripts-sql/` - Coleção de scripts e exemplos práticos
+- `scripts-sql/` - Coleção de scripts organizados por SGBD
 
 ---
 
-### 🔍 [Linguagem SQL](linguagem-sql/) - Curso Completo de SQL
-
-Curso estruturado de SQL do básico ao avançado, com projeto prático de sistema de streaming musical.
-
-**🎯 O que você aprenderá:**
-- **16 módulos progressivos** cobrindo todos os aspectos do SQL
-- **Projeto prático**: Sistema MusiStream (similar ao Spotify)
-- **Modelagem completa**: Do conceitual ao físico
-- **Consultas avançadas**: JOINs, subqueries, views e otimização
-
-**📖 Módulos principais:**
-1. Introdução à Modelagem de Dados
-2. História e Fundamentos do SQL
-3. Estruturas de Tabelas e Relacionamentos
-4. Manipulação de Dados (INSERT, UPDATE, DELETE)
-5. Consultas e Relatórios Avançados
-6. Funções de Banco de Dados
-7. Subqueries e Múltiplas Tabelas
-8. Views e Otimização
-
 ---
 
-### 📊 [Data Science](data-science/) - Ciência de Dados
+### 📊 [Ciência de Dados](ciencia-dados/) - Ciência de Dados
 
 Área focada em análise de dados, estatística e descoberta de conhecimento.
 
@@ -105,7 +90,7 @@ Disciplina que combina matemática e programação para resolver problemas cient
 
 ---
 
-### 📐 [Modelagem](modelagem/) - UML e Orientação a Objetos
+### 📐 [Modelagem de Sistemas](modelagem-sistemas/) - UML e Orientação a Objetos
 
 Área dedicada ao design e modelagem de sistemas usando UML.
 
@@ -145,8 +130,8 @@ Disciplina que combina matemática e programação para resolver problemas cient
 | Área | Tecnologias | Ferramentas |
 |------|------------|-------------|
 | **Programação** | Java, PHP, Python, C# | IDEs, Git, Maven, Composer |
-| **Banco de Dados** | SQL, PL/SQL, Oracle | Oracle DB, SQL Developer |
-| **Data Science** | Python, Pandas, NumPy | Jupyter Notebook, Matplotlib |
+| **Banco de Dados** | SQL, PL/SQL, Oracle, MySQL, PostgreSQL | Oracle DB, SQL Developer, MySQL Workbench |
+| **Ciência de Dados** | Python, Pandas, NumPy | Jupyter Notebook, Matplotlib |
 | **Web** | HTML, CSS, JavaScript, REST | Servidores web, Postman |
 | **Modelagem** | UML, POO | Draw.io, Ferramentas UML |
 
@@ -170,12 +155,11 @@ Contribuições são muito bem-vindas! Este é um projeto educacional colaborati
 
 ## 📈 Status do Projeto
 
-- ✅ **Programming**: Conteúdo completo e atualizado
-- ✅ **Linguagem SQL**: Curso estruturado com 16 módulos  
-- ✅ **Modelagem UML**: Diagramas e exemplos práticos
-- 🔄 **Data Science**: Em expansão contínua
+- ✅ **Programação**: Conteúdo completo e atualizado (Java, PHP, Python, C#)
+- ✅ **Banco de Dados**: Curso SQL estruturado com 17 módulos + projetos práticos
+- ✅ **Modelagem de Sistemas**: Diagramas UML e exemplos práticos
+- 🔄 **Ciência de Dados**: Em expansão contínua
 - 🔄 **Métodos Numéricos**: Notebooks em desenvolvimento
-- 🔄 **Banco de Dados**: Adição de novos exemplos
 
 ## 🎯 Objetivos Educacionais
 
