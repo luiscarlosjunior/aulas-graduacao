@@ -10,7 +10,7 @@ Este repositório contém uma coleção abrangente de exemplos práticos, exerc�
 
 ## 📚 Áreas Disciplinares
 
-Este repositório está organizado em **5 áreas principais** que cobrem os fundamentos essenciais da computação:
+Este repositório está organizado em **6 áreas principais** que cobrem os fundamentos essenciais da computação:
 
 ### 💻 [Programação](programacao/) - Programação Multiplataforma
 
@@ -102,6 +102,28 @@ Disciplina que combina matemática e programação para resolver problemas cient
 
 **📁 Conteúdo:**
 - `uml-poo/` - Diagramas UML e exemplos práticos de orientação a objetos
+
+---
+
+### 🔄 [Versionamento](versionamento/) - Git e GitHub
+
+Área dedicada ao controle de versão e colaboração usando Git e GitHub.
+
+**🎯 O que você aprenderá:**
+- **Fundamentos de Git**: Conceitos acadêmicos e práticos de controle de versão
+- **História do Git**: Origem, evolução e impacto no desenvolvimento de software
+- **Algoritmos do Git**: Como Git funciona internamente (objetos, DAG, SHA-1)
+- **Boas Práticas**: Metodologias de Microsoft, Google, GitLab e Atlassian
+- **Workflows Git**: Git Flow, GitHub Flow, GitLab Flow, Trunk-Based Development
+- **GitHub Completo**: Issues, Pull Requests, Actions, Pages e colaboração open source
+
+**📁 Estrutura:**
+- `01-introducao-academica.md` - Introdução teórica ao controle de versão
+- `02-historia-git.md` - História e evolução do Git
+- `03-algoritmo-git.md` - Estrutura interna e algoritmos do Git
+- `04-trabalhando-com-git.md` - Boas práticas profissionais
+- `05-arquiteturas-git.md` - Diferentes workflows e quando usar cada um
+- `06-como-usar-github.md` - Guia completo do GitHub
 
 ## 🚀 Como Usar Este Repositório
 
