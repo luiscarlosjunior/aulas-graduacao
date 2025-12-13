@@ -185,8 +185,16 @@ ORDER BY nome;
 -- CONSULTA CROSS-REGION: Clientes de SP buscando clientes do RS
 -- Precisa acessar servidor remoto (NÓ 2)
 -- Em produção, isso seria feito via database link
+-- Exemplo de criação: CREATE DATABASE LINK sul_link CONNECT TO usuario IDENTIFIED BY senha USING 'TNS_SUL';
+
+-- Exemplo em produção com database link:
+-- SELECT nome, email, cidade
+-- FROM clientes_sul@sul_link  -- Acesso remoto via DB Link
+-- WHERE estado = 'RS';
+
+-- Para teste local (sem database link configurado):
 SELECT nome, email, cidade
-FROM clientes_sul  -- Acesso remoto via DB Link
+FROM clientes_sul  -- Simulação: assume tabela local
 WHERE estado = 'RS';
 
 -- ----------------------------------------------------------------------------

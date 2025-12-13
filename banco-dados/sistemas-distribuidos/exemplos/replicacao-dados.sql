@@ -288,6 +288,11 @@ PROBLEMA: Read-after-write inconsistency
 -- SOLUÇÃO 1: Read-Your-Writes Consistency
 -- Após escrever, lê do MASTER por X segundos
 
+-- NOTA: Database links (@master_link, @slave_link) precisam ser criados previamente
+-- Exemplo de criação de database link (feito por DBA):
+-- CREATE DATABASE LINK master_link CONNECT TO usuario IDENTIFIED BY senha USING 'TNS_MASTER';
+-- CREATE DATABASE LINK slave_link CONNECT TO usuario IDENTIFIED BY senha USING 'TNS_SLAVE';
+
 CREATE OR REPLACE FUNCTION buscar_pedidos_cliente(
     p_cliente_id NUMBER,
     p_usuario_escreveu_recentemente BOOLEAN
@@ -298,14 +303,18 @@ IS
 BEGIN
     IF p_usuario_escreveu_recentemente THEN
         -- Lê do MASTER (garante ver suas próprias escritas)
+        -- Em produção: SELECT * FROM pedidos@master_link
+        -- Para teste local: SELECT * FROM pedidos
         OPEN v_cursor FOR
-        SELECT * FROM pedidos@master_link
+        SELECT * FROM pedidos  -- Simulação: em produção seria @master_link
         WHERE cliente_id = p_cliente_id
         ORDER BY data_pedido DESC;
     ELSE
         -- Lê de SLAVE (distribui carga)
+        -- Em produção: SELECT * FROM pedidos@slave_link
+        -- Para teste local: SELECT * FROM pedidos
         OPEN v_cursor FOR
-        SELECT * FROM pedidos@slave_link
+        SELECT * FROM pedidos  -- Simulação: em produção seria @slave_link
         WHERE cliente_id = p_cliente_id
         ORDER BY data_pedido DESC;
     END IF;
@@ -334,9 +343,13 @@ IS
 BEGIN
     -- Consulta qual o último timestamp replicado no slave
     -- (Em produção, seria via query remota ou API)
+    -- Nota: Para usar este exemplo, seria necessário ter uma coluna slave_id na tabela
+    -- ou manter uma tabela separada de status de replicação por slave
+    
+    -- Simulação simplificada: assume que todas as operações foram replicadas
     SELECT MAX(timestamp_operacao) INTO v_ultimo_timestamp
     FROM replication_log
-    WHERE replicado = 'S' AND slave_id = p_slave_id;
+    WHERE replicado = 'S';
     
     RETURN v_ultimo_timestamp >= p_timestamp_requerido;
 END;
