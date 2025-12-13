@@ -102,6 +102,39 @@ Exemplos modernos de POO em C# com .NET 8.0:
 
 **🎯 Ideal para**: Desenvolvedores que querem aprender POO e a plataforma .NET.
 
+---
+
+### 📁 [Depuração](depuracao/) - Debugging de Código
+**🎓 Nível: Todos os níveis | ⏱️ Duração: 2-3 semanas**
+
+Guia acadêmico e prático sobre depuração de código:
+
+#### Conteúdo Teórico:
+- **[Introdução à Depuração](depuracao/01-introducao-depuracao.md)** - Fundamentos, importância, vantagens e desvantagens
+  - Citações de autores: Steve McConnell, Robert C. Martin, Andreas Zeller
+  - Estatísticas da indústria sobre tempo e custo de debugging
+  - Tipos de erros e princípios fundamentais
+- **[Técnicas e Metodologias](depuracao/02-tecnicas-depuracao.md)** - Técnicas clássicas e avançadas
+  - Print debugging, logging, breakpoints, stack trace analysis
+  - Metodologias: Scientific Method, 9 Rules of Debugging, TRAFFIC
+- **[Ferramentas](depuracao/03-ferramentas-depuracao.md)** - Debuggers, profilers e ferramentas de análise
+
+#### Guias Práticos por Linguagem:
+- **[Depuração em Java](depuracao/04-depuracao-java.md)** - NullPointerException, memory leaks, deadlocks
+- **[Depuração em PHP](depuracao/05-depuracao-php.md)** - Xdebug, SQL debugging, sessions
+- **[Depuração em Python](depuracao/06-depuracao-python.md)** - PDB, profiling, async debugging
+
+#### Prevenção:
+- **[Boas Práticas](depuracao/07-boas-praticas.md)** - TDD, code review, análise estática
+
+**🎯 Ideal para**: Todos os desenvolvedores que querem melhorar suas habilidades de debugging e prevenir bugs.
+
+**📚 Baseado em:**
+- Andreas Zeller - "Why Programs Fail"
+- David Agans - "Debugging: The 9 Indispensable Rules"
+- Steve McConnell - "Code Complete"
+- Robert C. Martin - "Clean Code"
+
 ## 🛤️ Trilhas de Aprendizado Recomendadas
 
 ### 🌟 Trilha Iniciante Completo
