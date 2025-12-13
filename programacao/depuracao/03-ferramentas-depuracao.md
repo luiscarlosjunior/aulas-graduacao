@@ -95,7 +95,7 @@ Display View:
 [Xdebug]
 zend_extension=xdebug.so
 xdebug.mode=debug
-xdebug.start_with_request=yes
+xdebug.start_with_request=trigger
 xdebug.client_host=127.0.0.1
 xdebug.client_port=9003
 ```
@@ -104,7 +104,7 @@ xdebug.client_port=9003
 1. Configurar PHP Interpreter
 2. Ativar "Start Listening for PHP Debug Connections"
 3. Colocar breakpoints
-4. Acessar aplicação no navegador
+4. Acessar aplicação no navegador com parâmetro trigger (ou usar extensão browser)
 
 ### 5. PyCharm (Python)
 
