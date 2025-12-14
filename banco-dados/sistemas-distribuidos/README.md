@@ -22,7 +22,8 @@ Ao final deste módulo, o aluno será capaz de:
 - [7. Replicação de Dados](#7-replicação-de-dados)
 - [8. Exemplos Práticos do Dia a Dia](#8-exemplos-práticos-do-dia-a-dia)
 - [9. Problemas Comuns e Soluções](#9-problemas-comuns-e-soluções)
-- [10. Referências Bibliográficas](#10-referências-bibliográficas)
+- [10. Níveis de isolamento](#10-níveis-de-isolamento)
+- [11. Referências Bibliográficas](#11-referências-bibliográficas)
 
 ---
 
@@ -1303,7 +1304,7 @@ else:
 
 ---
 
-## 10. O que são níveis de isolamento?
+## 10. Níveis de isolamento
 
 Níveis de isolamento definem **o quanto uma transação fica “isolada” das outras** enquanto está sendo executada.
 
