@@ -1303,7 +1303,410 @@ else:
 
 ---
 
-## 10. Referências Bibliográficas
+## 10. O que são níveis de isolamento?
+
+Níveis de isolamento definem **o quanto uma transação fica “isolada” das outras** enquanto está sendo executada.
+
+Eles controlam:
+
+* O que uma transação **pode ver**
+* Quais **problemas de concorrência** podem acontecer
+
+👉 Quanto maior o isolamento:
+
+* ✅ Mais segurança
+* ❌ Menos performance
+
+---
+
+### Problemas que os níveis tentam evitar
+
+Antes de falar dos níveis, veja os problemas clássicos:
+
+#### 🔴 Dirty Read (leitura suja)
+
+Ler um dado **que ainda não foi confirmado (COMMIT)**.
+
+#### 🟠 Non-Repeatable Read
+
+Ler o **mesmo dado duas vezes** e obter **valores diferentes**.
+
+#### 🟡 Phantom Read
+
+Executar a **mesma consulta** e aparecerem **linhas novas ou sumidas**.
+
+---
+
+### Os 4 níveis de isolamento (SQL padrão)
+
+#### 1️⃣ READ UNCOMMITTED (menos seguro)
+
+📌 Permite **dirty read**
+
+**O que pode acontecer:**
+
+* Você lê dados que podem ser desfeitos (`ROLLBACK`)
+
+**Exemplo:**
+
+```sql
+-- Transação A
+BEGIN;
+UPDATE contas SET saldo = 500 WHERE id = 1;
+-- ainda não deu COMMIT
+
+-- Transação B
+SELECT saldo FROM contas WHERE id = 1;
+-- pode ver 500 (mesmo sem COMMIT)
+```
+
+⚠️ Pouco usado na prática.
+
+---
+
+#### 2️⃣ READ COMMITTED (padrão na maioria dos bancos)
+
+📌 Só lê dados **confirmados**
+
+❌ Não evita:
+
+* Non-repeatable read
+* Phantom read
+
+**Exemplo:**
+
+```sql
+-- Transação A
+BEGIN;
+SELECT saldo FROM contas WHERE id = 1; -- 1000
+
+-- Transação B
+UPDATE contas SET saldo = 800 WHERE id = 1;
+COMMIT;
+
+-- Transação A
+SELECT saldo FROM contas WHERE id = 1; -- 800 (mudou!)
+```
+
+✔️ Evita dirty read
+❌ O valor pode mudar durante a transação
+
+---
+
+#### 3️⃣ REPEATABLE READ
+
+📌 Garante que **leituras de linhas já lidas não mudam**
+
+✔️ Evita:
+
+* Dirty read
+* Non-repeatable read
+
+❌ Pode permitir:
+
+* Phantom read (dependendo do banco)
+
+**Exemplo:**
+
+```sql
+-- Transação A
+BEGIN;
+SELECT saldo FROM contas WHERE id = 1; -- 1000
+
+-- Transação B
+UPDATE contas SET saldo = 800 WHERE id = 1;
+COMMIT;
+
+-- Transação A
+SELECT saldo FROM contas WHERE id = 1; -- ainda 1000
+```
+
+➡️ A linha fica “congelada” para a transação A.
+
+---
+
+#### 4️⃣ SERIALIZABLE (mais seguro)
+
+📌 Simula execução **uma transação por vez**
+
+✔️ Evita:
+
+* Dirty read
+* Non-repeatable read
+* Phantom read
+
+**Exemplo:**
+
+```sql
+-- Transação A
+BEGIN;
+SELECT * FROM contas WHERE saldo > 500;
+
+-- Transação B
+INSERT INTO contas (id, saldo) VALUES (3, 1000);
+-- pode ser bloqueada ou falhar
+```
+
+🔒 Máximo isolamento
+⚠️ Menor performance
+
+---
+
+### Tabela resumo 📊
+
+| Nível            | Dirty Read | Non-repeatable | Phantom |
+| ---------------- | ---------- | -------------- | ------- |
+| READ UNCOMMITTED | ❌          | ❌              | ❌       |
+| READ COMMITTED   | ✅          | ❌              | ❌       |
+| REPEATABLE READ  | ✅          | ✅              | ❌*      |
+| SERIALIZABLE     | ✅          | ✅              | ✅       |
+
+(*depende do banco)
+
+---
+
+### Como definir nível de isolamento
+
+```sql
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+```
+
+Ou por transação:
+
+```sql
+BEGIN;
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+```
+
+---
+
+#### Qual usar?
+
+* 🟢 **READ COMMITTED** → aplicações comuns
+* 🟡 **REPEATABLE READ** → relatórios, cálculos
+* 🔴 **SERIALIZABLE** → operações críticas (financeiras)
+
+---
+
+#### Cenário base entre lock e MVCC
+
+Tabela `contas`
+
+```text
+id | saldo
+1  | 1000
+```
+
+Duas transações:
+
+* **Transação A** → leitura
+* **Transação B** → atualização
+
+---
+
+## Lock tradicional (Lock-Based Concurrency)
+
+Aqui o banco usa **bloqueios físicos** para controlar acesso.
+
+---
+
+### Exemplo: leitura com lock
+
+### Transação A
+
+```sql
+BEGIN;
+SELECT saldo FROM contas WHERE id = 1;
+```
+
+➡️ O banco coloca um **lock de leitura** na linha.
+
+---
+
+### Transação B
+
+```sql
+BEGIN;
+UPDATE contas SET saldo = 800 WHERE id = 1;
+```
+
+⛔ **Bloqueada**, porque A está lendo.
+
+📌 B só continua depois que A finalizar.
+
+---
+
+### Transação A
+
+```sql
+COMMIT;
+```
+
+🔓 Lock liberado
+➡️ Agora B pode atualizar
+
+---
+
+### Características do lock tradicional
+
+* Leitura **bloqueia escrita**
+* Escrita **bloqueia leitura**
+* Pode gerar:
+
+  * Espera
+  * Lentidão
+  * Deadlocks
+
+---
+
+### MVCC (Multi-Version Concurrency Control)
+
+Usado por **PostgreSQL, Oracle, MySQL InnoDB**, etc.
+
+👉 Em vez de bloquear leitura, o banco cria **versões dos dados**.
+
+---
+
+## 🧬 Exemplo: leitura com MVCC
+
+### Transação A
+
+```sql
+BEGIN;
+SELECT saldo FROM contas WHERE id = 1;
+```
+
+➡️ A vê o saldo **1000**
+➡️ **Nenhum lock bloqueante** é aplicado
+
+---
+
+### Transação B (ao mesmo tempo)
+
+```sql
+BEGIN;
+UPDATE contas SET saldo = 800 WHERE id = 1;
+COMMIT;
+```
+
+➡️ O banco cria **nova versão** da linha:
+
+* Versão antiga: saldo = 1000
+* Versão nova: saldo = 800
+
+---
+
+### Transação A (continua)
+
+```sql
+SELECT saldo FROM contas WHERE id = 1;
+```
+
+➡️ A **continua vendo 1000**
+➡️ Mesmo após o COMMIT da B
+
+---
+
+### O que aconteceu?
+
+* A está ligada a um **snapshot**
+* B gravou uma nova versão
+* **Leitura não bloqueou escrita**
+* **Escrita não bloqueou leitura**
+
+---
+
+### 3️⃣ Comparação direta
+
+| Aspecto                  | Lock Tradicional | MVCC     |
+| ------------------------ | ---------------- | -------- |
+| Leitura bloqueia escrita | ✅                | ❌        |
+| Escrita bloqueia leitura | ✅                | ❌        |
+| Performance em leitura   | ❌ pior           | ✅ melhor |
+| Consistência             | ✅                | ✅        |
+| Uso moderno              | ❌ raro           | ✅ padrão |
+
+---
+
+### 4️⃣ E quando o MVCC usa lock?
+
+Mesmo com MVCC, **escrita ainda usa lock**.
+
+#### Exemplo: duas escritas simultâneas
+
+##### Transação A
+
+```sql
+UPDATE contas SET saldo = 900 WHERE id = 1;
+```
+
+##### Transação B
+
+```sql
+UPDATE contas SET saldo = 800 WHERE id = 1;
+```
+
+➡️ Apenas **uma pode escrever por vez**
+➡️ A outra espera ou falha
+
+📌 MVCC **não elimina locks**, ele **elimina lock entre leitura e escrita**.
+
+---
+
+### 5️⃣ Phantom read: lock vs MVCC
+
+#### Lock tradicional (REPEATABLE READ)
+
+```sql
+SELECT * FROM contas WHERE saldo > 500;
+```
+
+➡️ Pode bloquear inserções novas
+
+---
+
+#### MVCC
+
+```sql
+SELECT * FROM contas WHERE saldo > 500;
+```
+
+➡️ Consulta usa snapshot
+➡️ Novas linhas não aparecem para a transação
+
+---
+
+### 6️⃣ Resumo mental 🧠
+
+**Lock tradicional**
+
+* “Pare tudo enquanto eu acesso”
+* Mais bloqueio
+* Menos escalável
+
+**MVCC**
+
+* “Cada um vê sua versão”
+* Pouco bloqueio
+* Alta concorrência
+
+---
+
+## Regra prática
+
+* Sistemas modernos → **MVCC**
+* Sistemas legados ou específicos → **lock pesado**
+
+## Resumo final 🧠
+
+* Níveis de isolamento controlam **visibilidade de dados**
+* Mais isolamento = mais segurança
+* Menos isolamento = mais performance
+* Escolher o nível certo evita bugs difíceis
+
+---
+
+## 11. Referências Bibliográficas
 
 ### Livros Acadêmicos
 
