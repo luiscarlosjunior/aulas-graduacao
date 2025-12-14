@@ -60,6 +60,24 @@ Conceitos e práticas de modelagem de dados:
 
 ---
 
+### 🌐 [Sistemas Distribuídos](sistemas-distribuidos/)
+**🎓 Nível: Avançado | ⏱️ Duração: 4-6 semanas**
+
+Banco de dados distribuídos e arquiteturas escaláveis:
+
+**📖 Conteúdo:**
+- Arquiteturas distribuídas (Cliente-Servidor, P2P, Federada)
+- Fragmentação e replicação de dados
+- Transações distribuídas e protocolo 2PC/3PC
+- Teorema CAP e propriedades BASE
+- Algoritmos de consenso (Paxos, Raft)
+- Problemas comuns (split-brain, deadlock distribuído)
+- Exemplos práticos do dia a dia (Netflix, Uber, Instagram)
+
+**🎯 Ideal para**: Desenvolvedores que trabalham com sistemas escaláveis, arquitetos de soluções e DBAs que precisam projetar e manter sistemas distribuídos.
+
+---
+
 ### 🔧 [Linguagem Procedure](linguagem-procedure/)
 **🎓 Nível: Avançado | ⏱️ Duração: 3-4 semanas**
 
@@ -126,9 +144,10 @@ Projetos completos para aplicar o conhecimento:
 2. Modelagem de Banco de Dados (4-6 semanas)
 3. SQL Avançado - Módulos 10-17 (6-8 semanas)
 4. Projeto Prático (escolha um dos projetos) (2-4 semanas)
-5. Linguagem Procedure (3-4 semanas)
+5. Sistemas Distribuídos (4-6 semanas)
+6. Linguagem Procedure (3-4 semanas)
 
-**Total estimado: 5-7 meses**
+**Total estimado: 6-9 meses**
 
 ### 🚀 Trilha Rápida (Essencial)
 **Para quem precisa de conhecimento essencial rapidamente:**
@@ -151,10 +170,23 @@ Projetos completos para aplicar o conhecimento:
 **Para quem quer administrar bancos de dados:**
 1. Curso completo SQL Básico e Avançado (3-4 meses)
 2. Modelagem de Banco de Dados (4-6 semanas)
-3. Linguagem Procedure completa (3-4 semanas)
-4. Todos os projetos práticos (2-3 meses)
+3. Sistemas Distribuídos (4-6 semanas)
+4. Linguagem Procedure completa (3-4 semanas)
+5. Todos os projetos práticos (2-3 meses)
 
-**Total estimado: 6-9 meses**
+**Total estimado: 7-10 meses**
+
+### 🌐 Trilha Sistemas Escaláveis (Cloud & Distribuídos)
+**Para arquitetos de soluções e engenheiros de sistemas escaláveis:**
+1. SQL Básico - Módulos essenciais (01, 04, 07, 09) (3 semanas)
+2. SQL Avançado - Módulos de otimização (10, 14) (2 semanas)
+3. Modelagem de Banco de Dados (4 semanas)
+4. **Sistemas Distribuídos (foco principal)** (6 semanas)
+5. Projeto prático com arquitetura distribuída (4 semanas)
+
+**Total estimado: 4-5 meses**
+
+**🎯 Ideal para**: Desenvolvedores que trabalham com microservices, cloud computing, e sistemas de alta disponibilidade.
 
 ## 🎓 Sistema Exemplo: MusiStream
 
@@ -247,6 +279,14 @@ Durante o curso de SQL, utilizamos como exemplo principal o **MusiStream**, um s
 - ✅ Aplicar boas práticas de design
 - ✅ Documentar bancos de dados
 
+### Sistemas Distribuídos (Escalabilidade)
+- ✅ Compreender arquiteturas distribuídas
+- ✅ Implementar fragmentação e replicação
+- ✅ Gerenciar transações distribuídas
+- ✅ Aplicar teorema CAP e trade-offs
+- ✅ Projetar sistemas de alta disponibilidade
+- ✅ Resolver problemas de consistência
+
 ### PL/SQL (Programação)
 - ✅ Criar procedures e functions
 - ✅ Implementar triggers para automação
@@ -263,6 +303,8 @@ Este material foi desenvolvido com base nas seguintes referências acadêmicas:
 - **Beaulieu, A.** (2020). *Learning SQL: Master SQL Fundamentals*. 3rd Edition. O'Reilly Media.
 - **Forta, B.** (2018). *SQL in 10 Minutes, Sams Teach Yourself*. 5th Edition. Sams Publishing.
 - **Silberschatz, A., Korth, H., & Sudarshan, S.** (2019). *Database System Concepts*. 7th Edition. McGraw-Hill.
+- **Özsu, M. T., & Valduriez, P.** (2020). *Principles of Distributed Database Systems*. 4th Edition. Springer.
+- **Kleppmann, M.** (2017). *Designing Data-Intensive Applications*. O'Reilly Media.
 
 ## 🤝 Como Contribuir
 
@@ -307,7 +349,7 @@ Este material é disponibilizado para fins **educacionais** como parte do curso 
 
 *Material desenvolvido para formar profissionais completos em banco de dados*
 
-📖 **17 módulos** | 🎯 **4 projetos práticos** | 💻 **Centenas de exemplos**
+📖 **17 módulos SQL** | 🌐 **Sistemas Distribuídos** | 🎯 **4 projetos práticos** | 💻 **Centenas de exemplos**
 
 </div>
 
