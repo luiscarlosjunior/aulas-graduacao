@@ -22,7 +22,7 @@ Converta para **decimal** usando o método dos pesos posicionais:
 | f) | 100₈ | 8 | |
 | g) | 100₁₆ | 16 | |
 
-> 💡 **Observe os itens e, f, g:** O mesmo número "100" tem valores completamente diferentes dependendo da base!
+> 💡 **Observe os itens e, f e g:** O mesmo número "100" tem valores completamente diferentes dependendo da base!
 
 ---
 

@@ -49,7 +49,7 @@ h) ( ) Charles Babbage conseguiu construir completamente sua Máquina Analítica
 Associe cada inventor/cientista à sua principal contribuição:
 
 | | Inventor | | Contribuição |
-|-|----------|---|-------------|
+|---|----------|---|-------------|
 | 1 | Charles Babbage | ( ) | Primeira calculadora mecânica (Pascalina) |
 | 2 | Ada Lovelace | ( ) | Máquina tabuladora / fundação da IBM |
 | 3 | Blaise Pascal | ( ) | Invenção do transistor |
