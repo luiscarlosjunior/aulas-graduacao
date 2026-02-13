@@ -1,8 +1,8 @@
-# 🚀 Disciplina de Projetos - Desenvolvimento de Software para a Sociedade
+# Disciplina de Projetos - Desenvolvimento de Software para a Sociedade
 
 > Desenvolva software que impacta positivamente a sociedade, aplicando conceitos de empreendedorismo, gestão de projetos e tecnologia
 
-## 🎯 Comece Aqui
+## Comece Aqui
 
 **Novo na disciplina?** Escolha seu caminho:
 
@@ -13,11 +13,11 @@
 
 ---
 
-## 📋 Visão Geral da Disciplina
+## Visão Geral da Disciplina
 
 Esta disciplina tem como objetivo **orientar estudantes na construção de software com impacto social**, simulando o desenvolvimento de uma ideia ou negócio real. Os alunos trabalharão em grupo ou individualmente, aplicando tecnologia para resolver problemas reais da sociedade.
 
-### 🎯 Objetivos de Aprendizagem
+### Objetivos de Aprendizagem
 
 Ao final desta disciplina, você será capaz de:
 
@@ -30,7 +30,7 @@ Ao final desta disciplina, você será capaz de:
 
 ---
 
-## 👥 Estrutura do Projeto
+## Estrutura do Projeto
 
 ### Composição da Equipe
 - **Mínimo**: 1 aluno (projeto individual)
@@ -81,7 +81,7 @@ Foque em:
 
 ---
 
-## 🎓 Metodologia de Desenvolvimento
+## Metodologia de Desenvolvimento
 
 ### 1️⃣ Identificação do Problema
 
@@ -384,7 +384,7 @@ A apresentação pode ser **online (vídeo) ou presencial**.
 
 ---
 
-## 📝 Como Documentar Melhorias em Projetos Existentes
+## Como Documentar Melhorias em Projetos Existentes
 
 Se você optar por melhorar um projeto existente, siga este guia de documentação acadêmica:
 
@@ -482,7 +482,7 @@ Documente com evidências visuais:
 Sempre cite fontes acadêmicas e profissionais:
 
 ```markdown
-## 📚 Referências
+## Referências
 
 1. SOMMERVILLE, Ian. **Engenharia de Software**. 10ª ed. Pearson, 2018.
 2. MARTIN, Robert C. **Código Limpo: Habilidades Práticas do Agile Software**. Alta Books, 2009.
@@ -492,7 +492,7 @@ Sempre cite fontes acadêmicas e profissionais:
 
 ---
 
-## 🎨 Sugestões de Temas de Projetos
+## Sugestões de Temas de Projetos
 
 ### 🏥 Área: Saúde
 
@@ -580,7 +580,7 @@ Sempre cite fontes acadêmicas e profissionais:
 
 ---
 
-## 📚 Referências e Material de Apoio
+## Referências e Material de Apoio
 
 ### Livros Recomendados
 
@@ -659,7 +659,7 @@ Sempre cite fontes acadêmicas e profissionais:
 
 ---
 
-## ❓ Perguntas Frequentes (FAQ)
+## Perguntas Frequentes (FAQ)
 
 ### Sobre o Projeto
 
@@ -722,14 +722,7 @@ R: Documente no GitHub (commits, issues, PRs) e comunique o professor. A avalia�
 
 1. **Dúvidas sobre Git/GitHub**: Consulte o [guia completo](../versionamento/README.md)
 2. **Dúvidas sobre o projeto**: Abra uma issue no repositório do projeto
-3. **Dúvidas sobre a disciplina**: Entre em contato com o professor
-
-### Canais de Comunicação
-
-- 💬 **Discord/Slack da turma**: Para dúvidas rápidas
-- 📧 **Email do professor**: Para questões administrativas
-- 📝 **Issues no GitHub**: Para problemas técnicos
-- 🤝 **Horário de atendimento**: [Consulte o calendário]
+3. **Dúvidas sobre a disciplina**: Entre em contato com o professor nas aulas de pré-aula
 
 ---
 
@@ -799,7 +792,7 @@ Use este checklist para garantir que seu projeto está no caminho certo:
 
 ---
 
-## 🏆 Exemplos de Projetos de Sucesso
+## Exemplos de Projetos
 
 ### Projeto 1: "Vizinho Solidário"
 **Equipe:** 4 alunos  
@@ -853,7 +846,7 @@ Lembre-se:
 - ✅ **Comunique-se**: Com a equipe e com o professor
 - ✅ **Aprenda e divirta-se**: Este é um ambiente seguro para experimentar
 
-**Bom projeto a todos! 🚀**
+**Bom projeto a todos!**
 
 ---
 
@@ -863,6 +856,6 @@ Lembre-se:
 
 *Parte do repositório Aulas de Graduação - Ciência da Computação*
 
-*Desenvolvendo tecnologia que importa* 💻🌍
+*Desenvolvendo tecnologia que importa*
 
 </div>
