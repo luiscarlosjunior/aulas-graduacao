@@ -2,6 +2,17 @@
 
 > Desenvolva software que impacta positivamente a sociedade, aplicando conceitos de empreendedorismo, gestão de projetos e tecnologia
 
+## 🎯 Comece Aqui
+
+**Novo na disciplina?** Escolha seu caminho:
+
+- 📖 **[Guia Rápido - Primeiros Passos](guia-rapido.md)** ← Comece por aqui!
+- 📝 **[Template: Proposta de Projeto Novo](template-proposta-projeto.md)** - Para projetos do zero
+- 🔄 **[Template: Melhorias em Projeto Existente](template-melhorias-projeto.md)** - Para evoluir projetos
+- 💻 **[Aprenda Git/GitHub](../versionamento/README.md)** - Essencial para a disciplina
+
+---
+
 ## 📋 Visão Geral da Disciplina
 
 Esta disciplina tem como objetivo **orientar estudantes na construção de software com impacto social**, simulando o desenvolvimento de uma ideia ou negócio real. Os alunos trabalharão em grupo ou individualmente, aplicando tecnologia para resolver problemas reais da sociedade.
