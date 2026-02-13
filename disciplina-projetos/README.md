@@ -272,7 +272,7 @@ A avaliação é dividida em três componentes principais:
 ### 📈 Critério 1: Uso do GitHub (40%)
 
 #### Frequência de Commits (10 pontos)
-- **9-10 pts**: 20+ commits bem distribuídos ao longo do semestre
+- **9-10 pts**: 20+ commits bem distribuídos ao longo dos 3 meses
 - **7-8 pts**: 15-19 commits distribuídos
 - **5-6 pts**: 10-14 commits ou concentrados no final
 - **3-4 pts**: 5-9 commits
@@ -558,7 +558,7 @@ Sempre cite fontes acadêmicas e profissionais:
 **Tecnologias:** React Native + Firebase + Google Maps  
 **Escopo 3 meses:** Avaliação de locais, mapa, filtros de acessibilidade
 
-#### 10. Leitor de Textos com IA para Deficientes Visuais
+#### 10. Leitor de Textos com IA para pessoas com deficiência visual
 **Problema:** Dificuldade de acesso a conteúdo escrito  
 **Solução:** App que fotografa e lê textos em voz alta  
 **Tecnologias:** React Native + OCR API + Text-to-Speech  
