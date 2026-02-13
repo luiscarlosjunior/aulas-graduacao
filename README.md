@@ -10,7 +10,7 @@ Este repositório contém uma coleção abrangente de exemplos práticos, exerc�
 
 ## 📚 Áreas Disciplinares
 
-Este repositório está organizado em **6 áreas principais** que cobrem os fundamentos essenciais da computação:
+Este repositório está organizado em **7 áreas principais** que cobrem os fundamentos essenciais da computação:
 
 ### 💻 [Programação](programacao/) - Programação Multiplataforma
 
@@ -125,6 +125,40 @@ Disciplina que combina matemática e programação para resolver problemas cient
 - `05-arquiteturas-git.md` - Diferentes workflows e quando usar cada um
 - `06-como-usar-github.md` - Guia completo do GitHub
 
+---
+
+### 🚀 [Disciplina de Projetos](disciplina-projetos/) - Desenvolvimento de Software para a Sociedade
+
+Disciplina prática focada no desenvolvimento de projetos com impacto social, combinando empreendedorismo, gestão e tecnologia.
+
+**🎯 O que você aprenderá:**
+- **Identificação de problemas**: Design Thinking e validação de ideias
+- **Desenvolvimento de software**: Criação de soluções tecnológicas para problemas reais
+- **Trabalho em equipe**: Colaboração profissional em grupos de 1-8 alunos
+- **Gestão de projetos**: Metodologias ágeis, Scrum e uso profissional do GitHub
+- **Apresentação de resultados**: Comunicação técnica e demonstração de projetos
+
+**📊 Sistema de Avaliação:**
+- **40%** - Uso correto do GitHub (commits, issues, pull requests, projects)
+- **30%** - Apresentação do projeto (online ou presencial)
+- **30%** - Qualidade e impacto social do software desenvolvido
+
+**📁 Conteúdo:**
+- Metodologias de identificação de problemas sociais
+- 12 sugestões de temas de projetos (Saúde, Educação, Meio Ambiente, Comunidade, Acessibilidade)
+- Guia completo de uso do GitHub para projetos
+- Como documentar melhorias em projetos existentes
+- Referências sobre empreendedorismo, Lean Startup e Design Thinking
+- Checklist de sucesso e exemplos de projetos bem-sucedidos
+
+**💡 Características:**
+- Projetos podem ser novos ou melhorias de existentes
+- Escopo adequado para 3 meses de desenvolvimento
+- Foco em MVP (Minimum Viable Product) funcional
+- Integração obrigatória com GitHub para versionamento e gestão
+
+---
+
 ## 🚀 Como Usar Este Repositório
 
 ### 👥 Público-alvo
@@ -156,6 +190,7 @@ Disciplina que combina matemática e programação para resolver problemas cient
 | **Ciência de Dados** | Python, Pandas, NumPy | Jupyter Notebook, Matplotlib |
 | **Web** | HTML, CSS, JavaScript, REST | Servidores web, Postman |
 | **Modelagem** | UML, POO | Draw.io, Ferramentas UML |
+| **Gestão de Projetos** | Git, GitHub, Metodologias Ágeis | GitHub Projects, Issues, Pull Requests |
 
 ## 🤝 Como contribuir
 Contribuições são muito bem-vindas! Este é um projeto educacional colaborativo.
@@ -180,6 +215,8 @@ Contribuições são muito bem-vindas! Este é um projeto educacional colaborati
 - ✅ **Programação**: Conteúdo completo e atualizado (Java, PHP, Python, C#)
 - ✅ **Banco de Dados**: Curso SQL estruturado com 17 módulos + projetos práticos
 - ✅ **Modelagem de Sistemas**: Diagramas UML e exemplos práticos
+- ✅ **Versionamento**: Guia completo de Git e GitHub
+- ✅ **Disciplina de Projetos**: Material completo de gestão e desenvolvimento de projetos sociais
 - 🔄 **Ciência de Dados**: Em expansão contínua
 - 🔄 **Métodos Numéricos**: Notebooks em desenvolvimento
 
