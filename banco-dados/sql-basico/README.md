@@ -257,7 +257,7 @@ COMMIT, ROLLBACK, SAVEPOINT, SELECT
 ### Progressão Recomendada:
 ```
 Módulo 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09
-(1 sem)  (3d)  (1s)  (1s)  (1s)  (1s)  (1s)  (1s)  (1s)
+(1 semana)  (3 dias)  (1 semana)  (1 semana)  (1 semana)  (1 semana)  (1 semana)  (1 semana)  (1 semana)
 ```
 
 ### Sequência por Tipo de Comando:
