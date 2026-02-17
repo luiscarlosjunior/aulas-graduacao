@@ -4,6 +4,22 @@
 
 Esta área reúne todo o conteúdo relacionado a bancos de dados, incluindo o curso completo de SQL, modelagem, procedimentos armazenados e projetos práticos. Todo o material está organizado de forma progressiva para facilitar o aprendizado.
 
+## 🗺️ Guia de Navegação Rápida
+
+| Área | Nível | Duração | Descrição |
+|------|-------|---------|-----------|
+| **[SQL Básico](sql-basico/)** | 🟢 Iniciante | 6-8 sem | Fundamentos de SQL (CREATE, INSERT, SELECT básico) |
+| **[SQL Avançado](sql-avancado/)** | 🟡 Intermediário | 6-8 sem | JOINs, Subqueries, Functions, UPDATE/DELETE |
+| **[Modelagem de Dados](modelagem-banco-dados/)** | 🟡 Intermediário | 4-6 sem | MER, Normalização, Álgebra Relacional |
+| **[Scripts SQL](scripts-sql/)** | 🟢 Todos | Consulta | Coleção por SGBD (MySQL, Oracle, PostgreSQL, SQL Server) |
+| **[Linguagem Procedure](linguagem-procedure/)** | 🔴 Avançado | 3-4 sem | PL/SQL, Procedures, Functions, Triggers |
+| **[Sistemas Distribuídos](sistemas-distribuidos/)** | 🔴 Avançado | 4-6 sem | Arquiteturas distribuídas, CAP, Consenso |
+| **[Projetos Práticos](projetos/)** | 🟡 Intermediário | Variável | Aplicações completas (Streaming, E-commerce, etc.) |
+
+💡 **Dica**: Cada área tem seu próprio README detalhado. Clique nos links acima para explorar!
+
+📖 **Não sabe por onde começar?** Consulte o **[Mapa de Aprendizado](MAPA-APRENDIZADO.md)** com trilhas personalizadas para diferentes perfis!
+
 ## 📚 Conteúdo Organizado
 
 ### 📖 [SQL Básico](sql-basico/) - Fundamentos de SQL
@@ -356,3 +372,32 @@ Este material é disponibilizado para fins **educacionais** como parte do curso 
 ## 📚 Conteúdo Adicional
 
 Para mais informações sobre o curso completo de SQL, consulte: [CURSO-SQL-README.md](CURSO-SQL-README.md)
+
+---
+
+## 📋 Sobre a Organização deste Diretório
+
+Esta área foi cuidadosamente organizada para proporcionar a melhor experiência de aprendizado:
+
+### 🗂️ Estrutura Pedagógica
+- **Progressão Clara**: Do básico ao avançado em cada área
+- **READMEs Detalhados**: Cada diretório principal tem documentação completa
+- **Trilhas de Aprendizado**: Múltiplas rotas conforme seu objetivo
+- **Exemplos Práticos**: Centenas de scripts SQL prontos para usar
+
+### 🎯 Como Navegar
+1. **Iniciantes**: Comece por [SQL Básico](sql-basico/) ou [Modelagem](modelagem-banco-dados/)
+2. **Intermediários**: Vá para [SQL Avançado](sql-avancado/) ou [Projetos](projetos/)
+3. **Avançados**: Explore [Linguagem Procedure](linguagem-procedure/) ou [Sistemas Distribuídos](sistemas-distribuidos/)
+4. **Consulta Rápida**: Use [Scripts SQL](scripts-sql/) para referências específicas
+
+### 📖 Cada README Contém
+- ✅ Objetivos de aprendizado claros
+- ✅ Duração estimada de estudo
+- ✅ Pré-requisitos necessários
+- ✅ Ferramentas recomendadas
+- ✅ Trilhas de aprendizado sugeridas
+- ✅ Próximos passos após conclusão
+
+### 🔗 Interconexão
+Todos os READMEs estão interligados com links para áreas relacionadas, facilitando a navegação e criando uma experiência de aprendizado integrada.
