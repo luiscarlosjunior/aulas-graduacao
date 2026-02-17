@@ -18,6 +18,8 @@ Esta área reúne todo o conteúdo relacionado a bancos de dados, incluindo o cu
 
 💡 **Dica**: Cada área tem seu próprio README detalhado. Clique nos links acima para explorar!
 
+📖 **Não sabe por onde começar?** Consulte o **[Mapa de Aprendizado](MAPA-APRENDIZADO.md)** com trilhas personalizadas para diferentes perfis!
+
 ## 📚 Conteúdo Organizado
 
 ### 📖 [SQL Básico](sql-basico/) - Fundamentos de SQL
