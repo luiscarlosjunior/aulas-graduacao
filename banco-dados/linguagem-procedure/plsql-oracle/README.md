@@ -252,7 +252,7 @@ Este material foi desenvolvido com base nas seguintes referências:
 
 ---
 
-## 🤝 Como Usar Este Material
+## 🗂️ Navegação e Estrutura
 
 ### Navegação por Tópico:
 - Para **revisar SQL**: Comece com `01-conceito-sql/`
