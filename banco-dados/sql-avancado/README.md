@@ -409,9 +409,9 @@ Ao completar SQL Avançado, você será capaz de:
 
 ### Otimização de Consultas:
 1. **Use índices**: Em colunas usadas em WHERE e JOIN
-2. **INNER JOIN vs LEFT JOIN**: INNER é mais rápido
-3. **WHERE antes de JOIN**: Filtre dados cedo
-4. **Subquery vs JOIN**: Teste ambos
+2. **INNER JOIN vs LEFT JOIN**: em geral, `INNER JOIN` pode ser mais eficiente quando você não precisa de linhas sem correspondência — confirme sempre com `EXPLAIN/EXPLAIN PLAN`
+3. **Filtre o mais cedo possível**: use `WHERE` (ou condições no `ON`) para reduzir o volume de dados que participa dos JOINs, lembrando que o otimizador pode reordenar operações
+4. **Subquery vs JOIN**: teste ambas as abordagens e compare os planos de execução
 5. **DISTINCT com cuidado**: Pode ser custoso
 6. **Limite resultados**: Use LIMIT/TOP quando possível
 
