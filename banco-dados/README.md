@@ -10,9 +10,9 @@ Esta área reúne todo o conteúdo relacionado a bancos de dados, incluindo o cu
 |------|-------|---------|-----------|
 | **[SQL Básico](sql-basico/)** | 🟢 Iniciante | 6-8 sem | Fundamentos de SQL (CREATE, INSERT, SELECT básico) |
 | **[SQL Avançado](sql-avancado/)** | 🟡 Intermediário | 6-8 sem | JOINs, Subqueries, Functions, UPDATE/DELETE |
-| **[Modelagem de Dados](modelagem-banco-dados/)** | 🟢 Iniciante | 7-11 sem | MER, Normalização, Álgebra Relacional |
+| **[Modelagem de Dados](modelagem-banco-dados/)** | 🟡 Intermediário | 4-6 sem | MER, Normalização, Álgebra Relacional |
 | **[Scripts SQL](scripts-sql/)** | 🟢 Todos | Consulta | Coleção por SGBD (MySQL, Oracle, PostgreSQL, SQL Server) |
-| **[Linguagem Procedure](linguagem-procedure/)** | 🔴 Avançado | 8-12 sem | PL/SQL, Procedures, Functions, Triggers |
+| **[Linguagem Procedure](linguagem-procedure/)** | 🔴 Avançado | 3-4 sem | PL/SQL, Procedures, Functions, Triggers |
 | **[Sistemas Distribuídos](sistemas-distribuidos/)** | 🔴 Avançado | 4-6 sem | Arquiteturas distribuídas, CAP, Consenso |
 | **[Projetos Práticos](projetos/)** | 🟡 Intermediário | Variável | Aplicações completas (Streaming, E-commerce, etc.) |
 
