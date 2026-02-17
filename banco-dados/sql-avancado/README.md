@@ -310,7 +310,7 @@ TRUNCATE TABLE temp_data;
 ### Progressão Recomendada:
 ```
 Módulo 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17
-(1 sem)  (1s)  (1s)  (1s) (1-2s) (1s)  (1s)  (1s)
+(1 sem)  (1 sem)  (1 sem)  (1 sem) (1-2 sem) (1 sem)  (1 sem)  (1 sem)
 ```
 
 ### Sequência por Importância:
