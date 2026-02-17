@@ -69,7 +69,7 @@ Este documento apresenta diferentes caminhos de aprendizado para dominar banco d
 ### 💼 Desenvolvedor Web
 **Objetivo**: SQL prático para aplicações web (CRUD, consultas)
 
-**Tempo total estimado**: 1.5-2 meses
+**Tempo total estimado**: 1,5 a 2 meses
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
