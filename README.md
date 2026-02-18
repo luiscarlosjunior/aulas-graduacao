@@ -10,9 +10,23 @@ Este repositório contém uma coleção abrangente de exemplos práticos, exerc�
 
 ## 📚 Áreas Disciplinares
 
-Este repositório está organizado em **7 áreas principais** que cobrem os fundamentos essenciais da computação:
+Este repositório está organizado em **5 grandes áreas do conhecimento** que cobrem toda a grade curricular de Ciência da Computação, seguindo uma progressão pedagógica do básico ao avançado:
 
-### 💻 [Programação](programacao/) - Programação Multiplataforma
+---
+
+### 1️⃣ 💻 [Fundamentos de Computação](01-fundamentos-computacao/)
+
+Disciplinas fundamentais que formam a base para todos os estudos em computação.
+
+**🎯 Disciplinas:**
+- **Organização de Computadores**: Arquitetura, sistemas de numeração, portas lógicas, memória, CPU, ISA
+- **Perguntas sobre Computação**: Revisão e consolidação de conceitos fundamentais
+
+[📖 Explorar Fundamentos →](01-fundamentos-computacao/)
+
+---
+
+### 2️⃣ 💻 [Programação](02-programacao/) - Programação Multiplataforma
 
 Área focada no desenvolvimento de habilidades de programação em múltiplas linguagens e paradigmas.
 
@@ -31,10 +45,13 @@ Este repositório está organizado em **7 áreas principais** que cobrem os fund
 - `csharp/` - Programação C# e .NET
 - `java-ee/` - Java Enterprise Edition
 - `programacao-java-web/` - Desenvolvimento web com Java
+- `depuracao/` - Técnicas de debugging e resolução de problemas
+
+[📖 Explorar Programação →](02-programacao/)
 
 ---
 
-### 🗄️ [Banco de Dados](banco-dados/) - Sistemas de Banco de Dados
+### 3️⃣ 🗄️ [Banco de Dados](03-banco-dados/) - Sistemas de Banco de Dados
 
 Área dedicada ao estudo completo de sistemas de gerenciamento de banco de dados, desde fundamentos até SQL avançado.
 
@@ -52,110 +69,68 @@ Este repositório está organizado em **7 áreas principais** que cobrem os fund
 - `modelagem-banco-dados/` - Conceitos e práticas de modelagem
 - `linguagem-procedure/` - PL/SQL e procedimentos armazenados
 - `scripts-sql/` - Coleção de scripts organizados por SGBD
+- `sistemas-distribuidos/` - Bancos de dados distribuídos
+
+[📖 Explorar Banco de Dados →](03-banco-dados/)
 
 ---
 
----
+### 4️⃣ 📊 [Ciência de Dados e Computação Científica](04-ciencia-dados-computacao-cientifica/)
 
-### 📊 [Ciência de Dados](ciencia-dados/) - Ciência de Dados
-
-Área focada em análise de dados, estatística e descoberta de conhecimento.
+Área que combina análise de dados, estatística, métodos numéricos e computação científica.
 
 **🎯 O que você aprenderá:**
-- **Análise de dados** com Python e bibliotecas especializadas
+
+**Ciência de Dados:**
+- **Análise de dados** com Python e bibliotecas especializadas (Pandas, NumPy)
 - **Visualização de dados** e criação de dashboards
 - **Estatística aplicada** para tomada de decisões
 - **Processamento de dados** e limpeza de datasets
+- **Pré-processamento** para machine learning
 
-**📁 Estrutura:**
-- `python/` - Notebooks Jupyter com análises práticas
-- `analise-dados/` - Projetos de análise exploratória
-
----
-
-### 🧮 [Métodos Numéricos](metodos-numericos/) - Computação Científica
-
-Disciplina que combina matemática e programação para resolver problemas científicos.
-
-**🎯 O que você aprenderá:**
+**Métodos Numéricos:**
 - **Algoritmos numéricos** para solução de equações
 - **Análise de erros** em computação científica  
 - **Método dos Mínimos Quadrados** para ajuste de curvas
 - **Implementação em Python** com NumPy e Matplotlib
 
-**📓 Notebooks disponíveis:**
-- Introdução ao Python para Métodos Numéricos
-- Noções de Erros e Propagação
-- Método dos Mínimos Quadrados (MMQ)
+**📁 Estrutura:**
+- `ciencia-dados/` - Notebooks Jupyter, análise exploratória, projetos práticos
+- `metodos-numericos/` - Computação científica, algoritmos numéricos, MMQ
+
+[📖 Explorar Ciência de Dados →](04-ciencia-dados-computacao-cientifica/)
 
 ---
 
-### 📐 [Modelagem de Sistemas](modelagem-sistemas/) - UML e Orientação a Objetos
+### 5️⃣ 🚀 [Engenharia de Software](05-engenharia-software/)
 
-Área dedicada ao design e modelagem de sistemas usando UML.
+Área dedicada ao desenvolvimento profissional de software, boas práticas, modelagem e gestão de projetos.
 
 **🎯 O que você aprenderá:**
-- **Diagramas UML** (casos de uso, classes, sequência)
+
+**Modelagem de Sistemas:**
+- **Diagramas UML** (casos de uso, classes, sequência, atividades)
 - **Princípios de POO** aplicados ao design de sistemas
-- **Padrões de projeto** e boas práticas
-- **Modelagem de software** do requisito à implementação
+- **Padrões de projeto** e boas práticas de design
+- **Arquitetura de software** e design patterns
 
-**📁 Conteúdo:**
-- `uml-poo/` - Diagramas UML e exemplos práticos de orientação a objetos
-
----
-
-### 🔄 [Versionamento](versionamento/) - Git e GitHub
-
-Área dedicada ao controle de versão e colaboração usando Git e GitHub.
-
-**🎯 O que você aprenderá:**
-- **Fundamentos de Git**: Conceitos acadêmicos e práticos de controle de versão
-- **História do Git**: Origem, evolução e impacto no desenvolvimento de software
-- **Algoritmos do Git**: Como Git funciona internamente (objetos, DAG, SHA-1)
+**Versionamento:**
+- **Git**: Fundamentos, algoritmos internos, workflows profissionais
+- **GitHub**: Issues, Pull Requests, Actions, Pages, colaboração open source
 - **Boas Práticas**: Metodologias de Microsoft, Google, GitLab e Atlassian
-- **Workflows Git**: Git Flow, GitHub Flow, GitLab Flow, Trunk-Based Development
-- **GitHub Completo**: Issues, Pull Requests, Actions, Pages e colaboração open source
+
+**Disciplina de Projetos:**
+- **Design Thinking** e identificação de problemas sociais
+- **Desenvolvimento de MVP** funcional em 3 meses
+- **Gestão de projetos**: Metodologias ágeis e Scrum
+- **Trabalho em equipe** e apresentação de resultados
 
 **📁 Estrutura:**
-- `01-introducao-academica.md` - Introdução teórica ao controle de versão
-- `02-historia-git.md` - História e evolução do Git
-- `03-algoritmo-git.md` - Estrutura interna e algoritmos do Git
-- `04-trabalhando-com-git.md` - Boas práticas profissionais
-- `05-arquiteturas-git.md` - Diferentes workflows e quando usar cada um
-- `06-como-usar-github.md` - Guia completo do GitHub
+- `modelagem-sistemas/` - UML, POO, padrões de projeto
+- `versionamento/` - Git, GitHub, workflows e boas práticas
+- `disciplina-projetos/` - Projetos com impacto social, gestão ágil
 
----
-
-### 🚀 [Disciplina de Projetos](disciplina-projetos/) - Desenvolvimento de Software para a Sociedade
-
-Disciplina prática focada no desenvolvimento de projetos com impacto social, combinando empreendedorismo, gestão e tecnologia.
-
-**🎯 O que você aprenderá:**
-- **Identificação de problemas**: Design Thinking e validação de ideias
-- **Desenvolvimento de software**: Criação de soluções tecnológicas para problemas reais
-- **Trabalho em equipe**: Colaboração profissional em grupos de 1-8 alunos
-- **Gestão de projetos**: Metodologias ágeis, Scrum e uso profissional do GitHub
-- **Apresentação de resultados**: Comunicação técnica e demonstração de projetos
-
-**📊 Sistema de Avaliação:**
-- **40%** - Uso correto do GitHub (commits, issues, pull requests, projects)
-- **30%** - Apresentação do projeto (online ou presencial)
-- **30%** - Qualidade e impacto social do software desenvolvido
-
-**📁 Conteúdo:**
-- Metodologias de identificação de problemas sociais
-- 12 sugestões de temas de projetos (Saúde, Educação, Meio Ambiente, Comunidade, Acessibilidade)
-- Guia completo de uso do GitHub para projetos
-- Como documentar melhorias em projetos existentes
-- Referências sobre empreendedorismo, Lean Startup e Design Thinking
-- Checklist de sucesso e exemplos de projetos bem-sucedidos
-
-**💡 Características:**
-- Projetos podem ser novos ou melhorias de existentes
-- Escopo adequado para 3 meses de desenvolvimento
-- Foco em MVP (Minimum Viable Product) funcional
-- Integração obrigatória com GitHub para versionamento e gestão
+[📖 Explorar Engenharia de Software →](05-engenharia-software/)
 
 ---
 
@@ -185,12 +160,11 @@ Disciplina prática focada no desenvolvimento de projetos com impacto social, co
 
 | Área | Tecnologias | Ferramentas |
 |------|------------|-------------|
+| **Fundamentos** | Arquitetura, Sistemas Numéricos, Lógica Digital | Simuladores de circuitos |
 | **Programação** | Java, PHP, Python, C# | IDEs, Git, Maven, Composer |
 | **Banco de Dados** | SQL, PL/SQL, Oracle, MySQL, PostgreSQL | Oracle DB, SQL Developer, MySQL Workbench |
-| **Ciência de Dados** | Python, Pandas, NumPy | Jupyter Notebook, Matplotlib |
-| **Web** | HTML, CSS, JavaScript, REST | Servidores web, Postman |
-| **Modelagem** | UML, POO | Draw.io, Ferramentas UML |
-| **Gestão de Projetos** | Git, GitHub, Metodologias Ágeis | GitHub Projects, Issues, Pull Requests |
+| **Ciência de Dados** | Python, Pandas, NumPy, Matplotlib | Jupyter Notebook, Scikit-learn |
+| **Engenharia de Software** | UML, Git, GitHub, Metodologias Ágeis | Draw.io, GitHub Projects, Scrum |
 
 ## 🤝 Como contribuir
 Contribuições são muito bem-vindas! Este é um projeto educacional colaborativo.
@@ -212,11 +186,10 @@ Contribuições são muito bem-vindas! Este é um projeto educacional colaborati
 
 ## 📈 Status do Projeto
 
-- ✅ **Programação**: Conteúdo completo e atualizado (Java, PHP, Python, C#)
+- ✅ **Fundamentos de Computação**: Conteúdo completo de organização de computadores (20 aulas)
+- ✅ **Programação**: Conteúdo completo e atualizado (Java, PHP, Python, C#, Java EE, Java Web)
 - ✅ **Banco de Dados**: Curso SQL estruturado com 17 módulos + projetos práticos
-- ✅ **Modelagem de Sistemas**: Diagramas UML e exemplos práticos
-- ✅ **Versionamento**: Guia completo de Git e GitHub
-- ✅ **Disciplina de Projetos**: Material completo de gestão e desenvolvimento de projetos sociais
+- ✅ **Engenharia de Software**: Modelagem UML, Git/GitHub completo, disciplina de projetos
 - 🔄 **Ciência de Dados**: Em expansão contínua
 - 🔄 **Métodos Numéricos**: Notebooks em desenvolvimento
 
