@@ -1,131 +1,235 @@
 # 📋 Guia de Reorganização do Repositório
 
-Este documento explica as mudanças na estrutura de diretórios do repositório e como encontrar o conteúdo na nova organização.
+Este documento explica as mudanças na estrutura de diretórios do repositório e como encontrar o conteúdo na nova organização por áreas de conhecimento acadêmico.
 
 ## 🎯 Objetivo da Reorganização
 
 A reorganização foi realizada para:
 - ✅ Melhorar a clareza e navegabilidade do repositório
-- ✅ Agrupar conteúdo relacionado por disciplinas acadêmicas
-- ✅ Eliminar duplicações e confusões estruturais
-- ✅ Usar nomenclatura consistente em português
+- ✅ Agrupar conteúdo relacionado por **áreas do conhecimento**
+- ✅ Eliminar duplicações (consolidar `programacao/` e `programming/`)
+- ✅ Usar nomenclatura consistente em português com prefixos numéricos
+- ✅ Criar progressão pedagógica clara (fundamentos → programação → dados → engenharia)
 
-## 🔄 Mapeamento de Mudanças
+## 🔄 Mapeamento Completo de Mudanças
 
-### Diretórios Renomeados
+### 📊 Visão Geral das Mudanças
 
-| Antes | Depois | Motivo |
-|-------|--------|--------|
-| `programming/` | `programacao/` | Consistência linguística (português) |
-| `data-science/` | `ciencia-dados/` | Consistência linguística (português) |
-| `modelagem/` | `modelagem-sistemas/` | Maior clareza do propósito |
-
-### Conteúdo Consolidado
-
-#### 📚 Banco de Dados - Consolidação Completa
-
-O diretório `linguagem-sql/` foi **integrado** ao `banco-dados/` para criar uma estrutura unificada:
-
-**Antes:**
-```
-├── banco-dados/
-│   ├── modelagem-banco-dados/
-│   ├── linguagem-procedure/
-│   └── scripts-sql/
-└── linguagem-sql/          ← Separado
-    ├── 01-introducao-modelagem-dados/
-    ├── 02-introducao-historia-sql/
-    ├── ...
-    ├── 17-manipulacao-dados-update-delete/
-    ├── streaming-de-musica/
-    ├── exemplo-ecommerce/
-    └── exemplo-barbearia/
-```
-
-**Depois:**
-```
-banco-dados/                 ← Tudo consolidado
-├── sql-basico/             ← Módulos 01-09
-│   ├── 01-introducao-modelagem-dados/
-│   ├── 02-introducao-historia-sql/
-│   ├── ...
-│   └── 09-controle-transacoes-criacao-relatorios/
-├── sql-avancado/           ← Módulos 10-17
-│   ├── 10-relatorios-filtros-operadores/
-│   ├── 11-relatorios-operadores-aritmeticos/
-│   ├── ...
-│   └── 17-manipulacao-dados-update-delete/
-├── projetos/               ← Todos os exemplos práticos
-│   ├── streaming-de-musica/
-│   ├── exemplo-ecommerce/
-│   ├── exemplo-barbearia/
-│   └── revisao/
-├── modelagem-banco-dados/
-├── linguagem-procedure/
-└── scripts-sql/
-```
+| Antes | Depois | Tipo de Mudança |
+|-------|--------|-----------------|
+| `organizacao-computadores/` | `01-fundamentos-computacao/organizacao-computadores/` | Agrupamento em área |
+| `perguntas-sobre-computacao/` | `01-fundamentos-computacao/perguntas-sobre-computacao/` | Agrupamento em área |
+| `programacao/` + `programming/` | `02-programacao/` | Consolidação + Renomeação |
+| `banco-dados/` | `03-banco-dados/` | Prefixo numérico |
+| `ciencia-dados/` | `04-ciencia-dados-computacao-cientifica/ciencia-dados/` | Agrupamento em área |
+| `metodos-numericos/` | `04-ciencia-dados-computacao-cientifica/metodos-numericos/` | Agrupamento em área |
+| `modelagem-sistemas/` | `05-engenharia-software/modelagem-sistemas/` | Agrupamento em área |
+| `versionamento/` | `05-engenharia-software/versionamento/` | Agrupamento em área |
+| `disciplina-projetos/` | `05-engenharia-software/disciplina-projetos/` | Agrupamento em área |
 
 ## 📍 Como Encontrar Seu Conteúdo
 
-### Se você estava em `programming/`:
-➡️ Agora está em `programacao/`
+### 🆕 ÁREA 1: Fundamentos de Computação
 
-**Exemplos:**
-- `programming/java/` → `programacao/java/`
-- `programming/php/` → `programacao/php/`
-- `programming/python/` → `programacao/python/`
-- `programming/csharp/` → `programacao/csharp/`
-- `programming/java-ee/` → `programacao/java-ee/`
-- `programming/programacao-java-web/` → `programacao/programacao-java-web/`
+**Antes:**
+- Diretório raiz: `organizacao-computadores/`
+- Diretório raiz: `perguntas-sobre-computacao/`
 
-### Se você estava em `data-science/`:
-➡️ Agora está em `ciencia-dados/`
+**Depois:**
+- `01-fundamentos-computacao/organizacao-computadores/`
+- `01-fundamentos-computacao/perguntas-sobre-computacao/`
 
-**Exemplos:**
-- `data-science/python/` → `ciencia-dados/python/`
-- `data-science/analise-dados/` → `ciencia-dados/analise-dados/`
+**Exemplos específicos:**
+- `organizacao-computadores/01-evolucao-historica-computadores/` → `01-fundamentos-computacao/organizacao-computadores/01-evolucao-historica-computadores/`
+- `organizacao-computadores/20-tipos-operacoes-assembly-modos-enderecamento/` → `01-fundamentos-computacao/organizacao-computadores/20-tipos-operacoes-assembly-modos-enderecamento/`
 
-### Se você estava em `linguagem-sql/`:
-➡️ Agora está em `banco-dados/`
+---
 
-**Mapeamento detalhado:**
+### 💻 ÁREA 2: Programação
 
-#### Módulos Básicos (01-09):
-- `linguagem-sql/01-introducao-modelagem-dados/` → `banco-dados/sql-basico/01-introducao-modelagem-dados/`
-- `linguagem-sql/02-introducao-historia-sql/` → `banco-dados/sql-basico/02-introducao-historia-sql/`
-- `linguagem-sql/03-interface-sql-plus-tabelas-regras/` → `banco-dados/sql-basico/03-interface-sql-plus-tabelas-regras/`
-- `linguagem-sql/04-trabalhando-estrutura-tabelas/` → `banco-dados/sql-basico/04-trabalhando-estrutura-tabelas/`
-- `linguagem-sql/05-estrutura-tabelas-regras-relacionamentos/` → `banco-dados/sql-basico/05-estrutura-tabelas-regras-relacionamentos/`
-- `linguagem-sql/06-alteracao-estrutura-tabela/` → `banco-dados/sql-basico/06-alteracao-estrutura-tabela/`
-- `linguagem-sql/07-manipulacao-dados-inserindo-parte-i/` → `banco-dados/sql-basico/07-manipulacao-dados-inserindo-parte-i/`
-- `linguagem-sql/08-manipulacao-dados-inserindo-parte-ii/` → `banco-dados/sql-basico/08-manipulacao-dados-inserindo-parte-ii/`
-- `linguagem-sql/09-controle-transacoes-criacao-relatorios/` → `banco-dados/sql-basico/09-controle-transacoes-criacao-relatorios/`
+**Antes:**
+- Diretório raiz: `programacao/` (português)
+- Diretório raiz: `programming/` (inglês) - **DUPLICADO!**
 
-#### Módulos Avançados (10-17):
-- `linguagem-sql/10-relatorios-filtros-operadores/` → `banco-dados/sql-avancado/10-relatorios-filtros-operadores/`
-- `linguagem-sql/11-relatorios-operadores-aritmeticos/` → `banco-dados/sql-avancado/11-relatorios-operadores-aritmeticos/`
-- `linguagem-sql/12-relatorios-funcoes-banco-dados/` → `banco-dados/sql-avancado/12-relatorios-funcoes-banco-dados/`
-- `linguagem-sql/13-relatorios-subqueries/` → `banco-dados/sql-avancado/13-relatorios-subqueries/`
-- `linguagem-sql/14-relatorios-multiplas-tabelas/` → `banco-dados/sql-avancado/14-relatorios-multiplas-tabelas/`
-- `linguagem-sql/15-operacoes-conjuntos/` → `banco-dados/sql-avancado/15-operacoes-conjuntos/`
-- `linguagem-sql/16-criando-views/` → `banco-dados/sql-avancado/16-criando-views/`
-- `linguagem-sql/17-manipulacao-dados-update-delete/` → `banco-dados/sql-avancado/17-manipulacao-dados-update-delete/`
+**Depois:**
+- `02-programacao/` (consolidado e unificado)
 
-#### Projetos Práticos:
-- `linguagem-sql/streaming-de-musica/` → `banco-dados/projetos/streaming-de-musica/`
-- `linguagem-sql/exemplo-ecommerce/` → `banco-dados/projetos/exemplo-ecommerce/`
-- `linguagem-sql/exemplo-barbearia/` → `banco-dados/projetos/exemplo-barbearia/`
-- `linguagem-sql/revisao/` → `banco-dados/projetos/revisao/`
+**Exemplos específicos:**
+```bash
+# De programacao/
+programacao/java/             → 02-programacao/java/
+programacao/php/              → 02-programacao/php/
+programacao/python/           → 02-programacao/python/
+programacao/csharp/           → 02-programacao/csharp/
+programacao/java-ee/          → 02-programacao/java-ee/
+programacao/programacao-java-web/ → 02-programacao/programacao-java-web/
+programacao/depuracao/        → 02-programacao/depuracao/
 
-#### README Original:
-- `linguagem-sql/README.md` → `banco-dados/CURSO-SQL-README.md`
-- Novo README abrangente criado em: `banco-dados/README.md`
+# De programming/ (conteúdo consolidado em 02-programacao/)
+programming/python/03-conceitos-intermediarios/ → 02-programacao/python/03-conceitos-intermediarios/
+```
 
-### Se você estava em `modelagem/`:
-➡️ Agora está em `modelagem-sistemas/`
+---
 
-**Exemplo:**
-- `modelagem/uml-poo/` → `modelagem-sistemas/uml-poo/`
+### 🗄️ ÁREA 3: Banco de Dados
+
+**Antes:**
+- Diretório raiz: `banco-dados/`
+
+**Depois:**
+- `03-banco-dados/` (prefixo numérico adicionado)
+
+**Estrutura interna mantida (sem mudanças):**
+```bash
+banco-dados/sql-basico/       → 03-banco-dados/sql-basico/
+banco-dados/sql-avancado/     → 03-banco-dados/sql-avancado/
+banco-dados/projetos/         → 03-banco-dados/projetos/
+banco-dados/modelagem-banco-dados/ → 03-banco-dados/modelagem-banco-dados/
+banco-dados/linguagem-procedure/ → 03-banco-dados/linguagem-procedure/
+banco-dados/scripts-sql/      → 03-banco-dados/scripts-sql/
+banco-dados/sistemas-distribuidos/ → 03-banco-dados/sistemas-distribuidos/
+```
+
+---
+
+### 📊 ÁREA 4: Ciência de Dados e Computação Científica
+
+**Antes:**
+- Diretório raiz: `ciencia-dados/`
+- Diretório raiz: `metodos-numericos/` (separado)
+
+**Depois:**
+- `04-ciencia-dados-computacao-cientifica/ciencia-dados/`
+- `04-ciencia-dados-computacao-cientifica/metodos-numericos/`
+
+**Exemplos específicos:**
+```bash
+ciencia-dados/python/         → 04-ciencia-dados-computacao-cientifica/ciencia-dados/python/
+ciencia-dados/analise-dados/  → 04-ciencia-dados-computacao-cientifica/ciencia-dados/analise-dados/
+metodos-numericos/            → 04-ciencia-dados-computacao-cientifica/metodos-numericos/
+```
+
+---
+
+### 🚀 ÁREA 5: Engenharia de Software
+
+**Antes:**
+- Diretório raiz: `modelagem-sistemas/`
+- Diretório raiz: `versionamento/`
+- Diretório raiz: `disciplina-projetos/`
+
+**Depois:**
+- `05-engenharia-software/modelagem-sistemas/`
+- `05-engenharia-software/versionamento/`
+- `05-engenharia-software/disciplina-projetos/`
+
+**Exemplos específicos:**
+```bash
+modelagem-sistemas/uml-poo/   → 05-engenharia-software/modelagem-sistemas/uml-poo/
+versionamento/01-introducao-academica.md → 05-engenharia-software/versionamento/01-introducao-academica.md
+disciplina-projetos/          → 05-engenharia-software/disciplina-projetos/
+```
+
+## 🔍 Busca Rápida por Arquivo
+
+Se você está procurando um arquivo específico, use esta tabela de referência rápida:
+
+| Tipo de Arquivo | Localização Anterior | Nova Localização |
+|-----------------|---------------------|-------------------|
+| Aulas de Organização de Computadores | `organizacao-computadores/*/` | `01-fundamentos-computacao/organizacao-computadores/*/` |
+| Exemplos Java | `programacao/java/` ou `programming/java/` | `02-programacao/java/` |
+| Exemplos PHP | `programacao/php/` | `02-programacao/php/` |
+| Exemplos Python básicos | `programacao/python/` | `02-programacao/python/` |
+| Notebooks Jupyter (Ciência de Dados) | `ciencia-dados/python/` | `04-ciencia-dados-computacao-cientifica/ciencia-dados/python/` |
+| Notebooks Métodos Numéricos | `metodos-numericos/` | `04-ciencia-dados-computacao-cientifica/metodos-numericos/` |
+| Scripts SQL | `banco-dados/scripts-sql/` | `03-banco-dados/scripts-sql/` |
+| Projetos SQL | `banco-dados/projetos/` | `03-banco-dados/projetos/` |
+| Diagramas UML | `modelagem-sistemas/uml-poo/` | `05-engenharia-software/modelagem-sistemas/uml-poo/` |
+| Guias Git/GitHub | `versionamento/` | `05-engenharia-software/versionamento/` |
+| Material Disciplina de Projetos | `disciplina-projetos/` | `05-engenharia-software/disciplina-projetos/` |
+
+## 📚 Novos READMEs Criados
+
+Novos arquivos README foram criados para cada área de conhecimento:
+
+1. **`01-fundamentos-computacao/README.md`** - Guia completo de fundamentos
+2. **`02-programacao/README.md`** - Existente, mantido como está  
+3. **`03-banco-dados/README.md`** - Existente, mantido como está
+4. **`04-ciencia-dados-computacao-cientifica/README.md`** - Novo guia da área
+5. **`05-engenharia-software/README.md`** - Novo guia da área
+
+## 🛠️ Para Desenvolvedores
+
+### Atualizando Links no Código
+
+Se você tem links hardcoded no seu código ou documentação, use estas substituições:
+
+```bash
+# Bash/Scripts
+sed -i 's|programacao/|02-programacao/|g' seu_arquivo.md
+sed -i 's|banco-dados/|03-banco-dados/|g' seu_arquivo.md
+sed -i 's|ciencia-dados/|04-ciencia-dados-computacao-cientifica/ciencia-dados/|g' seu_arquivo.md
+sed -i 's|metodos-numericos/|04-ciencia-dados-computacao-cientifica/metodos-numericos/|g' seu_arquivo.md
+sed -i 's|modelagem-sistemas/|05-engenharia-software/modelagem-sistemas/|g' seu_arquivo.md
+sed -i 's|versionamento/|05-engenharia-software/versionamento/|g' seu_arquivo.md
+sed -i 's|disciplina-projetos/|05-engenharia-software/disciplina-projetos/|g' seu_arquivo.md
+```
+
+### Clonando o Repositório Atualizado
+
+```bash
+# Clonar pela primeira vez
+git clone https://github.com/luiscarlosjunior/aulas-graduacao.git
+
+# Atualizar repositório existente
+cd aulas-graduacao
+git pull origin main
+```
+
+## 💡 Dicas para Navegação
+
+1. **Use prefixos numéricos para navegação rápida**: As áreas estão numeradas de 01 a 05, facilitando a ordenação e localização.
+
+2. **Siga a progressão pedagógica**: 
+   - Comece pelos fundamentos (01)
+   - Aprenda programação (02)
+   - Domine banco de dados (03)
+   - Explore ciência de dados (04)
+   - Aplique engenharia de software (05)
+
+3. **Consulte os READMEs específicos**: Cada área tem um README detalhado com orientações específicas.
+
+4. **Use ferramentas de busca**: No GitHub, use `t` para buscar arquivos rapidamente.
+
+## 📋 Checklist de Migração
+
+Para quem estava usando a estrutura antiga:
+
+- [ ] Atualizar bookmarks/favoritos do navegador
+- [ ] Atualizar links em documentos pessoais
+- [ ] Atualizar scripts que referenciam caminhos antigos
+- [ ] Revisar clones locais do repositório (`git pull`)
+- [ ] Explorar novos READMEs das áreas
+
+## ❓ Perguntas Frequentes
+
+### Por que adicionar prefixos numéricos?
+Para criar uma ordem clara de progressão pedagógica e facilitar a navegação.
+
+### Por que agrupar ciência de dados e métodos numéricos?
+Porque ambos tratam de análise de dados e computação científica, sendo áreas complementares.
+
+### Por que agrupar modelagem, versionamento e projetos?
+Porque todas fazem parte de engenharia de software profissional: design, controle de versão e gestão de projetos.
+
+### E se eu tiver links quebrados?
+Consulte a seção "🔍 Busca Rápida por Arquivo" acima ou abra uma issue no GitHub.
+
+---
+
+**📅 Atualizado**: Fevereiro 2025  
+**🎯 Versão**: 2.0 - Reorganização por Áreas de Conhecimento  
+**✅ Status**: Completo e testado
 
 ## 🔗 Links e Bookmarks
 
