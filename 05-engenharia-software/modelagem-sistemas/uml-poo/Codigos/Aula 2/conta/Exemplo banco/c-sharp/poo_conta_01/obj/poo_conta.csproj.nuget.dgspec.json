@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/runner/work/aulas-graduacao/aulas-graduacao/modelagem/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/poo_conta.csproj": {}
+    "/home/runner/work/aulas-graduacao/aulas-graduacao/05-engenharia-software/modelagem-sistemas/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/poo_conta.csproj": {}
   },
   "projects": {
-    "/home/runner/work/aulas-graduacao/aulas-graduacao/modelagem/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/poo_conta.csproj": {
+    "/home/runner/work/aulas-graduacao/aulas-graduacao/05-engenharia-software/modelagem-sistemas/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/poo_conta.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/runner/work/aulas-graduacao/aulas-graduacao/modelagem/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/poo_conta.csproj",
+        "projectUniqueName": "/home/runner/work/aulas-graduacao/aulas-graduacao/05-engenharia-software/modelagem-sistemas/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/poo_conta.csproj",
         "projectName": "poo_conta",
-        "projectPath": "/home/runner/work/aulas-graduacao/aulas-graduacao/modelagem/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/poo_conta.csproj",
-        "packagesPath": "/home/runner/.nuget/packages/",
-        "outputPath": "/home/runner/work/aulas-graduacao/aulas-graduacao/modelagem/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/obj/",
+        "projectPath": "/home/runner/work/aulas-graduacao/aulas-graduacao/05-engenharia-software/modelagem-sistemas/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/poo_conta.csproj",
+        "packagesPath": "/tmp/codeql-scratch-a83eeed0c337a47f/dbs/csharp/working/packages",
+        "outputPath": "/home/runner/work/aulas-graduacao/aulas-graduacao/05-engenharia-software/modelagem-sistemas/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/runner/.nuget/NuGet/NuGet.Config"
@@ -32,7 +32,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -48,12 +54,26 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.25, 8.0.25]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.linux-x64",
+              "version": "[8.0.25, 8.0.25]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.25, 8.0.25]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.118/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
