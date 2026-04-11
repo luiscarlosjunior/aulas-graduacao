@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "AfnrRSI4ew10A6YoJ5y4KPDpHef2YF4bw+YHA+ZV5oW3pHw/MRwByhkFs7NYfdFQgRqxObveOpqJ9aq0AuyaNw==",
+  "dgSpecHash": "4bUt+gpKEWk=",
   "success": true,
-  "projectFilePath": "/home/runner/work/aulas-graduacao/aulas-graduacao/modelagem/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/poo_conta.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/home/runner/work/aulas-graduacao/aulas-graduacao/05-engenharia-software/modelagem-sistemas/uml-poo/Codigos/Aula 2/conta/Exemplo banco/c-sharp/poo_conta_01/poo_conta.csproj",
+  "expectedPackageFiles": [
+    "/tmp/codeql-scratch-a83eeed0c337a47f/dbs/csharp/working/packages/microsoft.netcore.app.ref/8.0.25/microsoft.netcore.app.ref.8.0.25.nupkg.sha512",
+    "/tmp/codeql-scratch-a83eeed0c337a47f/dbs/csharp/working/packages/microsoft.aspnetcore.app.ref/8.0.25/microsoft.aspnetcore.app.ref.8.0.25.nupkg.sha512",
+    "/tmp/codeql-scratch-a83eeed0c337a47f/dbs/csharp/working/packages/microsoft.netcore.app.host.linux-x64/8.0.25/microsoft.netcore.app.host.linux-x64.8.0.25.nupkg.sha512"
+  ],
   "logs": []
 }

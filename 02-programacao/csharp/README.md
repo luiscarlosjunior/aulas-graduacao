@@ -1,204 +1,106 @@
-# Exemplos de C# - Programação e Inteligência Artificial
+# C# e .NET — Trilha de Aprendizado Completa
 
-Este diretório contém exemplos práticos de C#, desde conceitos básicos até aplicações avançadas de inteligência artificial.
+> **De zero a profissional**: este guia foi estruturado por um professor com experiência no mercado para levar você do básico ao avançado em C# e .NET, com foco direto nas habilidades exigidas pelas empresas.
 
-## 📁 Estrutura dos Exemplos
+---
 
-### 1. Conceitos Básicos (`00-conceitos/`)
-Exemplos fundamentais da linguagem C#
+## 🎯 Por que aprender C# e .NET?
 
-### 2. Programação Orientada a Objetos (`oop-exemplos/`)
-Exemplo completo e moderno utilizando .NET 8.0 com todas as boas práticas:
+O **.NET** é uma das plataformas mais utilizadas no mercado corporativo brasileiro e mundial. Com C# você pode construir:
 
-#### Classes Implementadas:
-- **`Conta`** (classe base)
-  - Propriedades: Agencia, NumeroConta, Saldo (encapsulado)
-  - Métodos: Depositar(), Sacar(), ConsultarSaldo()
-  - Demonstra: **Encapsulamento** e **Métodos virtuais**
+- **APIs REST** com ASP.NET Core (back-end de aplicações web e mobile)
+- **Aplicações desktop** com WPF/WinForms/MAUI
+- **Microsserviços** e sistemas distribuídos
+- **Jogos** com Unity
+- **Aplicações cloud** no Azure
 
-- **`ContaPoupanca`** (herda de Conta)
-  - Propriedades adicionais: DiaAniversario, TaxaRendimento
-  - Métodos específicos: CalcularRendimento(), AplicarRendimento()
-  - Demonstra: **Herança** e **Polimorfismo**
+Segundo o Stack Overflow Developer Survey, C# está consistentemente entre as **10 linguagens mais usadas no mundo** e o .NET entre os frameworks mais populares. A demanda no mercado brasileiro por desenvolvedores .NET é enorme, especialmente em fintechs, bancos, consultorias e grandes empresas.
 
-- **`Cliente`**
-  - Propriedades: Nome, CPF, Telefone, Endereco
-  - Composição: Possui uma ContaPoupanca
-  - Demonstra: **Composição/Agregação**
+---
 
-#### Como executar:
+## Pré-requisitos
+
+- Conhecimento básico de lógica de programação
+- Familiaridade com linha de comando (terminal/prompt)
+- Vontade de aprender
+
+---
+
+## Configuração do Ambiente
+
+### 1. Instalar o .NET SDK 8
+
+Acesse https://dotnet.microsoft.com/download e baixe o **.NET 8 SDK**.
+
+Verifique a instalação:
 ```bash
-cd oop-exemplos/BancoExemplo
+dotnet --version
+# Saída esperada: 8.x.x
+
+dotnet --list-sdks
+# Lista todos os SDKs instalados
+```
+
+### 2. Editor recomendado
+
+- **Visual Studio 2022 Community** (gratuito, Windows) — IDE completa
+- **Visual Studio Code** + extensão **C# Dev Kit** — leve, multiplataforma
+- **JetBrains Rider** (pago, mas excelente) — muito usado em empresas
+
+### 3. Primeiro teste
+
+```bash
+dotnet new console -n MeuPrimeiroProjeto
+cd MeuPrimeiroProjeto
 dotnet run
+# Saída: Hello, World!
 ```
 
-### 3. 🧬 Programação Genética (`programacao-genetica/`)
-**NOVO!** Seção completa sobre Programação Genética (Genetic Programming) em C# com:
+---
 
-- 📚 **README Acadêmico Completo**: Mais de 40 páginas de conteúdo cobrindo:
-  - Fundamentos teóricos e matemáticos
-  - História e contexto acadêmico
-  - Conceitos fundamentais (população, cromossomos, fitness, seleção, crossover, mutação)
-  - Algoritmos Genéticos vs Programação Genética
-  - Arquitetura de sistemas GP
-  - Operadores genéticos detalhados
-  - Implementação em C#
-  - Controle de bloat
-  - Melhores práticas
-  - Referências acadêmicas extensivas
+## Trilha de Aprendizado
 
-- 💻 **Exemplos Práticos Funcionais**:
-  
-  #### Exemplo 1: Framework Básico de GP
-  - Implementação completa de um motor de Programação Genética
-  - Representação em árvore de expressões
-  - Operadores genéticos (crossover, mutação, seleção)
-  - Demonstração: Regressão Simbólica (descobre f(x) = x² + 2x + 1)
-  - **Executar**: `cd programacao-genetica/exemplos/01-basic-framework/BasicGPFramework && dotnet run`
-  
-  #### Exemplo 3: Otimização de Rotas com Telemetria (Caminhão-AWS) 🚚📡
-  - **Caso de uso real**: Sistema de entregas com caminhões IoT
-  - **Integração cloud**: Preparado para AWS IoT Core
-  - **Multi-objetivo**: Otimiza distância, tempo, combustível, custo de dados e atrasos
-  - **Telemetria**: Considera custos de transmissão 4G vs WiFi
-  - **Resultado**: Economia de 40%+ em custos operacionais
-  - **Executar**: `cd programacao-genetica/exemplos/03-telemetry-route-optimization/TelemetryRouteOptimization && dotnet run`
+| # | Seção | O que você vai aprender | Tempo estimado |
+|---|-------|------------------------|----------------|
+| 01 | [Introdução ao .NET](./01-introducao-dotnet/) | Runtime, SDK, CLI, NuGet, ecossistema | 2–3 horas |
+| 02 | [Fundamentos do C#](./02-fundamentos-csharp/) | Tipos, operadores, controle de fluxo, coleções | 8–12 horas |
+| 03 | [Orientação a Objetos](./03-orientacao-objetos/) | Classes, herança, interfaces, polimorfismo | 10–15 horas |
+| 04 | [C# Avançado](./04-csharp-avancado/) | Generics, LINQ, async/await, delegates | 12–18 horas |
+| 05 | [.NET Core & DI](./05-dotnet-core/) | Dependency Injection, Host, Configuration | 6–8 horas |
+| 06 | [ASP.NET Core](./06-aspnet-core/) | Minimal API, REST, Swagger, Middleware | 15–20 horas |
+| 07 | [Entity Framework Core](./07-entity-framework/) | ORM, Code First, Migrations, CRUD | 10–15 horas |
+| 08 | [Testes Unitários](./08-testes-unitarios/) | xUnit, AAA pattern, Moq, boas práticas | 8–12 horas |
+| 09 | [IA & Programação Genética](./09-ia-programacao-genetica/) | Algoritmos evolutivos, árvores de expressão | 20+ horas |
 
-#### Aplicações Demonstradas:
-- ✅ Regressão simbólica (descoberta automática de fórmulas)
-- ✅ Otimização de rotas com restrições (VRP com janelas de tempo)
-- ✅ Telemetria IoT e integração cloud (AWS)
-- ✅ Otimização multi-objetivo
-- ✅ Problemas do mundo real da indústria
+**Tempo total estimado:** 90–120 horas para completar toda a trilha com prática.
 
-#### Conceitos de IA/GP Cobertos:
-- 🧬 Algoritmos Evolutivos
-- 🌳 Representação em árvore (AST)
-- 🎯 Funções de fitness multi-objetivo
-- 🔄 Operadores genéticos especializados
-- 📊 Análise de convergência
-- 🛡️ Controle de bloat (parsimony pressure)
-- 🏆 Elitismo e seleção por torneio
-- 📈 Otimização combinatória
+---
 
-**[📖 Acesse o README completo de Programação Genética](programacao-genetica/README.md)**
+## Dicas para Entrevistas de Emprego
 
-## 🎯 Conceitos de POO Demonstrados
+Os tópicos mais cobrados em entrevistas para vagas .NET:
 
-### 1. **Encapsulamento**
-- Campos privados (`_saldo`)
-- Propriedades com validação
-- Controle de acesso aos dados
+1. **Diferença entre `class` e `struct`** — value type vs reference type
+2. **O que são delegates, Action e Func?** — fundamentos de LINQ e eventos
+3. **Como funciona o Garbage Collector?** — gerenciamento de memória
+4. **`async/await` vs threads** — programação assíncrona
+5. **Princípios SOLID** — especialmente S, O e D
+6. **Diferença entre `IEnumerable` e `IQueryable`** — crítico para EF Core
+7. **O que é Dependency Injection?** — obrigatório para .NET moderno
+8. **Quando usar `ref`, `out` e `in`?** — passagem de parâmetros
+9. **Nullable reference types** — C# 8+ feature importante
+10. **Diferença entre `.FirstOrDefault()` e `.SingleOrDefault()`** — LINQ
 
-```csharp
-private decimal _saldo;
-public decimal Saldo 
-{ 
-    get { return _saldo; }
-    protected set 
-    {
-        if (value >= 0)
-            _saldo = value;
-    }
-}
-```
+---
 
-### 2. **Herança**
-- `ContaPoupanca` herda de `Conta`
-- Reutilização de código da classe base
-- Especialização de comportamentos
+## Recursos Complementares
 
-```csharp
-public class ContaPoupanca : Conta
-{
-    public ContaPoupanca(int agencia, int numeroConta, decimal saldoInicial = 0) 
-        : base(agencia, numeroConta, saldoInicial)
-    {
-        // Código específico da conta poupança
-    }
-}
-```
+- [Documentação oficial .NET](https://docs.microsoft.com/dotnet/)
+- [C# Language Reference](https://docs.microsoft.com/dotnet/csharp/language-reference/)
+- [ASP.NET Core docs](https://docs.microsoft.com/aspnet/core/)
+- [EF Core docs](https://docs.microsoft.com/ef/core/)
+- [Padrões de design em C#](https://refactoring.guru/design-patterns/csharp)
 
-### 3. **Polimorfismo**
-- Sobrescrita de métodos (`override`)
-- Métodos virtuais (`virtual`)
-- Comportamento diferente para mesma interface
+---
 
-```csharp
-// Na classe base
-public virtual void ConsultarSaldo() { ... }
-
-// Na classe derivada
-public override void ConsultarSaldo() 
-{
-    Console.WriteLine("=== CONTA POUPANÇA ===");
-    base.ConsultarSaldo();
-    // Informações específicas da poupança
-}
-```
-
-### 4. **Composição/Agregação**
-- `Cliente` "tem uma" `ContaPoupanca`
-- Relacionamento "tem um" ao invés de "é um"
-
-```csharp
-public class Cliente
-{
-    public ContaPoupanca? ContaPoupanca { get; set; }
-    
-    public void CriarContaPoupanca(int agencia, int numeroConta)
-    {
-        ContaPoupanca = new ContaPoupanca(agencia, numeroConta);
-    }
-}
-```
-
-## 🔄 Relacionamentos entre Classes
-
-```
-    Cliente
-       |
-       | tem uma (1:1)
-       ↓
-  ContaPoupanca
-       |
-       | herda de (is-a)
-       ↓
-     Conta
-```
-
-## 💡 Funcionalidades Demonstradas
-
-1. **Operações Bancárias**: Depósito, saque, consulta de saldo
-2. **Rendimento da Poupança**: Cálculo e aplicação automática
-3. **Validações**: Valores negativos, saldo insuficiente
-4. **Relatórios**: Informações detalhadas do cliente e conta
-5. **Polimorfismo em Ação**: Mesma referência, comportamentos diferentes
-
-## 🛠️ Requisitos
-
-- .NET 8.0 ou superior
-- Sistema operacional: Windows, Linux ou macOS
-
-## 📚 Para Estudantes
-
-Este exemplo foi criado para demonstrar como os conceitos teóricos de POO se aplicam na prática:
-
-- **Analise o código**: Veja como cada conceito é implementado
-- **Execute os exemplos**: Observe o comportamento em runtime
-- **Modifique o código**: Adicione novas funcionalidades
-- **Experimente**: Crie novos tipos de conta ou operações
-
-### Exercícios Sugeridos:
-
-1. Criar uma classe `ContaCorrente` que também herda de `Conta`
-2. Adicionar limite de crédito à conta corrente
-3. Implementar taxa de manutenção mensal
-4. Criar um sistema de histórico de transações
-5. Adicionar validação real de CPF
-
-## 📖 Recursos Adicionais
-
-- [Documentação oficial do C#](https://docs.microsoft.com/pt-br/dotnet/csharp/)
-- [POO em C# - Microsoft Learn](https://docs.microsoft.com/pt-br/dotnet/csharp/fundamentals/object-oriented/)
-- [Padrões de Design em C#](https://refactoring.guru/pt-br/design-patterns/csharp)
+*Desenvolvido para a disciplina de Programação — Curso de Ciência da Computação*
