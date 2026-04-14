@@ -152,3 +152,98 @@ Span<int> span = combinado.AsSpan(0, 4);
 Console.Write("Span dos 4 primeiros: ");
 foreach (var s in span) Console.Write($"{s} ");
 Console.WriteLine();
+
+// ============================================================
+// EXEMPLO INDUSTRIAL: LINQ prévia + coleções em sistema real
+// (Sistema de gestão de produtos — API de e-commerce)
+// ============================================================
+Console.WriteLine("\n=== EXEMPLO REAL: CATÁLOGO DE PRODUTOS ===");
+Console.WriteLine("(Usando Dictionary como cache e List como resultado de API)");
+
+// Dictionary<K,V> como cache em memória — padrão MemoryCache do .NET
+// Mapear SKU → preço para lookups O(1) em vez de O(n)
+var precosCache = new Dictionary<string, decimal>
+{
+    ["FONE-BT-001"] = 249.90m,
+    ["NOTE-DEL-15"] = 3_499.00m,
+    ["MOUS-LOG-MX"] = 349.90m,
+    ["TECL-MEC-001"] = 449.90m,
+};
+
+string[] pedidoSkus = { "FONE-BT-001", "MOUS-LOG-MX", "PROD-INEXIST" };
+decimal totalPedido = 0m;
+
+Console.WriteLine("\nProcessando itens do pedido:");
+foreach (string sku in pedidoSkus)
+{
+    // TryGetValue: nunca use [] direto em Dictionary sem verificar!
+    // cacheDicionario["CHAVE-INEXISTENTE"] lança KeyNotFoundException
+    if (precosCache.TryGetValue(sku, out decimal preco))
+    {
+        totalPedido += preco;
+        Console.WriteLine($"  ✅ {sku}: R$ {preco:N2}");
+    }
+    else
+    {
+        Console.WriteLine($"  ❌ {sku}: produto não encontrado (será descartado)");
+    }
+}
+Console.WriteLine($"  Total do pedido: R$ {totalPedido:N2}");
+
+// HashSet<T>: verificar duplicatas em O(1) — ideal para rastrear IDs processados
+Console.WriteLine("\n--- HashSet para deduplicação de eventos ---");
+var idsProcessados = new HashSet<int>();
+int[] eventosRecebidos = { 101, 102, 103, 102, 104, 101, 105 }; // duplicatas!
+
+int processados = 0, duplicatas = 0;
+foreach (int id in eventosRecebidos)
+{
+    if (idsProcessados.Add(id))  // Add retorna false se já existe
+    {
+        processados++;
+        Console.WriteLine($"  ✅ Evento #{id} processado");
+    }
+    else
+    {
+        duplicatas++;
+        Console.WriteLine($"  ⚠️  Evento #{id} ignorado (duplicata — idempotência!)");
+    }
+}
+Console.WriteLine($"\n  Total: {processados} processados, {duplicatas} duplicatas ignoradas");
+Console.WriteLine("  HashSet é a base de idempotência em sistemas de mensageria (Kafka, SQS)");
+
+// Queue<T> e Stack<T>: estruturas de fila e pilha
+Console.WriteLine("\n--- Queue<T>: Fila de tarefas (Job Queue) ---");
+var filaTarefas = new Queue<string>();
+filaTarefas.Enqueue("Enviar email de confirmação");
+filaTarefas.Enqueue("Atualizar estoque");
+filaTarefas.Enqueue("Notificar transportadora");
+filaTarefas.Enqueue("Gerar NFe");
+
+Console.WriteLine("Processando fila de tarefas (FIFO):");
+while (filaTarefas.Count > 0)
+{
+    string tarefa = filaTarefas.Dequeue(); // Remove e retorna o primeiro
+    Console.WriteLine($"  → {tarefa}");
+}
+
+// Preview de LINQ — mais detalhes na seção 04-csharp-avancado
+Console.WriteLine("\n--- LINQ Preview: consulta sobre coleções ---");
+var estoques = new List<(string Sku, int Qtd, decimal Preco)>
+{
+    ("FONE-BT-001", 15, 249.90m),
+    ("NOTE-DEL-15", 3,  3499m),
+    ("MOUS-LOG-MX", 8,  349.90m),
+    ("TECL-MEC-001", 0, 449.90m),
+};
+
+// LINQ: filtrar e projetar — muito mais legível que loops manuais
+var disponiveis = estoques
+    .Where(p => p.Qtd > 0)
+    .OrderByDescending(p => p.Preco)
+    .Select(p => $"{p.Sku} ({p.Qtd} unid) — R${p.Preco:N2}");
+
+Console.WriteLine("Produtos disponíveis (ordem decrescente de preço):");
+foreach (var item in disponiveis)
+    Console.WriteLine($"  - {item}");
+
