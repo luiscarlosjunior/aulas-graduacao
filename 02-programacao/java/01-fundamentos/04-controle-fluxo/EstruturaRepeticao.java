@@ -163,7 +163,7 @@ public class EstruturaRepeticao {
         // Simula um menu com opções (em um sistema real, leria do Scanner)
         // Aqui simulamos a seleção de "3" (relatório) e depois "0" (sair)
         int[] simulacaoEntradas = {3, 0};
-        int indiceSumulacao = 0;
+        int indiceSimulacao = 0;
 
         int opcao;
         do {
@@ -176,7 +176,7 @@ public class EstruturaRepeticao {
             System.out.println("  │  0. Sair                    │");
             System.out.println("  └─────────────────────────────┘");
 
-            opcao = simulacaoEntradas[indiceSumulacao++];
+            opcao = simulacaoEntradas[indiceSimulacao++];
             System.out.println("  Opção selecionada (simulada): " + opcao);
 
             switch (opcao) {
@@ -187,7 +187,7 @@ public class EstruturaRepeticao {
                 default: System.out.println("  → ❌ Opção inválida!");
             }
 
-        } while (opcao != 0 && indiceSumulacao < simulacaoEntradas.length);
+        } while (opcao != 0 && indiceSimulacao < simulacaoEntradas.length);
 
         System.out.println("  Sistema encerrado.");
         System.out.println();
