@@ -1,6 +1,25 @@
 // ============================================================
 // Tipos de Dados em C# — .NET 8
-// Demonstra os tipos fundamentais da linguagem
+//
+// ============================================================
+// POR QUE TIPOS DE DADOS IMPORTAM NA INDÚSTRIA?
+// ============================================================
+// Escolher o tipo certo evita bugs silenciosos e prejuízo real:
+//
+// ❌ double preco = 0.1 + 0.2;  → 0.30000000000000004 (BUG!)
+//    Em produção: um sistema bancário com double pode acumular
+//    erros de centavos em milhões de transações diárias.
+//
+// ✅ decimal preco = 0.1m + 0.2m; → 0.3 (CORRETO)
+//    Regra de ouro: SEMPRE use decimal para valores monetários.
+//
+// Além disso:
+// - int? (nullable) é padrão em APIs REST — campo pode vir null do JSON
+// - long é necessário para IDs de sistemas com bilhões de registros
+//   (Twitter usava int e esgotou os IDs em 2009!)
+// - var melhora legibilidade sem perder a segurança de tipos
+// - string? com #nullable enable previne NullReferenceException
+//   que é a exception mais comum em produção em sistemas .NET
 // ============================================================
 
 Console.WriteLine("=== TIPOS INTEIROS ===");
@@ -139,3 +158,75 @@ dynamic dyn = 100;
 Console.WriteLine($"dynamic: {dyn}");
 dyn = "virei string";
 Console.WriteLine($"dynamic: {dyn}");
+
+// ============================================================
+// EXEMPLO INDUSTRIAL: Sistema de Pedidos — tipos certos
+// ============================================================
+Console.WriteLine("\n=== EXEMPLO REAL: PEDIDO DE E-COMMERCE ===");
+
+long   pedidoId       = 9_876_543_210L;     // long: bilhões de pedidos (Amazon faz isso)
+string clienteNome    = "Maria Oliveira";
+decimal subtotal      = 1_299.90m;           // decimal: nunca double para dinheiro!
+decimal desconto      = 0.15m;               // 15% de desconto
+decimal valorDesconto = subtotal * desconto;
+decimal total         = subtotal - valorDesconto;
+bool   fretGratis     = total > 299m;        // bool: regra de negócio simples
+int    quantItens     = 3;
+string? cupomAplicado = null;               // nullable: cupom pode não existir
+
+Console.WriteLine($"Pedido #: {pedidoId}");
+Console.WriteLine($"Cliente:  {clienteNome}");
+Console.WriteLine($"Itens:    {quantItens}");
+Console.WriteLine($"Subtotal: R$ {subtotal:N2}");
+Console.WriteLine($"Desconto: R$ {valorDesconto:N2} ({desconto:P0})");
+Console.WriteLine($"Total:    R$ {total:N2}");
+Console.WriteLine($"Frete grátis: {fretGratis}");
+Console.WriteLine($"Cupom: {cupomAplicado ?? "Nenhum"}");  // ?? é null-coalescing
+
+// Mostrando o problema clássico de double com dinheiro
+Console.WriteLine("\n--- Por que NÃO usar double para dinheiro? ---");
+double doubleErro   = 0.1 + 0.2;
+decimal decimalCerto = 0.1m + 0.2m;
+Console.WriteLine($"double  0.1 + 0.2 = {doubleErro}");   // 0.30000000000000004
+Console.WriteLine($"decimal 0.1 + 0.2 = {decimalCerto}");  // 0.3
+Console.WriteLine("→ Em 1 milhão de transações por dia, o erro em double se acumula!");
+
+// ============================================================
+// NULLABLE TYPES: Campos opcionais em APIs e banco de dados
+// ============================================================
+Console.WriteLine("\n=== NULLABLE TYPES — APIS E BANCO DE DADOS ===");
+// Quando você recebe JSON de uma API, campos podem ser null:
+// { "nome": "João", "telefone": null, "dataNascimento": null }
+
+string  nomeObrigatorio    = "João Silva";      // não pode ser null
+string? telefoneOpcional   = null;              // pode ser null (campo opcional)
+int?    idadeApiOpcional   = null;              // int não aceita null, mas int? sim
+DateTime? dataAniversario  = null;
+
+// Null-conditional operator: ?. — evita NullReferenceException
+int? tamanhoTelefone = telefoneOpcional?.Length;
+Console.WriteLine($"Nome: {nomeObrigatorio}");
+Console.WriteLine($"Telefone: {telefoneOpcional ?? "Não informado"}");
+Console.WriteLine($"Tamanho do telefone: {tamanhoTelefone?.ToString() ?? "N/A"}");
+
+// Operador ??= — atribuição condicional a null (muito útil em inicialização)
+telefoneOpcional ??= "Sem telefone";
+Console.WriteLine($"Após ??=: {telefoneOpcional}");
+
+// ============================================================
+// TryParse: validação robusta de entrada do usuário / API
+// ============================================================
+Console.WriteLine("\n=== TRYPARSE — VALIDAÇÃO ROBUSTA ===");
+// Em sistemas reais, nunca faça int.Parse() direto — pode lançar exceção!
+// Use TryParse para validar dados vindos de usuários ou APIs externas
+
+string[] entradasAPI = { "42", "abc", "99999999", "3.14", "" };
+
+foreach (string entrada in entradasAPI)
+{
+    if (int.TryParse(entrada, out int valor))
+        Console.WriteLine($"  '{entrada}' → int válido: {valor}");
+    else
+        Console.WriteLine($"  '{entrada}' → inválido, ignorado (sem exceção!)");
+}
+

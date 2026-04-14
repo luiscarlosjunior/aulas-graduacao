@@ -1,5 +1,27 @@
 // ============================================================
 // Operadores e Expressões em C# — .NET 8
+//
+// ============================================================
+// POR QUE OPERADORES IMPORTAM NA INDÚSTRIA?
+// ============================================================
+// Operadores bem usados tornam o código mais LEGÍVEL e SEGURO:
+//
+// 1. ARITMÉTICOS: Cálculos financeiros precisam de cuidado.
+//    Ex: calcular ICMS, descontos, juros compostos
+//
+// 2. LÓGICOS: Controle de acesso, regras de negócio, validações.
+//    Ex: isAdmin && isActive — padrão em sistemas IAM (AWS, Azure AD)
+//    Short-circuit: evita NullReferenceException em produção!
+//    user != null && user.IsActive  ← se user é null, IsActive NÃO é avaliado
+//
+// 3. BITWISE: Permissões de sistema (Unix chmod), flags de configuração.
+//    Ex: FileAccess.Read | FileAccess.Write (bit flags do próprio .NET!)
+//
+// 4. NULL OPERATORS (??, ??=, ?.): Essenciais em C# moderno.
+//    Em quase todo método de serviço você verá: value ?? defaultValue
+//
+// 5. PATTERN MATCHING (switch expression): Elimina if/else aninhados.
+//    C# 8+ e é o padrão em código moderno .NET.
 // ============================================================
 
 Console.WriteLine("=== OPERADORES ARITMÉTICOS ===");
@@ -123,3 +145,94 @@ bool result3 = true || false && false; // true (&& tem precedência sobre ||)
 Console.WriteLine($"2 + 3 * 4 = {result1}");
 Console.WriteLine($"(2 + 3) * 4 = {result2}");
 Console.WriteLine($"true || false && false = {result3}");
+
+// ============================================================
+// EXEMPLO INDUSTRIAL 1: Cálculo de preço com impostos
+// ============================================================
+Console.WriteLine("\n=== EXEMPLO REAL: CÁLCULO DE NOTA FISCAL ===");
+
+decimal precoBase     = 1000m;
+decimal aliquotaICMS  = 0.12m;   // 12% ICMS (varia por estado)
+decimal aliquotaIPI   = 0.05m;   // 5% IPI
+decimal aliquotaPIS   = 0.0065m; // 0,65% PIS
+decimal aliquotaCOFINS= 0.03m;   // 3% COFINS
+
+// Operadores aritméticos em cálculo fiscal real
+decimal icms   = precoBase * aliquotaICMS;
+decimal ipi    = precoBase * aliquotaIPI;
+decimal pis    = precoBase * aliquotaPIS;
+decimal cofins = precoBase * aliquotaCOFINS;
+decimal totalImpostos = icms + ipi + pis + cofins;
+decimal precoFinal    = precoBase + totalImpostos;
+
+Console.WriteLine($"  Preço base:       R$ {precoBase:N2}");
+Console.WriteLine($"  ICMS ({aliquotaICMS:P0}):    R$ {icms:N2}");
+Console.WriteLine($"  IPI  ({aliquotaIPI:P0}):    R$ {ipi:N2}");
+Console.WriteLine($"  PIS  ({aliquotaPIS:P2}):  R$ {pis:N2}");
+Console.WriteLine($"  COFINS ({aliquotaCOFINS:P0}):  R$ {cofins:N2}");
+Console.WriteLine($"  Total impostos:   R$ {totalImpostos:N2}");
+Console.WriteLine($"  Preço final NF:   R$ {precoFinal:N2}");
+
+// ============================================================
+// EXEMPLO INDUSTRIAL 2: Sistema de permissões com bit flags
+// (Como o .NET usa internamente: FileAccess, FileShare, etc.)
+// ============================================================
+Console.WriteLine("\n=== EXEMPLO REAL: PERMISSÕES COM BIT FLAGS ===");
+
+// Cada permissão é um bit — pode combinar várias com OR
+const int PERM_LEITURA    = 0b0001;  // 1
+const int PERM_ESCRITA    = 0b0010;  // 2
+const int PERM_EXCLUSAO   = 0b0100;  // 4
+const int PERM_ADMIN      = 0b1000;  // 8
+
+// Criando perfis de permissão combinando flags
+int perfilLeitura  = PERM_LEITURA;
+int perfilEditor   = PERM_LEITURA | PERM_ESCRITA;
+int perfilGerente  = PERM_LEITURA | PERM_ESCRITA | PERM_EXCLUSAO;
+int perfilAdmin    = PERM_LEITURA | PERM_ESCRITA | PERM_EXCLUSAO | PERM_ADMIN;
+
+// Verificando permissão com AND bitwise
+bool podeEditar = (perfilGerente & PERM_ESCRITA) != 0;
+bool ehAdmin    = (perfilGerente & PERM_ADMIN)   != 0;
+
+Console.WriteLine($"  Perfil Gerente (binário): {Convert.ToString(perfilGerente, 2).PadLeft(4, '0')}");
+Console.WriteLine($"  Pode editar: {podeEditar}");
+Console.WriteLine($"  É admin:     {ehAdmin}");
+Console.WriteLine($"  Perfil Admin (binário):   {Convert.ToString(perfilAdmin, 2).PadLeft(4, '0')}");
+
+// Isso é exatamente como o .NET implementa FileAccess.Read | FileAccess.Write!
+
+// ============================================================
+// EXEMPLO INDUSTRIAL 3: Controle de acesso com operadores lógicos
+// Pattern: IAM (Identity and Access Management) — AWS, Azure AD
+// ============================================================
+Console.WriteLine("\n=== EXEMPLO REAL: CONTROLE DE ACESSO IAM ===");
+
+bool usuarioAtivo       = true;
+bool emailVerificado    = true;
+bool autenticadoMFA     = false;
+bool ehAdministrador    = false;
+string? departamento    = "Financeiro";
+
+// Regras de acesso compostas — short-circuit evaluation é crucial aqui
+// Se usuarioAtivo é false, as outras condições NÃO são avaliadas
+bool podeAcessarSistema = usuarioAtivo && emailVerificado;
+bool podeAcessarDados   = podeAcessarSistema && autenticadoMFA;
+bool podeVerRelatorio   = podeAcessarSistema && 
+                          (ehAdministrador || departamento == "Financeiro");
+
+Console.WriteLine($"  Pode acessar sistema:      {podeAcessarSistema}");
+Console.WriteLine($"  Pode acessar dados sensíveis: {podeAcessarDados} (exige MFA)");
+Console.WriteLine($"  Pode ver relatório financeiro: {podeVerRelatorio}");
+
+// Operador ternário em classificação de risco
+decimal saldo = 15_000m;
+string nivelRisco = saldo switch
+{
+    > 100_000m  => "Baixo",
+    > 10_000m   => "Médio",
+    > 1_000m    => "Alto",
+    _           => "Crítico"
+};
+Console.WriteLine($"\n  Saldo R${saldo:N0} → Nível de risco: {nivelRisco}");
+
