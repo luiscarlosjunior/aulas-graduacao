@@ -46,7 +46,7 @@ Para cada exemplo, siga esta ordem:
 
 ### Problema motivador
 
-Imagine uma loja virtual com produtos.  
+Imagine uma loja virtual com produtos.
 O sistema precisa controlar:
 
 - nome do produto;
@@ -293,7 +293,7 @@ Peça que os alunos percebam:
 
 ### Comparação didática útil
 
-Uma tomada aceita diferentes aparelhos porque existe um padrão de encaixe.  
+Uma tomada aceita diferentes aparelhos porque existe um padrão de encaixe.
 O sistema aceita diferentes notificadores porque existe um contrato comum.
 
 ### Síntese para o aluno
