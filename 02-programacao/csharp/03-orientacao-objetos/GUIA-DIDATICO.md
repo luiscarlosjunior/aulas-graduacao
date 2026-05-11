@@ -97,9 +97,9 @@ classDiagram
         +int TotalVendas
         +bool Disponivel
         +string PrecoFormatado
-        +CalcularPrecoComDesconto(percentual)
-        +RegistrarVenda(quantidade)
-        +DefinirAtivo(ativo)
+        +decimal CalcularPrecoComDesconto(decimal percentual)
+        +bool RegistrarVenda(int quantidade)
+        +void DefinirAtivo(bool ativo)
     }
 
     class ProdutoDto {
@@ -170,31 +170,31 @@ classDiagram
         +string Cpf
         +string Departamento
         +decimal SalarioBase
-        +BaterPonto()
-        +CalcularSalarioBruto()*
-        +CalcularDescontoINSS()
-        +CalcularSalarioLiquido()
+        +void BaterPonto()
+        +decimal CalcularSalarioBruto()
+        +decimal CalcularDescontoINSS()
+        +decimal CalcularSalarioLiquido()
     }
 
     class FuncionarioClt {
         +int HorasExtrasMes
-        +CalcularSalarioBruto()
-        +BaterPonto()
+        +decimal CalcularSalarioBruto()
+        +void BaterPonto()
     }
 
     class Gerente {
         +decimal PercentualBonusMeta
         +bool MetaAtingida
         +int NumFuncionariosGerenciados
-        +CalcularSalarioBruto()
-        +ExibirRelatorioEquipe()
+        +decimal CalcularSalarioBruto()
+        +void ExibirRelatorioEquipe()
     }
 
     class PrestadorPj {
         +decimal ValorHoraFaturado
         +int HorasTrabalhadasMes
-        +CalcularSalarioBruto()
-        +CalcularDescontoINSS()
+        +decimal CalcularSalarioBruto()
+        +decimal CalcularDescontoINSS()
     }
 
     Funcionario <|-- FuncionarioClt
@@ -259,7 +259,7 @@ classDiagram
     class IServicoNotificacao {
         <<interface>>
         +string Tipo
-        +EnviarAsync(destinatario, assunto, mensagem)
+        +Task~bool~ EnviarAsync(string destinatario, string assunto, string mensagem)
     }
 
     class NotificacaoEmail
@@ -269,8 +269,8 @@ classDiagram
 
     class GerenciadorNotificacoes {
         -List~IServicoNotificacao~ _servicos
-        +AdicionarCanal(servico)
-        +NotificarTodosAsync(destinatario, assunto, mensagem)
+        +void AdicionarCanal(IServicoNotificacao servico)
+        +Task~int~ NotificarTodosAsync(string destinatario, string assunto, string mensagem)
     }
 
     IServicoNotificacao <|.. NotificacaoEmail
@@ -338,19 +338,19 @@ classDiagram
         +int Agencia
         +int NumeroConta
         +decimal Saldo
-        +Depositar(valor)
-        +Sacar(valor)
-        +ConsultarSaldo()
+        +void Depositar(decimal valor)
+        +bool Sacar(decimal valor)
+        +void ConsultarSaldo()
     }
 
     class ContaPoupanca {
         +int DiaAniversario
         +decimal TaxaRendimento
-        +Depositar(valor)
-        +CalcularRendimento()
-        +AplicarRendimento()
-        +ConsultarSaldo()
-        +VerificarAniversario()
+        +void Depositar(decimal valor)
+        +decimal CalcularRendimento()
+        +void AplicarRendimento()
+        +void ConsultarSaldo()
+        +bool VerificarAniversario()
     }
 
     class Cliente {
@@ -359,10 +359,10 @@ classDiagram
         +string Telefone
         +string Endereco
         +ContaPoupanca? ContaPoupanca
-        +CriarContaPoupanca(...)
-        +ExibirInformacoesCompletas()
-        +OperarConta()
-        +ValidarCPF()
+        +void CriarContaPoupanca(...)
+        +void ExibirInformacoesCompletas()
+        +void OperarConta()
+        +bool ValidarCPF()
     }
 
     Conta <|-- ContaPoupanca

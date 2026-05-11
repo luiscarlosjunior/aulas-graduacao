@@ -124,7 +124,7 @@ Troque a pasta para executar os demais exemplos:
 
 ## Próximos passos
 
-- Ler o [guia didático](./GUIA-DIDATICO.md)
+- Ler o [Guia Didático](./GUIA-DIDATICO.md)
 - Executar os projetos
 - Pedir que os alunos desenhem seus próprios diagramas antes de alterar o código
 
