@@ -1,248 +1,132 @@
 # 03 — Orientação a Objetos em C#
 
-> OOP é o paradigma central do C# e do mercado de trabalho. Aqui você aprende como modelar o mundo real em código, construindo sistemas manuteníveis e extensíveis.
+> Nesta etapa, o objetivo não é apenas “ver classes”. O foco é fazer o aluno entender **por que** modelamos problemas com objetos, **quando** usar cada conceito e **como** isso melhora a organização do sistema.
 
 ---
 
-## Classes e Objetos
+## O que o aluno deve entender primeiro
 
-Uma **classe** é um molde. Um **objeto** é uma instância desse molde.
+Antes de abrir o código, conduza a discussão com estas perguntas:
 
-```csharp
-// Definindo uma classe
-public class Produto
-{
-    // Propriedades (auto-properties)
-    public int Id { get; set; }
-    public string Nome { get; set; } = string.Empty;
-    public decimal Preco { get; set; }
+1. **Que problema do mundo real queremos representar?**
+2. **Quais dados precisam ser protegidos?**
+3. **Quais comportamentos mudam de um tipo para outro?**
+4. **Quais classes “têm” outras classes?**
+5. **Como adicionar novos comportamentos sem quebrar o que já existe?**
 
-    // Construtor
-    public Produto(int id, string nome, decimal preco)
-    {
-        Id    = id;
-        Nome  = nome;
-        Preco = preco;
-    }
+Essas perguntas levam naturalmente aos pilares de orientação a objetos:
 
-    // Método
-    public string Descricao()
-        => $"[{Id}] {Nome} - R$ {Preco:N2}";
-}
-
-// Criando objetos
-var p1 = new Produto(1, "Notebook", 3500m);
-var p2 = new Produto(2, "Mouse", 150m);
-
-Console.WriteLine(p1.Descricao()); // [1] Notebook - R$ 3.500,00
-```
+- **Classes e objetos**
+- **Encapsulamento**
+- **Herança**
+- **Polimorfismo**
+- **Composição**
 
 ---
 
-## Propriedades
+## Ordem didática recomendada
 
-```csharp
-public class Conta
-{
-    // Auto-property simples
-    public string Titular { get; set; } = "";
-
-    // Propriedade com validação
-    private decimal _saldo;
-    public decimal Saldo
-    {
-        get => _saldo;
-        private set => _saldo = value >= 0 ? value : throw new ArgumentException("Saldo negativo");
-    }
-
-    // Computed property (sem backing field)
-    public bool Positivo => _saldo > 0;
-
-    // Init-only property (C# 9+) — só pode ser definida na inicialização
-    public string Agencia { get; init; } = "";
-}
-
-// Object initializer com init
-var conta = new Conta { Agencia = "0001", Titular = "João" };
-```
+| Etapa | Pergunta para a turma | Conceito central | Exemplo |
+|---|---|---|---|
+| 1 | “Como representar um produto com regras de negócio?” | Encapsulamento | [EncapsulamentoEcommerce](./EncapsulamentoEcommerce/) |
+| 2 | “O que funcionários diferentes têm em comum?” | Herança | [HerancaFuncionarios](./HerancaFuncionarios/) |
+| 3 | “Como trocar o canal de envio sem mudar o sistema?” | Polimorfismo | [PolimorfismoNotificacoes](./PolimorfismoNotificacoes/) |
+| 4 | “Como classes colaboram entre si em um sistema real?” | Composição + revisão geral | [BancoExemplo](./BancoExemplo/) |
 
 ---
 
-## Construtores
+## Material principal para a aula
 
-```csharp
-public class Pessoa
-{
-    public string Nome { get; }
-    public int Idade { get; }
-    public string? Email { get; set; }
+- [Guia didático com problemas, passo a passo e diagramas de classes](./GUIA-DIDATICO.md)
 
-    // Construtor principal
-    public Pessoa(string nome, int idade)
-    {
-        Nome  = nome;
-        Idade = idade;
-    }
-
-    // Construtor sobrecarregado — delega ao principal com ": this(...)"
-    public Pessoa(string nome, int idade, string email) : this(nome, idade)
-    {
-        Email = email;
-    }
-}
-
-// Construtores primários (C# 12) — mais conciso
-public class Ponto(double x, double y)
-{
-    public double X { get; } = x;
-    public double Y { get; } = y;
-    public double Distancia => Math.Sqrt(X * X + Y * Y);
-}
-```
+Esse guia foi organizado para ser usado **antes** da leitura detalhada do código.
 
 ---
 
-## Herança
+## Como explorar cada pasta
 
-```csharp
-// Classe base
-public abstract class Animal
-{
-    public string Nome { get; }
+### 1. EncapsulamentoEcommerce
 
-    protected Animal(string nome) { Nome = nome; }
+Use este exemplo para mostrar que:
 
-    // Método virtual pode ser sobrescrito
-    public virtual string EmitirSom() => "...";
+- nem todo dado deve ficar livre para alteração;
+- a classe protege suas próprias regras;
+- propriedades podem validar entradas;
+- métodos de negócio mantêm o objeto consistente.
 
-    // Método abstrato DEVE ser sobrescrito
-    public abstract string Descricao();
-}
+### 2. HerancaFuncionarios
 
-// Classe derivada
-public class Cachorro : Animal
-{
-    public string Raca { get; }
+Use este exemplo para mostrar que:
 
-    public Cachorro(string nome, string raca) : base(nome)
-    {
-        Raca = raca;
-    }
+- diferentes tipos compartilham uma base comum;
+- a classe mãe define o que é comum;
+- classes filhas especializam comportamentos;
+- métodos abstratos e `override` existem para lidar com variações.
 
-    public override string EmitirSom() => "Au au!";
+### 3. PolimorfismoNotificacoes
 
-    public override string Descricao() => $"{Nome} ({Raca})";
-}
+Use este exemplo para mostrar que:
 
-// Polimorfismo
-Animal animal = new Cachorro("Rex", "Pastor Alemão");
-Console.WriteLine(animal.EmitirSom()); // "Au au!" — método do Cachorro
-```
+- o sistema trabalha com um contrato;
+- implementações diferentes respondem ao mesmo método;
+- novas funcionalidades podem ser adicionadas sem reescrever o fluxo principal.
 
----
+### 4. BancoExemplo
 
-## Interfaces
+Use este exemplo para revisar:
 
-```csharp
-// Interface define um contrato
-public interface IRepositorio<T>
-{
-    T? BuscarPorId(int id);
-    IEnumerable<T> BuscarTodos();
-    void Salvar(T entidade);
-    void Deletar(int id);
-}
-
-// Implementação
-public class ProdutoRepositorio : IRepositorio<Produto>
-{
-    private readonly List<Produto> _produtos = new();
-
-    public Produto? BuscarPorId(int id) => _produtos.FirstOrDefault(p => p.Id == id);
-    public IEnumerable<Produto> BuscarTodos() => _produtos;
-    public void Salvar(Produto p) => _produtos.Add(p);
-    public void Deletar(int id) => _produtos.RemoveAll(p => p.Id == id);
-}
-```
+- encapsulamento em `Conta`;
+- herança em `ContaPoupanca`;
+- composição em `Cliente`;
+- polimorfismo ao usar referências do tipo base.
 
 ---
 
-## Records (C# 9+)
+## Estratégia de ensino recomendada
 
-Records são classes imutáveis por padrão, ideais para DTOs e value objects:
-
-```csharp
-// Record — imutável, igualdade por valor, ToString automático
-public record Endereco(string Rua, string Cidade, string CEP);
-
-var end1 = new Endereco("Av. Paulista", "São Paulo", "01310-100");
-var end2 = new Endereco("Av. Paulista", "São Paulo", "01310-100");
-
-Console.WriteLine(end1 == end2);    // true (igualdade por valor!)
-Console.WriteLine(end1);            // Endereco { Rua = Av. Paulista, ... }
-
-// "With" para criar cópia modificada
-var end3 = end1 with { Cidade = "Campinas" };
-```
+1. **Comece pelo problema**, não pela sintaxe.
+2. **Peça que a turma proponha classes e responsabilidades.**
+3. **Mostre o diagrama de classes antes do código.**
+4. **Só então abra os arquivos `.cs` para validar a modelagem.**
+5. **Compare soluções ruins e boas**, destacando o motivo das decisões.
+6. **Feche cada exemplo com uma regra prática** do tipo:
+   - “encapsulamento protege estado”;
+   - “herança reutiliza o que é comum”;
+   - “polimorfismo reduz `if/else` por tipo”;
+   - “composição modela relações de colaboração”.
 
 ---
 
-## Enums
-
-```csharp
-public enum StatusPedido
-{
-    Pendente    = 0,
-    Processando = 1,
-    Enviado     = 2,
-    Entregue    = 3,
-    Cancelado   = 4
-}
-
-var status = StatusPedido.Enviado;
-Console.WriteLine(status);          // "Enviado"
-Console.WriteLine((int)status);     // 2
-
-// Flags enum (combinação de valores)
-[Flags]
-public enum Permissoes
-{
-    Nenhuma = 0,
-    Leitura = 1,
-    Escrita = 2,
-    Execucao = 4,
-    Admin = Leitura | Escrita | Execucao // 7
-}
-
-var perm = Permissoes.Leitura | Permissoes.Escrita;
-bool podeLer = perm.HasFlag(Permissoes.Leitura); // true
-```
-
----
-
-## Exemplo Prático — Sistema Bancário
-
-O exemplo [`BancoExemplo/`](./BancoExemplo/) demonstra todos os conceitos acima em um contexto real:
-
-- **`Conta.cs`** — classe base com encapsulamento (`Saldo` com setter protegido)
-- **`ContaPoupanca.cs`** — herda de `Conta`, sobrescreve `Depositar()` e `ConsultarSaldo()`
-- **`Cliente.cs`** — demonstra **composição** (Cliente *tem uma* ContaPoupanca)
-- **`Program.cs`** — demonstra polimorfismo usando referência da classe base
+## Execução dos exemplos
 
 ```bash
-cd BancoExemplo
+cd /home/runner/work/aulas-graduacao/aulas-graduacao/02-programacao/csharp/03-orientacao-objetos/EncapsulamentoEcommerce
 dotnet run
 ```
 
+Troque a pasta para executar os demais exemplos:
+
+- `HerancaFuncionarios`
+- `PolimorfismoNotificacoes`
+- `BancoExemplo`
+
 ---
 
-## Exercícios
+## Perguntas para fixação
 
-1. Crie uma hierarquia de `Forma` (Shape) com subclasses `Circulo`, `Retangulo` e `Triangulo`. Cada uma deve implementar `CalcularArea()` e `CalcularPerimetro()`
-2. Implemente a interface `IComparable<T>` na classe `Produto` para ordenação por preço
-3. Crie um `record` para representar um `Pedido` imutável com `Id`, `Cliente`, `Total` e `Status`
-4. Implemente o padrão Repository genérico para uma lista de `Funcionario`
-5. Adicione um enum `NivelCargo` (Júnior, Pleno, Sênior) e use-o na classe `Funcionario`
+- Qual problema o encapsulamento evita?
+- Quando uma classe deve herdar de outra?
+- Qual a diferença entre “ter algo” e “ser um tipo de algo”?
+- O que muda no sistema quando adicionamos um novo canal de notificação?
+- Em qual exemplo a composição aparece com mais clareza?
+
+---
+
+## Próximos passos
+
+- Ler o [guia didático](./GUIA-DIDATICO.md)
+- Executar os projetos
+- Pedir que os alunos desenhem seus próprios diagramas antes de alterar o código
 
 ---
 
