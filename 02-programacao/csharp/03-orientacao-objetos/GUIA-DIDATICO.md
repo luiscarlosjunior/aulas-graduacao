@@ -171,7 +171,7 @@ classDiagram
         +string Departamento
         +decimal SalarioBase
         +BaterPonto()
-        +CalcularSalarioBruto()* 
+        +CalcularSalarioBruto()*
         +CalcularDescontoINSS()
         +CalcularSalarioLiquido()
     }
