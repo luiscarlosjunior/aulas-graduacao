@@ -613,7 +613,7 @@ A seguir, apresentamos **5 exemplos práticos com diagramas de classes** que dem
 
 ## 🔗 Navegação
 
-[← 04 - Polimorfismo](../04-polimorfismo/) | [06 - Classes Abstratas →](../06-classes-abstratas/)
+[← 06 - Abstração](../06-abstracao/) | [08 - SOLID →](../08-solid/)
 
 ---
 

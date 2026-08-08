@@ -112,4 +112,4 @@ cd 05-tratamento-excecoes/ && javac TratamentoExcecoes.java && java TratamentoEx
 
 ---
 
-**Anterior**: [Java — Visão Geral](../README.md) | **Próximo**: [Programação Orientada a Objetos](../02-programacao-orientada-objetos/)
+**Anterior**: [Java — Visão Geral](../README.md) | **Próximo**: [Programação Orientada a Objetos](../03-POO/)

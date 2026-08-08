@@ -465,4 +465,4 @@ public class ExemploIntegrativo {
 
 ---
 
-**Anterior**: [Programação Orientada a Objetos](../02-programacao-orientada-objetos/) | **Próximo**: [Conceitos Avançados](../04-conceitos-avancados/)
+**Anterior**: [Programação Orientada a Objetos](../03-POO/) | **Próximo**: [Conceitos Avançados](../04-conceitos-avancados/)

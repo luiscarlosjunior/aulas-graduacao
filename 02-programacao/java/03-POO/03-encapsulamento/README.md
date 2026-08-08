@@ -76,4 +76,4 @@ java TesteContaBancaria
 4. **Manutenibilidade**: Facilita alterações e correções
 
 ## 🔗 Navegação
-[← 01 - Classes e Objetos](../01-classes-objetos/) | [03 - Herança →](../03-heranca/)
+[← 02 - Classes e Objetos](../02-classes-e-objetos/) | [04 - Herança →](../04-heranca/)

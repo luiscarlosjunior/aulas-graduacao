@@ -750,9 +750,9 @@ Number n = numeros.get(0); // ✅ OK
 
 ### Pré-requisitos
 Antes de estudar Generics, você deve dominar:
-- [Classes e Objetos](../../02-programacao-orientada-objetos/01-classes-objetos/)
-- [Herança e Polimorfismo](../../02-programacao-orientada-objetos/03-heranca/)
-- [Interfaces](../../02-programacao-orientada-objetos/05-interfaces/)
+- [Classes e Objetos](../../03-POO/02-classes-e-objetos/)
+- [Herança e Polimorfismo](../../03-POO/04-heranca/)
+- [Interfaces](../../03-POO/07-interfaces/)
 - [Collections Framework](../01-collections/)
 
 ### Próximos Passos

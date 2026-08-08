@@ -533,7 +533,7 @@ try (FileReader arquivo = new FileReader("dados.txt")) {
 Após dominar tratamento de exceções, você estará pronto para:
 - [Arrays e Métodos](../arrays_e_metodos/) - Organização de código e dados
 - [Manipulação de Strings](../manipulacao_strings/) - Processamento de texto
-- [Programação Orientada a Objetos](../../02-programacao-orientada-objetos/) - Conceitos avançados
+- [Programação Orientada a Objetos](../../03-POO/) - Conceitos avançados
 
 ## 📚 Recursos Adicionais
 

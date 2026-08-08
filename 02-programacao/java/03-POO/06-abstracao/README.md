@@ -1636,7 +1636,7 @@ Acesse o diretório [exercicios/](exercicios/) para encontrar:
 
 ## 🔗 Navegação
 
-[← 05 - Interfaces](../05-interfaces/) | [📚 Voltar ao Índice](../README.md)
+[← 05 - Polimorfismo](../05-polimorfismo/) | [07 - Interfaces →](../07-interfaces/)
 
 ---
 

@@ -16,7 +16,7 @@ Trilha completa de aprendizado Java, organizada em progressão pedagógica:
 #### Estrutura Detalhada:
 - **[00-conceitos/](java/00-conceitos/)** - Fundamentos básicos (Hello World, tipos de dados, controle de fluxo)
 - **[01-fundamentos/](java/01-fundamentos/)** - Aprofundamento em conceitos essenciais
-- **[02-programacao-orientada-objetos/](java/02-programacao-orientada-objetos/)** - POO completa
+- **[03-POO/](java/03-POO/)** - POO completa (introdução, modelagem e os 4 pilares)
 - **[03-conceitos-intermediarios/](java/03-conceitos-intermediarios/)** - Collections, Generics, Lambda
 - **[05-design-patterns/](java/05-design-patterns/)** - Padrões de projeto profissionais
 - **[99-exercicios/](java/99-exercicios/)** - Exercícios práticos graduais
@@ -141,7 +141,7 @@ Guia acadêmico e prático sobre depuração de código:
 **Para quem nunca programou:**
 1. [Java - Conceitos Básicos](java/00-conceitos/) (4-6 semanas)
 2. [Java - Fundamentos](java/01-fundamentos/) (3-4 semanas)  
-3. [Java - POO](java/02-programacao-orientada-objetos/) (4-5 semanas)
+3. [Java - POO](java/03-POO/) (4-5 semanas)
 4. **Escolha uma especialização**: PHP Web OU Python
 
 ### 🚀 Trilha Desenvolvimento Web

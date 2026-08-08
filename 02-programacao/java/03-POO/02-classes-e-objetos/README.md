@@ -72,4 +72,4 @@ java Principal
 3. **Implemente os métodos vazios** (falar, andar, comer, dormir)
 
 ## 🔗 Próximo Tópico
-[02 - Encapsulamento](../02-encapsulamento/) - Aprenda a proteger os dados da sua classe
+[03 - Encapsulamento](../03-encapsulamento/) - Aprenda a proteger os dados da sua classe

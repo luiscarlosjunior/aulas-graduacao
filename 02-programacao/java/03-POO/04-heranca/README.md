@@ -124,4 +124,4 @@ java TesteVeiculos
 - Considere usar interfaces quando apropriado
 
 ## 🔗 Navegação
-[← 02 - Encapsulamento](../02-encapsulamento/) | [04 - Polimorfismo →](../04-polimorfismo/)
+[← 03 - Encapsulamento](../03-encapsulamento/) | [05 - Polimorfismo →](../05-polimorfismo/)

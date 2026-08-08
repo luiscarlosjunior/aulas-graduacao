@@ -1,214 +1,81 @@
-# Programação Orientada a Objetos (POO) - Curso Completo
+# Programação Orientada a Objetos (POO) em Java
 
-Este diretório contém uma **aula completa e estruturada** sobre Programação Orientada a Objetos em Java, organizada em tópicos progressivos com exemplos práticos e exercícios.
+Um curso prático e progressivo de POO: você aprende a **pensar em objetos**, a **modelar**
+problemas reais e a dominar os **4 pilares**, sempre com exemplos executáveis (do simples
+ao complexo) e exercícios com gabarito.
 
-## 🏛️ História e Evolução da POO
+> 🎯 **Se você está começando, comece pelo módulo [00 - Introdução](00-introducao/) e não
+> pule o [01 - Modelagem](01-modelagem/):** é ali que mora a habilidade que realmente
+> diferencia um programador — sair de um problema do mundo real para classes bem desenhadas.
 
-### As Origens (1960s-1970s)
-A Programação Orientada a Objetos nasceu da necessidade de criar software mais **modular, reutilizável e manutenível**:
+---
 
-- **1967**: **Simula 67** (Ole-Johan Dahl e Kristen Nygaard) - primeira linguagem com conceitos de classes e objetos
-- **1972**: **Smalltalk** (Alan Kay, Xerox PARC) - consolidou os princípios fundamentais da POO
-- **1980**: **C++** (Bjarne Stroustrup) - trouxe POO para o mainstream
-- **1995**: **Java** (James Gosling, Sun Microsystems) - popularizou POO com "write once, run anywhere"
+## 🗺️ Trilha do curso
 
-### Por que POO foi Criada?
-**Problemas da programação procedural:**
-- Código espalhado e difícil de manter
-- Dados e funções desconectados
-- Reutilização limitada
-- Sistemas complexos se tornavam ingerenciáveis
+| # | Módulo | O que você aprende |
+|---|--------|--------------------|
+| 00 | **[Introdução](00-introducao/)** | O clique mental da POO: objeto = estado + comportamento; classe × objeto |
+| 01 | **[Modelagem](01-modelagem/)** ⭐ | Do problema real às classes: entidades, atributos, responsabilidades e relacionamentos (com UML) |
+| 02 | **[Classes e Objetos](02-classes-e-objetos/)** | Sintaxe: atributos, métodos, construtores, `this`, `new` |
+| 03 | **[Encapsulamento](03-encapsulamento/)** | `private`/`public`, getters/setters com validação, proteção de dados |
+| 04 | **[Herança](04-heranca/)** | `extends`, `super`, `@Override`, reaproveitamento de código |
+| 05 | **[Polimorfismo](05-polimorfismo/)** | Sobrecarga, sobrescrita, ligação dinâmica |
+| 06 | **[Abstração](06-abstracao/)** | Classes e métodos abstratos (com diagramas) |
+| 07 | **[Interfaces](07-interfaces/)** | Contratos, implementação múltipla, métodos `default` |
+| 08 | **[SOLID](08-solid/)** | Cinco princípios para código de qualidade e manutenível |
+| 09 | **[Exercícios](09-exercicios/)** | Consolidação: biblioteca, universidade, personagens... |
 
-**Soluções que a POO trouxe:**
-- **Modularidade**: Código organizado em unidades lógicas (classes)
-- **Reutilização**: Herança e composição
-- **Manutenibilidade**: Encapsulamento e separação de responsabilidades
-- **Escalabilidade**: Sistemas grandes e complexos se tornam gerenciáveis
+**Ordem sugerida:** 00 → 01 → 02 → ... → 09. Cada módulo tem um `README.md` com teoria +
+exemplos e termina com um checklist do que você deve levar.
 
-## 🎯 Princípios Fundamentais da POO
+---
 
-| Princípio | Analogia do Mundo Real | Benefício Principal |
-|-----------|------------------------|-------------------|
-| **Encapsulamento** | Cápsula de remédio (protege o conteúdo) | Proteção e controle de dados |
-| **Herança** | Família (filhos herdam características dos pais) | Reutilização de código |
-| **Polimorfismo** | Controle remoto universal (mesmo botão, ações diferentes) | Flexibilidade de implementação |
-| **Abstração** | Interface do carro (você dirige sem saber como o motor funciona) | Simplificação de complexidade |
+## 🧭 Os 4 pilares num relance
 
-## 🎯 Estrutura da Aula
+| Pilar | Responde à pergunta | Analogia |
+|-------|---------------------|----------|
+| **Encapsulamento** | Como protejo os dados de uso errado? | Cápsula de remédio |
+| **Herança** | Como reaproveito o que já escrevi? | Família (filho herda do pai) |
+| **Polimorfismo** | Como o mesmo comando faz coisas diferentes? | Botão *play* |
+| **Abstração** | Como escondo a complexidade? | Volante do carro |
 
-### 📚 Tópicos Organizados
+---
 
-1. **[01 - Classes e Objetos](01-classes-objetos/)** - Fundamentos da POO
-   - Conceitos básicos de classes e objetos
-   - Atributos e métodos
-   - Construtores e instanciação
-   - Exemplo prático: Sistema de cães domésticos
+## ▶️ Como executar os exemplos
 
-2. **[02 - Encapsulamento](02-encapsulamento/)** - Proteção de Dados
-   - Modificadores de acesso (private, public, protected)
-   - Getters e setters com validação
-   - Proteção e integridade dos dados
-   - Exemplo prático: Sistema bancário com segurança
+Cada pasta é independente. Entre nela, compile e rode a classe `Principal` (ou a indicada
+no README do módulo):
 
-3. **[03 - Herança](03-heranca/)** - Reutilização de Código
-   - Classe pai e classes filhas
-   - Palavra-chave `extends` e `super`
-   - Sobrescrita de métodos (`@Override`)
-   - Exemplo prático: Hierarquia de animais
-
-4. **[04 - Polimorfismo](04-polimorfismo/)** - Múltiplas Formas
-   - Sobrecarga de métodos (Overloading)
-   - Sobrescrita de métodos (Overriding)
-   - Dynamic binding e casting
-   - Exemplo prático: Formas geométricas e calculadora
-
-5. **[05 - Abstração](05-abstracao/)** - Simplificando Complexidade
-   - Classes abstratas e métodos abstratos
-   - Interfaces e múltipla implementação
-   - Métodos default e static em interfaces
-   - Exemplo prático: Sistema de dispositivos eletrônicos
-
-6. **[06 - Exercícios](06-exercicios/)** - Consolidação Prática
-   - Exercícios progressivos (básico → avançado)
-   - Sistemas completos integrando todos os conceitos
-   - Exemplos clássicos: Sistema de biblioteca, universidade, veículos
-
-7. **[07 - SOLID](07-solid/)** - Princípios de Design de Software
-   - História da Crise do Software e evolução das boas práticas
-   - **S**ingle Responsibility Principle (Responsabilidade Única)
-   - **O**pen/Closed Principle (Aberto/Fechado)
-   - **L**iskov Substitution Principle (Substituição de Liskov)
-   - **I**nterface Segregation Principle (Segregação de Interface)
-   - **D**ependency Inversion Principle (Inversão de Dependência)
-   - Exemplos práticos completos e executáveis
-   - Sistema de e-commerce integrando todos os princípios
-
-## 🚀 Como Estudar
-
-### Sequência Recomendada
-1. **Leia o README** de cada tópico primeiro
-2. **Execute os exemplos** para ver na prática
-3. **Modifique os códigos** para experimentar
-4. **Faça os exercícios** para fixar o aprendizado
-
-### Para cada tópico:
 ```bash
-cd 01-classes-objetos/
+cd 01-modelagem/exemplo-simples
 javac *.java
 java Principal
 ```
 
-## 💡 Conceitos Integrados
-
-Cada tópico foi projetado para:
-- ✅ **Explicação simples** em linguagem acessível
-- ✅ **Exemplos práticos** com cenários reais
-- ✅ **Código bem comentado** explicando cada linha
-- ✅ **Testes funcionais** que você pode executar
-- ✅ **Progressão lógica** do simples ao complexo
-
-## ⚖️ Vantagens e Desvantagens da POO
-
-### ✅ Vantagens
-
-| Vantagem | Explicação | Exemplo Prático |
-|----------|------------|----------------|
-| **Reutilização** | Código escrito uma vez pode ser usado várias vezes | Classe `Animal` → `Cachorro`, `Gato` |
-| **Modularidade** | Sistema dividido em partes independentes | Cada classe tem responsabilidade específica |
-| **Manutenibilidade** | Mudanças são localizadas e controladas | Alterar `ContaBancaria` não afeta `Cliente` |
-| **Escalabilidade** | Fácil adicionar novas funcionalidades | Nova classe `ContaPoupanca` extends `Conta` |
-| **Segurança** | Dados protegidos contra acesso indevido | Atributos `private` + métodos `public` |
-| **Legibilidade** | Código mais próximo do pensamento humano | `carro.acelerar()` é intuitivo |
-
-### ❌ Desvantagens
-
-| Desvantagem | Explicação | Quando Evitar |
-|-------------|------------|---------------|
-| **Complexidade inicial** | Curva de aprendizado mais íngreme | Projetos muito simples (scripts) |
-| **Overhead de performance** | Abstrações podem tornar código mais lento | Sistemas críticos em tempo real |
-| **Over-engineering** | Tendência a criar estruturas desnecessárias | Problemas que não precisam de POO |
-| **Hierarquias rígidas** | Herança pode criar dependências inflexíveis | Quando composição seria melhor |
-
-### 🎯 Quando Usar POO?
-
-**✅ Use POO quando:**
-- Sistema tem múltiplas entidades relacionadas
-- Código precisa ser reutilizado e mantido
-- Equipe de desenvolvimento é grande
-- Sistema vai crescer e evoluir
-- Segurança dos dados é importante
-
-**❌ Considere alternativas quando:**
-- Script simples de automação
-- Performance crítica (ex: kernels, drivers)
-- Problema matemático puro
-- Processamento de dados em lote simples
-
-## 🎓 Objetivos de Aprendizagem
-
-Ao completar esta aula, você será capaz de:
-
-- **Criar classes e objetos** bem estruturados
-- **Aplicar encapsulamento** para proteger dados
-- **Usar herança** para reutilizar código eficientemente
-- **Implementar polimorfismo** para flexibilidade
-- **Trabalhar com abstração** para simplificar sistemas complexos
-- **Aplicar princípios SOLID** para código de qualidade e manutenível
-- **Desenvolver sistemas completos** usando todos os conceitos integrados
-
-## 📊 Estatísticas da Aula
-
-- **7 tópicos principais** organizados progressivamente
-- **30+ arquivos Java** com exemplos completos
-- **4000+ linhas** de código comentado e funcional
-- **Múltiplos cenários** práticos (animais, banco, formas, dispositivos, biblioteca, e-commerce)
-- **Exercícios integrados** para consolidação
-- **História e contexto** da evolução da engenharia de software
-
-## 🔧 Pré-requisitos
-
-- Java 8+ instalado
-- Conhecimento básico de programação
-- Familiaridade com conceitos de variáveis, loops e condicionais
-
-## 📈 Próximos Passos
-
-Após completar esta aula de POO:
-1. **[Design Patterns](../05-design-patterns/)** - Padrões de projeto
-2. **[Conceitos Intermediários](../03-conceitos-intermediarios/)** - Collections, Generics
-3. **Frameworks** - Spring, Hibernate
-4. **Projetos reais** - Aplicações práticas
+**Pré-requisitos:** Java 8+ (`java -version` para conferir) e um editor (VS Code
+recomendado). Conhecimento básico de variáveis, condicionais e loops.
 
 ---
 
-## 🎯 Resumo dos Conceitos
+## 💡 Por que POO? (a ideia em uma frase)
 
-| Tópico | Conceito Principal | Exemplo Clássico | Exemplo do Curso |
-|--------|-------------------|------------------|------------------|
-| **Classes e Objetos** | Fundamentos da POO | `Pessoa`, `Produto` | Sistema de cães domésticos |
-| **Encapsulamento** | Proteção de dados | Conta bancária com validações | Sistema bancário seguro |
-| **Herança** | Reutilização de código | `Veiculo` → `Carro`/`Moto` | `Animal` → `Cachorro`/`Gato` |
-| **Polimorfismo** | Múltiplas implementações | `Forma.calcularArea()` | Formas geométricas e calculadora |
-| **Abstração** | Simplificação de complexidade | Interface `Drawable` | Dispositivos eletrônicos |
-| **Exercícios** | Integração completa | Sistema universitário | Sistema de biblioteca |
-| **SOLID** | Princípios de design | Arquitetura limpa | Sistema de e-commerce com todos os princípios |
+Antes da POO, **dados e funções viviam separados** — qualquer código podia corromper
+qualquer dado. A POO **junta o dado com as regras que cuidam dele numa única caixa: o
+objeto.** Isso torna o código mais **seguro**, **reaproveitável** e **próximo do jeito que
+pensamos sobre o mundo real**. O módulo [00 - Introdução](00-introducao/) mostra isso com
+código lado a lado.
 
-## 🔧 Boas Práticas e Padrões
+---
 
-### Princípios SOLID
+## 📈 Próximos passos
 
-🎓 **Agora com tópico dedicado completo!** Veja [07-SOLID](07-solid/) para material extenso sobre:
+Depois de concluir este curso:
 
-- **S** - Single Responsibility (Responsabilidade Única)
-- **O** - Open/Closed (Aberto/Fechado)
-- **L** - Liskov Substitution (Substituição de Liskov)
-- **I** - Interface Segregation (Segregação de Interface)
-- **D** - Dependency Inversion (Inversão de Dependência)
+- **[Princípios de Design de POO](../4-principios-desgin-poo/)** — KISS, DRY, YAGNI,
+  composição sobre herança
+- **[Design Patterns](../05-design-patterns/)** — soluções reutilizáveis para problemas comuns
+- **[Conceitos Intermediários](../03-conceitos-intermediarios/)** — Collections, Generics, Streams
 
-### Padrões de Design Comuns
-- **Factory**: Criação de objetos sem expor a lógica
-- **Observer**: Notificação automática de mudanças
-- **Strategy**: Algoritmos intercambiáveis
-- **Decorator**: Adicionar funcionalidades dinamicamente
+---
 
-**✅ Aula completa e funcional pronta para uso!**
+**Anterior:** [Fundamentos](../01-fundamentos/) | **Próximo:** [Conceitos Intermediários](../03-conceitos-intermediarios/)

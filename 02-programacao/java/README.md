@@ -72,14 +72,19 @@ Aprofunda os conhecimentos básicos com mais exemplos práticos:
 - **Operadores Completos**: Aritméticos, lógicos, bitwise
 - **Controle de Fluxo Avançado**: Switch, loops aninhados
 
-### 🎯 Nível 3: Programação Orientada a Objetos (`02-programacao-orientada-objetos/`)
+### 🎯 Nível 3: Programação Orientada a Objetos (`03-POO/`)
 **Tempo estimado: 4-5 semanas**
 
-Introdução ao paradigma mais importante da programação:
+Introdução ao paradigma mais importante da programação, começando pela **mentalidade** e
+pela **modelagem** (do problema real às classes) antes dos 4 pilares:
+- **Introdução**: O clique mental da POO — objeto = estado + comportamento
+- **Modelagem** ⭐: Como identificar classes, atributos, responsabilidades e relacionamentos
 - **Classes e Objetos**: Criando seus próprios tipos de dados
 - **Encapsulamento**: Protegendo dados com getters/setters
 - **Herança**: Reutilizando código entre classes
 - **Polimorfismo**: Múltiplas formas para o mesmo método
+- **Abstração e Interfaces**: Contratos e classes abstratas
+- **SOLID**: Princípios de design para código de qualidade
 
 ### 🎯 Nível 4: Conceitos Intermediários (`03-conceitos-intermediarios/`)
 **Tempo estimado: 3-4 semanas**

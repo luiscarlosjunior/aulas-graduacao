@@ -401,7 +401,7 @@ Acompanhe sua evolução:
 Após dominar estes conceitos fundamentais, você estará pronto para:
 
 1. **[Fundamentos Avançados](../01-fundamentos/)** - Aprofundamento dos conceitos
-2. **[Programação Orientada a Objetos](../02-programacao-orientada-objetos/)** - O próximo grande passo
+2. **[Programação Orientada a Objetos](../03-POO/)** - O próximo grande passo
 3. **Projetos próprios** - Aplicar conhecimento em ideias pessoais
 4. **Frameworks** - Spring, Hibernate, e outras tecnologias
 5. **Desenvolvimento profissional** - Carreira como programador Java

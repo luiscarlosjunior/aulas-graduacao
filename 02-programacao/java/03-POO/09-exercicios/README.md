@@ -8,11 +8,13 @@ Esta seção contém exercícios práticos para consolidar todos os conceitos de
 
 Antes de fazer estes exercícios, certifique-se de ter estudado:
 
-- [01 - Classes e Objetos](../01-classes-objetos/)
-- [02 - Encapsulamento](../02-encapsulamento/)
-- [03 - Herança](../03-heranca/)
-- [04 - Polimorfismo](../04-polimorfismo/)
-- [05 - Abstração](../05-abstracao/)
+- [02 - Classes e Objetos](../02-classes-e-objetos/)
+- [03 - Encapsulamento](../03-encapsulamento/)
+- [04 - Herança](../04-heranca/)
+- [05 - Polimorfismo](../05-polimorfismo/)
+- [06 - Abstração](../06-abstracao/)
+- [07 - Interfaces](../07-interfaces/)
+- [08 - SOLID](../08-solid/)
 
 ## 📋 Lista de Exercícios
 
@@ -145,4 +147,4 @@ Após completar estes exercícios:
 4. **Projetos Reais**: Contribua para projetos open source
 
 ## 🔗 Navegação
-[← 05 - Abstração](../05-abstracao/) | [📚 Conceitos Principais](../README.md)
+[← 08 - SOLID](../08-solid/) | [📚 Voltar ao Índice](../README.md)

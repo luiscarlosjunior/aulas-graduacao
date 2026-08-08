@@ -136,4 +136,4 @@ Este exemplo aparece em livros clássicos como:
 - Referência pai não acessa métodos específicos do filho
 
 ## 🔗 Navegação
-[← 03 - Herança](../03-heranca/) | [05 - Abstração →](../05-abstracao/)
+[← 04 - Herança](../04-heranca/) | [06 - Abstração →](../06-abstracao/)

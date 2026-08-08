@@ -554,10 +554,10 @@ Se você chegou até aqui, já viu como o Collections Framework é um **exemplo 
 
 #### 🔄 **Volte aos Fundamentos Se Necessário**
 Se algum conceito de OOP não ficou claro durante este estudo:
-- Revise [Classes e Objetos](../../02-programacao-orientada-objetos/01-classes-objetos/)
-- Reforce [Encapsulamento](../../02-programacao-orientada-objetos/02-encapsulamento/)
-- Pratique [Herança](../../02-programacao-orientada-objetos/03-heranca/)
-- Domine [Polimorfismo](../../02-programacao-orientada-objetos/04-polimorfismo/)
+- Revise [Classes e Objetos](../../03-POO/02-classes-e-objetos/)
+- Reforce [Encapsulamento](../../03-POO/03-encapsulamento/)
+- Pratique [Herança](../../03-POO/04-heranca/)
+- Domine [Polimorfismo](../../03-POO/05-polimorfismo/)
 
 #### 🚀 **Próximos Desafios**
 1. **Generics**: Aprofunde type safety (próximo módulo)

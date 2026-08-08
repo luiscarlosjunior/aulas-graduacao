@@ -555,7 +555,7 @@ public static int[] copiarArray(int[] original) {
 
 Após dominar arrays e métodos, você estará pronto para:
 - [Manipulação de Strings](../manipulacao_strings/) - Processamento avançado de texto
-- [Programação Orientada a Objetos](../../02-programacao-orientada-objetos/) - Classes e objetos
+- [Programação Orientada a Objetos](../../03-POO/) - Classes e objetos
 - [Collections Framework](../../03-conceitos-intermediarios/) - Estruturas de dados avançadas
 
 ## 📚 Recursos Adicionais

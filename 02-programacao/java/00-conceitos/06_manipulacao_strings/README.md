@@ -482,7 +482,7 @@ Desafios complexos para programadores experientes:
 Após dominar manipulação de strings, você estará pronto para:
 
 1. **[Arrays e Métodos](../05_arrays_e_metodos/)** - Estruturas de dados mais complexas
-2. **[Programação Orientada a Objetos](../../02-programacao-orientada-objetos/)** - Conceitos avançados
+2. **[Programação Orientada a Objetos](../../03-POO/)** - Conceitos avançados
 3. **Expressões Regulares** - Pattern matching avançado
 4. **Internacionalização** - Suporte a múltiplos idiomas
 5. **Processamento de arquivos** - Leitura e escrita de texto

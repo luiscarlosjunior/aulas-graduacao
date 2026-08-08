@@ -535,7 +535,7 @@ String resultado = sb.toString();
 ## 📖 Próximos Passos
 
 Após dominar manipulação de strings, você estará pronto para:
-- [Programação Orientada a Objetos](../../02-programacao-orientada-objetos/) - Classes e objetos
+- [Programação Orientada a Objetos](../../03-POO/) - Classes e objetos
 - [Collections Framework](../../03-conceitos-intermediarios/) - Listas, maps, sets
 - [Entrada/Saída de Dados](../../arquivo-io/) - Leitura e escrita de arquivos
 

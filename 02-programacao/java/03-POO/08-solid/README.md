@@ -3316,7 +3316,7 @@ Os princípios SOLID representam **décadas de experiência acumulada** na engen
 **Explore também:**
 - [Design Patterns](../../05-design-patterns/) - Padrões de projeto em Java
 - [Clean Code Practices](../../03-conceitos-intermediarios/) - Boas práticas de código limpo
-- [Testing](../../06-exercicios/) - Testes unitários e TDD
+- [Exercícios de POO](../09-exercicios/) - Consolidação prática
 
 ---
 
