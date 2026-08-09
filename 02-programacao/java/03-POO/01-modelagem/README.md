@@ -153,6 +153,14 @@ Setas dos relacionamentos:
 > Você não precisa de ferramenta cara. Um papel, um quadro, ou o **Mermaid** (que o
 > GitHub renderiza automático, como nos diagramas deste arquivo) já bastam.
 
+> 📐 **Quer ir além do diagrama de classes?** A UML tem **13 diagramas** para analisar e
+> projetar um sistema inteiro (casos de uso, sequência, estados, componentes, implantação...).
+> O subcurso **[Análise e Projeto de Sistemas OO (com UML)](analise-projeto-uml/)** traz
+> **cada tópico em sua própria pasta** (fundamentos + os 13 diagramas), com vantagens,
+> desvantagens, dicas e uso na indústria — tudo sobre o domínio-base **streaming "Melodia" +
+> conta bancária**, que também vem **implementado em Java** para as aulas alternarem
+> *um dia modelagem, outro dia código*.
+
 ---
 
 ## 6. 🟢 Exemplo simples, guiado: uma biblioteca
