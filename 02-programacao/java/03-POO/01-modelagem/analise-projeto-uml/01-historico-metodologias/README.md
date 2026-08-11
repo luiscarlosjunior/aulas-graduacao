@@ -117,6 +117,64 @@ você tem agora**. Nem mais, nem menos.
 
 ---
 
+## 💼 No dia a dia de uma empresa
+
+Metodologia não é assunto de livro — é a rotina que define se o projeto entrega ou atrasa.
+Três cenários reais que você vai encontrar:
+
+**1) A startup de streaming (a própria Melodia, no começo).** Time de 4 devs, requisitos
+mudando toda semana porque ninguém sabe ainda o que o usuário quer. Aqui, **cascata seria
+suicídio**: passar 3 meses escrevendo especificação para descobrir no lançamento que
+ninguém quer "playlists colaborativas". Usa-se **Scrum**: sprints de 2 semanas, entrega o
+plano *Free* primeiro, mede, e só então decide construir o *Premium*. A UML aparece em
+**rabiscos de quadro branco** — um diagrama de sequência para acertar o fluxo de pagamento,
+fotografado e jogado fora depois.
+
+**2) O banco que processa a cobrança das assinaturas.** O sistema que debita a conta **não
+pode errar** — errar dinheiro dá processo. Requisitos são estáveis e regulados. Aqui há
+muito mais **documentação formal**, revisões de design com diagramas de estados e de
+sequência versionados, e um processo mais próximo do **cascata/RUP** (ou "Water-Scrum-Fall":
+planeja formal, desenvolve ágil, libera com aprovação). Ninguém descarta o diagrama: ele é
+**auditável**.
+
+**3) A migração do sistema legado.** Uma empresa tem um sistema de relatórios dos anos 2000
+escrito em estilo **procedural** (funções soltas, dados em structs globais). Toda mudança
+quebra três coisas. A equipe está **reescrevendo em OO** justamente para viver o que a
+seção 3.4 descreve: juntar dados + comportamento e parar o efeito-cascata. Esse é,
+literalmente, o motivo histórico da OO existir — acontecendo hoje, no seu emprego.
+
+> 🗣️ **O que um gerente técnico realmente decide:** não "cascata ou ágil?" no abstrato, e
+> sim *"quanto risco e incerteza este projeto tem?"*. Muita incerteza → iterativo e leve.
+> Muito custo de erro e requisitos fixos → mais formal e documentado. **O contexto manda.**
+
+---
+
+## 🎯 Desafio para você criar
+
+**Missão:** você é o(a) líder técnico(a) e precisa escolher e justificar o processo de dois
+projetos. Entregue **uma página** (pode ser em Markdown) com:
+
+1. **Escolha uma dupla de projetos** (invente o contexto):
+   - 🟢 um **app novo e incerto** (ex.: rede social de troca de figurinhas);
+   - 🔵 um **sistema crítico e estável** (ex.: emissão de boletos de um banco).
+2. Para **cada um**, responda:
+   - Qual metodologia você usaria (cascata, Scrum, híbrido) e **por quê** — cite risco,
+     incerteza e custo do erro.
+   - **Dois riscos** de escolher a metodologia errada ali.
+   - **Quais 2 ou 3 diagramas UML** você desenharia (e quais **não** desenharia) — justifique.
+3. **Bônus (linha do tempo):** desenhe, em Mermaid `timeline`, a evolução *fictícia* de um
+   produto ao longo de 3 anos (MVP → tração → escala), marcando em que fase cada metodologia
+   fez sentido.
+
+✅ **Critério de "pronto":** um colega lê sua página e entende **por que** cada escolha,
+sem você explicar. Não existe resposta única — existe justificativa boa.
+
+> ☕ **No dia de Java**, o [Desafio 1 do projeto](../projeto-base-java/DESAFIOS.md#desafio-1--do-procedural-ao-oo-o-motivo-histórico-da-oo)
+> te faz *sentir na pele* a dor que a OO veio curar: você vai refatorar um trecho
+> **procedural** para objetos.
+
+---
+
 ## ✅ O que levar desta pasta
 
 - [ ] Saímos de "software é código" para "software é um **modelo de objetos** que gera código".

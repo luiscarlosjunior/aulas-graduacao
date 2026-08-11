@@ -23,6 +23,14 @@ em **[../00-projeto-base/](../00-projeto-base/)**.
 
 ---
 
+## 🎯 Desafios práticos
+
+Os **[DESAFIOS.md](DESAFIOS.md)** trazem exemplos do dia a dia **em Java** e três desafios
+progressivos (procedural→OO, criar o `Podcast`, extrair a `FonteDeAudio`) — o par prático das
+três primeiras aulas de modelagem. Comece por eles depois de rodar o cenário abaixo.
+
+---
+
 ## ▶️ Como executar
 
 Pré-requisito: **Java 17+** (`java -version`).

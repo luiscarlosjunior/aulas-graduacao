@@ -90,6 +90,62 @@ ao problema.
 
 ---
 
+## 💼 No dia a dia de uma empresa
+
+Abstração é a decisão que mais **economiza (ou custa)** dinheiro no longo prazo — e você a
+verá dos dois jeitos:
+
+**1) A boa abstração que salvou a troca de gateway.** O Melodia cobra assinaturas por um
+gateway de pagamento (digamos, "PagX"). Um belo dia, o PagX aumenta a taxa em 40% e a
+empresa decide migrar para o "PagY". Se o código chamasse a API do PagX **diretamente** em
+50 lugares, seria um pesadelo de semanas. Mas o time sênior tinha criado uma **abstração**:
+uma interface `MeioDePagamento` com `cobrar(valor)`, e o resto do sistema só conhecia essa
+interface. Trocar de gateway virou **escrever uma classe nova** (`PagY implements
+MeioDePagamento`) e mudar **uma linha** de configuração. Isso é abstração pagando dividendos:
+o "como" (qual gateway) mudou sem tocar em quem usa o "o quê" (cobrar). Bônus: nos **testes**,
+usa-se um `MeioDePagamentoFalso` que sempre aprova — sem chamar banco de verdade.
+
+**2) A abstração especulativa que virou peso morto.** No mesmo time, um dev animado criou
+`AbstractProvedorDeConteudoBaseFactory` "porque um dia pode ter vídeo, texto, podcast…".
+Passaram-se dois anos: **só existe música**. A hierarquia de 5 classes abstratas continua lá,
+confundindo todo mundo, e ninguém tem coragem de apagar. Custo real, benefício zero. Este é o
+outro lado da moeda — o [YAGNI](../../../../4-principios-desgin-poo/02-yagni/) chorando.
+
+> 🗣️ **A regra que sobrevive à prova do tempo:** *"abstraia na terceira vez, não na
+> primeira"*. Duplicou uma vez? Copie. Duas? Desconfie. Três? **Agora** você já sabe o que
+> varia e o que é fixo — e a abstração sai **certa**. Abstrair antes de entender a variação é
+> chutar no escuro.
+
+---
+
+## 🎯 Desafio para você criar
+
+**Missão:** agora que o Melodia tem **música** e **podcast** (da [aula 02](../02-conceitos-orientacao-objetos/)),
+os dois são "coisas que se reproduzem". Projete a **abstração** que os unifica — ainda
+**modelando**, sem codar.
+
+1. Crie o tipo abstrato **`FonteDeAudio`** (interface ou classe abstrata — decida e
+   justifique). O que **todo** áudio reproduzível precisa expor? (dica: `getDuracao()`,
+   `getTitulo()`, `reproduzir()`…).
+2. Desenhe, em Mermaid `classDiagram`, `Musica` e `Podcast` **implementando/estendendo**
+   `FonteDeAudio`, e mostre a `Playlist` guardando `FonteDeAudio` (não mais só `Musica`) —
+   assim ela aceita os dois. Isso é **abstração + polimorfismo** trabalhando juntos.
+3. Escreva **2 ou 3 linhas** respondendo: *o que essa abstração **esconde** e o que ela
+   **revela**?* E: *ela facilita qual mudança futura?*
+4. **Pense no limite:** dê **um exemplo** de algo que **NÃO** deveria entrar em `FonteDeAudio`
+   (um detalhe específico só de podcast, por exemplo). Abstração boa também é saber o que
+   **deixar de fora**.
+
+✅ **Critério de "pronto":** um `Playlist` no seu modelo consegue misturar músicas e podcasts
+sem saber a diferença — e você consegue apontar **uma** mudança futura que ficou barata por
+causa da abstração (e uma que a abstração **não** deveria tentar prever).
+
+> ☕ **No dia de Java**, o [Desafio 3 do projeto](../projeto-base-java/DESAFIOS.md#desafio-3--abstração-a-fontedeaudio)
+> pede para **extrair** a interface `FonteDeAudio` e fazer a `Playlist` e o `reproduzir()`
+> funcionarem polimorficamente com música **e** podcast.
+
+---
+
 ## ✅ O que levar desta pasta
 
 - [ ] Abstrair é **recortar** o mundo: incluir o essencial, ignorar o resto.

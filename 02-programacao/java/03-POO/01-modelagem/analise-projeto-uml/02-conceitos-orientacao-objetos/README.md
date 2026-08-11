@@ -83,6 +83,60 @@ flowchart LR
 
 ---
 
+## 💼 No dia a dia de uma empresa
+
+Os conceitos de OO não são teoria bonita — eles aparecem como **dor** quando faltam. Duas
+histórias que se repetem em qualquer empresa:
+
+**1) O bug do saldo negativo (por falta de encapsulamento).** Num sistema financeiro real,
+o campo `saldo` era acessível de vários pontos do código. Um desenvolvedor, com pressa,
+escreveu `conta.saldo = conta.saldo - valor` numa tela de estorno **sem checar se dava
+negativo**. Resultado: contas ficaram com saldo negativo em produção, e o time passou o
+fim de semana rodando scripts de correção. A causa-raiz não foi "o dev distraído" — foi o
+**dado exposto**. Quando o time trocou `saldo` público por `private` + um método
+`debitar(valor)` que valida (exatamente como o `ContaBancaria` do nosso projeto), o bug
+**ficou impossível de acontecer**. Encapsulamento não é purismo: é o que impede que o *erro
+de uma pessoa* vire *incidente de todo mundo*.
+
+**2) A "classe que faz tudo" (por falta de responsabilidade única).** Em muitos sistemas
+antigos existe aquela classe `Sistema` ou `Util` com 4.000 linhas, que cuida de usuário, de
+pagamento, de e-mail e de relatório. Toda alteração nela assusta ("será que quebro o quê?").
+Quando cada responsabilidade vira **um objeto que cuida de si** (`Ouvinte`, `Assinatura`,
+`ContaBancaria`), a mudança fica **local**: mexer na regra de cobrança não toca no catálogo.
+Isso é OO trabalhando a seu favor no dia a dia — e é o que torna o *onboarding* de um novo
+colega possível (ele lê **uma** classe e entende **uma** coisa).
+
+> 🗣️ **Como isso soa numa reunião:** "esse método não deveria estar aqui, quem é o **dono**
+> desse dado?" é uma frase de code review que você vai ouvir e falar. Ela é, no fundo, a
+> pergunta central da OO: *cada objeto é responsável pelo próprio estado*.
+
+---
+
+## 🎯 Desafio para você criar
+
+**Missão:** o Melodia vai lançar **podcasts**. Modele (no papel ou em Mermaid, ainda **sem
+codar**) a nova entidade e mostre que você domina o vocabulário de OO.
+
+1. Crie a classe **`Podcast`** (e, se quiser, `Episodio`). Para ela, liste:
+   - **Atributos** (o que ela *sabe*) — pelo menos 4.
+   - **Operações** (o que ela *faz*) — pelo menos 3, como **verbos do domínio**.
+2. Marque, para **cada** operação, **qual mensagem** ela troca com outro objeto (ex.:
+   `reproduzirEpisodio()` envia `creditarRoyalty()` ao `Artista`).
+3. Aponte no seu modelo **um exemplo de cada pilar**:
+   - onde há **abstração**, **encapsulamento**, **herança** e **polimorfismo** (dica: um
+     `Podcast` e uma `Musica` são ambos "algo reproduzível"…).
+4. **Pegadinha proposital:** decida se "categoria do podcast" é um **atributo** (texto) ou
+   uma **classe** `Categoria`. Justifique com a pergunta da [aula 04](../04-classe-e-objetos/):
+   *tem só valor, ou tem comportamento/aparece muitas vezes?*
+
+✅ **Critério de "pronto":** nenhuma classe sua é **anêmica** (todas têm comportamento, não
+só dados) e você consegue explicar **quem é o dono** de cada dado.
+
+> ☕ **No dia de Java**, o [Desafio 2 do projeto](../projeto-base-java/DESAFIOS.md#desafio-2--conceitos-de-oo-em-ação-o-podcast)
+> pede para **implementar** esse `Podcast` e conectá-lo à `PlataformaStreaming`.
+
+---
+
 ## ✅ O que levar desta pasta
 
 - [ ] Objeto = **estado + comportamento**; o sistema é objetos **colaborando por mensagens**.
