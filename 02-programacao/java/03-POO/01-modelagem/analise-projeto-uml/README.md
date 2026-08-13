@@ -25,11 +25,17 @@ mesmo sistema aparece dos dois lados, e eles se referenciam mutuamente:
 
 ---
 
+> ### 🎬 Comece pela **[Aula 01 — Modelagem do zero (deck em draw.io)](aula-01-modelagem-do-zero/)**
+> Um arquivo `.drawio` com **10 diagramas em evolução** — de *uma frase do cliente* a um
+> *modelo concreto* de um sistema tipo Spotify — com anotações para você **explicar em sala**.
+> É a aula de abertura que mostra **por que** modelar.
+
 ## 🗺️ Trilha do curso (cada item é uma pasta)
 
 ### Parte I — Fundamentos de Orientação a Objetos
 | # | Tópico | O que você aprende |
 |---|--------|--------------------|
+| 🎬 | **[Aula 01 — Modelagem do zero](aula-01-modelagem-do-zero/)** | Deck em draw.io: a evolução do requisito ao modelo concreto (comece aqui) |
 | 00 | **[Projeto-base](00-projeto-base/)** | O domínio Melodia (streaming + banco): a especificação que vira tudo |
 | 01 | **[Histórico das Metodologias](01-historico-metodologias/)** | De onde vêm a OO e a UML; cascata, estruturada, ágil |
 | 02 | **[Conceitos de OO](02-conceitos-orientacao-objetos/)** | Objeto, classe, mensagem e os 4 pilares |
