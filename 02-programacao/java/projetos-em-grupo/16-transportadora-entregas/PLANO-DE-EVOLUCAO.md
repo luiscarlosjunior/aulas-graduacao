@@ -11,6 +11,14 @@
 As aulas **alternam**: um dia **☕ Java** (código), outro dia **📐 Modelagem** (UML), seguindo
 a ordem dos diagramas do [curso de Análise e Projeto OO](../../03-POO/01-modelagem/analise-projeto-uml/).
 
+> ### 📖 Como ler cada encontro
+> - 📨 **Cliente** — o novo pedido (a "dor").   💡 **Exercita** — o conceito da aula.
+> - 📦 **Entregável** — o que entregar.   🎯 **Direcionamento** — por onde começar / o que fazer.
+> - 🔒 **Restrição nova** — a regra que **sobe o nível** (o professor cobra isso).   🤔 **Por quê** — como isso prepara o próximo passo.
+>
+> As restrições **acumulam**: o que foi exigido antes continua valendo. Não precisam acertar
+> tudo de primeira — o objetivo é **evoluir** o mesmo sistema, aula após aula.
+
 ---
 
 ## 🗺️ Mapa rápido (20 encontros)
@@ -45,124 +53,180 @@ a ordem dos diagramas do [curso de Análise e Projeto OO](../../03-POO/01-modela
 - 📨 **Cliente:** *"Por enquanto, só quero **cadastrar e listar as encomendas**. Nada de mais."*
 - 💡 **Exercita:** variáveis, listas, laços, entrada/saída — **ainda sem classes**, de propósito.
 - 📦 **Entregável:** um programa Java que cadastra e lista encomendas em memória (tudo no `main`).
-- 🧩 **Dica:** guardem este código — na aula de POO vocês vão *sentir* por que ele não escala.
+- 🎯 **Direcionamento:** guardem os dados em listas/arrays no `main` e ofereçam só duas ações: *adicionar* e *listar*. Comecem pequeno.
+- 🔒 **Restrição nova:** proibido criar classes próprias — só tipos básicos e coleções. (Vai ficar feio; é proposital.)
+- 🤔 **Por quê:** sentir o limite do código sem objetos é o que dá sentido à POO nas próximas aulas.
 
 ## Encontro 2 — 📐 Histórico + Conceitos de OO
 **[Aula 01](../../03-POO/01-modelagem/analise-projeto-uml/01-historico-metodologias/) + [02](../../03-POO/01-modelagem/analise-projeto-uml/02-conceitos-orientacao-objetos/)**
 - 📨 **Cliente:** *"Ah, também preciso registrar o rastreamento, e cada encomenda acumula vários eventos de trajeto."*
 - 💡 **A dor aparece:** o código procedural começa a espalhar dados. Hora de **enxergar objetos**.
-- 📦 **Entregável:** **glossário do domínio** + lista de **entidades, atributos e operações candidatas** (sublinhem os substantivos e verbos do pedido).
-- 🧩 **Dica:** apontem no código do Encontro 1 **onde** já está ficando difícil de mudar.
+- 📦 **Entregável:** **glossário do domínio** + lista de **entidades, atributos e operações candidatas**.
+- 🎯 **Direcionamento:** grifem o briefing — substantivos viram **classe/atributo**, verbos viram **operação**. Montem uma tabela "termo → é classe? atributo? operação?".
+- 🔒 **Restrição nova:** cada entidade candidata precisa de **uma frase justificando** por que existe (o que ela sabe e o que faz).
+- 🤔 **Por quê:** um vocabulário claro agora evita retrabalho quando o código começar.
 
 ## Encontro 3 — 📐 Abstração + Classe e Objetos
 **[Aula 03](../../03-POO/01-modelagem/analise-projeto-uml/03-abstracao/) + [04](../../03-POO/01-modelagem/analise-projeto-uml/04-classe-e-objetos/)**
 - 📨 **Cliente (falando demais):** *"o encomenda torce pro tal time, faz aniversário em maio, indicou um amigo…"* — 90% irrelevante.
 - 💡 **Exercita:** **abstração** (recortar só o que importa) e **classe (molde) × objeto (instância)**.
 - 📦 **Entregável:** primeiras **classes candidatas** (nome + o que guarda + o que faz), **ignorando o ruído**.
+- 🎯 **Direcionamento:** escolham de **3 a 6 classes** essenciais; para cada uma, 2–4 atributos e 1–3 operações. Descartem o resto.
+- 🔒 **Restrição nova:** no máximo ~6 classes neste estágio; **justifiquem cada corte** (por que ficou de fora).
+- 🤔 **Por quê:** começar enxuto evita *over-engineering* — dá para crescer depois com segurança.
 
 ## Encontro 4 — ☕ Classes e Objetos em Java
 **[Módulo: Classes e Objetos](../../03-POO/02-classes-e-objetos/)**
 - 📨 **Cliente:** *"Quero que cada evento de rastreio seja uma 'coisa' de verdade no sistema, não uma linha solta."*
 - 💡 **Exercita:** `class`, atributos, **construtor**, `this`, `new`.
 - 📦 **Entregável:** as entidades viram **classes Java com construtor**; um `Principal` cria objetos reais — **aposentando** o código procedural do Encontro 1.
+- 🎯 **Direcionamento:** uma classe por entidade, com **construtor que exige os dados obrigatórios**. No `main`, criem alguns objetos e usem.
+- 🔒 **Restrição nova:** todo atributo nasce `private`; nada de lógica de negócio no `main` além de **orquestrar** objetos.
+- 🤔 **Por quê:** objetos "donos de si" preparam o encapsulamento do próximo dia.
 
 ## Encontro 5 — 📐 Atributos + Operações
 **[Aula 06](../../03-POO/01-modelagem/analise-projeto-uml/06-atributos/) + [07](../../03-POO/01-modelagem/analise-projeto-uml/07-operacoes/)**
 - 📨 **Cliente:** *"Tem uma regra importante: não pode marcar como 'entregue' uma encomenda que nem saiu para entrega."*
 - 💡 **Exercita:** atributos (visibilidade `+ - #`) e operações (assinatura) — e **onde a regra vai morar**.
 - 📦 **Entregável:** classes com **atributos** e **operações** bem definidos no diagrama (a regra vira uma operação).
+- 🎯 **Direcionamento:** escrevam a **assinatura** de cada operação (parâmetros e retorno) e a visibilidade de cada atributo. Transformem a regra "não pode marcar como 'entregue' uma encomenda que nem saiu para entrega" numa operação.
+- 🔒 **Restrição nova:** **nenhuma classe anêmica** — cada uma precisa de ≥1 operação de negócio (não só get/set).
+- 🤔 **Por quê:** decidir onde a regra mora agora evita espalhá-la pelo código depois.
 
 ## Encontro 6 — ☕ Encapsulamento
 **[Módulo: Encapsulamento](../../03-POO/03-encapsulamento/)**
-- 📨 **Cliente:** *"Deu problema! Alguém colocou um valor absurdo: o peso da encomenda. Isso não podia acontecer."*
+- 📨 **Cliente:** *"Deu problema! Alguém colocou um valor absurdo: o peso da encomenda ficou negativo. Isso não podia acontecer."*
 - 💡 **Exercita:** `private` + getters/setters **com validação**; proteger o **invariante**.
 - 📦 **Entregável:** campos `private` e métodos que **validam** a regra do Encontro 5 (estado inválido fica **impossível**).
+- 🎯 **Direcionamento:** implementem no código a regra "não pode marcar como 'entregue' uma encomenda que nem saiu para entrega": o método valida **antes** de mudar o estado e recusa o inválido.
+- 🔒 **Restrição nova:** estado inválido deve ser **impossível** — a validação **lança exceção**; proibido setter que aceita qualquer valor.
+- 🤔 **Por quê:** um objeto que se protege sozinho elimina uma classe inteira de bugs.
 
 ## Encontro 7 — 📐 Associação
 **[Aula 05](../../03-POO/01-modelagem/analise-projeto-uml/05-associacao/)**
 - 📨 **Cliente:** *"Preciso enxergar como as coisas se ligam: uma encomenda tem muitos eventos de rastreio (histórico) — e quantas de cada lado."*
 - 💡 **Exercita:** associação, **multiplicidade**, agregação × composição.
 - 📦 **Entregável:** **diagrama de classes** com relacionamentos e multiplicidades (decidam o que é composição).
+- 🎯 **Direcionamento:** desenhem a multiplicidade nas **duas pontas** (uma encomenda tem muitos eventos de rastreio (histórico)) e, para cada "tem-um", decidam **composição (◆)** ou **agregação (◇)**.
+- 🔒 **Restrição nova:** toda associação precisa de **multiplicidade explícita** e um verbo/nome; **justifiquem** cada composição.
+- 🤔 **Por quê:** a multiplicidade correta vira integridade de dados (e futura chave estrangeira no banco).
 
 ## Encontro 8 — ☕ Herança
 **[Módulo: Herança](../../03-POO/04-heranca/)**
 - 📨 **Cliente:** *"Surgiu um **tipo especial**: encomenda expressa (vs normal)."*
 - 💡 **Exercita:** `extends`, `super`, reúso do que já existe.
 - 📦 **Entregável:** uma **subclasse** que especializa a base — escrevendo **só o que muda**.
+- 🎯 **Direcionamento:** criem a superclasse comum e façam **encomenda expressa (vs normal)** estendê-la, reaproveitando o que já existe com `super`.
+- 🔒 **Restrição nova:** só herde se passar no teste **"é um"**; se for "tem um", use composição. A superclasse pode ser `abstract`.
+- 🤔 **Por quê:** herança certa reduz duplicação; herança errada engessa o sistema.
 
 ## Encontro 9 — ☕ Polimorfismo
 **[Módulo: Polimorfismo](../../03-POO/05-polimorfismo/)**
 - 📨 **Cliente:** *"Esse encomenda expressa (vs normal) **se comporta diferente**: tem prazo menor e prioridade no transporte."*
 - 💡 **Exercita:** sobrescrita (`@Override`), **ligação dinâmica**.
 - 📦 **Entregável:** o **mesmo método** com comportamento diferente por tipo — **sem `if` perguntando o tipo**.
+- 🎯 **Direcionamento:** sobrescrevam um método para que **encomenda expressa (vs normal)** faça o seu (tem prazo menor e prioridade no transporte) e chamem sempre pela **referência do tipo base**.
+- 🔒 **Restrição nova:** proibido `if`/`instanceof` para decidir comportamento por tipo — quem decide é o objeto.
+- 🤔 **Por quê:** amanhã, um tipo novo não deve exigir tocar no código que já funciona (é a base do OCP, no Encontro 16).
 
 ## Encontro 10 — 📐 Casos de Uso
 **[Aula 08](../../03-POO/01-modelagem/analise-projeto-uml/08-diagrama-casos-de-uso/)**
 - 📨 **Cliente:** *"Deixa eu te listar **tudo que o pessoal precisa fazer** no sistema…"*
 - 💡 **Exercita:** atores + casos de uso; delimitar **escopo** (`«include»`/`«extend»`).
 - 📦 **Entregável:** **diagrama de casos de uso** + descrição do caso principal (fluxo principal e alternativo).
+- 🎯 **Direcionamento:** listem os **atores** e desenhem os casos (verbo + objeto). Escrevam o **fluxo principal e 1 alternativo** do caso mais importante.
+- 🔒 **Restrição nova:** caso de uso = **objetivo do usuário**, não clique de tela; mínimo **2 atores**; usem `«include»`/`«extend»` ao menos uma vez.
+- 🤔 **Por quê:** delimitar escopo agora evita o "sistema que faz tudo e não entrega nada".
 
 ## Encontro 11 — 📐 Diagrama de Classes (consolidação)
 **[Aula 09](../../03-POO/01-modelagem/analise-projeto-uml/09-diagrama-de-classes/)**
 - 📨 **Cliente:** *"Me mostra o **desenho completo** do sistema, quero ver tudo se ligando."*
 - 💡 **Exercita:** juntar atributos + operações + relacionamentos numa visão só.
 - 📦 **Entregável:** **diagrama de classes completo**, coerente com o código já escrito (Encontros 4, 6, 8, 9).
+- 🎯 **Direcionamento:** consolidem tudo num diagrama só: classes, atributos, operações, relacionamentos e multiplicidades.
+- 🔒 **Restrição nova:** o diagrama tem que **bater 100% com o código** já escrito. Divergiu? Corrijam **um dos dois**.
+- 🤔 **Por quê:** modelo e código contando a mesma história é o que mantém o projeto sustentável.
 
 ## Encontro 12 — ☕ Abstração e Interfaces
 **[Abstração](../../03-POO/06-abstracao/) + [Interfaces](../../03-POO/07-interfaces/)**
 - 📨 **Cliente:** *"Quero poder **trocar** a forma de cálculo do frete (por peso, por distância) sem refazer o sistema."*
 - 💡 **Exercita:** classe abstrata + **interface** = contrato plugável (baixo acoplamento).
 - 📦 **Entregável:** uma **interface** `CalculadoraDeFrete` com **2 implementações** intercambiáveis.
+- 🎯 **Direcionamento:** criem a interface `CalculadoraDeFrete` para a forma de cálculo do frete (por peso, por distância) e façam **≥2 implementações**; o resto do sistema usa **só a interface**.
+- 🔒 **Restrição nova:** nenhuma classe de negócio pode depender da implementação concreta — só do **contrato**.
+- 🤔 **Por quê:** trocar de estratégia/fornecedor vira **escrever uma classe nova** (e facilita testes com um "dublê").
 
 ## Encontro 13 — 📐 Objetos + Sequência
 **[Aula 10](../../03-POO/01-modelagem/analise-projeto-uml/10-diagrama-de-objetos/) + [11](../../03-POO/01-modelagem/analise-projeto-uml/11-diagrama-de-sequencia/)**
 - 📨 **Cliente:** *"Me explica, **passo a passo**, como acontece registrar uma encomenda e seu trajeto."*
 - 💡 **Exercita:** objetos concretos (fotografia) + **mensagens ordenadas no tempo**.
 - 📦 **Entregável:** um **diagrama de objetos** de um cenário real + um **diagrama de sequência** do fluxo principal.
+- 🎯 **Direcionamento:** desenhem a sequência de "registrar uma encomenda e seu trajeto" mensagem a mensagem, nomeando **quem chama quem**.
+- 🔒 **Restrição nova:** a sequência precisa mostrar **≥1 caminho alternativo** (`alt`/`opt`) — não só o "tudo deu certo".
+- 🤔 **Por quê:** pensar o fluxo antes de codar revela chamadas e erros que o código esconderia.
 
 ## Encontro 14 — 📐 Máquina de Estados
 **[Aula 14](../../03-POO/01-modelagem/analise-projeto-uml/14-diagrama-de-maquina-de-estados/)**
 - 📨 **Cliente:** *"A encomenda passa por **fases** e **não pode pular etapa**."*
 - 💡 **Exercita:** estados, transições, **guardas** (regra de negócio na transição).
 - 📦 **Entregável:** **máquina de estados** de a encomenda: `postada → coletada → em trânsito → saiu para entrega → entregue; ou devolvida`.
-- 🔗 **No próximo dia de Java**, implemente as transições como métodos que **barram** estados inválidos (igual ao `Assinatura` do [Melodia](../../03-POO/01-modelagem/analise-projeto-uml/projeto-base-java/)).
+- 🎯 **Direcionamento:** desenhem os estados e marquem **evento + guarda** em cada transição. Depois, no Java, cada transição é um método.
+- 🔒 **Restrição nova:** transição inválida deve ser **barrada** — tentar pular etapa **lança exceção** (nada de mudar `status` na mão).
+- 🤔 **Por quê:** estados impossíveis são fonte clássica de bug; o diagrama vira validação no código (como o `Assinatura` do [Melodia](../../03-POO/01-modelagem/analise-projeto-uml/projeto-base-java/)).
 
 ## Encontro 15 — 📐 Atividades
 **[Aula 15](../../03-POO/01-modelagem/analise-projeto-uml/15-diagrama-de-atividades/)**
 - 📨 **Cliente:** *"Escreve o **processo da coleta à entrega no destino**, quero treinar minha equipe com isso."*
 - 💡 **Exercita:** fluxo de processo, decisões, paralelismo, **raias** (quem faz o quê).
 - 📦 **Entregável:** **diagrama de atividades** desse processo de negócio.
+- 🎯 **Direcionamento:** modelem da coleta à entrega no destino com início, ações, decisões e fim; usem **raias** para mostrar o responsável de cada passo.
+- 🔒 **Restrição nova:** o fluxo precisa ter **≥1 decisão** (losango) e deixar claro **quem** executa cada ação.
+- 🤔 **Por quê:** enxergar o processo inteiro alinha a equipe e expõe passos esquecidos.
 
 ## Encontro 16 — ☕ SOLID
 **[Módulo: SOLID](../../03-POO/08-solid/)**
 - 📨 **Cliente:** *"O sistema cresceu e agora **toda mudancinha quebra outra coisa**. Tá difícil mexer."*
 - 💡 **Exercita:** SRP (responsabilidade única), OCP (aberto/fechado)…
 - 📦 **Entregável:** uma **refatoração** separando responsabilidades — por ex.: a classe Encomenda calcula o frete, atualiza o rastreio E notifica — separe.
+- 🎯 **Direcionamento:** achem a classe que "faz demais" e quebrem em classes menores — comecem por: a classe Encomenda calcula o frete, atualiza o rastreio E notifica — separe.
+- 🔒 **Restrição nova:** nenhuma classe com **mais de um motivo para mudar**; separem **regra de negócio** de **I/O** (tela, arquivo, e-mail).
+- 🤔 **Por quê:** responsabilidades separadas deixam o sistema fácil de mudar sem quebrar o resto.
 
 ## Encontro 17 — ☕ KISS · DRY · YAGNI
 **[Módulo: Princípios de Design](../../4-principios-desgin-poo/)**
 - 📨 **Cliente:** *"Ficou **complicado demais** e cheio de função que ninguém usa. **Simplifica** isso."*
 - 💡 **Exercita:** **KISS** (simplicidade), **DRY** (não repita), **YAGNI** (não faça o que não pediram).
 - 📦 **Entregável:** uma **simplificação** — ex.: o cálculo de frete com muitas faixas e exceções — removendo duplicação e complexidade sem perder função.
+- 🎯 **Direcionamento:** extraiam método para tirar código repetido, simplifiquem o cálculo de frete com muitas faixas e exceções e **apaguem** o que nenhum requisito pede.
+- 🔒 **Restrição nova:** nenhum método gigante (regra prática: **cabe na tela**) e **zero** código "para o futuro" que não é usado hoje.
+- 🤔 **Por quê:** código simples é mais barato de manter do que código "esperto".
 
 ## Encontro 18 — 📐 Componentes + Pacotes
 **[Aula 17](../../03-POO/01-modelagem/analise-projeto-uml/17-diagrama-de-componentes/) + [18](../../03-POO/01-modelagem/analise-projeto-uml/18-diagrama-de-pacotes/)**
 - 📨 **Cliente:** *"Talvez **outro time cuide** da parte de rastreamento e cálculo de frete. Dá pra separar em módulos?"*
 - 💡 **Exercita:** componentes (interfaces) + pacotes (camadas, **sem ciclos**).
 - 📦 **Entregável:** **diagrama de pacotes** (camadas) + **componentes** com interfaces.
-- 🔗 **No Java**, reorganize o código em pacotes por responsabilidade (`com.transportadora.{dominio,aplicacao,infra}`).
+- 🎯 **Direcionamento:** agrupem as classes em pacotes por responsabilidade (rastreamento e cálculo de frete) e reorganizem o código em `com.transportadora.{dominio,aplicacao,infra}`.
+- 🔒 **Restrição nova:** **sem dependência cíclica**; o pacote de **domínio não pode depender** de UI nem de infraestrutura.
+- 🤔 **Por quê:** fronteiras claras permitem dividir o trabalho e trocar peças sem efeito dominó.
 
 ## Encontro 19 — 📐 Implantação
 **[Aula 19](../../03-POO/01-modelagem/analise-projeto-uml/19-diagrama-de-implantacao/)**
 - 📨 **Cliente:** *"**Onde** isso vai rodar? Pensei em os coletores dos motoristas, um servidor e um site de rastreio."*
 - 💡 **Exercita:** nós (hardware/ambiente), artefatos, conexões de rede.
 - 📦 **Entregável:** **diagrama de implantação** da topologia pretendida (mesmo que futura).
+- 🎯 **Direcionamento:** desenhem onde cada parte roda (os coletores dos motoristas, um servidor e um site de rastreio) e rotulem o **protocolo** de cada conexão.
+- 🔒 **Restrição nova:** separem claramente o que é **público** do que é **privado** e **nomeiem os protocolos** (HTTP, JDBC…).
+- 🤔 **Por quê:** pensar a topologia cedo evita surpresas de segurança e desempenho no fim.
 
 ## Encontro 20 — ☕ Fechamento: integração + padrões
 **[Módulo: Design Patterns](../../05-design-patterns/)**
 - 📨 **Cliente:** *"Quero ver **rodando de ponta a ponta**: registrar uma encomenda e seu trajeto, do jeito que a gente combinou."*
 - 💡 **Exercita:** juntar tudo; enxergar onde **um padrão simples** ajuda (ex.: *Factory* para criar objetos, *Strategy* para regras que variam).
 - 📦 **Entregável final:** sistema **Java rodando** com um `Principal` que demonstra o cenário completo **+** diagramas coerentes com o código.
+- 🎯 **Direcionamento:** montem um `Principal` que executa "registrar uma encomenda e seu trajeto" do início ao fim e apliquem **um** padrão onde couber (não force).
+- 🔒 **Restrição nova:** o sistema precisa **rodar sem erro** e os diagramas têm que **refletir o código final**.
+- 🤔 **Por quê:** entregar rodando **e** coerente com o modelo é o que se espera de um projeto profissional.
 
 ---
 
@@ -173,5 +237,8 @@ a ordem dos diagramas do [curso de Análise e Projeto OO](../../03-POO/01-modela
 - [ ] Os **diagramas batem com o código** (mesma história em idiomas diferentes).
 - [ ] O sistema evoluiu **sem reescrever do zero** a cada aula — cada conceito **somou**.
 - [ ] Na entrega final, dá para apontar **em que Encontro** cada parte do sistema nasceu.
+
+> 🧭 **Como o professor avalia:** cada 🔒 **Restrição nova** é um item de correção. Elas
+> **acumulam** — uma restrição cobrada no Encontro 6 continua valendo no 16.
 
 [⬅️ Banco de projetos](../README.md) · [📋 Briefing do cliente](README.md) · [📚 Curso de Análise e Projeto OO](../../03-POO/01-modelagem/analise-projeto-uml/)
