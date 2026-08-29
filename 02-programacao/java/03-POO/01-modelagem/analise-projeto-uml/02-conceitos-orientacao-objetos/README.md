@@ -4,6 +4,13 @@
 > realizar tarefas. Antes dos diagramas, fixe o vocabulário — ele é a base de tudo que vem
 > depois.
 
+> 🎞️ **Material de apoio desta aula:**
+> [Apresentação (PowerPoint)](apresentacao-conceitos-oo.pptx) ·
+> [Guia de aula aprofundado (notas do professor + FAQ dos alunos)](guia-de-aula-conceitos-oo.md)
+>
+> ☕ **Dia de Java:** [Aplicando os conceitos em Java — do estruturado às classes e
+> relacionamentos](aplicando-em-java/) (com exemplo executável e diagramas).
+
 ---
 
 ## 1. A ideia central
