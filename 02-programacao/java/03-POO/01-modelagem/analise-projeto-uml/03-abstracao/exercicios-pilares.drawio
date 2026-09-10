@@ -1,0 +1,212 @@
+<mxfile host="65bd71144e">
+    <diagram id="nota" name="0 · Como usar + notação">
+        <mxGraphModel dx="1068" dy="631" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="nota-1" value="Exercícios dos 4 pilares — resolva AQUI no draw.io" style="text;html=1;fontSize=20;fontStyle=1;fontColor=#1F3A5F;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="24" width="1000" height="34" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-2" value="Em cada aba há: 🟨 mais informações · 📋 o enunciado · 🔷 classes de partida · ✍️ uma área tracejada para você desenhar a resposta. Copie os estilos de seta desta página." style="text;html=1;fontSize=13;fontColor=#5B6570;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="66" width="1300" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-3" value="Como desenhar no draw.io:&lt;br&gt;&lt;br&gt;• &lt;b&gt;Classe&lt;/b&gt;: use o formato com 3 divisões (nome / atributos / operações). Duplo-clique para editar.&lt;br&gt;• &lt;b&gt;Herança&lt;/b&gt; (triângulo vazio): arraste uma seta e, no painel &lt;i&gt;Style&lt;/i&gt;, use a ponta de triângulo vazio.&lt;br&gt;• &lt;b&gt;Agregação&lt;/b&gt; (losango vazio) e &lt;b&gt;Composição&lt;/b&gt; (losango cheio): ponta de losango na extremidade do TODO.&lt;br&gt;• &lt;b&gt;Visibilidade&lt;/b&gt;: escreva - (privado), + (público), # (protegido) antes de cada membro.&lt;br&gt;&lt;br&gt;Dica: clique numa das setas de exemplo ao lado, copie (Ctrl+C / Ctrl+V) e religue nas suas classes." style="shape=note;size=18;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="140" width="470" height="430" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-4" value="&lt;b&gt;NomeDaClasse&lt;/b&gt;&lt;hr size=&quot;1&quot;/&gt;- atributoPrivado : Tipo&lt;br/&gt;+ atributoPublico : Tipo&lt;hr size=&quot;1&quot;/&gt;+ operacao() : Tipo" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="560" y="150" width="240" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-5" value="&amp;laquo;abstract&amp;raquo;&lt;br/&gt;&lt;i&gt;&lt;b&gt;ClasseAbstrata&lt;/b&gt;&lt;/i&gt;&lt;hr size=&quot;1&quot;/&gt;# atributoProtegido : Tipo&lt;hr size=&quot;1&quot;/&gt;+ operacaoAbstrata()* : Tipo" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#EDE7F6;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="880" y="150" width="260" height="74" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-6" value="Exemplos de relacionamento (copie o estilo da seta):" style="text;html=1;fontSize=13;fontColor=#5B6570;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="560" y="320" width="700" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-7" value="&lt;b&gt;SuperClasse&lt;/b&gt;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="560" y="360" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-8" value="&lt;b&gt;SubClasse&lt;/b&gt;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="560" y="470" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-9" value="" style="endArrow=block;endFill=0;html=1;edgeStyle=orthogonalEdgeStyle;rounded=0;" parent="1" source="nota-8" target="nota-7" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-10" value="Herança / generalização — triângulo VAZIO ──▷ (aponta p/ a super)" style="text;html=1;fontSize=13;fontColor=#5B6570;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="760" y="400" width="380" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-11" value="&lt;b&gt;Todo&lt;/b&gt;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="560" y="570" width="150" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-12" value="&lt;b&gt;Parte&lt;/b&gt;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="820" y="570" width="150" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-13" value="" style="startArrow=diamondThin;startFill=0;endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;rounded=0;" parent="1" source="nota-11" target="nota-12" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-14" value="Agregação — losango VAZIO ◇ (parte independente)" style="text;html=1;fontSize=13;fontColor=#5B6570;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="1000" y="575" width="340" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-15" value="&lt;b&gt;Todo&lt;/b&gt;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="560" y="650" width="150" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-16" value="&lt;b&gt;Parte&lt;/b&gt;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="820" y="650" width="150" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-17" value="" style="startArrow=diamondThin;startFill=1;endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;rounded=0;" parent="1" source="nota-15" target="nota-16" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-18" value="Composição — losango CHEIO ◆ (parte morre com o todo)" style="text;html=1;fontSize=13;fontColor=#5B6570;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="1000" y="655" width="340" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-19" value="&lt;b&gt;A&lt;/b&gt;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="560" y="730" width="150" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-20" value="&lt;b&gt;B&lt;/b&gt;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="820" y="730" width="150" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-21" value="" style="endArrow=open;html=1;edgeStyle=orthogonalEdgeStyle;rounded=0;" parent="1" source="nota-19" target="nota-20" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="nota-22" value="Associação — seta simples → (conhece/usa)" style="text;html=1;fontSize=13;fontColor=#5B6570;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="1000" y="735" width="340" height="40" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="abst" name="1 · Abstração">
+        <mxGraphModel dx="1068" dy="631" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="abst-1" value="Exercício — Abstração" style="text;html=1;fontSize=20;fontStyle=1;fontColor=#1F3A5F;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="24" width="900" height="34" as="geometry"/>
+                </mxCell>
+                <mxCell id="abst-2" value="&lt;b&gt;Mais informações.&lt;/b&gt; Abstrair é destacar o essencial e ignorar o resto (Booch). Dois usos: (1) &lt;b&gt;recorte&lt;/b&gt; — só os atributos que o problema pede; (2) &lt;b&gt;generalização&lt;/b&gt; — uma classe abstrata que representa vários tipos. A classe abstrata tem nome em &lt;i&gt;itálico&lt;/i&gt; com &amp;laquo;abstract&amp;raquo; e NÃO é instanciada." style="shape=note;size=18;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="90" width="540" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="abst-3" value="📋 Enunciado&lt;br&gt;&lt;br&gt;1) A Melodia terá &lt;b&gt;Musica&lt;/b&gt;, &lt;b&gt;Podcast&lt;/b&gt; e &lt;b&gt;Audiolivro&lt;/b&gt; — todos &amp;quot;algo que se reproduz&amp;quot;. Desenhe a classe abstrata &lt;b&gt;ConteudoDeAudio&lt;/b&gt; que os generaliza: coloque nela os atributos/operações ESSENCIAIS comuns (ex.: titulo, duracao, + reproduzir()*).&lt;br&gt;2) Ligue as três subclasses à abstração com o &lt;b&gt;triângulo vazio&lt;/b&gt; (herança).&lt;br&gt;3) Numa nota, escreva 1 atributo que você DEIXOU DE FORA por ser irrelevante ao problema." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4F5F7;strokeColor=#C9CED6;align=left;verticalAlign=top;spacingLeft=10;spacingTop=8;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="600" y="90" width="760" height="230" as="geometry"/>
+                </mxCell>
+                <mxCell id="abst-4" value="&lt;b&gt;Musica&lt;/b&gt;&lt;hr size=&quot;1&quot;/&gt;- titulo : String&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="470" width="200" height="74" as="geometry"/>
+                </mxCell>
+                <mxCell id="abst-5" value="&lt;b&gt;Podcast&lt;/b&gt;&lt;hr size=&quot;1&quot;/&gt;- titulo : String&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="460" y="470" width="200" height="74" as="geometry"/>
+                </mxCell>
+                <mxCell id="abst-6" value="&lt;b&gt;Audiolivro&lt;/b&gt;&lt;hr size=&quot;1&quot;/&gt;- titulo : String&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="800" y="470" width="200" height="74" as="geometry"/>
+                </mxCell>
+                <mxCell id="abst-7" value="✍️ Desenhe aqui a classe abstrata ConteudoDeAudio e ligue as três acima a ela (triângulo vazio)." style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#B0B7C3;dashed=1;dashPattern=8 8;align=center;verticalAlign=top;fontColor=#8A93A2;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="360" width="880" height="80" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="encap" name="2 · Encapsulamento">
+        <mxGraphModel dx="1068" dy="631" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="encap-1" value="Exercício — Encapsulamento" style="text;html=1;fontSize=20;fontStyle=1;fontColor=#1F3A5F;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="24" width="900" height="34" as="geometry"/>
+                </mxCell>
+                <mxCell id="encap-2" value="&lt;b&gt;Mais informações.&lt;/b&gt; Encapsular é esconder o estado interno e expô-lo só por operações que validam (Parnas, 1972; Meyer). Marque a &lt;b&gt;visibilidade&lt;/b&gt;: - privado, + público, # protegido. Atributos costumam ser - ; o acesso vem por operações + . Um &lt;b&gt;invariante&lt;/b&gt; é uma regra que vale sempre (ex.: &amp;quot;reproduções nunca diminuem&amp;quot;)." style="shape=note;size=18;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="90" width="540" height="230" as="geometry"/>
+                </mxCell>
+                <mxCell id="encap-3" value="📋 Enunciado&lt;br&gt;&lt;br&gt;1) Complete a classe &lt;b&gt;Musica&lt;/b&gt; abaixo: marque a visibilidade correta de cada membro. O atributo &lt;b&gt;reproducoes&lt;/b&gt; deve ser &lt;b&gt;privado (-)&lt;/b&gt;.&lt;br&gt;2) Adicione a operação &lt;b&gt;+ registrarReproducao()&lt;/b&gt; — a ÚNICA porta que altera reproducoes — e um &lt;b&gt;+ getReproducoes()&lt;/b&gt;.&lt;br&gt;3) Numa nota, escreva o &lt;b&gt;invariante&lt;/b&gt; que isso protege.&lt;br&gt;4) Aponte (em texto) por que um atributo público seria perigoso aqui." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4F5F7;strokeColor=#C9CED6;align=left;verticalAlign=top;spacingLeft=10;spacingTop=8;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="600" y="90" width="760" height="240" as="geometry"/>
+                </mxCell>
+                <mxCell id="encap-4" value="&lt;b&gt;Musica&lt;/b&gt;&lt;hr size=&quot;1&quot;/&gt;titulo : String&lt;br/&gt;duracaoSegundos : int&lt;br/&gt;reproducoes : int&lt;hr size=&quot;1&quot;/&gt;registrarReproducao()&lt;br/&gt;getReproducoes() : int" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="420" width="300" height="122" as="geometry"/>
+                </mxCell>
+                <mxCell id="encap-5" value="✍️ Edite a classe ao lado colocando - / + / # em cada linha, e escreva o invariante numa nota amarela." style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#B0B7C3;dashed=1;dashPattern=8 8;align=center;verticalAlign=top;fontColor=#8A93A2;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="460" y="420" width="540" height="120" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="heranca" name="3 · Herança">
+        <mxGraphModel dx="1068" dy="631" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="heranca-1" value="Exercício — Herança" style="text;html=1;fontSize=20;fontStyle=1;fontColor=#1F3A5F;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="24" width="900" height="34" as="geometry"/>
+                </mxCell>
+                <mxCell id="heranca-2" value="&lt;b&gt;Mais informações.&lt;/b&gt; Herança = a subclasse ESPECIALIZA a superclasse e reaproveita seus membros. Só use quando o teste &lt;b&gt;&amp;quot;é um&amp;quot;&lt;/b&gt; for verdadeiro (Ouvinte é um Usuario ✓). Pelo LSP (Liskov), a subclasse deve poder SUBSTITUIR a base sem quebrar nada. Se for &amp;quot;tem um&amp;quot;, use composição/agregação, não herança." style="shape=note;size=18;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="90" width="540" height="230" as="geometry"/>
+                </mxCell>
+                <mxCell id="heranca-3" value="📋 Enunciado&lt;br&gt;&lt;br&gt;1) Modele &lt;b&gt;Usuario&lt;/b&gt; (abstrata) com nome/email e ligue &lt;b&gt;Ouvinte&lt;/b&gt; e &lt;b&gt;Artista&lt;/b&gt; por herança (triângulo vazio). Coloque nome/email na BASE (protegidos #) e os específicos nas subclasses (Ouvinte: playlists; Artista: nomeArtistico).&lt;br&gt;2) Ao lado, mostre um caso que NÃO deve ser herança: ligue &lt;b&gt;Playlist&lt;/b&gt; e &lt;b&gt;Musica&lt;/b&gt; pelo relacionamento certo (composição ◆ ou agregação ◇?) e justifique numa nota com o teste &amp;quot;é um&amp;quot;." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4F5F7;strokeColor=#C9CED6;align=left;verticalAlign=top;spacingLeft=10;spacingTop=8;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="600" y="90" width="760" height="250" as="geometry"/>
+                </mxCell>
+                <mxCell id="heranca-4" value="&amp;laquo;abstract&amp;raquo;&lt;br/&gt;&lt;i&gt;&lt;b&gt;Usuario&lt;/b&gt;&lt;/i&gt;&lt;hr size=&quot;1&quot;/&gt;# nome : String&lt;br/&gt;# email : String&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#EDE7F6;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="150" y="420" width="220" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="heranca-5" value="&lt;b&gt;Ouvinte&lt;/b&gt;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="620" width="200" height="74" as="geometry"/>
+                </mxCell>
+                <mxCell id="heranca-6" value="&lt;b&gt;Artista&lt;/b&gt;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="420" y="620" width="200" height="74" as="geometry"/>
+                </mxCell>
+                <mxCell id="heranca-7" value="&lt;b&gt;Playlist&lt;/b&gt;&lt;hr size=&quot;1&quot;/&gt;- nome&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="820" y="470" width="200" height="74" as="geometry"/>
+                </mxCell>
+                <mxCell id="heranca-8" value="&lt;b&gt;Musica&lt;/b&gt;&lt;hr size=&quot;1&quot;/&gt;- titulo&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="1120" y="470" width="200" height="74" as="geometry"/>
+                </mxCell>
+                <mxCell id="heranca-9" value="✍️ Ligue Ouvinte e Artista a Usuario (triângulo). E ligue Playlist a Musica com o losango certo." style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#B0B7C3;dashed=1;dashPattern=8 8;align=center;verticalAlign=top;fontColor=#8A93A2;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="650" width="620" height="80" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="polim" name="4 · Polimorfismo">
+        <mxGraphModel dx="1068" dy="631" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="polim-1" value="Exercício — Polimorfismo" style="text;html=1;fontSize=20;fontStyle=1;fontColor=#1F3A5F;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="24" width="900" height="34" as="geometry"/>
+                </mxCell>
+                <mxCell id="polim-2" value="&lt;b&gt;Mais informações.&lt;/b&gt; Polimorfismo: a MESMA mensagem gera comportamentos diferentes conforme o tipo do objeto (Cardelli &amp;amp; Wegner). No diagrama: uma operação abstrata na base (com *) é REDEFINIDA em cada subclasse. Isso permite o princípio Aberto/Fechado (Martin): um tipo novo só implementa a operação, sem mexer no resto." style="shape=note;size=18;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="90" width="540" height="230" as="geometry"/>
+                </mxCell>
+                <mxCell id="polim-3" value="📋 Enunciado&lt;br&gt;&lt;br&gt;1) Desenhe &lt;b&gt;Usuario&lt;/b&gt; (abstrata) com a operação &lt;b&gt;+ beneficios()*&lt;/b&gt; e ligue &lt;b&gt;Ouvinte&lt;/b&gt; e &lt;b&gt;Artista&lt;/b&gt;, cada um REDEFININDO beneficios() (escreva o que cada um retornaria).&lt;br&gt;2) Agora adicione um NOVO tipo &lt;b&gt;Podcaster&lt;/b&gt; que também redefine beneficios(). Escreva numa nota por que o código que chama &lt;b&gt;usuario.beneficios()&lt;/b&gt; NÃO precisa mudar (OCP)." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4F5F7;strokeColor=#C9CED6;align=left;verticalAlign=top;spacingLeft=10;spacingTop=8;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="600" y="90" width="760" height="240" as="geometry"/>
+                </mxCell>
+                <mxCell id="polim-4" value="&amp;laquo;abstract&amp;raquo;&lt;br/&gt;&lt;i&gt;&lt;b&gt;Usuario&lt;/b&gt;&lt;/i&gt;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;&lt;hr size=&quot;1&quot;/&gt;+ beneficios()* : String" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#EDE7F6;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="150" y="420" width="260" height="74" as="geometry"/>
+                </mxCell>
+                <mxCell id="polim-5" value="&lt;b&gt;Ouvinte&lt;/b&gt;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;&lt;hr size=&quot;1&quot;/&gt;+ beneficios()" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="640" width="200" height="74" as="geometry"/>
+                </mxCell>
+                <mxCell id="polim-6" value="&lt;b&gt;Artista&lt;/b&gt;&lt;hr size=&quot;1&quot;/&gt;&amp;nbsp;&lt;hr size=&quot;1&quot;/&gt;+ beneficios()" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=6;spacingTop=4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="420" y="640" width="200" height="74" as="geometry"/>
+                </mxCell>
+                <mxCell id="polim-7" value="✍️ Ligue por herança e ACRESCENTE aqui um novo tipo Podcaster que também redefine beneficios()." style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#B0B7C3;dashed=1;dashPattern=8 8;align=center;verticalAlign=top;fontColor=#8A93A2;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="470" width="620" height="140" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="integrador" name="5 · Integrador (seu projeto)">
+        <mxGraphModel dx="1068" dy="631" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="integrador-1" value="Exercício integrador — os 4 pilares no SEU projeto" style="text;html=1;fontSize=20;fontStyle=1;fontColor=#1F3A5F;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="24" width="1100" height="34" as="geometry"/>
+                </mxCell>
+                <mxCell id="integrador-2" value="Use o domínio do SEU projeto de grupo (hotel, loja, farmácia, clínica…)." style="shape=note;size=18;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="90" width="620" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="integrador-3" value="📋 Desenhe UM diagrama de classes que mostre os quatro pilares:&lt;br&gt;&lt;br&gt;• &lt;b&gt;Abstração&lt;/b&gt; — uma classe abstrata &amp;laquo;abstract&amp;raquo; que generalize dois tipos.&lt;br&gt;• &lt;b&gt;Encapsulamento&lt;/b&gt; — atributos com visibilidade (- / #) e um invariante numa nota.&lt;br&gt;• &lt;b&gt;Herança&lt;/b&gt; — pelo menos uma generalização &amp;quot;é um&amp;quot; (triângulo vazio).&lt;br&gt;• &lt;b&gt;Polimorfismo&lt;/b&gt; — uma operação abstrata redefinida nas subclasses.&lt;br&gt;&lt;br&gt;Entregue exportando este .drawio (ou uma imagem) em projetos-em-grupo/&amp;lt;seu-projeto&amp;gt;/modelagem/." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4F5F7;strokeColor=#C9CED6;align=left;verticalAlign=top;spacingLeft=10;spacingTop=8;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="200" width="760" height="270" as="geometry"/>
+                </mxCell>
+                <mxCell id="integrador-4" value="✍️ Desenhe seu diagrama nesta área." style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#B0B7C3;dashed=1;dashPattern=8 8;align=center;verticalAlign=top;fontColor=#8A93A2;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="820" y="200" width="540" height="470" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

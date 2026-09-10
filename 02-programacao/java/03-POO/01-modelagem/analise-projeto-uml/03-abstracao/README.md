@@ -3,6 +3,17 @@
 > **Abstração** é a habilidade mais importante do modelador: **focar no essencial e ignorar
 > o resto**, de acordo com o problema. É decidir *o que mostrar* e *o que esconder*.
 
+> 🏛️ **Aula dos quatro pilares (em modelagem):** abstração, encapsulamento, herança e
+> polimorfismo — com diagramas de classes do Melodia — estão em
+> [apresentacao-pilares-oo.pptx](apresentacao-pilares-oo.pptx) (31 slides, ≥5 por pilar, com
+> citações de autores/livros e **exercícios por tópico**) e no texto
+> [pilares-oo-modelagem.md](pilares-oo-modelagem.md).
+>
+> ✍️ **Exercícios para fazer no draw.io:** [exercicios-pilares.drawio](exercicios-pilares.drawio)
+> — 6 abas (notação + 1 por pilar + integrador), com "mais informações", enunciado, **classes
+> de partida** e uma área para o aluno desenhar a resposta. Abra em
+> [app.diagrams.net](https://app.diagrams.net).
+
 ---
 
 ## 1. Conceito

@@ -10,6 +10,11 @@
 >
 > ☕ **Dia de Java:** [Aplicando os conceitos em Java — do estruturado às classes e
 > relacionamentos](aplicando-em-java/) (com exemplo executável e diagramas).
+>
+> 🔗 **Aula extra (modelagem):** relacionamentos — **associação, agregação e composição** —
+> estão nos slides finais da apresentação, com exercícios em
+> [exercicios-relacionamentos-oo.md](exercicios-relacionamentos-oo.md) e
+> [gabarito](exercicios-relacionamentos-oo-gabarito.md).
 
 ---
 
