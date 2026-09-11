@@ -5,14 +5,32 @@
 
 > 🏛️ **Aula dos quatro pilares (em modelagem):** abstração, encapsulamento, herança e
 > polimorfismo — com diagramas de classes do Melodia — estão em
-> [apresentacao-pilares-oo.pptx](apresentacao-pilares-oo.pptx) (31 slides, ≥5 por pilar, com
-> citações de autores/livros e **exercícios por tópico**) e no texto
+> [apresentacao-pilares-oo.pptx](apresentacao-pilares-oo.pptx) (49 slides: um **walkthrough
+> visual** que ensina os 4 pilares em cima de **um diagrama de classes do Melodia** (feito em
+> Mermaid, um pilar "aceso" por vez) + a parte de **modelagem** + a **Parte Prática em Java**,
+> com citações de autores/livros e **exercícios por tópico**) e no texto
 > [pilares-oo-modelagem.md](pilares-oo-modelagem.md).
+>
+> ☕ **Parte prática — os 4 pilares em Java:** os slides finais **respondem os exercícios** com
+> código, e os arquivos `.java` comentados (para compilar e comparar em sala) estão em
+> [exemplos-java-pilares/](exemplos-java-pilares/) — uma pasta por pilar, cada uma com um
+> `Demo` executável (Java 17+).
+>
+> 🏗️ **Aula guiada (código evoluindo o diagrama):**
+> [exemplos-java-pilares/AULA-construindo-o-diagrama.md](exemplos-java-pilares/AULA-construindo-o-diagrama.md)
+> — constrói o diagrama do Melodia **de uma classe até o diagrama completo**, um pilar por vez,
+> com código Java completo, anomalias de não usar e ponteiros para os slides. Código final
+> executável em [exemplos-java-pilares/05-diagrama-completo/](exemplos-java-pilares/05-diagrama-completo/).
 >
 > ✍️ **Exercícios para fazer no draw.io:** [exercicios-pilares.drawio](exercicios-pilares.drawio)
 > — 6 abas (notação + 1 por pilar + integrador), com "mais informações", enunciado, **classes
 > de partida** e uma área para o aluno desenhar a resposta. Abra em
 > [app.diagrams.net](https://app.diagrams.net).
+>
+> 🖉 **Exercício para fazer À MÃO (novo):**
+> [exercicio-pilares-a-mao.drawio](exercicio-pilares-a-mao.drawio) — um diagrama novo no domínio
+> das **Notificações da Melodia**, com o "estado atual" (a duplicação) para o aluno **redesenhar
+> no papel** aplicando os quatro pilares.
 
 ---
 
