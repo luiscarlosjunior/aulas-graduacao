@@ -6,10 +6,9 @@
 > **não** for usado. No fim, chegamos exatamente ao diagrama que aparece na apresentação.
 >
 > 🎞️ **Onde este diagrama está na apresentação:** ele é o diagrama-mapa do
-> [`apresentacao-pilares-oo.pptx`](../apresentacao-pilares-oo.pptx) — **slide 3** ("Vamos
-> aprender os pilares neste diagrama") e **slide 8** ("Os quatro pilares de uma vez"); nos
-> **slides 4–7** ele reaparece com **um pilar aceso por vez**. Esta aula é a versão em **código**
-> daquele mapa.
+> [`apresentacao-pilares-oo.pptx`](../apresentacao-pilares-oo.pptx) — **slide 3** ("O domínio em
+> um diagrama") e **slide 8** ("Lendo o diagrama inteiro"); nos **slides 4–7** ele reaparece com
+> **um pilar aceso por vez**. Esta aula é a versão em **código** daquele mapa.
 
 ## 🎯 Onde queremos chegar (o diagrama final)
 
@@ -359,7 +358,7 @@ classDiagram
         -podcasts : List~Podcast~
         +adicionarMusica(m) void
         +adicionarPodcast(p) void
-        +duracaoTotal() int
+        +duracaoTotalSegundos() int
     }
     class Musica
     class Podcast

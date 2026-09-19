@@ -31,6 +31,12 @@
 > [exercicio-pilares-a-mao.drawio](exercicio-pilares-a-mao.drawio) — um diagrama novo no domínio
 > das **Notificações da Melodia**, com o "estado atual" (a duplicação) para o aluno **redesenhar
 > no papel** aplicando os quatro pilares.
+>
+> 🎤 **Entrevista para modelar no draw.io:**
+> [exemplos-java-pilares/entrevista-modelagem-melodia.md](exemplos-java-pilares/entrevista-modelagem-melodia.md)
+> — uma conversa com o "cliente" (linguagem simples) para o aluno **interpretar e desenhar** um
+> diagrama com os **4 pilares** e os **3 relacionamentos** (associação, agregação, composição);
+> com dicas de leitura e gabarito para o professor.
 
 ---
 

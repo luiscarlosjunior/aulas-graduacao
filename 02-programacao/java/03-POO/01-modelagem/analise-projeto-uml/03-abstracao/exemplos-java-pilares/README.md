@@ -20,6 +20,16 @@
 > 🎯 **[exercicio/](exercicio/)** — o caminho **inverso**: o aluno recebe um **diagrama pronto**
 > (outra parte do sistema: **Assinaturas e Planos**) e **escreve o código Java**. O
 > [gabarito comentado e executável](exercicio/gabarito/) fica na subpasta (para o professor).
+>
+> 🎤 **[entrevista-modelagem-melodia.md](entrevista-modelagem-melodia.md)** — uma **entrevista com
+> o cliente** (linguagem simples) para o aluno **ler e desenhar o diagrama no draw.io**, cobrindo
+> os **4 pilares** e os **3 relacionamentos** (associação, agregação e composição). Traz dicas de
+> leitura, critério de "pronto" e **gabarito** recolhível (para o professor).
+>
+> 🎧 **[entrevista-solucao/](entrevista-solucao/)** — a **resolução** da entrevista: o documento
+> [EXPLICANDO-O-DIAGRAMA.md](entrevista-solucao/EXPLICANDO-O-DIAGRAMA.md) monta o diagrama **parte
+> por parte** (por que cada classe/herança/relação, e **onde isso aparece na entrevista**), mais a
+> **aplicação Java completa** (`AppMelodia`) que o implementa e roda.
 
 ## 📁 O que tem em cada pasta
 
