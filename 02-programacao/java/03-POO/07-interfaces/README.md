@@ -19,6 +19,338 @@ Uma **interface** em Java é um contrato que define:
 **Compatibilidade e evolução de API:** com recursos modernos (default methods) é possível adicionar comportamento sem quebrar implementações antigas (com limitações).  
 **Suporte a programação funcional:** interfaces SAM (Single Abstract Method) permitem uso de lambdas e referências de método.  
 
+---
+
+## 🎧 Aula prática: chegando à interface pelo problema (o Melodia)
+
+> 🧭 **Siga esta seção na ordem.** Nas aulas anteriores modelamos o **Melodia** (nosso
+> "Spotify"): [abstração](../06-abstracao/), [herança](../04-heranca/) e
+> [polimorfismo](../05-polimorfismo/). Agora o produto pede **duas mudanças** que a herança
+> **não resolve bem** — e é exatamente aí que a **interface** entra. Para cada mudança vamos ver
+> **(1) como está hoje → (2) qual é o problema → (3) a solução com interface**, sempre com o
+> **diagrama de classes** em Mermaid.
+
+### 🏁 De onde partimos — o modelo atual do Melodia
+
+```mermaid
+classDiagram
+    class Usuario {
+        <<abstract>>
+        #nome : String
+        +tipoDePerfil() String*
+    }
+    class Ouvinte
+    class Musica {
+        -titulo : String
+        -duracaoSegundos : int
+        +registrarReproducao() void
+    }
+    class Playlist {
+        -nome : String
+        +adicionar(m : Musica) void
+    }
+    class Assinatura {
+        +cobrar(c : ContaBancaria) boolean
+    }
+    class ContaBancaria {
+        +debitarAssinatura(v, desc) boolean
+    }
+
+    Usuario <|-- Ouvinte
+    Ouvinte "1" o-- "0..*" Playlist : monta
+    Playlist "0..*" o-- "0..*" Musica : contém
+    Ouvinte "1" *-- "1" Assinatura : assina
+    Assinatura ..> ContaBancaria : cobra
+```
+
+Até aqui **tudo é classe** (abstrata ou concreta). Repare em dois pontos que vão doer: a
+`Playlist` conhece **`Musica`** (classe concreta), e a `Assinatura` cobra direto numa
+**`ContaBancaria`** (classe concreta). Guarde essas duas setas — elas são o problema.
+
+---
+
+### 🟥 Problema 1 — "A playlist também precisa tocar podcast"
+
+#### 1) Como está hoje
+
+A `Playlist` guarda uma lista de `Musica`. Reproduzir é percorrer músicas:
+
+```java
+public class Playlist {
+    private final List<Musica> musicas = new ArrayList<>();
+
+    public void adicionar(Musica m) { musicas.add(m); }
+
+    public void tocarTudo() {
+        for (Musica m : musicas) {
+            m.registrarReproducao();   // só sabe tocar Musica
+        }
+    }
+}
+```
+
+```mermaid
+classDiagram
+    class Playlist {
+        -musicas : List~Musica~
+        +adicionar(m : Musica)
+        +tocarTudo()
+    }
+    class Musica {
+        +registrarReproducao()
+    }
+    Playlist "1" o-- "0..*" Musica : só aceita Musica
+```
+
+#### 2) Qual é o problema
+
+Chega a *user story*: *"como ouvinte, quero colocar **episódios de podcast** na mesma playlist"*.
+Criamos a classe `Podcast`… e a `Playlist` **não aceita**, porque só conhece `Musica`.
+
+As duas saídas "óbvias" **são ruins**:
+
+- **❌ Fazer `Podcast extends Musica`** só para caber na lista. Mas podcast **não é** uma música
+  (relação "É-UM" **falsa**) — herdaria `artista`, `álbum` etc. que não fazem sentido. A
+  [aula de abstração](../06-abstracao/) já avisou: herança é para identidade, não para "encaixar".
+- **❌ Duplicar tudo**: criar `listaDeMusicas` + `listaDePodcasts` e sair checando tipo com
+  `if (x instanceof Musica) ... else if (x instanceof Podcast) ...`. Código que **cresce a cada
+  novo tipo** (amanhã vem `AudioLivro`, `AoVivo`…).
+
+O que `Musica` e `Podcast` têm em comum **não é o que elas são**, e sim o que elas **sabem
+fazer**: ambas **podem ser reproduzidas**, têm título e duração. Isso é uma **capacidade** —
+o território da **interface** ("PODE-FAZER"), não da herança ("É-UM").
+
+#### 3) A solução — a interface `FonteDeAudio`
+
+Criamos um **contrato**: tudo que é reproduzível expõe título, duração e sabe reproduzir.
+`Musica` e `Podcast` **implementam** o contrato; a `Playlist` passa a depender do **contrato**,
+não da classe concreta.
+
+```mermaid
+classDiagram
+    class FonteDeAudio {
+        <<interface>>
+        +getTitulo() String
+        +getDuracaoSegundos() int
+        +reproduzir() void
+    }
+    class Musica {
+        -titulo : String
+        +reproduzir() void
+    }
+    class Podcast {
+        -titulo : String
+        -apresentador : String
+        +reproduzir() void
+    }
+    class Playlist {
+        -itens : List~FonteDeAudio~
+        +adicionar(f : FonteDeAudio)
+        +tocarTudo()
+    }
+
+    FonteDeAudio <|.. Musica : implements
+    FonteDeAudio <|.. Podcast : implements
+    Playlist "1" o-- "0..*" FonteDeAudio : contém
+```
+
+> 🔑 **Leia o diagrama:** a seta **tracejada com triângulo** (`<|..`) é a **implementação** de
+> interface (*realization*) — diferente da herança, que é linha **cheia** (`<|--`). A `Playlist`
+> agora aponta para **`FonteDeAudio`** (o contrato), e não mais para `Musica`.
+
+```java
+// O CONTRATO: o que todo áudio reproduzível promete expor
+public interface FonteDeAudio {
+    String getTitulo();
+    int getDuracaoSegundos();
+    void reproduzir();
+}
+
+public class Musica implements FonteDeAudio {
+    private String titulo;
+    private int duracaoSegundos;
+    @Override public String getTitulo()        { return titulo; }
+    @Override public int getDuracaoSegundos()  { return duracaoSegundos; }
+    @Override public void reproduzir()         { /* registra reprodução, paga royalty… */ }
+}
+
+public class Podcast implements FonteDeAudio {
+    private String titulo;
+    private String apresentador;
+    @Override public String getTitulo()        { return titulo; }
+    @Override public int getDuracaoSegundos()  { return /* soma dos episódios */ 0; }
+    @Override public void reproduzir()         { /* toca o episódio atual… */ }
+}
+
+public class Playlist {
+    private final List<FonteDeAudio> itens = new ArrayList<>();  // o contrato, não a classe
+
+    public void adicionar(FonteDeAudio f) { itens.add(f); }      // aceita QUALQUER fonte
+
+    public void tocarTudo() {
+        for (FonteDeAudio f : itens) {
+            f.reproduzir();   // polimorfismo: cada um reproduz do seu jeito
+        }
+    }
+}
+```
+
+**Por que isso resolve?**
+
+- A `Playlist` mistura `Musica` e `Podcast` **sem saber a diferença** — ela só confia no
+  contrato `reproduzir()`. Isso é **polimorfismo** ([aula 05](../05-polimorfismo/)) via interface.
+- Amanhã, `AudioLivro implements FonteDeAudio` entra na playlist **sem tocar uma linha** da
+  `Playlist`. O código fica **aberto a extensão, fechado a modificação**.
+- Some o `instanceof`/`if` encadeado: cada tipo **leva sua própria** implementação de `reproduzir`.
+
+> ☕ **Ligação com o projeto:** este é exatamente o
+> [Desafio 3 — A FonteDeAudio](../01-modelagem/analise-projeto-uml/projeto-base-java/DESAFIOS.md)
+> do `projeto-base-java`. O modelo da aula vira código.
+
+---
+
+### 🟥 Problema 2 — "Quero pagar a assinatura com cartão e Pix, não só pela carteira"
+
+#### 1) Como está hoje
+
+A `Assinatura` cobra **diretamente** numa `ContaBancaria` (a carteira interna do Melodia):
+
+```java
+public class Assinatura {
+    public boolean cobrar(ContaBancaria conta) {          // amarrada à ContaBancaria
+        return conta.debitarAssinatura(plano.getPrecoMensal(), "Assinatura " + plano);
+    }
+}
+```
+
+```mermaid
+classDiagram
+    class Assinatura {
+        +cobrar(c : ContaBancaria) boolean
+    }
+    class ContaBancaria {
+        +debitarAssinatura(v, desc) boolean
+    }
+    Assinatura ..> ContaBancaria : depende da classe concreta
+```
+
+#### 2) Qual é o problema
+
+O produto quer aceitar **cartão de crédito** e **Pix** (via um gateway externo). Mas a
+`Assinatura` só sabe falar com `ContaBancaria`. Para adicionar cartão, teríamos que **mexer na
+`Assinatura`** — e de novo a cada novo meio (`if (cartao) … else if (pix) …`). É o acoplamento a
+uma **classe concreta** que trava a evolução. (É a dor da *"troca de gateway"* contada na
+[aula de abstração](../06-abstracao/).)
+
+#### 3) A solução — a interface `MeioDePagamento`
+
+A `Assinatura` passa a depender de um **contrato de cobrança**; cada forma de pagar o implementa.
+
+```mermaid
+classDiagram
+    class MeioDePagamento {
+        <<interface>>
+        +cobrar(valor : double) boolean
+    }
+    class ContaBancaria {
+        +cobrar(valor : double) boolean
+    }
+    class CartaoCredito {
+        -numero : String
+        +cobrar(valor : double) boolean
+    }
+    class Pix {
+        -chave : String
+        +cobrar(valor : double) boolean
+    }
+    class Assinatura {
+        -meio : MeioDePagamento
+        +cobrar() boolean
+    }
+
+    MeioDePagamento <|.. ContaBancaria
+    MeioDePagamento <|.. CartaoCredito
+    MeioDePagamento <|.. Pix
+    Assinatura ..> MeioDePagamento : depende do contrato
+```
+
+```java
+public interface MeioDePagamento {
+    boolean cobrar(double valor);          // o QUE: cobrar. O COMO fica em cada classe.
+}
+
+public class CartaoCredito implements MeioDePagamento {
+    @Override public boolean cobrar(double valor) { /* chama a operadora */ return true; }
+}
+
+public class Pix implements MeioDePagamento {
+    @Override public boolean cobrar(double valor) { /* gera cobrança no gateway */ return true; }
+}
+
+public class Assinatura {
+    private final MeioDePagamento meio;    // guarda o CONTRATO
+
+    public Assinatura(MeioDePagamento meio) { this.meio = meio; }
+
+    public boolean cobrar() {
+        return meio.cobrar(plano.getPrecoMensal());   // não sabe (nem precisa) qual é o meio
+    }
+}
+```
+
+**Por que isso resolve?**
+
+- Adicionar **PayPal**? Basta `class PayPal implements MeioDePagamento` — **zero** mudança na
+  `Assinatura`. Programamos **contra o contrato, não contra a implementação** (desacoplamento).
+- Nos **testes**, injeta-se um `MeioDePagamentoFalso` que sempre aprova — sem chamar banco de
+  verdade. Interface é o que torna o código **testável**.
+- Isto é a base do princípio **D** de [SOLID](../08-solid/) (*Dependa de abstrações*), a próxima
+  aula.
+
+---
+
+### 🟩 Fechando: uma classe, vários contratos (múltipla implementação)
+
+Herança em Java é **simples** (uma classe-pai só). Já **interfaces** uma classe pode cumprir
+**várias** — é como assinar vários contratos ao mesmo tempo. No Melodia, um `CartaoCredito`
+**cobra** e também **pode reembolsar**:
+
+```mermaid
+classDiagram
+    class MeioDePagamento {
+        <<interface>>
+        +cobrar(valor : double) boolean
+    }
+    class Reembolsavel {
+        <<interface>>
+        +reembolsar(valor : double) boolean
+    }
+    class CartaoCredito {
+        +cobrar(valor : double) boolean
+        +reembolsar(valor : double) boolean
+    }
+    MeioDePagamento <|.. CartaoCredito
+    Reembolsavel <|.. CartaoCredito
+```
+
+```java
+public class CartaoCredito implements MeioDePagamento, Reembolsavel {
+    @Override public boolean cobrar(double valor)    { /* ... */ return true; }
+    @Override public boolean reembolsar(double valor) { /* ... */ return true; }
+}
+```
+
+Assim, `Pix` pode ser só `MeioDePagamento`, enquanto `CartaoCredito` acumula as duas
+capacidades — cada classe assina **só os contratos que cumpre**. Isso é impossível com herança
+de classes, e natural com interfaces.
+
+> 🧠 **O fio da meada:** partimos de um problema real → vimos por que **herança não serve** →
+> chegamos à **interface** (contrato / "PODE-FAZER") → ganhamos **polimorfismo, extensão sem
+> modificação, desacoplamento e testabilidade**. Guarde essa sequência; ela se repete em todo
+> bom uso de interface.
+
+---
+
 ## 📋 Sintaxe e Características
 
 ### Definindo uma Interface
@@ -413,26 +745,33 @@ A seguir, apresentamos **5 exemplos práticos com diagramas de classes** que dem
 
 **Contexto:** Uma aplicação precisa suportar diferentes métodos de autenticação (senha, biometria, token) onde cada método tem sua própria implementação, mas todos seguem o mesmo contrato de autenticação.
 
+- **Problema:** o login precisa aceitar senha hoje, biometria amanhã e token depois — se o código
+  conhecer cada classe concreta, cada novo método obriga a mexer no fluxo de login.
+- **Solução:** uma interface `Autenticavel` define o contrato; o login depende só dela e aceita
+  qualquer método novo sem mudar.
+
 **Diagrama de Classes:**
 
-```
-┌─────────────────────────────────┐
-│     <<interface>>               │
-│     Autenticavel                │
-├─────────────────────────────────┤
-│ + autenticar(credencial): bool  │
-│ + validarCredencial(): bool     │
-│ + logout(): void                │
-└─────────────────────────────────┘
-           △
-           │ implements
-    ┌──────┼──────┐
-    │      │      │
-┌───────┐ ┌────────┐ ┌──────────────┐
-│ Senha │ │Biometria│ │TokenOAuth    │
-├───────┤ ├────────┤ ├──────────────┤
-│-hash  │ │-digital│ │-token: String│
-└───────┘ └────────┘ └──────────────┘
+```mermaid
+classDiagram
+    class Autenticavel {
+        <<interface>>
+        +autenticar(credencial) boolean
+        +validarCredencial() boolean
+        +logout() void
+    }
+    class Senha {
+        -hash : String
+    }
+    class Biometria {
+        -digital : bytes
+    }
+    class TokenOAuth {
+        -token : String
+    }
+    Autenticavel <|.. Senha
+    Autenticavel <|.. Biometria
+    Autenticavel <|.. TokenOAuth
 ```
 
 **Aplicação:** Sistemas bancários, aplicativos corporativos, e-commerce com login social.
@@ -443,29 +782,39 @@ A seguir, apresentamos **5 exemplos práticos com diagramas de classes** que dem
 
 **Contexto:** Uma aplicação de backup precisa suportar múltiplos provedores de armazenamento (AWS, Google Drive, Dropbox) de forma intercambiável, permitindo que o usuário escolha onde seus dados serão armazenados sem alterar a lógica da aplicação.
 
+- **Problema:** chamar a API da AWS diretamente espalha dependência do fornecedor pelo sistema;
+  trocar de provedor (ou deixar o usuário escolher) vira uma reescrita.
+- **Solução:** a interface `ArmazenamentoNuvem` padroniza `upload`/`download`/`deletar`; cada
+  provedor é uma implementação **intercambiável** — mesma ideia da *troca de gateway* da
+  [aula de abstração](../06-abstracao/).
+
 **Diagrama de Classes:**
 
-```
-┌──────────────────────────────────────────┐
-│         <<interface>>                    │
-│         ArmazenamentoNuvem               │
-├──────────────────────────────────────────┤
-│ + upload(arquivo): boolean               │
-│ + download(nomeArquivo): File            │
-│ + deletar(nomeArquivo): boolean          │
-│ + listarArquivos(): List<String>         │
-│ + obterEspacoDisponivel(): double        │
-└──────────────────────────────────────────┘
-                    △
-                    │ implements
-         ┌──────────┼──────────┐
-         │          │          │
-   ┌──────────┐ ┌─────────┐ ┌──────────┐
-   │ AmazonS3 │ │GoogleDrive│ │Dropbox  │
-   ├──────────┤ ├─────────┤ ├──────────┤
-   │-bucketName│ │-folderId│ │-appKey   │
-   │-region   │ │-oauth   │ │-appSecret│
-   └──────────┘ └─────────┘ └──────────┘
+```mermaid
+classDiagram
+    class ArmazenamentoNuvem {
+        <<interface>>
+        +upload(arquivo) boolean
+        +download(nomeArquivo) File
+        +deletar(nomeArquivo) boolean
+        +listarArquivos() List~String~
+        +obterEspacoDisponivel() double
+    }
+    class AmazonS3 {
+        -bucketName : String
+        -region : String
+    }
+    class GoogleDrive {
+        -folderId : String
+        -oauth : String
+    }
+    class Dropbox {
+        -appKey : String
+        -appSecret : String
+    }
+    ArmazenamentoNuvem <|.. AmazonS3
+    ArmazenamentoNuvem <|.. GoogleDrive
+    ArmazenamentoNuvem <|.. Dropbox
 ```
 
 **Aplicação:** Sistemas de backup corporativo, aplicações de sincronização de arquivos, gerenciadores de documentos.
@@ -476,29 +825,42 @@ A seguir, apresentamos **5 exemplos práticos com diagramas de classes** que dem
 
 **Contexto:** Um aplicativo de mobilidade urbana integra diferentes tipos de transporte (bicicleta, patinete, carro compartilhado) onde cada veículo tem suas particularidades, mas todos precisam ser rastreados, alugados e devolvidos seguindo um padrão comum.
 
+- **Problema:** bicicleta, patinete e carro são bem diferentes (não há hierarquia "É-UM" natural),
+  mas o app precisa tratar todos de forma uniforme para alugar — e alguns também são rastreáveis.
+- **Solução:** duas interfaces de **capacidade** (`Alugavel`, `Rastreavel`). Cada veículo
+  implementa as que fizerem sentido — o `CarroCompartilhado` implementa **as duas**.
+
 **Diagrama de Classes:**
 
-```
-┌────────────────────────────────────┐        ┌─────────────────────────┐
-│       <<interface>>                │        │    <<interface>>        │
-│       Alugavel                     │        │    Rastreavel           │
-├────────────────────────────────────┤        ├─────────────────────────┤
-│ + alugar(usuario): boolean         │        │ + obterLocalizacao(): GPS│
-│ + devolver(localizacao): void      │        │ + atualizarPosicao(): void│
-│ + calcularTarifa(tempo): double    │        │ + habilitarRastreio(): void│
-└────────────────────────────────────┘        └─────────────────────────┘
-              △                                         △
-              │ implements                              │ implements
-       ┌──────┴──────┬──────────────┐         ┌────────┴────────┐
-       │             │              │         │                 │
-┌─────────────┐ ┌──────────┐ ┌────────────┐  │                 │
-│ Bicicleta   │ │ Patinete │ │CarroCompart│──┘                 │
-├─────────────┤ ├──────────┤ ├────────────┤                    │
-│-marcha: int │ │-bateria% │ │-placa:String│                   │
-│-aro: int    │ │-velMax:int│ │-modelo:String│                 │
-└─────────────┘ └──────────┘ └────────────┘                    │
-                                                                │
-                         CarroCompartilhado implements ambas ──┘
+```mermaid
+classDiagram
+    class Alugavel {
+        <<interface>>
+        +alugar(usuario) boolean
+        +devolver(localizacao) void
+        +calcularTarifa(tempo) double
+    }
+    class Rastreavel {
+        <<interface>>
+        +obterLocalizacao() GPS
+        +atualizarPosicao() void
+    }
+    class Bicicleta {
+        -marcha : int
+        -aro : int
+    }
+    class Patinete {
+        -bateria : int
+        -velMax : int
+    }
+    class CarroCompartilhado {
+        -placa : String
+        -modelo : String
+    }
+    Alugavel <|.. Bicicleta
+    Alugavel <|.. Patinete
+    Alugavel <|.. CarroCompartilhado
+    Rastreavel <|.. CarroCompartilhado
 ```
 
 **Aplicação:** Apps de mobilidade urbana (tipo Uber, Lime, Tembici), sistemas de gestão de frotas compartilhadas.
@@ -509,35 +871,53 @@ A seguir, apresentamos **5 exemplos práticos com diagramas de classes** que dem
 
 **Contexto:** Um player de mídia universal precisa reproduzir diferentes formatos (áudio, vídeo, streaming) onde cada formato tem seu codec e processamento específico, mas todos devem responder aos mesmos comandos de controle (play, pause, stop).
 
+> 🎧 Este é o **mesmo princípio** da `FonteDeAudio` do Melodia (seção prática acima),
+> generalizado para **vídeo e streaming**: o player fala com o contrato `Reproduzivel`, e o que
+> vem de rede ganha, **além** disso, o contrato `Streamable`.
+
+- **Problema:** o player não pode ter um `if` gigante por formato (MP3, MP4, streaming…); e os
+  que vêm da internet precisam de buffer/qualidade, mas os arquivos locais não.
+- **Solução:** `Reproduzivel` (todos) + `Streamable` (só os de rede). O controle do player
+  depende de `Reproduzivel`; só quem faz streaming assina também `Streamable`.
+
 **Diagrama de Classes:**
 
-```
-┌───────────────────────────────┐        ┌──────────────────────────────┐
-│      <<interface>>            │        │       <<interface>>          │
-│      Reproduzivel             │        │       Streamable             │
-├───────────────────────────────┤        ├──────────────────────────────┤
-│ + play(): void                │        │ + conectar(url): boolean     │
-│ + pause(): void               │        │ + bufferizar(): void         │
-│ + stop(): void                │        │ + ajustarQualidade(nivel): void│
-│ + ajustarVolume(nivel): void  │        └──────────────────────────────┘
-│ + obterDuracao(): int         │                     △
-└───────────────────────────────┘                     │ implements
-           △                                          │
-           │ implements                               │
-    ┌──────┼────────┬──────────┐                    │
-    │      │        │          │                     │
-┌─────────┐│ ┌────────────┐ ┌──────────────┐        │
-│AudioMP3 ││ │ VideoMP4   │ │StreamingYouTube│───────┘
-├─────────┤│ ├────────────┤ ├──────────────┤
-│-bitrate ││ │-resolucao  │ │-apiKey       │
-│-codec   ││ │-fps        │ │-qualidade    │
-└─────────┘│ └────────────┘ └──────────────┘
-           │
-      ┌────────────┐
-      │ AudioWAV   │
-      ├────────────┤
-      │-sampleRate │
-      └────────────┘
+```mermaid
+classDiagram
+    class Reproduzivel {
+        <<interface>>
+        +play() void
+        +pause() void
+        +stop() void
+        +ajustarVolume(nivel) void
+        +obterDuracao() int
+    }
+    class Streamable {
+        <<interface>>
+        +conectar(url) boolean
+        +bufferizar() void
+        +ajustarQualidade(nivel) void
+    }
+    class AudioMP3 {
+        -bitrate : int
+        -codec : String
+    }
+    class AudioWAV {
+        -sampleRate : int
+    }
+    class VideoMP4 {
+        -resolucao : String
+        -fps : int
+    }
+    class StreamingYouTube {
+        -apiKey : String
+        -qualidade : String
+    }
+    Reproduzivel <|.. AudioMP3
+    Reproduzivel <|.. AudioWAV
+    Reproduzivel <|.. VideoMP4
+    Reproduzivel <|.. StreamingYouTube
+    Streamable <|.. StreamingYouTube
 ```
 
 **Aplicação:** Media players, apps de streaming (Spotify, Netflix), editores de vídeo/áudio.
@@ -548,51 +928,53 @@ A seguir, apresentamos **5 exemplos práticos com diagramas de classes** que dem
 
 **Contexto:** Uma empresa precisa enviar notificações críticas por diferentes canais (email, SMS, push notification, Slack, Teams) com suporte a priorização, agendamento e confirmação de entrega. O sistema deve permitir adicionar novos canais sem modificar o código existente.
 
+- **Problema:** cada canal tem uma tecnologia diferente (SMTP, gateway SMS, token push,
+  webhook), e alguns ainda precisam ser **agendados**. Um `switch` por canal não escala.
+- **Solução:** `Notificador` (todos os canais) + `Agendavel` (só quem suporta agendamento). O
+  `NotifSMS` assina **as duas**, demonstrando **múltipla implementação**.
+
 **Diagrama de Classes:**
 
-```
-┌────────────────────────────────────────────┐
-│           <<interface>>                    │
-│           Notificador                      │
-├────────────────────────────────────────────┤
-│ + enviar(mensagem, destinatario): boolean  │
-│ + validarDestinatario(destinatario): bool  │
-│ + obterStatus(): StatusEntrega             │
-└────────────────────────────────────────────┘
-                    △
-                    │ implements
-                    │
-    ┌───────────────┼───────────────┬─────────────────┐
-    │               │               │                 │
-┌─────────┐  ┌──────────┐  ┌──────────────┐  ┌─────────────┐
-│NotifEmail│  │NotifSMS  │  │NotifPush     │  │NotifSlack   │
-├─────────┤  ├──────────┤  ├──────────────┤  ├─────────────┤
-│-smtp    │  │-gateway  │  │-deviceToken  │  │-webhookURL  │
-│-porta   │  │-apiKey   │  │-appId        │  │-canal       │
-└─────────┘  └──────────┘  └──────────────┘  └─────────────┘
-                    │
-                    │
-                    ▼
-┌────────────────────────────────────────────┐
-│           <<interface>>                    │
-│           Agendavel                        │
-├────────────────────────────────────────────┤
-│ + agendar(dataHora): void                  │
-│ + cancelarAgendamento(): void              │
-│ + verificarAgendamentos(): List<Notif>     │
-└────────────────────────────────────────────┘
-                    △
-                    │ implements
-                    │
-            ┌───────────────┐
-            │  NotifSMS     │ (implementa ambas interfaces)
-            │  (Extended)   │
-            └───────────────┘
+```mermaid
+classDiagram
+    class Notificador {
+        <<interface>>
+        +enviar(mensagem, destinatario) boolean
+        +validarDestinatario(destinatario) boolean
+        +obterStatus() StatusEntrega
+    }
+    class Agendavel {
+        <<interface>>
+        +agendar(dataHora) void
+        +cancelarAgendamento() void
+        +verificarAgendamentos() List~Notif~
+    }
+    class NotifEmail {
+        -smtp : String
+        -porta : int
+    }
+    class NotifSMS {
+        -gateway : String
+        -apiKey : String
+    }
+    class NotifPush {
+        -deviceToken : String
+        -appId : String
+    }
+    class NotifSlack {
+        -webhookURL : String
+        -canal : String
+    }
+    Notificador <|.. NotifEmail
+    Notificador <|.. NotifSMS
+    Notificador <|.. NotifPush
+    Notificador <|.. NotifSlack
+    Agendavel <|.. NotifSMS
 ```
 
 **Aplicação:** Sistemas empresariais de alertas críticos, plataformas de comunicação interna, sistemas de monitoramento e alertas operacionais.
 
-**Destaque:** Este exemplo mostra como uma classe pode implementar múltiplas interfaces (`NotifSMS` implementa tanto `Notificador` quanto `Agendavel`), permitindo composição de comportamentos.
+**Destaque:** Este exemplo mostra como uma classe pode implementar múltiplas interfaces (`NotifSMS` implementa tanto `Notificador` quanto `Agendavel`), permitindo composição de comportamentos — exatamente como o `CartaoCredito` do Melodia é `MeioDePagamento` **e** `Reembolsavel`.
 
 ---
 
