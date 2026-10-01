@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>EntrevistaTecnica.md</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+html,footer,header{
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Custom MD PDF CSS
+ */
+html,footer,header{
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+
+ }
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///Users/macbookpro/Documents/github/aulas-graduacao/R%3A%5C2.Travail%5C1.Enseignement%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css"><link rel="stylesheet" href="file:///Users/macbookpro/Documents/github/aulas-graduacao/D%3A%5Crdaros%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css">
+</head>
+
+<body>
+    <h1 id="%F0%9F%8E%A4-entrevista-t%C3%A9cnica--escola-saber-desenhe-no-drawio">🎤 Entrevista Técnica — Escola Saber+ (desenhe no draw.io)</h1>
+<blockquote>
+<p><strong>Como funciona este exercício.</strong> Abaixo está uma <strong>conversa</strong> entre a equipe e o cliente do<br>
+sistema <strong>Escola Saber+</strong> (coordenador de uma escola). <strong>Leia com atenção</strong> e, a partir do que as pessoas dizem,<br>
+<strong>desenhe um diagrama de classes</strong> no <a href="https://app.diagrams.net">draw.io</a> (ou app.diagrams.net).<br>
+Não é para programar — é para <strong>modelar</strong>.</p>
+<p>🎯 <strong>Seu diagrama precisa mostrar os quatro pilares da OO e os três tipos de relacionamento</strong><br>
+(associação, agregação e composição). No fim há a <strong>lista do que entregar</strong>, um <strong>lembrete da<br>
+notação</strong> e um <strong>gabarito</strong> (para o professor).</p>
+</blockquote>
+<hr>
+<h2 id="%F0%9F%97%A3%EF%B8%8F-a-entrevista">🗣️ A entrevista</h2>
+<p><strong>Gerente:</strong> Pessoal, vamos organizar o sistema da <strong>Escola Saber+</strong>. Vou trazer o cliente pra ele<br>
+explicar, do jeito dele, o que o sistema precisa ter. Anotem tudo e depois a gente transforma em<br>
+diagrama.</p>
+<p><strong>Cliente:</strong> No sistema <strong>Escola Saber+</strong>, a peça central é <strong>Aluno</strong>. Tem dois tipos: o<br>
+<strong>AlunoRegular</strong> (o comum) e o <strong>AlunoBolsista</strong>, que <strong>tem mensalidade reduzida ou isenta</strong>. No fundo, os dois são um tipo de<br>
+<strong>Aluno</strong> — todos têm nome, documento e número de matrícula e compartilham a mesma base.</p>
+<p><strong>Dev sênior:</strong> Entendi. Então tem uma parte <strong>igual pra todos</strong> e uma parte <strong>específica</strong> de cada<br>
+tipo. Guardem isso — cheira a uma base comum com dois tipos que herdam dela.</p>
+<p><strong>Cliente:</strong> Isso. E o comportamento muda por tipo: olhando o <code>mensalidade()</code> de cada um, pro<br>
+<strong>AlunoRegular</strong> paga a mensalidade cheia; já pro <strong>AlunoBolsista</strong> paga mensalidade reduzida (ou zero). A <strong>mesma</strong> operação, <strong>resposta<br>
+diferente conforme o tipo</strong>.</p>
+<p><strong>Analista de qualidade:</strong> Um ponto sério: a nota e o valor não podem ser mexidos por fora (nota de 0 a 10; valor nunca negativo). Ninguém pode mexer nesses dados <strong>por fora</strong> —<br>
+tem que ser por <strong>operações controladas</strong>. E tem uma regra que <strong>NÃO pode falhar</strong>: <strong>não pode matricular o aluno numa turma sem vaga</strong>.<br>
+Por isso o estado de <strong>Matricula</strong> só anda por operações (ativa → trancada → concluída; ou cancelada), nunca &quot;na mão&quot;.</p>
+<p><strong>Cliente:</strong> Agora as ligações. Uma turma tem MUITOS alunos; um aluno pode estar em VÁRIAS turmas (a matrícula liga os dois).</p>
+<p><strong>Cliente:</strong> Tem uma ligação de <strong>parte-todo que nasce e morre junto</strong>: <strong>Matricula ◆ Nota</strong>.<br>
+Cada nota pertence a uma matrícula e some junto se a matrícula for cancelada. (pense em <strong>composição</strong> — losango cheio ◆)</p>
+<p><strong>Dev sênior:</strong> Não confunda com o outro caso: <strong>Turma ◇ Aluno</strong> é só um <strong>agrupamento</strong>.<br>
+Os alunos existem por conta própria; a turma só os agrupa. Se <strong>Turma</strong> sumir, <strong>Aluno</strong> continua existindo — isso é <strong>agregação</strong><br>
+(losango vazio ◇), bem diferente da composição.</p>
+<p><strong>Gerente:</strong> Fechou. Com isso dá pra desenhar o modelo. Mãos à obra.</p>
+<hr>
+<h2 id="%F0%9F%A7%AD-dicas-de-leitura-pistas-escondidas-na-conversa">🧭 Dicas de leitura (pistas escondidas na conversa)</h2>
+<table>
+<thead>
+<tr>
+<th>O que apareceu na conversa</th>
+<th>Onde isso te leva</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&quot;os dois são um tipo de <strong>Aluno</strong> (mesma base)&quot;</td>
+<td>um tipo <strong>geral</strong> (base) e tipos <strong>específicos</strong> → <strong>herança</strong></td>
+</tr>
+<tr>
+<td>&quot;a <strong>mesma</strong> operação <code>mensalidade()</code>, resposta muda por tipo&quot;</td>
+<td>operação <strong>redefinida</strong> em cada tipo → <strong>polimorfismo</strong></td>
+</tr>
+<tr>
+<td>&quot;A nota e o valor não podem ser mexidos por fora (nota de 0 a 10; valor nunca negativo)&quot;</td>
+<td>dado <strong>privado</strong> + operações → <strong>encapsulamento</strong></td>
+</tr>
+<tr>
+<td>&quot;não pode matricular o aluno numa turma sem vaga&quot;</td>
+<td><strong>invariante</strong>: o estado muda só por operação que valida</td>
+</tr>
+<tr>
+<td>&quot;<strong>Matricula ◆ Nota</strong> (nascem e somem juntos)&quot;</td>
+<td><strong>composição</strong> (losango cheio ◆)</td>
+</tr>
+<tr>
+<td>&quot;<strong>Turma ◇ Aluno</strong> (Aluno existe sozinho)&quot;</td>
+<td><strong>agregação</strong> (losango vazio ◇)</td>
+</tr>
+<tr>
+<td>&quot;uma turma tem MUITOS alunos; um aluno pode estar em VÁRIAS turmas (a matrícula liga os dois)&quot;</td>
+<td><strong>associação</strong> com <strong>multiplicidade</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="%F0%9F%93%8B-o-que-voc%C3%AA-deve-entregar-no-drawio">📋 O que você deve entregar (no draw.io)</h2>
+<p>Um <strong>diagrama de classes</strong> que contenha, de forma clara:</p>
+<ol>
+<li><strong>Abstração</strong> — uma classe <strong>base</strong> que não é criada diretamente (ex.: <code>Aluno</code>).</li>
+<li><strong>Herança</strong> — <code>AlunoRegular</code> e <code>AlunoBolsista</code> ligados à base pelo triângulo vazio <code>──▷</code>.</li>
+<li><strong>Encapsulamento</strong> — atributos sensíveis como <strong>privados</strong> (<code>-</code>) e <strong>operações públicas</strong> (<code>+</code>)<br>
+que os controlam (proteger o valor e o estado da <code>Matricula</code>).</li>
+<li><strong>Polimorfismo</strong> — a operação <code>mensalidade()</code> declarada na base e <strong>redefinida</strong> em cada tipo.</li>
+<li><strong>Os três relacionamentos</strong>, cada um com sua <strong>multiplicidade</strong>:
+<ul>
+<li><strong>Associação</strong> (linha/seta): uma turma tem MUITOS alunos; um aluno pode estar em VÁRIAS turmas (a matrícula liga os dois).</li>
+<li><strong>Agregação</strong> (losango <strong>vazio</strong> <code>◇</code>): <code>Turma</code> junta <code>Alunos</code> que existem sozinhos.</li>
+<li><strong>Composição</strong> (losango <strong>cheio</strong> <code>◆</code>): <code>Matricula</code> é feita de <code>Notas</code> que nascem e morrem com ela.</li>
+</ul>
+</li>
+</ol>
+<h2 id="%F0%9F%96%8A%EF%B8%8F-lembrete-de-nota%C3%A7%C3%A3o-uml">🖊️ Lembrete de notação (UML)</h2>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Como desenhar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Classe abstrata</td>
+<td>nome em <em>itálico</em> + <code>«abstract»</code> (não se cria direto)</td>
+</tr>
+<tr>
+<td>Operação abstrata</td>
+<td>em <em>itálico</em> (cada subtipo redefine)</td>
+</tr>
+<tr>
+<td>Visibilidade</td>
+<td><code>-</code> privado · <code>+</code> público · <code>#</code> protegido</td>
+</tr>
+<tr>
+<td>Herança</td>
+<td>linha com <strong>triângulo vazio</strong> <code>──▷</code> apontando para a base</td>
+</tr>
+<tr>
+<td>Associação</td>
+<td>linha (com seta), com <strong>multiplicidade</strong> nas pontas</td>
+</tr>
+<tr>
+<td>Agregação</td>
+<td>losango <strong>vazio</strong> <code>◇</code> no lado do &quot;todo&quot;</td>
+</tr>
+<tr>
+<td>Composição</td>
+<td>losango <strong>cheio</strong> <code>◆</code> no lado do &quot;todo&quot;</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplicidades: <code>1</code> (exatamente um), <code>0..1</code> (zero ou um), <code>*</code> (muitos), <code>1..*</code> (um ou mais).</p>
+<h2 id="%E2%9C%85-crit%C3%A9rio-de-%22pronto%22">✅ Critério de &quot;pronto&quot;</h2>
+<ul>
+<li><input type="checkbox" id="checkbox0"><label for="checkbox0">Há uma </label><strong>classe base abstrata</strong> e os dois tipos herdando dela.</li>
+<li><input type="checkbox" id="checkbox1"><label for="checkbox1">Nenhum atributo sensível está público; o valor e o estado da </label><code>Matricula</code> são protegidos.</li>
+<li><input type="checkbox" id="checkbox2"><label for="checkbox2">A operação </label><code>mensalidade()</code> aparece na base e é <strong>redefinida</strong> em cada tipo.</li>
+<li><input type="checkbox" id="checkbox3"><label for="checkbox3">Aparecem os </label><strong>três</strong> relacionamentos: <strong>associação</strong>, <strong>agregação</strong> (<code>◇</code>) e <strong>composição</strong> (<code>◆</code>).</li>
+<li><input type="checkbox" id="checkbox4"><label for="checkbox4">Você consegue </label><strong>explicar</strong> por que <code>Matricula</code>→<code>Nota</code> é composição e <code>Turma</code>→<code>Aluno</code> é agregação.</li>
+<li><input type="checkbox" id="checkbox5"><label for="checkbox5">Todas as ligações têm </label><strong>multiplicidade</strong>.</li>
+</ul>
+<p><a href="README.md">⬅️ Briefing do projeto</a> · <a href="PLANO-DE-EVOLUCAO.md">🗓️ Plano de evolução</a></p>
+
+</body>
+
+</html>
