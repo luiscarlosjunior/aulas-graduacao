@@ -351,6 +351,155 @@ de classes, e natural com interfaces.
 
 ---
 
+## 💳 Aprofundando: o Módulo de Pagamento do Melodia (completo)
+
+> Esta parte **continua a história** do Problema 2. Vamos construir, passo a passo, um **módulo de
+> pagamento de verdade** para a assinatura do Melodia — e, em cada passo, responder **por que** e
+> **o que acontece se não fizermos assim**. Tudo isto está **implementado e rodando** em
+> [`exemplo/iaula-interface/`](exemplo/iaula-interface/).
+
+### 🟥 Problema 3 — "Nem todo meio de pagamento faz as mesmas coisas"
+
+#### 1) Como está indo
+Já temos o contrato `MeioDePagamento` com `cobrar(double)`. Agora o produto pede mais:
+- o **cartão** precisa **autenticar** antes de cobrar (3-D Secure) e sabe **reembolsar**;
+- o **Pix** **não autentica**, mas sabe **reembolsar**;
+- o **boleto** **só cobra** — não autentica nem reembolsa sozinho.
+
+#### 2) Qual é o problema
+A tentação é **inchar o contrato**: colocar `autenticar()` e `reembolsar()` dentro de
+`MeioDePagamento`. Aí **todo mundo é obrigado a implementar tudo** — e o `Boleto` fica com métodos
+que não fazem sentido:
+
+```java
+// ❌ contrato "gordo": obriga o Boleto a ter o que ele não faz
+public class Boleto implements MeioDePagamento {
+    public boolean cobrar(double v) { /* ok */ return true; }
+    public boolean autenticar(String t) { return true; }            // mentira: boleto não autentica
+    public boolean reembolsar(double v) {
+        throw new UnsupportedOperationException("boleto não reembolsa"); // bomba-relógio
+    }
+}
+```
+Isso gera **métodos vazios ou que estouram em runtime** — o código "compila mas mente". Quem chama
+não tem como saber se o método **realmente** funciona.
+
+#### 3) A solução — **capacidades opcionais** em interfaces separadas
+Quebramos em contratos pequenos (isto é o **I** de SOLID — *Interface Segregation*): o essencial
+fica em `MeioDePagamento`; o que é **opcional** vira `Autenticavel` e `Reembolsavel`. Cada forma
+**assina só os contratos que cumpre**.
+
+```mermaid
+classDiagram
+    class MeioDePagamento {
+        <<interface>>
+        +cobrar(valor) boolean
+        +nome() String
+    }
+    class Autenticavel {
+        <<interface>>
+        +autenticar(token) boolean
+    }
+    class Reembolsavel {
+        <<interface>>
+        +reembolsar(valor) boolean
+    }
+    class Cartao
+    class Pix
+    class Boleto
+    class Paypal
+    class Cripto
+    class Plano {
+        -nome : String
+        -precoMensal : double
+    }
+    class Assinatura {
+        -meio : MeioDePagamento
+        +ativar(token) boolean
+        +cancelar() boolean
+    }
+    MeioDePagamento <|.. Cartao
+    MeioDePagamento <|.. Pix
+    MeioDePagamento <|.. Boleto
+    MeioDePagamento <|.. Paypal
+    MeioDePagamento <|.. Cripto
+    Autenticavel <|.. Cartao
+    Autenticavel <|.. Paypal
+    Autenticavel <|.. Cripto
+    Reembolsavel <|.. Cartao
+    Reembolsavel <|.. Pix
+    Assinatura o-- Plano : tem
+    Assinatura ..> MeioDePagamento : depende do contrato
+```
+
+> 🔎 **Leia o diagrama:** `Boleto` liga **só** a `MeioDePagamento`. `Pix` liga a `MeioDePagamento`
+> **e** `Reembolsavel`. `Cartao` liga aos **três**. Cada classe assina **só o que cumpre** — e a
+> `Assinatura` continua dependendo apenas do contrato `MeioDePagamento`.
+
+A `Assinatura` descobre a capacidade **na hora**, com `instanceof` — pedindo a mais **só se o meio
+assinou aquele contrato**:
+
+```java
+public boolean ativar(String token) {
+    if (meio instanceof Autenticavel) {                 // só autentica quem PODE
+        if (!((Autenticavel) meio).autenticar(token)) return false;
+    }
+    return meio.cobrar(plano.getPrecoMensal());         // todos sabem cobrar
+}
+
+public boolean cancelar() {
+    ativa = false;
+    if (meio instanceof Reembolsavel) {                 // só reembolsa quem PODE
+        ((Reembolsavel) meio).reembolsar(plano.getPrecoMensal());
+    } else {
+        System.out.println("[" + meio.nome() + "] não reembolsa automático — tratar manual.");
+    }
+    return true;
+}
+```
+
+**Por que isso resolve?**
+- O `Boleto` **não é forçado** a ter `autenticar/reembolsar` → acabam os métodos vazios e os
+  `UnsupportedOperationException`.
+- Adicionar **PayPal** ou **Cripto** é **criar a classe** e usar — a `Assinatura` **não muda** uma
+  linha (aberto para extensão, fechado para modificação).
+- Dá para **testar** injetando um `MeioDePagamento` falso que sempre aprova — sem banco de verdade.
+
+### ⚠️ O que acontece se NÃO usarmos interface no pagamento
+Sem contrato, a `Assinatura` conheceria cada classe concreta e viraria um **festival de `if`**:
+
+```java
+// ❌ o pesadelo que a interface evita
+if (meio instanceof Cartao)      { ((Cartao) meio).cobrarNoCartao(preco); }
+else if (meio instanceof Pix)    { ((Pix) meio).enviarPix(preco); }
+else if (meio instanceof Boleto) { ((Boleto) meio).emitirBoleto(preco); }
+// ... e a cada novo meio, mais um 'else if' AQUI dentro (e em todo lugar que cobra)
+```
+Resultado: **cada novo meio obriga a mexer na `Assinatura`** (e nos testes, e no checkout…),
+cresce o acoplamento, e um `else` esquecido vira bug silencioso. A interface troca esse `if` por
+**polimorfismo**: cada meio leva o seu próprio `cobrar`.
+
+### ▶️ Rode o módulo completo
+O exemplo executável está em [`exemplo/iaula-interface/src`](exemplo/iaula-interface/src) (Java 17):
+
+```bash
+cd exemplo/iaula-interface/src
+javac -d out $(find . -name "*.java")
+java -cp out App
+```
+
+Trechos da saída (a `Assinatura` trata todos os meios do mesmo jeito):
+```
+-- Ativando via Cartão de crédito --
+[Cartão] autenticando... ok
+[Cartão ****3456] cobrando R$ 19,90
+✓ Assinatura 'Premium' ativada via Cartão de crédito
+...
+[Boleto] não suporta reembolso automático — tratar manual.
+```
+
+---
+
 ## 📋 Sintaxe e Características
 
 ### Definindo uma Interface
@@ -992,6 +1141,62 @@ classDiagram
 3. **Sistema de Notificações**
    - Interface: `Notificador` (enviarNotificacao)
    - Implementações: `Email`, `SMS`, `PushNotification`
+
+## 🎯 Exercício guiado — evolua o Módulo de Pagamento (faça com o diagrama)
+
+> Use como base o módulo que roda em [`exemplo/iaula-interface/`](exemplo/iaula-interface/). A ideia
+> é **praticar interface como contrato e capacidade opcional**, no domínio do Melodia. Faça **o
+> código e o diagrama** juntos.
+
+**Ponto de partida (o que você vai estender):**
+
+```mermaid
+classDiagram
+    class MeioDePagamento {
+        <<interface>>
+        +cobrar(valor) boolean
+        +nome() String
+    }
+    class Parcelavel {
+        <<interface>>
+        +parcelar(valor, vezes) boolean
+    }
+    class Cartao
+    class ValePresente {
+        -saldo : double
+    }
+    MeioDePagamento <|.. Cartao
+    MeioDePagamento <|.. ValePresente
+    Parcelavel <|.. Cartao
+```
+
+**Tarefas (em ordem):**
+
+1. **Extensão sem modificação.** No `App`, ative uma `Assinatura` também com `Paypal` e `Cripto`
+   (já existem no exemplo). Rode e **comprove** que a classe `Assinatura` **não mudou** para aceitá-los.
+2. **Nova capacidade `Parcelavel`.** Crie a interface `Parcelavel` com `boolean parcelar(double valor, int vezes)`.
+   Faça **apenas** o `Cartao` implementá-la. Na `Assinatura`, adicione `ativarParcelado(String token, int vezes)`
+   que **só parcela se o meio for `Parcelavel`** (use `instanceof`); senão, cai no `cobrar` normal.
+3. **Novo meio `ValePresente`.** Crie `ValePresente implements MeioDePagamento` com um `saldo`: cada
+   `cobrar(valor)` **desconta do saldo** e devolve `false` quando não há saldo suficiente
+   (invariante: saldo nunca negativo). **Não pode** alterar a `Assinatura`.
+4. **Atualize o diagrama de classes** (no draw.io) com `Parcelavel` e `ValePresente` ligados aos
+   contratos certos — lembrando: seta **tracejada** `..|>` para implementação de interface.
+5. **(Desafio) Método default.** Em `MeioDePagamento`, crie um método **default** `recibo(double valor)`
+   que devolve um texto padrão (ex.: `"Recibo Melodia — R$ ..."`). Sobrescreva **só** no `Pix`.
+
+**✅ Critério de "pronto":**
+- [ ] Adicionar `ValePresente` **não exigiu** mudar a `Assinatura`.
+- [ ] `parcelar` existe **só** onde faz sentido (não poluiu `Boleto`/`Pix`).
+- [ ] O `instanceof` é usado para **capacidade opcional**, não para escolher "qual meio é".
+- [ ] O diagrama bate com o código (interfaces com `<<interface>>` e setas tracejadas).
+
+> 💡 **Dica:** se você sentir vontade de escrever `if (meio instanceof Cartao)` para decidir
+> **como cobrar**, pare — isso é sinal de que o comportamento deveria estar **dentro** da classe do
+> meio (polimorfismo), não num `if` na `Assinatura`. O `instanceof` aqui é só para perguntar
+> "**você tem** a capacidade X?", nunca "**quem** você é?".
+
+---
 
 ## 🔗 Navegação
 
