@@ -398,6 +398,104 @@ sequenceDiagram
 > para **não copiar** um sub-fluxo complexo que já existe. Juntos, eles mantêm cada diagrama
 > **curto e legível** — o oposto do "diagrama que não cabe na tela".
 
+### 5.5 — Praticando o `break`: duas saídas antecipadas
+
+O `break` brilha nas **guardas** no começo de um método — aquelas validações que, se falharem,
+fazem o método **sair na hora**. Veja dois casos reais do Melodia.
+
+**(a) Cobrar uma assinatura CANCELADA → exceção.** No código, `Assinatura.cobrar()` começa com
+`if (status == CANCELADA) throw new IllegalStateException(...)`. No diagrama, isso é um `break`:
+
+```mermaid
+sequenceDiagram
+    participant P as PlataformaStreaming
+    participant A as assinatura : Assinatura
+    participant C as conta : ContaBancaria
+
+    P->>A: cobrar(conta)
+    break assinatura CANCELADA
+        A-->>P: throw IllegalStateException
+    end
+    A->>C: debitarAssinatura(19.90, "Assinatura PREMIUM")
+    C-->>A: true
+    A-->>P: true
+```
+
+> 🔎 Tudo que está **abaixo** do `break` (debitar, retornar `true`) só roda se a assinatura
+> **não** estiver cancelada. Se estiver, o cenário **encerra** dentro da caixa `break`.
+
+**(b) Assinar Premium quando o ouvinte JÁ é Premium → nada a fazer.** Uma guarda sem exceção,
+só um retorno antecipado:
+
+```mermaid
+sequenceDiagram
+    actor Ana as Ana (Ouvinte)
+    participant P as PlataformaStreaming
+    participant A as assinatura : Assinatura
+
+    Ana->>P: assinarPremium(ana)
+    P->>A: getPlano()
+    A-->>P: PREMIUM
+    break já é assinante Premium
+        P-->>Ana: "Você já tem o Premium 🎧"
+    end
+    P->>A: mudarPlano(PREMIUM)
+    P-->>Ana: "Bem-vinda ao Premium!"
+```
+
+> 🧠 **Compare os dois `break`:** em (a) a saída é um **erro** (`throw`); em (b) é um **retorno
+> amigável**. Em ambos, o ponto é o mesmo: **validou, não passou, sai cedo** — e o resto do
+> diagrama nem precisa pensar nesse caso.
+
+### 5.6 — Praticando o `ref`: desenhe uma vez, referencie em vários
+
+O valor do `ref` aparece quando **o mesmo sub-fluxo** se repete em vários cenários. A ideia:
+desenhe o sub-fluxo **uma vez** no seu próprio diagrama e, nos outros, só **aponte** para ele.
+
+**Diagrama A — o sub-fluxo "Autenticar usuário" (desenhado UMA vez):**
+
+```mermaid
+sequenceDiagram
+    participant UI as Tela
+    participant P as PlataformaStreaming
+    participant U as usuario : Usuario
+
+    UI->>P: autenticar(email, senha)
+    P->>U: conferirSenha(senha)
+    alt senha correta
+        U-->>P: ok
+        P-->>UI: token de sessão
+    else senha errada
+        U-->>P: falha
+        P-->>UI: "Credenciais inválidas"
+    end
+```
+
+**Diagrama B — "Assinar Premium" REFERENCIANDO o Diagrama A** (sem redesenhá-lo):
+
+```mermaid
+sequenceDiagram
+    actor Ana as Ana (Ouvinte)
+    participant UI as TelaAssinatura
+    participant P as PlataformaStreaming
+    participant A as assinatura : Assinatura
+
+    Ana->>UI: assinarPremium()
+    note over UI,P: ref: Autenticar usuário (Diagrama A)
+    UI->>P: assinarPremium(ana)
+    note over P,A: ref: Cobrar assinatura (cenário 3)
+    P-->>Ana: "Bem-vinda ao Premium!"
+```
+
+> 🔁 **Repare na economia:** o Diagrama B não repete os passos de login nem os da cobrança — ele
+> só diz *"aqui entra o Diagrama A"* e *"aqui entra o cenário 3"*. Se o login mudar, você corrige
+> **só o Diagrama A**, e **todos** que o referenciam ficam atualizados. É o mesmo ganho do
+> `«include» Autenticar` dos [casos de uso](../08-diagrama-casos-de-uso/) — reúso sem cópia.
+
+> 💡 **Quando criar um `ref`?** Quando um trecho (autenticar, cobrar, creditar royalties) aparece
+> em **3+ diagramas** ou é **complexo demais** para caber inline sem poluir o cenário principal.
+> Abaixo disso, desenhe inline mesmo — um `ref` para um sub-fluxo de duas setas só atrapalha.
+
 ---
 
 ## 6. Do diagrama ao código (o mapeamento direto)
