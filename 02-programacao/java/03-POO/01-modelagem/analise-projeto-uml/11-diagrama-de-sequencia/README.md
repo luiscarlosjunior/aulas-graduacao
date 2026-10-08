@@ -57,6 +57,28 @@ aquela funcionalidade realmente acontece, chamada por chamada.
 > maioria das chamadas de método em Java). Na **assíncrona**, quem chamou **continua** sem
 > esperar (mandar uma mensagem pra uma fila, disparar um evento).
 
+### A colinha da sintaxe no Mermaid
+
+Todos os diagramas desta aula usam **Mermaid** (`sequenceDiagram`). Guarde este de-para entre o
+que você **quer dizer** e o que você **escreve** — é a sintaxe inteira que você vai precisar:
+
+| Você quer… | Escreve no Mermaid | Como aparece |
+|------------|--------------------|--------------|
+| Declarar um ator externo | `actor Ana as Ana (Ouvinte)` | boneco palito 👤 |
+| Declarar um participante | `participant P as PlataformaStreaming` | caixa + lifeline |
+| Mensagem **síncrona** (chama e espera) | `A->>B: metodo()` | seta **cheia** |
+| **Retorno** de uma chamada | `B-->>A: valor` | seta **tracejada** |
+| Mensagem **assíncrona** (dispara e segue) | `A-)B: evento` | seta **aberta** |
+| **Auto-mensagem** (chama a si mesmo) | `A->>A: valida()` | setinha que volta |
+| **Criar** um objeto no meio do fluxo | `create participant X` + a mensagem | nova lifeline nasce ali |
+| Condição (if/else) | `alt ... else ... end` | caixa `alt` |
+| Opcional (if) | `opt ... end` | caixa `opt` |
+| Repetição (for/while) | `loop ... end` | caixa `loop` |
+| Paralelo (ao mesmo tempo) | `par ... and ... end` | caixa `par` |
+
+> ✍️ Experimente colar qualquer bloco ` ```mermaid ` desta aula no
+> [mermaid.live](https://mermaid.live) e editar — é a forma mais rápida de aprender a sintaxe.
+
 ---
 
 ## 3. Construindo o diagrama "Assinar Premium" — passo a passo
@@ -223,7 +245,110 @@ sequenceDiagram
 
 ---
 
-## 5. Do diagrama ao código (o mapeamento direto)
+## 5. Mais cenários do Melodia (ampliando o repertório)
+
+Quanto mais cenários você lê, mais rápido desenha os seus. Aqui vão **três** fluxos novos do
+Melodia, cada um exercitando um recurso diferente.
+
+### 5.1 — "Criar playlist e adicionar música" (criação de objeto)
+
+Até agora todos os participantes já existiam no topo. Mas muitas interações **criam objetos no
+meio do caminho**. Quando a Ana cria uma playlist, um objeto `Playlist` **nasce** ali — é o
+`new Playlist(...)` do método `Ouvinte.criarPlaylist(nome)`.
+
+```mermaid
+sequenceDiagram
+    actor Ana as Ana (Ouvinte)
+    participant O as ouvinte : Ouvinte
+    participant M as musica : Musica
+
+    Ana->>O: criarPlaylist("Treino")
+    create participant PL as playlist : Playlist
+    O->>PL: new Playlist("Treino", "Ana")
+    O-->>Ana: playlist
+    Ana->>PL: adicionar(musica)
+    PL->>PL: musicas.add(musica)
+    PL-->>Ana: ok
+```
+
+**O que há de novo?** A palavra-chave `create` faz a **lifeline da `Playlist` começar mais
+abaixo**, no instante em que ela é criada — e não lá no topo. Isso comunica visualmente o
+**tempo de vida** do objeto. Note também a **auto-mensagem** `PL->>PL: musicas.add(musica)`: a
+playlist guarda a música na própria lista interna.
+
+> 🔎 Repare na convenção **`nome : Classe`** (ex.: `ouvinte : Ouvinte`): no diagrama de
+> sequência os participantes costumam ser **objetos** (instâncias), não classes. É o mesmo
+> `ana` do [diagrama de objetos](../10-diagrama-de-objetos/) entrando em ação.
+
+### 5.2 — "Cobrança mensal recorrente" (ator de tempo + `loop`)
+
+Lembra o **ator de tempo** `Sistema de Cobrança` do [diagrama de casos de uso](../08-diagrama-casos-de-uso/)?
+Aqui ele aparece em ação: todo mês ele dispara a cobrança **de todos os ouvintes pagantes**.
+É o mesmo fluxo do "Assinar Premium", agora **dentro de um `loop`**.
+
+```mermaid
+sequenceDiagram
+    actor Rel as ⏰ Sistema de Cobrança
+    participant P as PlataformaStreaming
+    participant A as assinatura : Assinatura
+    participant C as conta : ContaBancaria
+
+    Rel->>P: cobrarMensalidades()
+    loop para cada ouvinte com plano pago
+        P->>A: cobrar(conta)
+        A->>C: debitarAssinatura(19.90, "Assinatura PREMIUM")
+        alt Saldo suficiente
+            C-->>A: true
+            A->>A: proximaCobranca += 1 mês
+        else Saldo insuficiente
+            C-->>A: false
+            A->>A: suspender()
+        end
+    end
+    P-->>Rel: relatório (pagas × suspensas)
+```
+
+**O que há de novo?** Um **fragmento dentro do outro**: o `alt` (saldo ok/insuficiente) vive
+**dentro** do `loop` (cada ouvinte). Isso é comuníssimo — fragmentos se **aninham** como `for` e
+`if` se aninham no código. E o ator aqui não é gente: é o **relógio** ⏰ que dispara sozinho.
+
+### 5.3 — "Reproduzir com processamento paralelo" (`par` + mensagem assíncrona)
+
+Num streaming real, apertar *play* dispara **várias coisas ao mesmo tempo**: registra a
+estatística, credita o royalty e avisa o motor de recomendações — sem que uma espere a outra.
+Isso é o fragmento **`par`** e a **mensagem assíncrona** (`-)`).
+
+```mermaid
+sequenceDiagram
+    actor Ana as Ana (Ouvinte Premium)
+    participant P as PlataformaStreaming
+    participant M as musica : Musica
+    participant Art as artista : Artista
+    participant Rec as ServicoRecomendacao
+
+    Ana->>P: reproduzir(musica)
+    par Registrar estatística
+        P->>M: registrarReproducao()
+    and Creditar royalty
+        P->>Art: creditarRoyalty(0.004)
+    and Atualizar recomendações
+        P-)Rec: registrarAudicao(ana, musica)
+    end
+    P-->>Ana: ▶ tocando "Música X"
+```
+
+**O que há de novo?** O `par` divide o tempo em **faixas paralelas** (separadas por `and`): as
+três ações acontecem **concorrentemente**. E a seta `P-)Rec` é **assíncrona** (ponta aberta): a
+plataforma **não espera** o serviço de recomendação responder — "dispara e segue". Compare com as
+outras setas `->>`, que **esperam** o retorno.
+
+> ⚠️ Este 5.3 é um **cenário de projeto** (como o sistema *poderia* evoluir), um passo além do
+> `reproduzir(...)` sequencial do [projeto-base-java](../projeto-base-java/). Diagramas de
+> sequência servem tanto para **documentar o que existe** quanto para **projetar o que virá**.
+
+---
+
+## 6. Do diagrama ao código (o mapeamento direto)
 
 | No diagrama de sequência | No Java (`projeto-base-java`) |
 |--------------------------|-------------------------------|
@@ -232,6 +357,9 @@ sequenceDiagram
 | Fragmento `alt` saldo ok/insuficiente | `if (pago) { … } else { … }` |
 | Auto-mensagem `A->>A: suspender()` | `this.suspender();` dentro de `Assinatura.cobrar()` |
 | Fragmento `loop` para cada artista | `for (Artista a : artistas) { … }` em `reproduzir(...)` |
+| `create participant PL` + `new Playlist(...)` | `new Playlist(nome, dono)` em `criarPlaylist(...)` |
+| `loop` por ouvinte com `alt` dentro | `for (Ouvinte o : ouvintes) { if (pago) … else … }` |
+| Mensagem assíncrona `P-)Rec` | `executor.submit(() -> rec.registrarAudicao(...))` (dispara e segue) |
 
 > 🔗 Abra `plataforma/PlataformaStreaming.java` e `assinatura/Assinatura.java` no
 > [projeto-base-java](../projeto-base-java/) e leia o método **enquanto** olha o diagrama. São o
@@ -239,7 +367,7 @@ sequenceDiagram
 
 ---
 
-## 6. Vantagens e desvantagens
+## 7. Vantagens e desvantagens
 
 | ✅ Vantagens | ❌ Desvantagens |
 |-------------|-----------------|
@@ -253,7 +381,7 @@ sequenceDiagram
 
 ---
 
-## 7. Na indústria (como sim, como não)
+## 8. Na indústria (como sim, como não)
 
 - ✅ **Um dos diagramas mais úteis no dia a dia**, especialmente para **integrações** entre
   sistemas/microsserviços e para desenhar chamadas assíncronas (filas, webhooks). Ferramentas
@@ -274,27 +402,73 @@ sequência quando a **ordem no tempo** é o que importa.
 
 ---
 
-## 🎯 Desafio para você criar
+## 🎯 Exercícios para você fazer
 
-Desenhe o diagrama de sequência do caso de uso **"Sacar royalties"** (método
-`Artista.sacarRoyalties(contaDaPlataforma)`):
+Faça no [mermaid.live](https://mermaid.live) (ou no [draw.io](https://app.diagrams.net)) e
+confira sempre com o [projeto-base-java](../projeto-base-java/). Os exercícios vão do mais simples
+ao mais completo — faça **em ordem**.
 
-1. Participantes: `Artista`, `ContaBancaria` da plataforma, `ContaBancaria` do artista.
-2. Use um fragmento **`alt`** para o caso de **ter** royalties acumulados × **não ter** (saldo
-   zero → nada a sacar).
-3. Mostre o **retorno** (o valor sacado) subindo de volta ao artista.
-4. Escreva **uma frase** explicando por que você usou `alt` (e não `opt`) — ou vice-versa.
+### Exercício 1 — Sacar royalties 🟢 *(aquecimento: `alt` + retorno)*
 
-✅ **Critério de "pronto":** lê-se o diagrama de cima para baixo e entende-se a ordem; os
-fragmentos refletem as estruturas de controle que existiriam no método Java.
+Desenhe a sequência de **`Artista.sacarRoyalties(contaDaPlataforma)`**.
+
+1. Participantes: `Artista`, `ContaBancaria` da plataforma e `ContaBancaria` do artista.
+2. Use um **`alt`**: **tem** royalties acumulados (> 0) → transfere; **não tem** (zero) → nada a
+   sacar.
+3. Mostre o **retorno** (o valor sacado) subindo até o artista.
+4. Escreva **uma frase**: por que `alt` e não `opt` aqui?
+
+### Exercício 2 — Reativar assinatura suspensa 🟢 *(auto-mensagem + regra de estado)*
+
+A assinatura da Ana foi **suspensa** por falta de saldo. Agora ela deposita e reativa.
+
+1. Fluxo: `Ana → ContaBancaria.depositar(valor)` e depois `Ana → Assinatura.reativar()`.
+2. Dentro de `reativar()`, mostre a **auto-mensagem** que valida o estado atual (só reativa se
+   estiver `SUSPENSA` — veja `Assinatura.reativar()` no projeto).
+3. Use um **`alt`** para o caso de o estado **não** permitir (ex.: assinatura `CANCELADA` →
+   erro).
+
+### Exercício 3 — Publicar álbum 🟡 *(criação de objeto + `loop`)*
+
+O artista publica um álbum com várias faixas (`PlataformaStreaming.publicarTodas(musicas)`).
+
+1. Use **`create participant`** para o objeto `Album` nascer no meio do fluxo.
+2. Use um **`loop`** para adicionar **cada** música ao catálogo da plataforma.
+3. Mostre o **retorno** final confirmando quantas faixas foram publicadas.
+
+### Exercício 4 — Buscar e reproduzir 🟡 *(encadeando dois casos de uso)*
+
+A Ana busca por um termo e toca o primeiro resultado.
+
+1. `Ana → PlataformaStreaming.buscar("rock")` devolve uma lista.
+2. Use um **`alt`**: lista **vazia** (avisa "nada encontrado") × **com resultados** (toca o
+   primeiro, reaproveitando o fluxo do **cenário 4** desta aula).
+3. Inclua o **`opt`** do anúncio (plano FREE) dentro do ramo de sucesso.
+
+### Exercício 5 — Cobrança com fila de notificação 🔴 *(desafio: `par` + assíncrona)*
+
+Estenda o **cenário 5.2** (cobrança mensal). Quando uma assinatura é **suspensa**, o sistema deve,
+**em paralelo**: (a) registrar no log de inadimplência e (b) **enviar** uma notificação ao ouvinte.
+
+1. Use **`par`** para as duas ações paralelas.
+2. A notificação deve ser uma **mensagem assíncrona** (`-)`) para um `ServicoNotificacao` — o
+   sistema não espera a notificação ser entregue para seguir cobrando os próximos.
+3. Explique em **uma frase** por que a notificação é assíncrona e a cobrança é síncrona.
+
+> ✅ **Critério de "pronto" (vale para todos):** o diagrama se lê de **cima para baixo** sem
+> ambiguidade; cada seta é uma **chamada de método plausível** (confira os nomes no projeto); e
+> os fragmentos (`alt`/`opt`/`loop`/`par`) correspondem às estruturas de controle que existiriam
+> no código Java. Bônus: aponte **qual método** do `projeto-base-java` cada seta representaria.
 
 ---
 
 ## ✅ O que levar desta pasta
 
 - [ ] Sequência = **mensagens ordenadas no tempo** (cima → baixo), participantes lado a lado.
-- [ ] Domino **lifeline, ativação, síncrona (`->>`) / retorno (`-->>`) / assíncrona / auto-
-      mensagem** e os fragmentos **`alt` / `opt` / `loop` / `par`**.
+- [ ] Domino **lifeline, ativação, síncrona (`->>`) / retorno (`-->>`) / assíncrona (`-)`) /
+      auto-mensagem** e sei **criar objeto** no meio do fluxo (`create`).
+- [ ] Domino os fragmentos **`alt` / `opt` / `loop` / `par`** e sei **aninhá-los** (um `alt`
+      dentro de um `loop`, como na cobrança mensal).
 - [ ] **Um diagrama por cenário**; variações curtas em `alt`/`opt`.
 - [ ] Cada seta é uma **chamada de método** real — o diagrama mapeia 1-para-1 no código.
 - [ ] É o diagrama de eleição para **integrações** e **revisões de design**.
