@@ -1,18 +1,26 @@
 package forma.pagamento;
 
-import contrato.pagamento.Pagamento;
+import contrato.pagamento.MeioDePagamento;
 import contrato.pagamento.Reembolsavel;
 
-public class Pix implements Pagamento, Reembolsavel {
+/*
+ * Pix cobra e reembolsa, mas NÃO é Autenticavel (não assina esse contrato).
+ * Ou seja: cada classe implementa só os contratos que realmente cumpre.
+ */
+public class Pix implements MeioDePagamento, Reembolsavel {
+    private final String chave;
 
-    @Override
-    public void processar() {
-        System.out.println("Processando pagamento via Pix.");
-    }
-    
-    @Override
-    public void reembolsar(double valor) {
-        System.out.println("Reembolsando " + valor + " via Pix.");
+    public Pix(String chave) { this.chave = chave; }
+
+    @Override public String nome() { return "Pix"; }
+
+    @Override public boolean cobrar(double valor) {
+        System.out.printf("[Pix %s] cobrando R$ %.2f (sem taxa)%n", chave, valor);
+        return true;
     }
 
+    @Override public boolean reembolsar(double valor) {
+        System.out.printf("[Pix] devolvendo R$ %.2f%n", valor);
+        return true;
+    }
 }
