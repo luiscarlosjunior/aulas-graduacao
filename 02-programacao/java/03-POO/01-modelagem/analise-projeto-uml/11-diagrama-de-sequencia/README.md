@@ -52,6 +52,17 @@ aquela funcionalidade realmente acontece, chamada por chamada.
 | `opt` | **if** (sem else) | Um trecho que **só às vezes** acontece (ex.: enviar e-mail de boas-vindas). |
 | `loop` | **for / while** | Repetição (ex.: creditar royalty **para cada** artista). |
 | `par` | threads paralelas | Coisas que acontecem **ao mesmo tempo**. |
+| `break` | **return / throw** antecipado | **Interrompe** o cenário quando uma condição ocorre e sai (ex.: música fora do catálogo → encerra). |
+| `ref` | **chamar outro diagrama** | **Aponta** para uma interação já desenhada em outro diagrama, para **não repetir** (reúso). |
+
+> 🧩 **`break` × `alt`:** no `alt` o fluxo **continua** depois do fragmento (os dois ramos
+> convergem). No `break`, quando a condição bate, o cenário **para ali** — é a "saída de
+> emergência", como um `return`/`throw` logo no começo de um método.
+
+> 🔁 **Por que existe o `ref`?** Diagramas de sequência repetem sub-fluxos (autenticar, cobrar,
+> creditar royalties…). Em vez de **redesenhar** o mesmo trecho em cada diagrama, você o desenha
+> **uma vez** num diagrama próprio e, nos outros, só coloca uma moldura **`ref`** apontando para
+> ele. É o mesmo espírito do `«include»` dos [casos de uso](../08-diagrama-casos-de-uso/).
 
 > 💡 **Síncrona vs. assíncrona em uma frase:** na **síncrona**, quem chamou **para e espera** (a
 > maioria das chamadas de método em Java). Na **assíncrona**, quem chamou **continua** sem
@@ -75,6 +86,13 @@ que você **quer dizer** e o que você **escreve** — é a sintaxe inteira que 
 | Opcional (if) | `opt ... end` | caixa `opt` |
 | Repetição (for/while) | `loop ... end` | caixa `loop` |
 | Paralelo (ao mesmo tempo) | `par ... and ... end` | caixa `par` |
+| Interrupção (return antecipado) | `break <condição> ... end` | caixa `break` |
+| Referência a outro diagrama | *(o Mermaid não tem `ref` nativo)* → `note over A,B: ref: Nome` | moldura `ref` (aproximada) |
+
+> ⚠️ **Sobre o `ref`:** na UML "de verdade" ele é uma moldura escrita **`ref`** dentro do
+> diagrama. O **Mermaid não tem** esse fragmento, então nesta aula o representamos com uma
+> **nota** `note over A,B: ref: NomeDoSubfluxo`. Em ferramentas como PlantUML/draw.io o `ref`
+> existe nativamente.
 
 > ✍️ Experimente colar qualquer bloco ` ```mermaid ` desta aula no
 > [mermaid.live](https://mermaid.live) e editar — é a forma mais rápida de aprender a sintaxe.
@@ -346,6 +364,40 @@ outras setas `->>`, que **esperam** o retorno.
 > `reproduzir(...)` sequencial do [projeto-base-java](../projeto-base-java/). Diagramas de
 > sequência servem tanto para **documentar o que existe** quanto para **projetar o que virá**.
 
+### 5.4 — "Reproduzir música — versão robusta" (`break` + `ref`)
+
+O método real `reproduzir(...)` tem uma **saída antecipada**: se a música não está no catálogo,
+ele devolve `"✗ Música fora do catálogo"` **na hora**, sem tocar nem creditar nada. Isso é o
+fragmento **`break`**. E, em vez de **redesenhar** todo o laço de royalties (que já vimos no
+cenário 4), referenciamos aquele sub-fluxo com um **`ref`**.
+
+```mermaid
+sequenceDiagram
+    actor Ana as Ana (Ouvinte)
+    participant P as PlataformaStreaming
+    participant M as musica : Musica
+
+    Ana->>P: reproduzir(musica)
+    break música fora do catálogo
+        P-->>Ana: "✗ Música fora do catálogo"
+    end
+    P->>M: registrarReproducao()
+    note over P,M: ref: Creditar royalties aos artistas<br/>(o loop detalhado está no cenário 4)
+    P-->>Ana: ▶ tocando "Música X"
+```
+
+**O que há de novo?**
+- O **`break`** é a **saída de emergência**: *se* a música está fora do catálogo, a plataforma
+  responde o erro e o cenário **termina ali** — nada abaixo do `break` roda. É o
+  `if (!catalogo.contains(musica)) return "✗ Música fora do catálogo";` do método real.
+- O **`ref`** (aqui desenhado como uma **nota**, pois o Mermaid não tem o fragmento nativo) diz
+  *"neste ponto, acontece o sub-fluxo **Creditar royalties**, já detalhado em outro diagrama"*.
+  Isso **evita repetição** e mantém este diagrama enxuto, focado no caminho principal.
+
+> 🧠 **Regra de ouro:** use `break` para **erros/validações que encerram** o fluxo cedo, e `ref`
+> para **não copiar** um sub-fluxo complexo que já existe. Juntos, eles mantêm cada diagrama
+> **curto e legível** — o oposto do "diagrama que não cabe na tela".
+
 ---
 
 ## 6. Do diagrama ao código (o mapeamento direto)
@@ -360,6 +412,8 @@ outras setas `->>`, que **esperam** o retorno.
 | `create participant PL` + `new Playlist(...)` | `new Playlist(nome, dono)` em `criarPlaylist(...)` |
 | `loop` por ouvinte com `alt` dentro | `for (Ouvinte o : ouvintes) { if (pago) … else … }` |
 | Mensagem assíncrona `P-)Rec` | `executor.submit(() -> rec.registrarAudicao(...))` (dispara e segue) |
+| Fragmento `break` (saída antecipada) | `if (!catalogo.contains(musica)) return "...";` em `reproduzir(...)` |
+| Moldura `ref` (sub-fluxo reusado) | extrair um **método**: `creditarRoyalty(musica, artistas)` chamado aqui |
 
 > 🔗 Abra `plataforma/PlataformaStreaming.java` e `assinatura/Assinatura.java` no
 > [projeto-base-java](../projeto-base-java/) e leia o método **enquanto** olha o diagrama. São o
@@ -467,8 +521,10 @@ Estenda o **cenário 5.2** (cobrança mensal). Quando uma assinatura é **suspen
 - [ ] Sequência = **mensagens ordenadas no tempo** (cima → baixo), participantes lado a lado.
 - [ ] Domino **lifeline, ativação, síncrona (`->>`) / retorno (`-->>`) / assíncrona (`-)`) /
       auto-mensagem** e sei **criar objeto** no meio do fluxo (`create`).
-- [ ] Domino os fragmentos **`alt` / `opt` / `loop` / `par`** e sei **aninhá-los** (um `alt`
-      dentro de um `loop`, como na cobrança mensal).
+- [ ] Domino os fragmentos **`alt` / `opt` / `loop` / `par` / `break` / `ref`** e sei
+      **aninhá-los** (um `alt` dentro de um `loop`, como na cobrança mensal).
+- [ ] Uso **`break`** para saídas antecipadas (validação/erro) e **`ref`** para reusar um
+      sub-fluxo sem redesenhá-lo.
 - [ ] **Um diagrama por cenário**; variações curtas em `alt`/`opt`.
 - [ ] Cada seta é uma **chamada de método** real — o diagrama mapeia 1-para-1 no código.
 - [ ] É o diagrama de eleição para **integrações** e **revisões de design**.
