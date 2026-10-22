@@ -116,6 +116,285 @@ SOLID é um acrônimo que representa cinco princípios fundamentais da programa�
 
 ---
 
+## 🎧 SOLID no Melodia — um princípio por vez (com diagramas antes/depois)
+
+> 🧭 Antes de mergulhar em cada princípio, vamos ver **os cinco aplicados ao nosso streaming** (o
+> **Melodia**), sempre no formato **❌ como vira dor → ✅ como SOLID resolve**, com o **diagrama de
+> classes** para você **avaliar** e o **código** para discutir. Há um exemplo **executável** em
+> [`exemplo-melodia/`](exemplo-melodia/) que junta SRP + OCP + DIP.
+
+### S — a `Musica` que faz tudo (Responsabilidade Única)
+
+**A dor:** a classe `Musica` começou só com dados e, com o tempo, virou um "balcão": guarda estado,
+**calcula royalty**, **salva no banco**, **gera JSON** e **manda e-mail** para o artista.
+
+```mermaid
+classDiagram
+    class Musica {
+        -titulo : String
+        -reproducoes : int
+        +registrarReproducao() void
+        +calcularRoyalty() double
+        +salvarNoBanco() void
+        +gerarJson() String
+        +enviarEmailArtista() void
+    }
+    note for Musica "4 motivos para mudar:\nregra de royalty, banco, formato e e-mail"
+```
+
+**O que acontece se não separar:** mudar a regra de royalty pode **quebrar** a persistência; um
+teste da `Musica` precisa de **banco e servidor de e-mail**; e cada time que mexe aqui pisa no do
+outro. A classe tem **vários motivos para mudar** — exatamente o que o SRP proíbe.
+
+**✅ A solução:** cada responsabilidade vira uma classe. A `Musica` volta a cuidar **só do seu estado**.
+
+```mermaid
+classDiagram
+    class Musica {
+        -titulo : String
+        -reproducoes : int
+        +registrarReproducao() void
+        +getReproducoes() int
+    }
+    class CalculadoraRoyalty {
+        +calcular(m : Musica) double
+    }
+    class MusicaRepository {
+        +salvar(m : Musica) void
+    }
+    class NotificadorArtista {
+        +notificar(m : Musica) void
+    }
+    CalculadoraRoyalty ..> Musica
+    MusicaRepository ..> Musica
+    NotificadorArtista ..> Musica
+```
+
+```java
+// ❌ antes: tudo numa classe só
+class Musica {
+    double calcularRoyalty() { /* regra financeira */ return 0; }
+    void salvarNoBanco() { /* SQL */ }
+    void enviarEmailArtista() { /* SMTP */ }
+}
+// ✅ depois: cada motivo de mudança em sua própria classe
+class Musica { /* só estado + registrarReproducao() */ }
+class CalculadoraRoyalty { double calcular(Musica m) { /* ... */ return 0; } }
+class MusicaRepository   { void salvar(Musica m)     { /* ... */ } }
+class NotificadorArtista { void notificar(Musica m)  { /* ... */ } }
+```
+
+### O — descontos da assinatura (Aberto/Fechado)
+
+**A dor:** o preço da assinatura tem descontos, e a conta vive **cheia de `if`**:
+
+```java
+double calcular(Plano p, String tipo) {
+    double preco = p.getPrecoMensal();
+    if (tipo.equals("ESTUDANTE"))   return preco * 0.5;
+    else if (tipo.equals("ANUAL"))  return preco * 0.8;
+    else if (tipo.equals("PARCEIRO")) return preco * 0.7;   // mês que vem, mais um else...
+    return preco;
+}
+```
+
+```mermaid
+classDiagram
+    class CalculadoraPreco {
+        +calcular(plano, tipo : String) double
+    }
+    note for CalculadoraPreco "cada desconto novo = EDITAR este método\n(fechado para extensão, aberto para bug)"
+```
+
+**O que acontece se não abrir para extensão:** **todo** desconto novo obriga a **mexer e
+re-testar** a `CalculadoraPreco` — o lugar mais crítico. Um `else` errado afeta todos os preços.
+
+**✅ A solução:** um contrato `Desconto`; cada desconto é uma **classe nova** (extensão), e a
+calculadora **nunca muda**.
+
+```mermaid
+classDiagram
+    class Desconto {
+        <<interface>>
+        +aplicar(preco) double
+        +descricao() String
+    }
+    class SemDesconto
+    class DescontoEstudante
+    class DescontoAnual
+    class CalculadoraPreco {
+        +calcular(plano, d : Desconto) double
+    }
+    Desconto <|.. SemDesconto
+    Desconto <|.. DescontoEstudante
+    Desconto <|.. DescontoAnual
+    CalculadoraPreco ..> Desconto : usa o contrato
+```
+
+```java
+public interface Desconto { double aplicar(double preco); String descricao(); }
+public class DescontoEstudante implements Desconto {
+    public double aplicar(double preco) { return preco * 0.5; }
+    public String descricao() { return "estudante -50%"; }
+}
+public class CalculadoraPreco {               // NUNCA mais muda
+    public double calcular(Plano plano, Desconto d) { return d.aplicar(plano.getPrecoMensal()); }
+}
+```
+> ▶️ Rode em [`exemplo-melodia/`](exemplo-melodia/): adicionar `DescontoAnual` não tocou na `CalculadoraPreco`.
+
+### L — a playlist "somente leitura" (Substituição de Liskov)
+
+**A dor:** o sistema tem playlists **fixas** (ex.: "Top 50 do Brasil") que o usuário não edita.
+A tentação é herdar e **bloquear** o `adicionar`:
+
+```java
+class PlaylistSomenteLeitura extends Playlist {
+    @Override public void adicionar(FonteDeAudio f) {
+        throw new UnsupportedOperationException("playlist fixa não aceita itens"); // 💥
+    }
+}
+```
+
+```mermaid
+classDiagram
+    class Playlist {
+        +adicionar(f : FonteDeAudio) void
+    }
+    class PlaylistSomenteLeitura {
+        +adicionar(f : FonteDeAudio) void
+    }
+    Playlist <|-- PlaylistSomenteLeitura
+    note for PlaylistSomenteLeitura "adicionar() LANÇA exceção:\nnão é substituível por Playlist"
+```
+
+**O que acontece:** qualquer código que recebe uma `Playlist` e chama `adicionar()` **quebra** ao
+receber a subclasse. O subtipo **não é substituível** pelo tipo base — viola o LSP (a subclasse
+"tira" algo que a base prometia).
+
+**✅ A solução:** separar o que **é mesmo comum** (ler) do que **nem todos fazem** (editar).
+
+```mermaid
+classDiagram
+    class PlaylistLegivel {
+        <<interface>>
+        +itens() List~FonteDeAudio~
+    }
+    class PlaylistEditavel {
+        <<interface>>
+        +adicionar(f : FonteDeAudio) void
+    }
+    class PlaylistDoUsuario
+    class PlaylistFixa
+    PlaylistLegivel <|.. PlaylistDoUsuario
+    PlaylistEditavel <|.. PlaylistDoUsuario
+    PlaylistLegivel <|.. PlaylistFixa
+```
+> A `PlaylistFixa` é **só** `PlaylistLegivel` — ela **não promete** `adicionar`, então ninguém é
+> enganado. Regra de ouro do LSP: **o subtipo não pode enfraquecer o que o tipo base garante.**
+
+### I — o reprodutor que é obrigado a ter vídeo (Segregação de Interface)
+
+**A dor:** uma interface "faz-tudo" de mídia obriga o reprodutor de **áudio** a implementar coisas
+de **vídeo**:
+
+```mermaid
+classDiagram
+    class ReprodutorMidia {
+        <<interface>>
+        +play() void
+        +pause() void
+        +ajustarLegenda() void
+        +ajustarResolucao() void
+    }
+    class ReprodutorDeMusica
+    ReprodutorMidia <|.. ReprodutorDeMusica
+    note for ReprodutorDeMusica "forçado a implementar\nlegenda e resolução (métodos vazios!)"
+```
+
+**O que acontece:** o `ReprodutorDeMusica` fica com `ajustarLegenda()`/`ajustarResolucao()`
+**vazios ou que estouram** — o mesmo problema do boleto na [aula de interfaces](../07-interfaces/).
+
+**✅ A solução:** contratos pequenos; cada reprodutor assina só o que cumpre.
+
+```mermaid
+classDiagram
+    class Reproduzivel {
+        <<interface>>
+        +play() void
+        +pause() void
+    }
+    class ComLegenda {
+        <<interface>>
+        +ajustarLegenda() void
+    }
+    class ComVideo {
+        <<interface>>
+        +ajustarResolucao() void
+    }
+    class ReprodutorDeMusica
+    class ReprodutorDeVideo
+    Reproduzivel <|.. ReprodutorDeMusica
+    Reproduzivel <|.. ReprodutorDeVideo
+    ComLegenda <|.. ReprodutorDeVideo
+    ComVideo <|.. ReprodutorDeVideo
+```
+
+### D — a assinatura amarrada ao gateway (Inversão de Dependência)
+
+**A dor:** o `ServicoAssinatura` chama **direto** a classe concreta do gateway "PagX":
+
+```mermaid
+classDiagram
+    class ServicoAssinatura {
+        +assinar() void
+    }
+    class GatewayPagX {
+        +cobrarPagX(valor) boolean
+    }
+    ServicoAssinatura --> GatewayPagX : depende da classe concreta
+    note for ServicoAssinatura "trocar de gateway = reescrever o serviço"
+```
+
+**O que acontece:** quando o PagX aumenta a taxa e a empresa quer migrar para o "PagY", é preciso
+**reescrever** o serviço (e os testes precisam do gateway real). A política de negócio (assinar)
+ficou **dependente de um detalhe** (qual gateway).
+
+**✅ A solução:** o serviço depende de uma **abstração** `MeioDePagamento`; os gateways a implementam.
+
+```mermaid
+classDiagram
+    class MeioDePagamento {
+        <<interface>>
+        +cobrar(valor) boolean
+        +nome() String
+    }
+    class ServicoAssinatura {
+        -meio : MeioDePagamento
+        +assinar() void
+    }
+    class GatewayPagX
+    class GatewayPagY
+    MeioDePagamento <|.. GatewayPagX
+    MeioDePagamento <|.. GatewayPagY
+    ServicoAssinatura ..> MeioDePagamento : depende da abstração
+```
+
+```java
+public class ServicoAssinatura {
+    private final MeioDePagamento meio;                 // abstração (DIP)
+    public ServicoAssinatura(MeioDePagamento meio) { this.meio = meio; }  // injeção
+    public boolean assinar(double preco) { return meio.cobrar(preco); }   // não sabe qual gateway
+}
+```
+> ▶️ Em [`exemplo-melodia/`](exemplo-melodia/), trocar `Pix` por `Cartao` **não muda** o `ServicoAssinatura`.
+
+> 🧠 **O fio que liga tudo:** SRP separa motivos de mudança; OCP e DIP usam **interfaces** (a
+> [aula 07](../07-interfaces/)) para estender sem modificar e depender de abstrações; LSP e ISP
+> dizem **como desenhar** essas hierarquias/contratos para não enganar quem usa.
+
+---
+
 ## 1️⃣ Single Responsibility Principle (SRP)
 
 ### Princípio da Responsabilidade Única
@@ -2421,6 +2700,40 @@ Isso cria o que Martin chama de "The Dependency Rule":
 - NEWMAN, S. (2015). *Building Microservices*. O'Reilly Media.
 - RICHARDSON, C. (2018). *Microservices Patterns*. Manning Publications.
 - EBIT/NIELSEN (2021). "Webshoppers 44 - Relatório E-commerce Brasileiro".
+
+---
+
+## 🧪 Exercício do Melodia — avalie e conserte o diagrama
+
+> Um estagiário desenhou o "coração" do Melodia como **uma classe só**. Avalie o diagrama,
+> **aponte quais princípios SOLID ele viola** e **redesenhe a versão corrigida** (no draw.io).
+
+```mermaid
+classDiagram
+    class GerenciadorMelodia {
+        +tocar(f : FonteDeAudio) void
+        +calcularPreco(plano, tipo : String) double
+        +cobrar(c : Cartao) boolean
+        +salvarPlaylistNoArquivo() void
+        +enviarEmailBoasVindas() void
+        +calcularRankingSemanal() void
+    }
+    class Cartao
+    GerenciadorMelodia --> Cartao : usa a classe concreta
+```
+
+**Responda (e justifique com uma frase cada):**
+1. Quais responsabilidades diferentes estão juntas aqui? Qual princípio isso fere? *(dica: **S**)*
+2. `calcularPreco(..., String tipo)` usa `if` por tipo de desconto. Qual princípio pede para trocar
+   isso por um contrato `Desconto`? *(dica: **O**)*
+3. A classe depende de **`Cartao`** (concreto). Como aplicar **DIP** aqui? Desenhe a abstração.
+4. Se amanhã existir `PlaylistFixa` (não editável), como evitar violar **LSP**?
+5. **Redesenhe** o diagrama corrigido: separe as responsabilidades (S), use `Desconto` (O),
+   `MeioDePagamento` (D) e contratos de leitura/edição de playlist onde fizer sentido.
+
+**✅ Critério de "pronto":** nenhuma classe tem mais de uma razão para mudar; descontos e meios de
+pagamento entram por **classe nova** (não por `if`); o `GerenciadorMelodia` depende de **interfaces**,
+não de `Cartao`; e seu diagrama usa `<<interface>>` + setas tracejadas `..|>` corretamente.
 
 ---
 
