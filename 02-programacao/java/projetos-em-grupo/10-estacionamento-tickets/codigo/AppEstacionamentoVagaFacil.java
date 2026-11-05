@@ -1,6 +1,6 @@
 /**
  * AppEstacionamentoVagaFacil — o fluxo completo do sistema Estacionamento VagaFácil.
- * Leia na ordem: é exatamente este passo a passo que vira o DIAGRAMA DE SEQUÊNCIA.
+ * Rode e leia: cada bloco numerado mostra uma parte do sistema funcionando.
  */
 public class AppEstacionamentoVagaFacil {
     public static void main(String[] args) {
@@ -34,8 +34,8 @@ public class AppEstacionamentoVagaFacil {
         setor.adicionarVaga(item);   // recebe PRONTO (agregação)
         System.out.println("   Itens (Vaga) agrupados em Setor: " + setor.getVagas().size());
 
-        // 5) MÁQUINA DE ESTADOS: avança etapa por etapa até o fim
-        System.out.println("\n5) Estados — aberto → em uso → fechado → pago");
+        // 5) Avança etapa por etapa até o fim
+        System.out.println("\n5) Avançando até a última etapa");
         while (!ticket.emEtapaFinal()) {
             gestor.avancar(ticket);
         }

@@ -4,7 +4,6 @@ import java.util.List;
 /**
  * Contrato — a "transação" central do sistema.
  * ENCAPSULAMENTO + INVARIANTE: valorAluguel nunca é negativo e o estado só muda por operações.
- * MÁQUINA DE ESTADOS: ativo → encerrado; ou cancelado.
  */
 public class Contrato {
     // As etapas na ordem certa — não dá para pular nenhuma.
@@ -25,7 +24,7 @@ public class Contrato {
         this.estado = ETAPAS[0];   // PÓS-CONDIÇÃO: nasce na primeira etapa
     }
 
-    /** Avança UMA etapa (ativo → encerrado). */
+    /** Avança UMA etapa. */
     public void avancar() {
         // PRÉ-CONDIÇÕES: não pode estar no fim nem fora do caminho normal
         if (estado.equals("cancelado")) throw new IllegalStateException("Contrato está cancelado: não avança mais");
@@ -33,7 +32,7 @@ public class Contrato {
         estado = ETAPAS[posicao() + 1];   // PÓS-CONDIÇÃO: andou exatamente uma etapa
     }
 
-    /** Caminho alternativo da máquina de estados: vai para "cancelado". */
+    /** Caminho alternativo: vai para "cancelado". */
     public void cancelar() {
         // PRÉ-CONDIÇÃO: o que já terminou (ou já está "cancelado") não muda mais
         if (emEtapaFinal()) throw new IllegalStateException("não dá: Contrato já está " + estado);

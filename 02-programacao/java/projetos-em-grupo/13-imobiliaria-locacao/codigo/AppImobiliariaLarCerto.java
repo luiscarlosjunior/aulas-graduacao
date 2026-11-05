@@ -1,6 +1,6 @@
 /**
  * AppImobiliariaLarCerto — o fluxo completo do sistema Imobiliária LarCerto.
- * Leia na ordem: é exatamente este passo a passo que vira o DIAGRAMA DE SEQUÊNCIA.
+ * Rode e leia: cada bloco numerado mostra uma parte do sistema funcionando.
  */
 public class AppImobiliariaLarCerto {
     public static void main(String[] args) {
@@ -34,8 +34,8 @@ public class AppImobiliariaLarCerto {
         proprietario.adicionarImovel(item);   // recebe PRONTO (agregação)
         System.out.println("   Itens (Imovel) agrupados em Proprietario: " + proprietario.getImoveis().size());
 
-        // 5) MÁQUINA DE ESTADOS: avança etapa por etapa até o fim
-        System.out.println("\n5) Estados — ativo → encerrado");
+        // 5) Avança etapa por etapa até o fim
+        System.out.println("\n5) Avançando até a última etapa");
         while (!contrato.emEtapaFinal()) {
             gestor.avancar(contrato);
         }
@@ -53,7 +53,7 @@ public class AppImobiliariaLarCerto {
             System.out.println("   Recusado: " + e.getMessage());
         }
 
-        // 7) CAMINHO ALTERNATIVO da máquina de estados ("cancelado")
+        // 7) CAMINHO ALTERNATIVO ("cancelado")
         System.out.println("\n7) Caminho alternativo: cancelado");
         Contrato outra = gestor.abrir(especial, 99.90);
         gestor.cancelar(outra);

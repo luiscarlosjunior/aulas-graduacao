@@ -1,7 +1,6 @@
 /**
  * Plano — a "transação" central do sistema.
  * ENCAPSULAMENTO + INVARIANTE: valorMensalidade nunca é negativo e o estado só muda por operações.
- * MÁQUINA DE ESTADOS: ativo → vencido → cancelado.
  */
 public class Plano {
     // As etapas na ordem certa — não dá para pular nenhuma.
@@ -22,7 +21,7 @@ public class Plano {
         this.estado = ETAPAS[0];   // PÓS-CONDIÇÃO: nasce na primeira etapa
     }
 
-    /** Avança UMA etapa (ativo → vencido → cancelado). */
+    /** Avança UMA etapa. */
     public void avancar() {
         // PRÉ-CONDIÇÕES: não pode estar no fim nem fora do caminho normal
         if (emEtapaFinal()) throw new IllegalStateException("Plano já está na última etapa: " + estado);

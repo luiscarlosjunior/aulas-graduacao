@@ -1,6 +1,6 @@
 /**
  * AppRHPontoCerto — o fluxo completo do sistema RH PontoCerto.
- * Leia na ordem: é exatamente este passo a passo que vira o DIAGRAMA DE SEQUÊNCIA.
+ * Rode e leia: cada bloco numerado mostra uma parte do sistema funcionando.
  */
 public class AppRHPontoCerto {
     public static void main(String[] args) {
@@ -34,8 +34,8 @@ public class AppRHPontoCerto {
         departamento.adicionarColaborador(item);   // recebe PRONTO (agregação)
         System.out.println("   Itens (Colaborador) agrupados em Departamento: " + departamento.getColaboradores().size());
 
-        // 5) MÁQUINA DE ESTADOS: avança etapa por etapa até o fim
-        System.out.println("\n5) Estados — aberto → fechado");
+        // 5) Avança etapa por etapa até o fim
+        System.out.println("\n5) Avançando até a última etapa");
         while (!ponto.emEtapaFinal()) {
             gestor.avancar(ponto);
         }
@@ -53,7 +53,7 @@ public class AppRHPontoCerto {
             System.out.println("   Recusado: " + e.getMessage());
         }
 
-        // 7) CAMINHO ALTERNATIVO da máquina de estados ("ajustado")
+        // 7) CAMINHO ALTERNATIVO ("ajustado")
         System.out.println("\n7) Caminho alternativo: ajustado");
         Ponto outra = gestor.abrir(especial, 99.90);
         gestor.marcarAjustado(outra);

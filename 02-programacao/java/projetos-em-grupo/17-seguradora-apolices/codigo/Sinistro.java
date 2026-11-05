@@ -1,7 +1,6 @@
 /**
  * Sinistro — a "transação" central do sistema.
  * ENCAPSULAMENTO + INVARIANTE: valorIndenizacao nunca é negativo e o estado só muda por operações.
- * MÁQUINA DE ESTADOS: aberto → em análise → aprovado → pago; ou negado.
  */
 public class Sinistro {
     // As etapas na ordem certa — não dá para pular nenhuma.
@@ -22,7 +21,7 @@ public class Sinistro {
         this.estado = ETAPAS[0];   // PÓS-CONDIÇÃO: nasce na primeira etapa
     }
 
-    /** Avança UMA etapa (aberto → em análise → aprovado → pago). */
+    /** Avança UMA etapa. */
     public void avancar() {
         // PRÉ-CONDIÇÕES: não pode estar no fim nem fora do caminho normal
         if (estado.equals("negado")) throw new IllegalStateException("Sinistro está negado: não avança mais");
@@ -30,7 +29,7 @@ public class Sinistro {
         estado = ETAPAS[posicao() + 1];   // PÓS-CONDIÇÃO: andou exatamente uma etapa
     }
 
-    /** Caminho alternativo da máquina de estados: vai para "negado". */
+    /** Caminho alternativo: vai para "negado". */
     public void marcarNegado() {
         // PRÉ-CONDIÇÃO: o que já terminou (ou já está "negado") não muda mais
         if (emEtapaFinal()) throw new IllegalStateException("não dá: Sinistro já está " + estado);

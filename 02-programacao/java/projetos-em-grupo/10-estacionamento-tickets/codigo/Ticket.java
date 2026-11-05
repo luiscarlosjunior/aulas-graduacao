@@ -4,7 +4,6 @@ import java.util.List;
 /**
  * Ticket — a "transação" central do sistema.
  * ENCAPSULAMENTO + INVARIANTE: valor nunca é negativo e o estado só muda por operações.
- * MÁQUINA DE ESTADOS: aberto → em uso → fechado → pago.
  */
 public class Ticket {
     // As etapas na ordem certa — não dá para pular nenhuma.
@@ -25,7 +24,7 @@ public class Ticket {
         this.estado = ETAPAS[0];   // PÓS-CONDIÇÃO: nasce na primeira etapa
     }
 
-    /** Avança UMA etapa (aberto → em uso → fechado → pago). */
+    /** Avança UMA etapa. */
     public void avancar() {
         // PRÉ-CONDIÇÕES: não pode estar no fim nem fora do caminho normal
         if (emEtapaFinal()) throw new IllegalStateException("Ticket já está na última etapa: " + estado);

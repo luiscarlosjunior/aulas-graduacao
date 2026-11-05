@@ -4,7 +4,6 @@ import java.util.List;
 /**
  * Agendamento — a "transação" central do sistema.
  * ENCAPSULAMENTO + INVARIANTE: valorTotal nunca é negativo e o estado só muda por operações.
- * MÁQUINA DE ESTADOS: marcado → atendido; ou cancelado.
  */
 public class Agendamento {
     // As etapas na ordem certa — não dá para pular nenhuma.
@@ -25,7 +24,7 @@ public class Agendamento {
         this.estado = ETAPAS[0];   // PÓS-CONDIÇÃO: nasce na primeira etapa
     }
 
-    /** Avança UMA etapa (marcado → atendido). */
+    /** Avança UMA etapa. */
     public void avancar() {
         // PRÉ-CONDIÇÕES: não pode estar no fim nem fora do caminho normal
         if (estado.equals("cancelado")) throw new IllegalStateException("Agendamento está cancelado: não avança mais");
@@ -33,7 +32,7 @@ public class Agendamento {
         estado = ETAPAS[posicao() + 1];   // PÓS-CONDIÇÃO: andou exatamente uma etapa
     }
 
-    /** Caminho alternativo da máquina de estados: vai para "cancelado". */
+    /** Caminho alternativo: vai para "cancelado". */
     public void cancelar() {
         // PRÉ-CONDIÇÃO: o que já terminou (ou já está "cancelado") não muda mais
         if (emEtapaFinal()) throw new IllegalStateException("não dá: Agendamento já está " + estado);

@@ -1,7 +1,6 @@
 /**
  * Ponto — a "transação" central do sistema.
  * ENCAPSULAMENTO + INVARIANTE: horasTrabalhadas nunca é negativo e o estado só muda por operações.
- * MÁQUINA DE ESTADOS: aberto → fechado; ou ajustado.
  */
 public class Ponto {
     // As etapas na ordem certa — não dá para pular nenhuma.
@@ -22,7 +21,7 @@ public class Ponto {
         this.estado = ETAPAS[0];   // PÓS-CONDIÇÃO: nasce na primeira etapa
     }
 
-    /** Avança UMA etapa (aberto → fechado). */
+    /** Avança UMA etapa. */
     public void avancar() {
         // PRÉ-CONDIÇÕES: não pode estar no fim nem fora do caminho normal
         if (estado.equals("ajustado")) throw new IllegalStateException("Ponto está ajustado: não avança mais");
@@ -30,7 +29,7 @@ public class Ponto {
         estado = ETAPAS[posicao() + 1];   // PÓS-CONDIÇÃO: andou exatamente uma etapa
     }
 
-    /** Caminho alternativo da máquina de estados: vai para "ajustado". */
+    /** Caminho alternativo: vai para "ajustado". */
     public void marcarAjustado() {
         // PRÉ-CONDIÇÃO: o que já terminou (ou já está "ajustado") não muda mais
         if (emEtapaFinal()) throw new IllegalStateException("não dá: Ponto já está " + estado);

@@ -1,6 +1,6 @@
 /**
  * AppFarmaciaSaudeJa — o fluxo completo do sistema Farmácia SaúdeJá.
- * Leia na ordem: é exatamente este passo a passo que vira o DIAGRAMA DE SEQUÊNCIA.
+ * Rode e leia: cada bloco numerado mostra uma parte do sistema funcionando.
  */
 public class AppFarmaciaSaudeJa {
     public static void main(String[] args) {
@@ -34,8 +34,8 @@ public class AppFarmaciaSaudeJa {
         categoria.adicionarProduto(item);   // recebe PRONTO (agregação)
         System.out.println("   Itens (Produto) agrupados em Categoria: " + categoria.getProdutos().size());
 
-        // 5) MÁQUINA DE ESTADOS: avança etapa por etapa até o fim
-        System.out.println("\n5) Estados — aberta → paga");
+        // 5) Avança etapa por etapa até o fim
+        System.out.println("\n5) Avançando até a última etapa");
         while (!venda.emEtapaFinal()) {
             gestor.avancar(venda);
         }
@@ -53,7 +53,7 @@ public class AppFarmaciaSaudeJa {
             System.out.println("   Recusado: " + e.getMessage());
         }
 
-        // 7) CAMINHO ALTERNATIVO da máquina de estados ("cancelada")
+        // 7) CAMINHO ALTERNATIVO ("cancelada")
         System.out.println("\n7) Caminho alternativo: cancelada");
         Venda outra = gestor.abrir(especial, 99.90);
         gestor.cancelar(outra);

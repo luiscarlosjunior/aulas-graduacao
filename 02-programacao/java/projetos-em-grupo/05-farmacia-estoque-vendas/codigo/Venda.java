@@ -4,7 +4,6 @@ import java.util.List;
 /**
  * Venda — a "transação" central do sistema.
  * ENCAPSULAMENTO + INVARIANTE: valorTotal nunca é negativo e o estado só muda por operações.
- * MÁQUINA DE ESTADOS: aberta → paga; ou cancelada.
  */
 public class Venda {
     // As etapas na ordem certa — não dá para pular nenhuma.
@@ -25,7 +24,7 @@ public class Venda {
         this.estado = ETAPAS[0];   // PÓS-CONDIÇÃO: nasce na primeira etapa
     }
 
-    /** Avança UMA etapa (aberta → paga). */
+    /** Avança UMA etapa. */
     public void avancar() {
         // PRÉ-CONDIÇÕES: não pode estar no fim nem fora do caminho normal
         if (estado.equals("cancelada")) throw new IllegalStateException("Venda está cancelada: não avança mais");
@@ -33,7 +32,7 @@ public class Venda {
         estado = ETAPAS[posicao() + 1];   // PÓS-CONDIÇÃO: andou exatamente uma etapa
     }
 
-    /** Caminho alternativo da máquina de estados: vai para "cancelada". */
+    /** Caminho alternativo: vai para "cancelada". */
     public void cancelar() {
         // PRÉ-CONDIÇÃO: o que já terminou (ou já está "cancelada") não muda mais
         if (emEtapaFinal()) throw new IllegalStateException("não dá: Venda já está " + estado);

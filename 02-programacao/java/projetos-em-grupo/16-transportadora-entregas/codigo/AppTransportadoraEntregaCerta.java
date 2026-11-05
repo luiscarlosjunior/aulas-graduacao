@@ -1,6 +1,6 @@
 /**
  * AppTransportadoraEntregaCerta — o fluxo completo do sistema Transportadora EntregaCerta.
- * Leia na ordem: é exatamente este passo a passo que vira o DIAGRAMA DE SEQUÊNCIA.
+ * Rode e leia: cada bloco numerado mostra uma parte do sistema funcionando.
  */
 public class AppTransportadoraEntregaCerta {
     public static void main(String[] args) {
@@ -34,8 +34,8 @@ public class AppTransportadoraEntregaCerta {
         rota.adicionarEncomenda(item);   // recebe PRONTO (agregação)
         System.out.println("   Itens (Encomenda) agrupados em Rota: " + rota.getEncomendas().size());
 
-        // 5) MÁQUINA DE ESTADOS: avança etapa por etapa até o fim
-        System.out.println("\n5) Estados — postada → em trânsito → saiu para entrega → entregue");
+        // 5) Avança etapa por etapa até o fim
+        System.out.println("\n5) Avançando até a última etapa");
         while (!entrega.emEtapaFinal()) {
             gestor.avancar(entrega);
         }
@@ -53,7 +53,7 @@ public class AppTransportadoraEntregaCerta {
             System.out.println("   Recusado: " + e.getMessage());
         }
 
-        // 7) CAMINHO ALTERNATIVO da máquina de estados ("devolvida")
+        // 7) CAMINHO ALTERNATIVO ("devolvida")
         System.out.println("\n7) Caminho alternativo: devolvida");
         Entrega outra = gestor.abrir(especial, 99.90);
         gestor.marcarDevolvida(outra);

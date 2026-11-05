@@ -1,189 +1,115 @@
 # 💻 Código pronto — Transportadora EntregaCerta
 
-> **O que é esta pasta.** Aqui está o sistema **Transportadora EntregaCerta** (dono de uma transportadora) **já implementado em
-> Java**, usando tudo o que vimos **até a aula de SOLID**: classes e objetos, encapsulamento,
-> herança, polimorfismo, abstração, interfaces, associação, agregação, composição e dois princípios
-> SOLID (SRP e DIP). O código é **simples de propósito** e **todo comentado**.
->
-> 🎯 **Para que serve na aula de hoje:** o código já está pronto — o trabalho do grupo é **ler,
-> rodar e entender** o sistema e, a partir dele, **criar os diagramas de comportamento**: **casos de
-> uso**, **sequência** e **estados**. (O diagrama de classes vocês já fizeram na
-> [Entrevista Técnica](../EntrevistaTecnica.md).)
+> Este é o sistema **Transportadora EntregaCerta** (dono de uma transportadora), **já funcionando em Java**. Ele usa o que vimos até a aula
+> de SOLID. É um código **simples e comentado**: não é um sistema perfeito, é o material para o
+> exercício de hoje. **Aqui não tem nenhum diagrama pronto** — quem descobre e desenha são vocês.
 
 ---
 
-## 1. O sistema em poucas palavras
+## 1. 🎯 A dinâmica de hoje
+
+1. **Escolham** este projeto (ou outro dos 20) em grupo.
+2. **Abram a pasta `codigo/`** no editor que preferirem e **rodem** o sistema (seção 3).
+3. **Leiam o código** e escolham uma **classe** ou uma **funcionalidade**.
+4. **Façam os 4 diagramas** da seção 5. As escolhas **não precisam ser as mesmas**: cada diagrama
+   pode falar de uma parte diferente do sistema.
+5. **Escrevam um pequeno resumo** de cada diagrama, contando com as palavras de vocês o que está
+   acontecendo naquela parte do sistema.
+
+> 💡 O diagrama sai **do código**: os nomes de classes, métodos e estados do desenho têm que
+> existir nos arquivos `.java`.
+
+---
+
+## 2. O sistema em poucas palavras
 
 - **Quem pediu:** dono de uma transportadora.
 - **Peça central:** `Encomenda`, com dois tipos — `EncomendaComum` (comum) e `EncomendaExpressa` (tem prazo menor e prioridade no transporte).
-- **Transação principal:** `Entrega`, que passa pelas etapas **postada → em trânsito → saiu para entrega → entregue; ou devolvida**.
+- **Classe principal do negócio:** `Entrega`.
 - **Ligações (descritas na entrevista):** Uma encomenda tem MUITOS eventos de rastreio; cada entrega é de UMA encomenda para UM destinatário.
-- **Regra que não pode falhar (do cliente):** *não pode marcar como 'entregue' uma encomenda que nem saiu para entrega*.
+- **Regra do cliente:** *não pode marcar como 'entregue' uma encomenda que nem saiu para entrega*. Ela aparece na entrevista, mas o código **ainda não verifica**
+  essa regra; o sistema é simplificado.
+
+Para conhecer melhor o negócio, leiam o [briefing do projeto](../README.md) e a
+[Entrevista Técnica](../EntrevistaTecnica.md).
 
 ---
 
-## 2. Como rodar
+## 3. Como abrir e rodar
+
+**Abram a pasta `codigo/` sozinha** no editor, e não o repositório inteiro. Todos os projetos têm
+classes com o mesmo nome e o editor se confundiria.
+
+No terminal, dentro de `codigo/`:
 
 ```bash
-cd codigo
-javac *.java
+javac -encoding UTF-8 *.java
 java AppTransportadoraEntregaCerta
 ```
 
-Leia a saída **junto com** o arquivo `AppTransportadoraEntregaCerta.java`: cada bloco numerado (1 a 7) mostra um
-conceito funcionando.
+No VS Code (com o *Extension Pack for Java*) ou no IntelliJ, também dá para abrir
+`AppTransportadoraEntregaCerta.java` e clicar em **Run**. Precisa do **Java 17** ou mais novo.
 
 ---
 
-## 3. Mapa das classes
+## 4. Mapa das classes
 
 | Arquivo | Papel no sistema | Conceito que ele mostra |
 |---------|------------------|-------------------------|
 | `Encomenda.java` | classe abstrata, base dos dois tipos | Abstração + encapsulamento |
 | `EncomendaComum.java` | tipo comum | Herança + polimorfismo |
 | `EncomendaExpressa.java` | tipo especial (tem prazo menor e prioridade no transporte) | Herança + polimorfismo |
-| `Entrega.java` | a transação central; estados: postada → em trânsito → saiu para entrega → entregue; ou devolvida | Encapsulamento, invariante, pré/pós, máquina de estados, associação com Encomenda |
+| `Entrega.java` | a transação central | Encapsulamento, invariante, pré/pós, associação com Encomenda |
 | `EventoRastreio.java` | parte que nasce dentro de Encomenda | Composição ◆ |
 | `Rota.java` | grupo da agregação de Encomenda | Agregação ◇ |
 | `Notificador.java` | interface (contrato) de aviso | Interface + DIP |
 | `NotificadorConsole.java` | implementação que escreve no console | Implementa a interface |
 | `GestorEntrega.java` | coordena abrir/avançar/marcarDevolvida | SRP + DIP |
-| `AppTransportadoraEntregaCerta.java` | o `main`: o fluxo completo | Ponto de partida dos diagramas |
+| `AppTransportadoraEntregaCerta.java` | o `main`: o fluxo completo | Por onde começar a leitura |
 
 ---
 
-## 4. Como ler o código (explicação do professor)
+## 5. Os 4 diagramas
 
-**Abstração e herança.** `Encomenda` é `abstract`: não faz sentido criar "um Encomenda genérico". Ela guarda
-o que é comum (codigo, peso) e obriga cada tipo a responder `prazoEntregaDias()`.
-`EncomendaComum` e `EncomendaExpressa` usam `extends` e chamam `super(...)` para reaproveitar a validação.
+Antes de desenhar, **revejam a aula** de cada diagrama: é lá que estão a notação e os exemplos.
 
-**Polimorfismo.** No `main`, as duas variáveis são do tipo `Encomenda`, mas cada uma responde
-`prazoEntregaDias()` do seu jeito — `EncomendaComum`: prazo normal; `EncomendaExpressa`: prazo menor (prioridade). Ninguém precisa
-de `if (tipo == ...)`.
+| Diagrama | Pergunta que ele responde | Aula |
+|----------|---------------------------|------|
+| **Casos de uso** | Quem usa o sistema e para fazer o quê? | [Aula 08 — Casos de Uso](../../../03-POO/01-modelagem/analise-projeto-uml/08-diagrama-casos-de-uso/) |
+| **Sequência** | Em que ordem os objetos conversam para fazer algo? | [Aula 11 — Sequência](../../../03-POO/01-modelagem/analise-projeto-uml/11-diagrama-de-sequencia/) |
+| **Estados** | Por quais situações um objeto passa e o que o faz mudar? | [Aula 14 — Máquina de Estados](../../../03-POO/01-modelagem/analise-projeto-uml/14-diagrama-de-maquina-de-estados/) |
+| **Atividades** | Quais passos e decisões formam um processo? | [Aula 15 — Atividades](../../../03-POO/01-modelagem/analise-projeto-uml/15-diagrama-de-atividades/) |
 
-**Encapsulamento, invariante, pré e pós-condição.** Todos os atributos são `private` e não há
-*setters*. Em `Entrega`:
-- **invariante:** `valorFrete` nunca é negativo e o estado é sempre uma das etapas válidas;
-- **pré-condição:** o construtor recusa valor negativo; `avancar()` recusa se já está no fim, e `marcarDevolvida()` recusa se `Entrega` já terminou;
-- **pós-condição:** depois de `avancar()`, o estado andou **exatamente uma** etapa.
+**Onde procurar** (são pontos de partida; a escolha é de vocês):
 
-**Associação.** Cada `Entrega` guarda uma referência ao `Encomenda` ligado a ela (campo `encomenda`).
-
-**Composição (◆) — Encomenda ◆ EventoRastreio.** Cada evento de rastreio pertence à encomenda e some junto se ela for removida. No código, quem faz o `new EventoRastreio(...)` é
-o **próprio todo**, dentro de `adicionarEventoRastreio(...)` — e o construtor de `EventoRastreio` nem é público.
-
-**Agregação (◇) — Rota ◇ Encomenda.** As encomendas existem por conta própria; a rota só as agrupa para o transporte. No código, `adicionarEncomenda(...)` **recebe um objeto
-pronto** (criado fora) e só guarda a referência.
-
-**Interface + SOLID.** `Notificador` é um contrato; `NotificadorConsole` o implementa.
-`GestorEntrega` segue o **SRP** (só coordena o ciclo de vida de cada `Entrega`) e o **DIP** (depende da
-interface `Notificador`, recebida no construtor — trocar por e-mail não muda o Gestor).
-
-**Mensagens.** Repare que o Gestor **não muda o estado na mão**: ele **pede** `entrega.avancar()` e o
-próprio objeto decide se pode. Essas chamadas entre objetos são as **mensagens** do diagrama de sequência.
+- **Casos de uso:** pensem em quem usaria este sistema no dia a dia e no que essa pessoa quer
+  conseguir. Podem cobrir o sistema todo ou uma parte dele.
+- **Sequência:** escolham um método e sigam as chamadas de uma classe para outra. O
+  `AppTransportadoraEntregaCerta.java` e o `GestorEntrega.java` são bons lugares para começar.
+- **Estados:** procurem uma classe com um atributo que **muda** durante a vida do objeto e vejam
+  quais métodos o alteram e quando eles recusam a mudança.
+- **Atividades:** escolham um processo do sistema, do começo ao fim, e procurem no código onde ele
+  **decide** alguma coisa (os `if`).
 
 ---
 
-## 5. O fluxo do `main` (passo a passo)
+## 6. O que entregar
 
-1. Cria o `NotificadorConsole` e o `GestorEntrega` (injeção de dependência).
-2. Cria um `EncomendaComum` e um `EncomendaExpressa` e pergunta `prazoEntregaDias()` aos dois (polimorfismo).
-3. Pede ao Gestor para **abrir** um registro de `Entrega` — ele nasce em `postada`.
-4. Adiciona partes (`EventoRastreio`) — **composição**.
-5. Agrupa um item `Encomenda` já existente em `Rota` — **agregação**.
-6. Avança o registro de `Entrega` etapa por etapa até `entregue` — **máquina de estados**.
-7. Tenta ações proibidas (avançar depois do fim; valor negativo) — **pré-condições** recusam.
-8. Abre outro registro de `Entrega` e leva pelo caminho alternativo `devolvida`.
+Os 4 diagramas e, para cada um, este resumo:
 
----
+| Diagrama | O que escolhemos (classe ou funcionalidade) | Resumo: o que está acontecendo (3 a 5 linhas) |
+|----------|---------------------------------------------|-----------------------------------------------|
+| Casos de uso | | |
+| Sequência | | |
+| Estados | | |
+| Atividades | | |
 
-## 6. 🎯 Exercício em grupo — os diagramas de comportamento
+**Confiram antes de entregar:**
 
-> Façam **no draw.io**, um diagrama por página. Usem **o código como fonte da verdade**: nomes de
-> classes, métodos e estados têm que bater com os arquivos `.java`.
-
-### 6.1 Diagrama de Casos de Uso
-
-**Pergunta que ele responde:** *quem usa o sistema e para fazer o quê?*
-
-- **Atores sugeridos:** **Remetente**, **Operador**, **Entregador**.
-- **Casos de uso sugeridos** (escolham e nomeiem com **verbo + objeto**):
-  - Cadastrar Encomenda
-  - Abrir Entrega
-  - Avançar etapa da Entrega
-  - Devolvida Entrega
-  - Adicionar EventoRastreio em Encomenda
-  - Agrupar Encomenda em Rota
-  - Consultar `prazoEntregaDias()` de um Encomenda
-  - Listar os registros de Entrega
-- **Dicas:**
-  - "Abrir Entrega" pode **incluir** (`«include»`) "Validar dados" (é o que o construtor faz sempre).
-  - "Aplicar benefício de EncomendaExpressa" é um bom `«extend»` de "Abrir Entrega": só acontece **às vezes** (quando o participante é do tipo especial).
-  - "Devolvida Entrega" é um caso de uso **próprio** (outro objetivo do ator) — não é extensão de "Avançar etapa".
-  - A regra do cliente (*não pode marcar como 'entregue' uma encomenda que nem saiu para entrega*) costuma aparecer como um caso de uso incluído ou como uma nota.
-  - Caso de uso **não** é tela nem método: é um **objetivo do ator**.
-
-### 6.2 Diagrama de Sequência
-
-**Pergunta que ele responde:** *em que ordem os objetos conversam para realizar um processo?*
-
-- **Processo pedido:** **abrir um registro de `Entrega`, adicionar uma parte `EventoRastreio` e levar o registro até `entregue`** — é o
-  trecho dos passos 2, 3 e 5 do `AppTransportadoraEntregaCerta`.
-- **Participantes (linhas de vida):** `AppTransportadoraEntregaCerta`, `GestorEntrega`, `Entrega`, `EventoRastreio`, `Notificador`.
-- **Mensagens que devem aparecer** (sigam o código):
-  1. `AppTransportadoraEntregaCerta` → `GestorEntrega`: `abrir(comum, 150.00)`
-  2. `GestorEntrega` → `Entrega`: `new Entrega(...)` (criação)
-  3. `GestorEntrega` → `Notificador`: `notificar(...)`
-  4. `AppTransportadoraEntregaCerta` → `Encomenda`: `adicionarEventoRastreio(...)` → que cria um objeto `EventoRastreio`
-  5. `AppTransportadoraEntregaCerta` → `GestorEntrega`: `avancar(entrega)` → `GestorEntrega` → `Entrega`: `avancar()` → `notificar(...)`
-- **Dicas:**
-  - Use um fragmento **`loop`** para o "avança até o fim".
-  - Use um fragmento **`alt`** para mostrar o caso do valor negativo (o construtor lança exceção).
-  - A regra *não pode marcar como 'entregue' uma encomenda que nem saiu para entrega* entraria como um `alt` antes de criar o objeto `Entrega` (ver desafio extra).
-
-### 6.3 Diagrama de Estados (máquina de estados)
-
-**Pergunta que ele responde:** *por quais estados um objeto passa e o que o faz mudar?*
-
-- **Classe pedida:** `Entrega`.
-- **Estados:** `postada`, `em trânsito`, `saiu para entrega`, `entregue` e o caminho alternativo `devolvida`. Marquem o **estado inicial** (●) e o(s) **estado(s) final(is)** (◉).
-- **Transições implementadas no código:**
-
-| De | Para | Evento (método) | Condição de guarda |
-|----|------|-----------------|--------------------|
-| `postada` | `em trânsito` | `avancar()` | não estar em `entregue` nem em `devolvida` |
-| `em trânsito` | `saiu para entrega` | `avancar()` | não estar em `entregue` nem em `devolvida` |
-| `saiu para entrega` | `entregue` | `avancar()` | não estar em `entregue` nem em `devolvida` |
-| `postada` | `devolvida` | `marcarDevolvida()` | ainda não ter chegado em `entregue` |
-| `em trânsito` | `devolvida` | `marcarDevolvida()` | ainda não ter chegado em `entregue` |
-| `saiu para entrega` | `devolvida` | `marcarDevolvida()` | ainda não ter chegado em `entregue` |
-
-- **Dicas:**
-  - O nome da seta é o **evento** (o método chamado); entre colchetes vai a **guarda**, ex.: `[valor >= 0]`.
-  - Mostrem também o que **não** é permitido: a partir de `entregue` ou de `devolvida` não sai nenhuma seta de `avancar()`.
-  - O array `ETAPAS` em `Entrega.java` é a lista oficial de estados.
-
-### 6.4 (Bônus) Diagrama de Atividades
-Desenhem o processo "do pedido ao fim" de `Entrega` como atividades, com uma **decisão** (losango)
-para a regra *não pode marcar como 'entregue' uma encomenda que nem saiu para entrega*.
+- [ ] Os nomes usados nos diagramas existem no código.
+- [ ] A notação segue a aula de cada diagrama.
+- [ ] O resumo explica o que acontece no sistema, e não apenas descreve o desenho.
 
 ---
 
-## 7. O que entregar
-
-- [ ] Os três diagramas (casos de uso, sequência, estados) no draw.io, cada um em uma página.
-- [ ] Os nomes de classes, métodos e estados **iguais** aos do código.
-- [ ] Uma frase por diagrama explicando **que pergunta ele responde** no sistema Transportadora EntregaCerta.
-- [ ] (Opcional) o diagrama de atividades.
-
-## 8. 🚀 Desafio extra (código)
-
-A regra do cliente — *não pode marcar como 'entregue' uma encomenda que nem saiu para entrega* — está **descrita**, mas o código ainda não a verifica.
-Implementem essa verificação no `GestorEntrega` (por exemplo, recusando a abertura com uma exceção)
-**sem** quebrar o SRP: a regra é do processo, então mora no Gestor. Depois, atualizem o
-diagrama de sequência com o `alt` correspondente.
-
----
-
-[⬅️ Briefing do projeto](../README.md) · [🎤 Entrevista Técnica](../EntrevistaTecnica.md) · [🗓️ Plano de evolução](../PLANO-DE-EVOLUCAO.md)
+[⬅️ Briefing do projeto](../README.md) · [🎤 Entrevista Técnica](../EntrevistaTecnica.md)

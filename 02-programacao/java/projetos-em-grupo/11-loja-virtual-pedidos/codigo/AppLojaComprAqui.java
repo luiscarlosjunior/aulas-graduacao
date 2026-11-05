@@ -1,6 +1,6 @@
 /**
  * AppLojaComprAqui — o fluxo completo do sistema Loja ComprAqui.
- * Leia na ordem: é exatamente este passo a passo que vira o DIAGRAMA DE SEQUÊNCIA.
+ * Rode e leia: cada bloco numerado mostra uma parte do sistema funcionando.
  */
 public class AppLojaComprAqui {
     public static void main(String[] args) {
@@ -34,8 +34,8 @@ public class AppLojaComprAqui {
         categoria.adicionarProduto(item);   // recebe PRONTO (agregação)
         System.out.println("   Itens (Produto) agrupados em Categoria: " + categoria.getProdutos().size());
 
-        // 5) MÁQUINA DE ESTADOS: avança etapa por etapa até o fim
-        System.out.println("\n5) Estados — novo → pago → enviado → entregue");
+        // 5) Avança etapa por etapa até o fim
+        System.out.println("\n5) Avançando até a última etapa");
         while (!pedido.emEtapaFinal()) {
             gestor.avancar(pedido);
         }
@@ -53,7 +53,7 @@ public class AppLojaComprAqui {
             System.out.println("   Recusado: " + e.getMessage());
         }
 
-        // 7) CAMINHO ALTERNATIVO da máquina de estados ("cancelado")
+        // 7) CAMINHO ALTERNATIVO ("cancelado")
         System.out.println("\n7) Caminho alternativo: cancelado");
         Pedido outra = gestor.abrir(especial, 99.90);
         gestor.cancelar(outra);

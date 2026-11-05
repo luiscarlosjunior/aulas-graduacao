@@ -1,185 +1,115 @@
 # 💻 Código pronto — Imobiliária LarCerto
 
-> **O que é esta pasta.** Aqui está o sistema **Imobiliária LarCerto** (dono de uma imobiliária) **já implementado em
-> Java**, usando tudo o que vimos **até a aula de SOLID**: classes e objetos, encapsulamento,
-> herança, polimorfismo, abstração, interfaces, associação, agregação, composição e dois princípios
-> SOLID (SRP e DIP). O código é **simples de propósito** e **todo comentado**.
->
-> 🎯 **Para que serve na aula de hoje:** o código já está pronto — o trabalho do grupo é **ler,
-> rodar e entender** o sistema e, a partir dele, **criar os diagramas de comportamento**: **casos de
-> uso**, **sequência** e **estados**. (O diagrama de classes vocês já fizeram na
-> [Entrevista Técnica](../EntrevistaTecnica.md).)
+> Este é o sistema **Imobiliária LarCerto** (dono de uma imobiliária), **já funcionando em Java**. Ele usa o que vimos até a aula
+> de SOLID. É um código **simples e comentado**: não é um sistema perfeito, é o material para o
+> exercício de hoje. **Aqui não tem nenhum diagrama pronto** — quem descobre e desenha são vocês.
 
 ---
 
-## 1. O sistema em poucas palavras
+## 1. 🎯 A dinâmica de hoje
+
+1. **Escolham** este projeto (ou outro dos 20) em grupo.
+2. **Abram a pasta `codigo/`** no editor que preferirem e **rodem** o sistema (seção 3).
+3. **Leiam o código** e escolham uma **classe** ou uma **funcionalidade**.
+4. **Façam os 4 diagramas** da seção 5. As escolhas **não precisam ser as mesmas**: cada diagrama
+   pode falar de uma parte diferente do sistema.
+5. **Escrevam um pequeno resumo** de cada diagrama, contando com as palavras de vocês o que está
+   acontecendo naquela parte do sistema.
+
+> 💡 O diagrama sai **do código**: os nomes de classes, métodos e estados do desenho têm que
+> existir nos arquivos `.java`.
+
+---
+
+## 2. O sistema em poucas palavras
 
 - **Quem pediu:** dono de uma imobiliária.
 - **Peça central:** `Imovel`, com dois tipos — `ImovelResidencial` (comum) e `ImovelComercial` (tem regras de reajuste e impostos diferentes).
-- **Transação principal:** `Contrato`, que passa pelas etapas **ativo → encerrado; ou cancelado**.
+- **Classe principal do negócio:** `Contrato`.
 - **Ligações (descritas na entrevista):** Um proprietário tem VÁRIOS imóveis; cada contrato liga UM imóvel a UM inquilino.
-- **Regra que não pode falhar (do cliente):** *não pode alugar um imóvel que já está com contrato ativo*.
+- **Regra do cliente:** *não pode alugar um imóvel que já está com contrato ativo*. Ela aparece na entrevista, mas o código **ainda não verifica**
+  essa regra; o sistema é simplificado.
+
+Para conhecer melhor o negócio, leiam o [briefing do projeto](../README.md) e a
+[Entrevista Técnica](../EntrevistaTecnica.md).
 
 ---
 
-## 2. Como rodar
+## 3. Como abrir e rodar
+
+**Abram a pasta `codigo/` sozinha** no editor, e não o repositório inteiro. Todos os projetos têm
+classes com o mesmo nome e o editor se confundiria.
+
+No terminal, dentro de `codigo/`:
 
 ```bash
-cd codigo
-javac *.java
+javac -encoding UTF-8 *.java
 java AppImobiliariaLarCerto
 ```
 
-Leia a saída **junto com** o arquivo `AppImobiliariaLarCerto.java`: cada bloco numerado (1 a 7) mostra um
-conceito funcionando.
+No VS Code (com o *Extension Pack for Java*) ou no IntelliJ, também dá para abrir
+`AppImobiliariaLarCerto.java` e clicar em **Run**. Precisa do **Java 17** ou mais novo.
 
 ---
 
-## 3. Mapa das classes
+## 4. Mapa das classes
 
 | Arquivo | Papel no sistema | Conceito que ele mostra |
 |---------|------------------|-------------------------|
 | `Imovel.java` | classe abstrata, base dos dois tipos | Abstração + encapsulamento |
 | `ImovelResidencial.java` | tipo comum | Herança + polimorfismo |
 | `ImovelComercial.java` | tipo especial (tem regras de reajuste e impostos diferentes) | Herança + polimorfismo |
-| `Contrato.java` | a transação central; estados: ativo → encerrado; ou cancelado | Encapsulamento, invariante, pré/pós, máquina de estados, associação com Imovel |
+| `Contrato.java` | a transação central | Encapsulamento, invariante, pré/pós, associação com Imovel |
 | `Parcela.java` | parte que nasce dentro de Contrato | Composição ◆ |
 | `Proprietario.java` | grupo da agregação de Imovel | Agregação ◇ |
 | `Notificador.java` | interface (contrato) de aviso | Interface + DIP |
 | `NotificadorConsole.java` | implementação que escreve no console | Implementa a interface |
 | `GestorContrato.java` | coordena abrir/avançar/cancelar | SRP + DIP |
-| `AppImobiliariaLarCerto.java` | o `main`: o fluxo completo | Ponto de partida dos diagramas |
+| `AppImobiliariaLarCerto.java` | o `main`: o fluxo completo | Por onde começar a leitura |
 
 ---
 
-## 4. Como ler o código (explicação do professor)
+## 5. Os 4 diagramas
 
-**Abstração e herança.** `Imovel` é `abstract`: não faz sentido criar "um Imovel genérico". Ela guarda
-o que é comum (endereco, valorBase) e obriga cada tipo a responder `calcularReajuste()`.
-`ImovelResidencial` e `ImovelComercial` usam `extends` e chamam `super(...)` para reaproveitar a validação.
+Antes de desenhar, **revejam a aula** de cada diagrama: é lá que estão a notação e os exemplos.
 
-**Polimorfismo.** No `main`, as duas variáveis são do tipo `Imovel`, mas cada uma responde
-`calcularReajuste()` do seu jeito — `ImovelResidencial`: reajuste residencial; `ImovelComercial`: reajuste comercial (com impostos próprios). Ninguém precisa
-de `if (tipo == ...)`.
+| Diagrama | Pergunta que ele responde | Aula |
+|----------|---------------------------|------|
+| **Casos de uso** | Quem usa o sistema e para fazer o quê? | [Aula 08 — Casos de Uso](../../../03-POO/01-modelagem/analise-projeto-uml/08-diagrama-casos-de-uso/) |
+| **Sequência** | Em que ordem os objetos conversam para fazer algo? | [Aula 11 — Sequência](../../../03-POO/01-modelagem/analise-projeto-uml/11-diagrama-de-sequencia/) |
+| **Estados** | Por quais situações um objeto passa e o que o faz mudar? | [Aula 14 — Máquina de Estados](../../../03-POO/01-modelagem/analise-projeto-uml/14-diagrama-de-maquina-de-estados/) |
+| **Atividades** | Quais passos e decisões formam um processo? | [Aula 15 — Atividades](../../../03-POO/01-modelagem/analise-projeto-uml/15-diagrama-de-atividades/) |
 
-**Encapsulamento, invariante, pré e pós-condição.** Todos os atributos são `private` e não há
-*setters*. Em `Contrato`:
-- **invariante:** `valorAluguel` nunca é negativo e o estado é sempre uma das etapas válidas;
-- **pré-condição:** o construtor recusa valor negativo; `avancar()` recusa se já está no fim, e `cancelar()` recusa se `Contrato` já terminou;
-- **pós-condição:** depois de `avancar()`, o estado andou **exatamente uma** etapa.
+**Onde procurar** (são pontos de partida; a escolha é de vocês):
 
-**Associação.** Cada `Contrato` guarda uma referência ao `Imovel` ligado a ela (campo `imovel`).
-
-**Composição (◆) — Contrato ◆ Parcela.** Cada parcela nasce dentro do contrato e some junto se ele for cancelado. No código, quem faz o `new Parcela(...)` é
-o **próprio todo**, dentro de `adicionarParcela(...)` — e o construtor de `Parcela` nem é público.
-
-**Agregação (◇) — Proprietario ◇ Imovel.** Os imóveis existem por conta própria; o proprietário só os agrupa. No código, `adicionarImovel(...)` **recebe um objeto
-pronto** (criado fora) e só guarda a referência.
-
-**Interface + SOLID.** `Notificador` é um contrato; `NotificadorConsole` o implementa.
-`GestorContrato` segue o **SRP** (só coordena o ciclo de vida de cada `Contrato`) e o **DIP** (depende da
-interface `Notificador`, recebida no construtor — trocar por e-mail não muda o Gestor).
-
-**Mensagens.** Repare que o Gestor **não muda o estado na mão**: ele **pede** `contrato.avancar()` e o
-próprio objeto decide se pode. Essas chamadas entre objetos são as **mensagens** do diagrama de sequência.
+- **Casos de uso:** pensem em quem usaria este sistema no dia a dia e no que essa pessoa quer
+  conseguir. Podem cobrir o sistema todo ou uma parte dele.
+- **Sequência:** escolham um método e sigam as chamadas de uma classe para outra. O
+  `AppImobiliariaLarCerto.java` e o `GestorContrato.java` são bons lugares para começar.
+- **Estados:** procurem uma classe com um atributo que **muda** durante a vida do objeto e vejam
+  quais métodos o alteram e quando eles recusam a mudança.
+- **Atividades:** escolham um processo do sistema, do começo ao fim, e procurem no código onde ele
+  **decide** alguma coisa (os `if`).
 
 ---
 
-## 5. O fluxo do `main` (passo a passo)
+## 6. O que entregar
 
-1. Cria o `NotificadorConsole` e o `GestorContrato` (injeção de dependência).
-2. Cria um `ImovelResidencial` e um `ImovelComercial` e pergunta `calcularReajuste()` aos dois (polimorfismo).
-3. Pede ao Gestor para **abrir** um registro de `Contrato` — ele nasce em `ativo`.
-4. Adiciona partes (`Parcela`) — **composição**.
-5. Agrupa um item `Imovel` já existente em `Proprietario` — **agregação**.
-6. Avança o registro de `Contrato` etapa por etapa até `encerrado` — **máquina de estados**.
-7. Tenta ações proibidas (avançar depois do fim; valor negativo) — **pré-condições** recusam.
-8. Abre outro registro de `Contrato` e leva pelo caminho alternativo `cancelado`.
+Os 4 diagramas e, para cada um, este resumo:
 
----
+| Diagrama | O que escolhemos (classe ou funcionalidade) | Resumo: o que está acontecendo (3 a 5 linhas) |
+|----------|---------------------------------------------|-----------------------------------------------|
+| Casos de uso | | |
+| Sequência | | |
+| Estados | | |
+| Atividades | | |
 
-## 6. 🎯 Exercício em grupo — os diagramas de comportamento
+**Confiram antes de entregar:**
 
-> Façam **no draw.io**, um diagrama por página. Usem **o código como fonte da verdade**: nomes de
-> classes, métodos e estados têm que bater com os arquivos `.java`.
-
-### 6.1 Diagrama de Casos de Uso
-
-**Pergunta que ele responde:** *quem usa o sistema e para fazer o quê?*
-
-- **Atores sugeridos:** **Inquilino**, **Proprietário**, **Corretor**.
-- **Casos de uso sugeridos** (escolham e nomeiem com **verbo + objeto**):
-  - Cadastrar Imovel
-  - Abrir Contrato
-  - Avançar etapa da Contrato
-  - Cancelar Contrato
-  - Adicionar Parcela em Contrato
-  - Agrupar Imovel em Proprietario
-  - Consultar `calcularReajuste()` de um Imovel
-  - Listar os registros de Contrato
-- **Dicas:**
-  - "Abrir Contrato" pode **incluir** (`«include»`) "Validar dados" (é o que o construtor faz sempre).
-  - "Aplicar benefício de ImovelComercial" é um bom `«extend»` de "Abrir Contrato": só acontece **às vezes** (quando o participante é do tipo especial).
-  - "Cancelar Contrato" é um caso de uso **próprio** (outro objetivo do ator) — não é extensão de "Avançar etapa".
-  - A regra do cliente (*não pode alugar um imóvel que já está com contrato ativo*) costuma aparecer como um caso de uso incluído ou como uma nota.
-  - Caso de uso **não** é tela nem método: é um **objetivo do ator**.
-
-### 6.2 Diagrama de Sequência
-
-**Pergunta que ele responde:** *em que ordem os objetos conversam para realizar um processo?*
-
-- **Processo pedido:** **abrir um registro de `Contrato`, adicionar uma parte `Parcela` e levar o registro até `encerrado`** — é o
-  trecho dos passos 2, 3 e 5 do `AppImobiliariaLarCerto`.
-- **Participantes (linhas de vida):** `AppImobiliariaLarCerto`, `GestorContrato`, `Contrato`, `Parcela`, `Notificador`.
-- **Mensagens que devem aparecer** (sigam o código):
-  1. `AppImobiliariaLarCerto` → `GestorContrato`: `abrir(comum, 150.00)`
-  2. `GestorContrato` → `Contrato`: `new Contrato(...)` (criação)
-  3. `GestorContrato` → `Notificador`: `notificar(...)`
-  4. `AppImobiliariaLarCerto` → `Contrato`: `adicionarParcela(...)` → que cria um objeto `Parcela`
-  5. `AppImobiliariaLarCerto` → `GestorContrato`: `avancar(contrato)` → `GestorContrato` → `Contrato`: `avancar()` → `notificar(...)`
-- **Dicas:**
-  - Use um fragmento **`loop`** para o "avança até o fim".
-  - Use um fragmento **`alt`** para mostrar o caso do valor negativo (o construtor lança exceção).
-  - A regra *não pode alugar um imóvel que já está com contrato ativo* entraria como um `alt` antes de criar o objeto `Contrato` (ver desafio extra).
-
-### 6.3 Diagrama de Estados (máquina de estados)
-
-**Pergunta que ele responde:** *por quais estados um objeto passa e o que o faz mudar?*
-
-- **Classe pedida:** `Contrato`.
-- **Estados:** `ativo`, `encerrado` e o caminho alternativo `cancelado`. Marquem o **estado inicial** (●) e o(s) **estado(s) final(is)** (◉).
-- **Transições implementadas no código:**
-
-| De | Para | Evento (método) | Condição de guarda |
-|----|------|-----------------|--------------------|
-| `ativo` | `encerrado` | `avancar()` | não estar em `encerrado` nem em `cancelado` |
-| `ativo` | `cancelado` | `cancelar()` | ainda não ter chegado em `encerrado` |
-
-- **Dicas:**
-  - O nome da seta é o **evento** (o método chamado); entre colchetes vai a **guarda**, ex.: `[valor >= 0]`.
-  - Mostrem também o que **não** é permitido: a partir de `encerrado` ou de `cancelado` não sai nenhuma seta de `avancar()`.
-  - O array `ETAPAS` em `Contrato.java` é a lista oficial de estados.
-
-### 6.4 (Bônus) Diagrama de Atividades
-Desenhem o processo "do pedido ao fim" de `Contrato` como atividades, com uma **decisão** (losango)
-para a regra *não pode alugar um imóvel que já está com contrato ativo*.
+- [ ] Os nomes usados nos diagramas existem no código.
+- [ ] A notação segue a aula de cada diagrama.
+- [ ] O resumo explica o que acontece no sistema, e não apenas descreve o desenho.
 
 ---
 
-## 7. O que entregar
-
-- [ ] Os três diagramas (casos de uso, sequência, estados) no draw.io, cada um em uma página.
-- [ ] Os nomes de classes, métodos e estados **iguais** aos do código.
-- [ ] Uma frase por diagrama explicando **que pergunta ele responde** no sistema Imobiliária LarCerto.
-- [ ] (Opcional) o diagrama de atividades.
-
-## 8. 🚀 Desafio extra (código)
-
-A regra do cliente — *não pode alugar um imóvel que já está com contrato ativo* — está **descrita**, mas o código ainda não a verifica.
-Implementem essa verificação no `GestorContrato` (por exemplo, recusando a abertura com uma exceção)
-**sem** quebrar o SRP: a regra é do processo, então mora no Gestor. Depois, atualizem o
-diagrama de sequência com o `alt` correspondente.
-
----
-
-[⬅️ Briefing do projeto](../README.md) · [🎤 Entrevista Técnica](../EntrevistaTecnica.md) · [🗓️ Plano de evolução](../PLANO-DE-EVOLUCAO.md)
+[⬅️ Briefing do projeto](../README.md) · [🎤 Entrevista Técnica](../EntrevistaTecnica.md)

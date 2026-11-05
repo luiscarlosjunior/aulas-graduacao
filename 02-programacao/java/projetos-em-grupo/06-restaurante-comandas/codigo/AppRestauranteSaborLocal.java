@@ -1,6 +1,6 @@
 /**
  * AppRestauranteSaborLocal — o fluxo completo do sistema Restaurante SaborLocal.
- * Leia na ordem: é exatamente este passo a passo que vira o DIAGRAMA DE SEQUÊNCIA.
+ * Rode e leia: cada bloco numerado mostra uma parte do sistema funcionando.
  */
 public class AppRestauranteSaborLocal {
     public static void main(String[] args) {
@@ -34,8 +34,8 @@ public class AppRestauranteSaborLocal {
         cardapio.adicionarPrato(item);   // recebe PRONTO (agregação)
         System.out.println("   Itens (Prato) agrupados em Cardapio: " + cardapio.getPratos().size());
 
-        // 5) MÁQUINA DE ESTADOS: avança etapa por etapa até o fim
-        System.out.println("\n5) Estados — aberta → fechada → paga");
+        // 5) Avança etapa por etapa até o fim
+        System.out.println("\n5) Avançando até a última etapa");
         while (!comanda.emEtapaFinal()) {
             gestor.avancar(comanda);
         }

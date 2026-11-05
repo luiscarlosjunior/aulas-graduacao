@@ -1,6 +1,6 @@
 /**
  * AppOficinaMotorOK — o fluxo completo do sistema Oficina MotorOK.
- * Leia na ordem: é exatamente este passo a passo que vira o DIAGRAMA DE SEQUÊNCIA.
+ * Rode e leia: cada bloco numerado mostra uma parte do sistema funcionando.
  */
 public class AppOficinaMotorOK {
     public static void main(String[] args) {
@@ -34,8 +34,8 @@ public class AppOficinaMotorOK {
         catalogoServicos.adicionarServico(item);   // recebe PRONTO (agregação)
         System.out.println("   Itens (Servico) agrupados em CatalogoServicos: " + catalogoServicos.getServicos().size());
 
-        // 5) MÁQUINA DE ESTADOS: avança etapa por etapa até o fim
-        System.out.println("\n5) Estados — aberta → aprovada → em execução → concluída → paga");
+        // 5) Avança etapa por etapa até o fim
+        System.out.println("\n5) Avançando até a última etapa");
         while (!ordemServico.emEtapaFinal()) {
             gestor.avancar(ordemServico);
         }

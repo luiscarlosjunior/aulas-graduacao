@@ -1,6 +1,6 @@
 /**
  * AppCondominioBemMorar — o fluxo completo do sistema Condomínio BemMorar.
- * Leia na ordem: é exatamente este passo a passo que vira o DIAGRAMA DE SEQUÊNCIA.
+ * Rode e leia: cada bloco numerado mostra uma parte do sistema funcionando.
  */
 public class AppCondominioBemMorar {
     public static void main(String[] args) {
@@ -34,8 +34,8 @@ public class AppCondominioBemMorar {
         bloco.adicionarUnidade(item);   // recebe PRONTO (agregação)
         System.out.println("   Itens (Unidade) agrupados em Bloco: " + bloco.getUnidades().size());
 
-        // 5) MÁQUINA DE ESTADOS: avança etapa por etapa até o fim
-        System.out.println("\n5) Estados — solicitada → confirmada");
+        // 5) Avança etapa por etapa até o fim
+        System.out.println("\n5) Avançando até a última etapa");
         while (!reserva.emEtapaFinal()) {
             gestor.avancar(reserva);
         }
@@ -53,7 +53,7 @@ public class AppCondominioBemMorar {
             System.out.println("   Recusado: " + e.getMessage());
         }
 
-        // 7) CAMINHO ALTERNATIVO da máquina de estados ("cancelada")
+        // 7) CAMINHO ALTERNATIVO ("cancelada")
         System.out.println("\n7) Caminho alternativo: cancelada");
         Reserva outra = gestor.abrir(especial, 99.90);
         gestor.cancelar(outra);

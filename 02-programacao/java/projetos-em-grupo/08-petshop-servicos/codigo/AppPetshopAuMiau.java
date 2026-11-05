@@ -1,6 +1,6 @@
 /**
  * AppPetshopAuMiau — o fluxo completo do sistema Petshop AuMiau.
- * Leia na ordem: é exatamente este passo a passo que vira o DIAGRAMA DE SEQUÊNCIA.
+ * Rode e leia: cada bloco numerado mostra uma parte do sistema funcionando.
  */
 public class AppPetshopAuMiau {
     public static void main(String[] args) {
@@ -33,8 +33,8 @@ public class AppPetshopAuMiau {
         comum.adicionarPet(item);   // recebe PRONTO (agregação)
         System.out.println("   Itens (Pet) agrupados em Cliente: " + comum.getPets().size());
 
-        // 5) MÁQUINA DE ESTADOS: avança etapa por etapa até o fim
-        System.out.println("\n5) Estados — marcado → atendido");
+        // 5) Avança etapa por etapa até o fim
+        System.out.println("\n5) Avançando até a última etapa");
         while (!agendamento.emEtapaFinal()) {
             gestor.avancar(agendamento);
         }
@@ -52,7 +52,7 @@ public class AppPetshopAuMiau {
             System.out.println("   Recusado: " + e.getMessage());
         }
 
-        // 7) CAMINHO ALTERNATIVO da máquina de estados ("cancelado")
+        // 7) CAMINHO ALTERNATIVO ("cancelado")
         System.out.println("\n7) Caminho alternativo: cancelado");
         Agendamento outra = gestor.abrir(especial, 99.90);
         gestor.cancelar(outra);

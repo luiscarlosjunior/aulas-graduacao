@@ -4,7 +4,6 @@ import java.util.List;
 /**
  * Locacao — a "transação" central do sistema.
  * ENCAPSULAMENTO + INVARIANTE: valorDiaria nunca é negativo e o estado só muda por operações.
- * MÁQUINA DE ESTADOS: aberta → em andamento → finalizada; ou cancelada.
  */
 public class Locacao {
     // As etapas na ordem certa — não dá para pular nenhuma.
@@ -25,7 +24,7 @@ public class Locacao {
         this.estado = ETAPAS[0];   // PÓS-CONDIÇÃO: nasce na primeira etapa
     }
 
-    /** Avança UMA etapa (aberta → em andamento → finalizada). */
+    /** Avança UMA etapa. */
     public void avancar() {
         // PRÉ-CONDIÇÕES: não pode estar no fim nem fora do caminho normal
         if (estado.equals("cancelada")) throw new IllegalStateException("Locacao está cancelada: não avança mais");
@@ -33,7 +32,7 @@ public class Locacao {
         estado = ETAPAS[posicao() + 1];   // PÓS-CONDIÇÃO: andou exatamente uma etapa
     }
 
-    /** Caminho alternativo da máquina de estados: vai para "cancelada". */
+    /** Caminho alternativo: vai para "cancelada". */
     public void cancelar() {
         // PRÉ-CONDIÇÃO: o que já terminou (ou já está "cancelada") não muda mais
         if (emEtapaFinal()) throw new IllegalStateException("não dá: Locacao já está " + estado);

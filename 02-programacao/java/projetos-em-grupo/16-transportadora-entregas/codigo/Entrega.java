@@ -1,7 +1,6 @@
 /**
  * Entrega — a "transação" central do sistema.
  * ENCAPSULAMENTO + INVARIANTE: valorFrete nunca é negativo e o estado só muda por operações.
- * MÁQUINA DE ESTADOS: postada → em trânsito → saiu para entrega → entregue; ou devolvida.
  */
 public class Entrega {
     // As etapas na ordem certa — não dá para pular nenhuma.
@@ -22,7 +21,7 @@ public class Entrega {
         this.estado = ETAPAS[0];   // PÓS-CONDIÇÃO: nasce na primeira etapa
     }
 
-    /** Avança UMA etapa (postada → em trânsito → saiu para entrega → entregue). */
+    /** Avança UMA etapa. */
     public void avancar() {
         // PRÉ-CONDIÇÕES: não pode estar no fim nem fora do caminho normal
         if (estado.equals("devolvida")) throw new IllegalStateException("Entrega está devolvida: não avança mais");
@@ -30,7 +29,7 @@ public class Entrega {
         estado = ETAPAS[posicao() + 1];   // PÓS-CONDIÇÃO: andou exatamente uma etapa
     }
 
-    /** Caminho alternativo da máquina de estados: vai para "devolvida". */
+    /** Caminho alternativo: vai para "devolvida". */
     public void marcarDevolvida() {
         // PRÉ-CONDIÇÃO: o que já terminou (ou já está "devolvida") não muda mais
         if (emEtapaFinal()) throw new IllegalStateException("não dá: Entrega já está " + estado);

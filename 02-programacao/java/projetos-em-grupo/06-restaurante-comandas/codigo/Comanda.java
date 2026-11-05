@@ -4,7 +4,6 @@ import java.util.List;
 /**
  * Comanda — a "transação" central do sistema.
  * ENCAPSULAMENTO + INVARIANTE: valorTotal nunca é negativo e o estado só muda por operações.
- * MÁQUINA DE ESTADOS: aberta → fechada → paga.
  */
 public class Comanda {
     // As etapas na ordem certa — não dá para pular nenhuma.
@@ -25,7 +24,7 @@ public class Comanda {
         this.estado = ETAPAS[0];   // PÓS-CONDIÇÃO: nasce na primeira etapa
     }
 
-    /** Avança UMA etapa (aberta → fechada → paga). */
+    /** Avança UMA etapa. */
     public void avancar() {
         // PRÉ-CONDIÇÕES: não pode estar no fim nem fora do caminho normal
         if (emEtapaFinal()) throw new IllegalStateException("Comanda já está na última etapa: " + estado);

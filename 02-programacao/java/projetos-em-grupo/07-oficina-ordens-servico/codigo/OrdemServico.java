@@ -4,7 +4,6 @@ import java.util.List;
 /**
  * OrdemServico — a "transação" central do sistema.
  * ENCAPSULAMENTO + INVARIANTE: valorTotal nunca é negativo e o estado só muda por operações.
- * MÁQUINA DE ESTADOS: aberta → aprovada → em execução → concluída → paga.
  */
 public class OrdemServico {
     // As etapas na ordem certa — não dá para pular nenhuma.
@@ -25,7 +24,7 @@ public class OrdemServico {
         this.estado = ETAPAS[0];   // PÓS-CONDIÇÃO: nasce na primeira etapa
     }
 
-    /** Avança UMA etapa (aberta → aprovada → em execução → concluída → paga). */
+    /** Avança UMA etapa. */
     public void avancar() {
         // PRÉ-CONDIÇÕES: não pode estar no fim nem fora do caminho normal
         if (emEtapaFinal()) throw new IllegalStateException("OrdemServico já está na última etapa: " + estado);

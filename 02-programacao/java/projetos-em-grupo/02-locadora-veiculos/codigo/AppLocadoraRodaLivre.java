@@ -1,6 +1,6 @@
 /**
  * AppLocadoraRodaLivre — o fluxo completo do sistema Locadora RodaLivre.
- * Leia na ordem: é exatamente este passo a passo que vira o DIAGRAMA DE SEQUÊNCIA.
+ * Rode e leia: cada bloco numerado mostra uma parte do sistema funcionando.
  */
 public class AppLocadoraRodaLivre {
     public static void main(String[] args) {
@@ -34,8 +34,8 @@ public class AppLocadoraRodaLivre {
         categoria.adicionarVeiculo(item);   // recebe PRONTO (agregação)
         System.out.println("   Itens (Veiculo) agrupados em Categoria: " + categoria.getVeiculos().size());
 
-        // 5) MÁQUINA DE ESTADOS: avança etapa por etapa até o fim
-        System.out.println("\n5) Estados — aberta → em andamento → finalizada");
+        // 5) Avança etapa por etapa até o fim
+        System.out.println("\n5) Avançando até a última etapa");
         while (!locacao.emEtapaFinal()) {
             gestor.avancar(locacao);
         }
@@ -53,7 +53,7 @@ public class AppLocadoraRodaLivre {
             System.out.println("   Recusado: " + e.getMessage());
         }
 
-        // 7) CAMINHO ALTERNATIVO da máquina de estados ("cancelada")
+        // 7) CAMINHO ALTERNATIVO ("cancelada")
         System.out.println("\n7) Caminho alternativo: cancelada");
         Locacao outra = gestor.abrir(especial, 99.90);
         gestor.cancelar(outra);

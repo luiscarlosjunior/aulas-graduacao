@@ -1,185 +1,115 @@
 # 💻 Código pronto — Cinema TelaGrande
 
-> **O que é esta pasta.** Aqui está o sistema **Cinema TelaGrande** (dono de um cinema) **já implementado em
-> Java**, usando tudo o que vimos **até a aula de SOLID**: classes e objetos, encapsulamento,
-> herança, polimorfismo, abstração, interfaces, associação, agregação, composição e dois princípios
-> SOLID (SRP e DIP). O código é **simples de propósito** e **todo comentado**.
->
-> 🎯 **Para que serve na aula de hoje:** o código já está pronto — o trabalho do grupo é **ler,
-> rodar e entender** o sistema e, a partir dele, **criar os diagramas de comportamento**: **casos de
-> uso**, **sequência** e **estados**. (O diagrama de classes vocês já fizeram na
-> [Entrevista Técnica](../EntrevistaTecnica.md).)
+> Este é o sistema **Cinema TelaGrande** (dono de um cinema), **já funcionando em Java**. Ele usa o que vimos até a aula
+> de SOLID. É um código **simples e comentado**: não é um sistema perfeito, é o material para o
+> exercício de hoje. **Aqui não tem nenhum diagrama pronto** — quem descobre e desenha são vocês.
 
 ---
 
-## 1. O sistema em poucas palavras
+## 1. 🎯 A dinâmica de hoje
+
+1. **Escolham** este projeto (ou outro dos 20) em grupo.
+2. **Abram a pasta `codigo/`** no editor que preferirem e **rodem** o sistema (seção 3).
+3. **Leiam o código** e escolham uma **classe** ou uma **funcionalidade**.
+4. **Façam os 4 diagramas** da seção 5. As escolhas **não precisam ser as mesmas**: cada diagrama
+   pode falar de uma parte diferente do sistema.
+5. **Escrevam um pequeno resumo** de cada diagrama, contando com as palavras de vocês o que está
+   acontecendo naquela parte do sistema.
+
+> 💡 O diagrama sai **do código**: os nomes de classes, métodos e estados do desenho têm que
+> existir nos arquivos `.java`.
+
+---
+
+## 2. O sistema em poucas palavras
 
 - **Quem pediu:** dono de um cinema.
 - **Peça central:** `Ingresso`, com dois tipos — `IngressoInteira` (comum) e `IngressoMeia` (custa metade e exige comprovação).
-- **Transação principal:** `Venda`, que passa pelas etapas **aberta → paga; ou cancelada**.
+- **Classe principal do negócio:** `Venda`.
 - **Ligações (descritas na entrevista):** Uma sessão tem MUITOS assentos; cada ingresso reserva UM assento de UMA sessão.
-- **Regra que não pode falhar (do cliente):** *não pode vender o mesmo assento duas vezes na mesma sessão*.
+- **Regra do cliente:** *não pode vender o mesmo assento duas vezes na mesma sessão*. Ela aparece na entrevista, mas o código **ainda não verifica**
+  essa regra; o sistema é simplificado.
+
+Para conhecer melhor o negócio, leiam o [briefing do projeto](../README.md) e a
+[Entrevista Técnica](../EntrevistaTecnica.md).
 
 ---
 
-## 2. Como rodar
+## 3. Como abrir e rodar
+
+**Abram a pasta `codigo/` sozinha** no editor, e não o repositório inteiro. Todos os projetos têm
+classes com o mesmo nome e o editor se confundiria.
+
+No terminal, dentro de `codigo/`:
 
 ```bash
-cd codigo
-javac *.java
+javac -encoding UTF-8 *.java
 java AppCinemaTelaGrande
 ```
 
-Leia a saída **junto com** o arquivo `AppCinemaTelaGrande.java`: cada bloco numerado (1 a 7) mostra um
-conceito funcionando.
+No VS Code (com o *Extension Pack for Java*) ou no IntelliJ, também dá para abrir
+`AppCinemaTelaGrande.java` e clicar em **Run**. Precisa do **Java 17** ou mais novo.
 
 ---
 
-## 3. Mapa das classes
+## 4. Mapa das classes
 
 | Arquivo | Papel no sistema | Conceito que ele mostra |
 |---------|------------------|-------------------------|
 | `Ingresso.java` | classe abstrata, base dos dois tipos | Abstração + encapsulamento |
 | `IngressoInteira.java` | tipo comum | Herança + polimorfismo |
 | `IngressoMeia.java` | tipo especial (custa metade e exige comprovação) | Herança + polimorfismo |
-| `Venda.java` | a transação central; estados: aberta → paga; ou cancelada | Encapsulamento, invariante, pré/pós, máquina de estados |
+| `Venda.java` | a transação central | Encapsulamento, invariante, pré/pós |
 | `Sessao.java` | grupo da agregação de Assento | Agregação ◇ |
 | `Assento.java` | item que é agrupado por Sessao | Agregação ◇ |
 | `Notificador.java` | interface (contrato) de aviso | Interface + DIP |
 | `NotificadorConsole.java` | implementação que escreve no console | Implementa a interface |
 | `GestorVenda.java` | coordena abrir/avançar/cancelar | SRP + DIP |
-| `AppCinemaTelaGrande.java` | o `main`: o fluxo completo | Ponto de partida dos diagramas |
+| `AppCinemaTelaGrande.java` | o `main`: o fluxo completo | Por onde começar a leitura |
 
 ---
 
-## 4. Como ler o código (explicação do professor)
+## 5. Os 4 diagramas
 
-**Abstração e herança.** `Ingresso` é `abstract`: não faz sentido criar "um Ingresso genérico". Ela guarda
-o que é comum (assento, preco) e obriga cada tipo a responder `calcularPreco()`.
-`IngressoInteira` e `IngressoMeia` usam `extends` e chamam `super(...)` para reaproveitar a validação.
+Antes de desenhar, **revejam a aula** de cada diagrama: é lá que estão a notação e os exemplos.
 
-**Polimorfismo.** No `main`, as duas variáveis são do tipo `Ingresso`, mas cada uma responde
-`calcularPreco()` do seu jeito — `IngressoInteira`: preço inteiro; `IngressoMeia`: metade do preço (com comprovação). Ninguém precisa
-de `if (tipo == ...)`.
+| Diagrama | Pergunta que ele responde | Aula |
+|----------|---------------------------|------|
+| **Casos de uso** | Quem usa o sistema e para fazer o quê? | [Aula 08 — Casos de Uso](../../../03-POO/01-modelagem/analise-projeto-uml/08-diagrama-casos-de-uso/) |
+| **Sequência** | Em que ordem os objetos conversam para fazer algo? | [Aula 11 — Sequência](../../../03-POO/01-modelagem/analise-projeto-uml/11-diagrama-de-sequencia/) |
+| **Estados** | Por quais situações um objeto passa e o que o faz mudar? | [Aula 14 — Máquina de Estados](../../../03-POO/01-modelagem/analise-projeto-uml/14-diagrama-de-maquina-de-estados/) |
+| **Atividades** | Quais passos e decisões formam um processo? | [Aula 15 — Atividades](../../../03-POO/01-modelagem/analise-projeto-uml/15-diagrama-de-atividades/) |
 
-**Encapsulamento, invariante, pré e pós-condição.** Todos os atributos são `private` e não há
-*setters*. Em `Venda`:
-- **invariante:** `valorTotal` nunca é negativo e o estado é sempre uma das etapas válidas;
-- **pré-condição:** o construtor recusa valor negativo; `avancar()` recusa se já está no fim, e `cancelar()` recusa se `Venda` já terminou;
-- **pós-condição:** depois de `avancar()`, o estado andou **exatamente uma** etapa.
+**Onde procurar** (são pontos de partida; a escolha é de vocês):
 
-**Associação.** Aqui o `Venda` é dono dos `Ingresso` por composição (veja abaixo).
-
-**Composição (◆) — Venda ◆ Ingresso.** Cada ingresso pertence a uma venda e some junto se a venda for cancelada. No código, quem faz o `new IngressoInteira(...)` é
-o **próprio todo**, dentro de `adicionarIngresso(...)`.
-
-**Agregação (◇) — Sessao ◇ Assento.** Os assentos existem na sala por conta própria; a sessão só os agrupa. No código, `adicionarAssento(...)` **recebe um objeto
-pronto** (criado fora) e só guarda a referência.
-
-**Interface + SOLID.** `Notificador` é um contrato; `NotificadorConsole` o implementa.
-`GestorVenda` segue o **SRP** (só coordena o ciclo de vida de cada `Venda`) e o **DIP** (depende da
-interface `Notificador`, recebida no construtor — trocar por e-mail não muda o Gestor).
-
-**Mensagens.** Repare que o Gestor **não muda o estado na mão**: ele **pede** `venda.avancar()` e o
-próprio objeto decide se pode. Essas chamadas entre objetos são as **mensagens** do diagrama de sequência.
+- **Casos de uso:** pensem em quem usaria este sistema no dia a dia e no que essa pessoa quer
+  conseguir. Podem cobrir o sistema todo ou uma parte dele.
+- **Sequência:** escolham um método e sigam as chamadas de uma classe para outra. O
+  `AppCinemaTelaGrande.java` e o `GestorVenda.java` são bons lugares para começar.
+- **Estados:** procurem uma classe com um atributo que **muda** durante a vida do objeto e vejam
+  quais métodos o alteram e quando eles recusam a mudança.
+- **Atividades:** escolham um processo do sistema, do começo ao fim, e procurem no código onde ele
+  **decide** alguma coisa (os `if`).
 
 ---
 
-## 5. O fluxo do `main` (passo a passo)
+## 6. O que entregar
 
-1. Cria o `NotificadorConsole` e o `GestorVenda` (injeção de dependência).
-2. Cria um `IngressoInteira` e um `IngressoMeia` e pergunta `calcularPreco()` aos dois (polimorfismo).
-3. Pede ao Gestor para **abrir** um registro de `Venda` — ele nasce em `aberta`.
-4. Adiciona partes (`Ingresso`) — **composição**.
-5. Agrupa um item `Assento` já existente em `Sessao` — **agregação**.
-6. Avança o registro de `Venda` etapa por etapa até `paga` — **máquina de estados**.
-7. Tenta ações proibidas (avançar depois do fim; valor negativo) — **pré-condições** recusam.
-8. Abre outro registro de `Venda` e leva pelo caminho alternativo `cancelada`.
+Os 4 diagramas e, para cada um, este resumo:
 
----
+| Diagrama | O que escolhemos (classe ou funcionalidade) | Resumo: o que está acontecendo (3 a 5 linhas) |
+|----------|---------------------------------------------|-----------------------------------------------|
+| Casos de uso | | |
+| Sequência | | |
+| Estados | | |
+| Atividades | | |
 
-## 6. 🎯 Exercício em grupo — os diagramas de comportamento
+**Confiram antes de entregar:**
 
-> Façam **no draw.io**, um diagrama por página. Usem **o código como fonte da verdade**: nomes de
-> classes, métodos e estados têm que bater com os arquivos `.java`.
-
-### 6.1 Diagrama de Casos de Uso
-
-**Pergunta que ele responde:** *quem usa o sistema e para fazer o quê?*
-
-- **Atores sugeridos:** **Espectador**, **Bilheteiro**.
-- **Casos de uso sugeridos** (escolham e nomeiem com **verbo + objeto**):
-  - Cadastrar Ingresso
-  - Abrir Venda
-  - Avançar etapa da Venda
-  - Cancelar Venda
-  - Adicionar Ingresso em Venda
-  - Agrupar Assento em Sessao
-  - Consultar `calcularPreco()` de um Ingresso
-  - Listar os registros de Venda
-- **Dicas:**
-  - "Abrir Venda" pode **incluir** (`«include»`) "Validar dados" (é o que o construtor faz sempre).
-  - "Aplicar benefício de IngressoMeia" é um bom `«extend»` de "Abrir Venda": só acontece **às vezes** (quando o participante é do tipo especial).
-  - "Cancelar Venda" é um caso de uso **próprio** (outro objetivo do ator) — não é extensão de "Avançar etapa".
-  - A regra do cliente (*não pode vender o mesmo assento duas vezes na mesma sessão*) costuma aparecer como um caso de uso incluído ou como uma nota.
-  - Caso de uso **não** é tela nem método: é um **objetivo do ator**.
-
-### 6.2 Diagrama de Sequência
-
-**Pergunta que ele responde:** *em que ordem os objetos conversam para realizar um processo?*
-
-- **Processo pedido:** **abrir um registro de `Venda`, adicionar uma parte `Ingresso` e levar o registro até `paga`** — é o
-  trecho dos passos 2, 3 e 5 do `AppCinemaTelaGrande`.
-- **Participantes (linhas de vida):** `AppCinemaTelaGrande`, `GestorVenda`, `Venda`, `IngressoInteira`, `Notificador`.
-- **Mensagens que devem aparecer** (sigam o código):
-  1. `AppCinemaTelaGrande` → `GestorVenda`: `abrir(150.00)`
-  2. `GestorVenda` → `Venda`: `new Venda(...)` (criação)
-  3. `GestorVenda` → `Notificador`: `notificar(...)`
-  4. `AppCinemaTelaGrande` → `Venda`: `adicionarIngresso(...)` → que cria um objeto `IngressoInteira`
-  5. `AppCinemaTelaGrande` → `GestorVenda`: `avancar(venda)` → `GestorVenda` → `Venda`: `avancar()` → `notificar(...)`
-- **Dicas:**
-  - Use um fragmento **`loop`** para o "avança até o fim".
-  - Use um fragmento **`alt`** para mostrar o caso do valor negativo (o construtor lança exceção).
-  - A regra *não pode vender o mesmo assento duas vezes na mesma sessão* entraria como um `alt` antes de criar o objeto `Venda` (ver desafio extra).
-
-### 6.3 Diagrama de Estados (máquina de estados)
-
-**Pergunta que ele responde:** *por quais estados um objeto passa e o que o faz mudar?*
-
-- **Classe pedida:** `Venda`.
-- **Estados:** `aberta`, `paga` e o caminho alternativo `cancelada`. Marquem o **estado inicial** (●) e o(s) **estado(s) final(is)** (◉).
-- **Transições implementadas no código:**
-
-| De | Para | Evento (método) | Condição de guarda |
-|----|------|-----------------|--------------------|
-| `aberta` | `paga` | `avancar()` | não estar em `paga` nem em `cancelada` |
-| `aberta` | `cancelada` | `cancelar()` | ainda não ter chegado em `paga` |
-
-- **Dicas:**
-  - O nome da seta é o **evento** (o método chamado); entre colchetes vai a **guarda**, ex.: `[valor >= 0]`.
-  - Mostrem também o que **não** é permitido: a partir de `paga` ou de `cancelada` não sai nenhuma seta de `avancar()`.
-  - O array `ETAPAS` em `Venda.java` é a lista oficial de estados.
-
-### 6.4 (Bônus) Diagrama de Atividades
-Desenhem o processo "do pedido ao fim" de `Venda` como atividades, com uma **decisão** (losango)
-para a regra *não pode vender o mesmo assento duas vezes na mesma sessão*.
+- [ ] Os nomes usados nos diagramas existem no código.
+- [ ] A notação segue a aula de cada diagrama.
+- [ ] O resumo explica o que acontece no sistema, e não apenas descreve o desenho.
 
 ---
 
-## 7. O que entregar
-
-- [ ] Os três diagramas (casos de uso, sequência, estados) no draw.io, cada um em uma página.
-- [ ] Os nomes de classes, métodos e estados **iguais** aos do código.
-- [ ] Uma frase por diagrama explicando **que pergunta ele responde** no sistema Cinema TelaGrande.
-- [ ] (Opcional) o diagrama de atividades.
-
-## 8. 🚀 Desafio extra (código)
-
-A regra do cliente — *não pode vender o mesmo assento duas vezes na mesma sessão* — está **descrita**, mas o código ainda não a verifica.
-Implementem essa verificação no `GestorVenda` (por exemplo, recusando a abertura com uma exceção)
-**sem** quebrar o SRP: a regra é do processo, então mora no Gestor. Depois, atualizem o
-diagrama de sequência com o `alt` correspondente.
-
----
-
-[⬅️ Briefing do projeto](../README.md) · [🎤 Entrevista Técnica](../EntrevistaTecnica.md) · [🗓️ Plano de evolução](../PLANO-DE-EVOLUCAO.md)
+[⬅️ Briefing do projeto](../README.md) · [🎤 Entrevista Técnica](../EntrevistaTecnica.md)

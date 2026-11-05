@@ -1,6 +1,6 @@
 /**
  * AppAcademiaCorpoAtivo — o fluxo completo do sistema Academia CorpoAtivo.
- * Leia na ordem: é exatamente este passo a passo que vira o DIAGRAMA DE SEQUÊNCIA.
+ * Rode e leia: cada bloco numerado mostra uma parte do sistema funcionando.
  */
 public class AppAcademiaCorpoAtivo {
     public static void main(String[] args) {
@@ -34,8 +34,8 @@ public class AppAcademiaCorpoAtivo {
         turma.adicionarAluno(item);   // recebe PRONTO (agregação)
         System.out.println("   Itens (Aluno) agrupados em Turma: " + turma.getAlunos().size());
 
-        // 5) MÁQUINA DE ESTADOS: avança etapa por etapa até o fim
-        System.out.println("\n5) Estados — ativo → vencido → cancelado");
+        // 5) Avança etapa por etapa até o fim
+        System.out.println("\n5) Avançando até a última etapa");
         while (!plano.emEtapaFinal()) {
             gestor.avancar(plano);
         }

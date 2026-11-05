@@ -1,6 +1,6 @@
 /**
  * AppEscolaSaber — o fluxo completo do sistema Escola Saber+.
- * Leia na ordem: é exatamente este passo a passo que vira o DIAGRAMA DE SEQUÊNCIA.
+ * Rode e leia: cada bloco numerado mostra uma parte do sistema funcionando.
  */
 public class AppEscolaSaber {
     public static void main(String[] args) {
@@ -34,8 +34,8 @@ public class AppEscolaSaber {
         turma.adicionarAluno(item);   // recebe PRONTO (agregação)
         System.out.println("   Itens (Aluno) agrupados em Turma: " + turma.getAlunos().size());
 
-        // 5) MÁQUINA DE ESTADOS: avança etapa por etapa até o fim
-        System.out.println("\n5) Estados — ativa → trancada → concluída");
+        // 5) Avança etapa por etapa até o fim
+        System.out.println("\n5) Avançando até a última etapa");
         while (!matricula.emEtapaFinal()) {
             gestor.avancar(matricula);
         }
@@ -53,7 +53,7 @@ public class AppEscolaSaber {
             System.out.println("   Recusado: " + e.getMessage());
         }
 
-        // 7) CAMINHO ALTERNATIVO da máquina de estados ("cancelada")
+        // 7) CAMINHO ALTERNATIVO ("cancelada")
         System.out.println("\n7) Caminho alternativo: cancelada");
         Matricula outra = gestor.abrir(especial, 99.90);
         gestor.cancelar(outra);
