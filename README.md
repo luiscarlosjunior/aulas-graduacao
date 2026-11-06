@@ -1,4 +1,4 @@
-# 🎓 Aulas de Graduação - Ciência da Computação
+# 🎓 Aulas de Gra - Ciência da Computação
 
 > Repositório educacional completo com materiais didáticos para o curso de graduação em Ciência da Computação e Informática
 

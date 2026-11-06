@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>README.md</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+html,footer,header{
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Custom MD PDF CSS
+ */
+html,footer,header{
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+
+ }
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///Users/macbookpro/Documents/github/aulas-graduacao/R%3A%5C2.Travail%5C1.Enseignement%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css"><link rel="stylesheet" href="file:///Users/macbookpro/Documents/github/aulas-graduacao/D%3A%5Crdaros%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css">
+</head>
+
+<body>
+    <h1 id="%F0%9F%8E%93-aulas-de-gra---ci%C3%AAncia-da-computa%C3%A7%C3%A3o">🎓 Aulas de Gra - Ciência da Computação</h1>
+<blockquote>
+<p>Repositório educacional completo com materiais didáticos para o curso de graduação em Ciência da Computação e Informática</p>
+</blockquote>
+<p>Este repositório contém uma coleção abrangente de exemplos práticos, exercícios, projetos e materiais de apoio organizados por disciplinas. Todo o conteúdo foi desenvolvido para facilitar o aprendizado e fornecer uma base sólida para estudantes de computação.</p>
+<p><a href="https://github.com/luiscarlosjunior/aulas-graduacao"><img src="https://github-readme-stats.vercel.app/api/top-langs/?username=luiscarlosjunior" alt="Top Langs"></a></p>
+<ul>
+<li>🌐 <a href="https://luiscarlosjunior.github.io/aulas-graduacao/">Site do repositório</a> (Em construção)</li>
+</ul>
+<h2 id="%F0%9F%93%9A-%C3%A1reas-disciplinares">📚 Áreas Disciplinares</h2>
+<p>Este repositório está organizado em <strong>5 grandes áreas do conhecimento</strong> que cobrem toda a grade curricular de Ciência da Computação, seguindo uma progressão pedagógica do básico ao avançado:</p>
+<hr>
+<h3 id="1%EF%B8%8F%E2%83%A3-%F0%9F%92%BB-fundamentos-de-computa%C3%A7%C3%A3o">1️⃣ 💻 <a href="01-fundamentos-computacao/">Fundamentos de Computação</a></h3>
+<p>Disciplinas fundamentais que formam a base para todos os estudos em computação.</p>
+<p><strong>🎯 Disciplinas:</strong></p>
+<ul>
+<li><strong>Organização de Computadores</strong>: Arquitetura, sistemas de numeração, portas lógicas, memória, CPU, ISA</li>
+<li><strong>Perguntas sobre Computação</strong>: Revisão e consolidação de conceitos fundamentais</li>
+</ul>
+<p><a href="01-fundamentos-computacao/">📖 Explorar Fundamentos →</a></p>
+<hr>
+<h3 id="2%EF%B8%8F%E2%83%A3-%F0%9F%92%BB-programa%C3%A7%C3%A3o---programa%C3%A7%C3%A3o-multiplataforma">2️⃣ 💻 <a href="02-programacao/">Programação</a> - Programação Multiplataforma</h3>
+<p>Área focada no desenvolvimento de habilidades de programação em múltiplas linguagens e paradigmas.</p>
+<p><strong>🎯 O que você aprenderá:</strong></p>
+<ul>
+<li><strong>Java</strong>: Desde conceitos básicos até programação orientada a objetos avançada e padrões de design</li>
+<li><strong>PHP</strong>: Desenvolvimento web, orientação a objetos, integração com banco de dados e geração de PDFs</li>
+<li><strong>Python</strong>: Fundamentos de programação e conceitos de POO</li>
+<li><strong>C#</strong>: Programação .NET e desenvolvimento de aplicações</li>
+<li><strong>Java EE</strong>: Desenvolvimento empresarial com tecnologias Java</li>
+<li><strong>Programação Java Web</strong>: Arquiteturas web, sistemas multicamadas e serviços REST</li>
+</ul>
+<p><strong>📁 Estrutura:</strong></p>
+<ul>
+<li><code>java/</code> - Programação Java completa (básico ao avançado)</li>
+<li><code>php/</code> - Desenvolvimento PHP (web, OOP, banco de dados, PDF)</li>
+<li><code>python/</code> - Python e programação orientada a objetos</li>
+<li><code>csharp/</code> - Programação C# e .NET</li>
+<li><code>java-ee/</code> - Java Enterprise Edition</li>
+<li><code>programacao-java-web/</code> - Desenvolvimento web com Java</li>
+<li><code>depuracao/</code> - Técnicas de debugging e resolução de problemas</li>
+</ul>
+<p><a href="02-programacao/">📖 Explorar Programação →</a></p>
+<hr>
+<h3 id="3%EF%B8%8F%E2%83%A3-%F0%9F%97%84%EF%B8%8F-banco-de-dados---sistemas-de-banco-de-dados">3️⃣ 🗄️ <a href="03-banco-dados/">Banco de Dados</a> - Sistemas de Banco de Dados</h3>
+<p>Área dedicada ao estudo completo de sistemas de gerenciamento de banco de dados, desde fundamentos até SQL avançado.</p>
+<p><strong>🎯 O que você aprenderá:</strong></p>
+<ul>
+<li><strong>SQL Básico</strong>: Fundamentos de SQL, modelagem e estruturas de tabelas (Módulos 01-09)</li>
+<li><strong>SQL Avançado</strong>: Consultas complexas, JOINs, subqueries, views e otimização (Módulos 10-17)</li>
+<li><strong>Modelagem de Banco de Dados</strong>: Design e estruturação de bancos relacionais</li>
+<li><strong>Linguagem de Procedure</strong>: PL/SQL e programação em banco de dados</li>
+<li><strong>Projetos Práticos</strong>: Sistemas completos (MusiStream, E-commerce, Barbearia)</li>
+</ul>
+<p><strong>📁 Estrutura:</strong></p>
+<ul>
+<li><code>sql-basico/</code> - Curso SQL fundamentos (módulos 01-09)</li>
+<li><code>sql-avancado/</code> - Curso SQL avançado (módulos 10-17)</li>
+<li><code>projetos/</code> - Projetos práticos completos (streaming musical, e-commerce, etc)</li>
+<li><code>modelagem-banco-dados/</code> - Conceitos e práticas de modelagem</li>
+<li><code>linguagem-procedure/</code> - PL/SQL e procedimentos armazenados</li>
+<li><code>scripts-sql/</code> - Coleção de scripts organizados por SGBD</li>
+<li><code>sistemas-distribuidos/</code> - Bancos de dados distribuídos</li>
+</ul>
+<p><a href="03-banco-dados/">📖 Explorar Banco de Dados →</a></p>
+<hr>
+<h3 id="4%EF%B8%8F%E2%83%A3-%F0%9F%93%8A-ci%C3%AAncia-de-dados-e-computa%C3%A7%C3%A3o-cient%C3%ADfica">4️⃣ 📊 <a href="04-ciencia-dados-computacao-cientifica/">Ciência de Dados e Computação Científica</a></h3>
+<p>Área que combina análise de dados, estatística, métodos numéricos e computação científica.</p>
+<p><strong>🎯 O que você aprenderá:</strong></p>
+<p><strong>Ciência de Dados:</strong></p>
+<ul>
+<li><strong>Análise de dados</strong> com Python e bibliotecas especializadas (Pandas, NumPy)</li>
+<li><strong>Visualização de dados</strong> e criação de dashboards</li>
+<li><strong>Estatística aplicada</strong> para tomada de decisões</li>
+<li><strong>Processamento de dados</strong> e limpeza de datasets</li>
+<li><strong>Pré-processamento</strong> para machine learning</li>
+</ul>
+<p><strong>Métodos Numéricos:</strong></p>
+<ul>
+<li><strong>Algoritmos numéricos</strong> para solução de equações</li>
+<li><strong>Análise de erros</strong> em computação científica</li>
+<li><strong>Método dos Mínimos Quadrados</strong> para ajuste de curvas</li>
+<li><strong>Implementação em Python</strong> com NumPy e Matplotlib</li>
+</ul>
+<p><strong>📁 Estrutura:</strong></p>
+<ul>
+<li><code>ciencia-dados/</code> - Notebooks Jupyter, análise exploratória, projetos práticos</li>
+<li><code>metodos-numericos/</code> - Computação científica, algoritmos numéricos, MMQ</li>
+</ul>
+<p><a href="04-ciencia-dados-computacao-cientifica/">📖 Explorar Ciência de Dados →</a></p>
+<hr>
+<h3 id="5%EF%B8%8F%E2%83%A3-%F0%9F%9A%80-engenharia-de-software">5️⃣ 🚀 <a href="05-engenharia-software/">Engenharia de Software</a></h3>
+<p>Área dedicada ao desenvolvimento profissional de software, boas práticas, modelagem e gestão de projetos.</p>
+<p><strong>🎯 O que você aprenderá:</strong></p>
+<p><strong>Modelagem de Sistemas:</strong></p>
+<ul>
+<li><strong>Diagramas UML</strong> (casos de uso, classes, sequência, atividades)</li>
+<li><strong>Princípios de POO</strong> aplicados ao design de sistemas</li>
+<li><strong>Padrões de projeto</strong> e boas práticas de design</li>
+<li><strong>Arquitetura de software</strong> e design patterns</li>
+</ul>
+<p><strong>Versionamento:</strong></p>
+<ul>
+<li><strong>Git</strong>: Fundamentos, algoritmos internos, workflows profissionais</li>
+<li><strong>GitHub</strong>: Issues, Pull Requests, Actions, Pages, colaboração open source</li>
+<li><strong>Boas Práticas</strong>: Metodologias de Microsoft, Google, GitLab e Atlassian</li>
+</ul>
+<p><strong>Disciplina de Projetos:</strong></p>
+<ul>
+<li><strong>Design Thinking</strong> e identificação de problemas sociais</li>
+<li><strong>Desenvolvimento de MVP</strong> funcional em 3 meses</li>
+<li><strong>Gestão de projetos</strong>: Metodologias ágeis e Scrum</li>
+<li><strong>Trabalho em equipe</strong> e apresentação de resultados</li>
+</ul>
+<p><strong>📁 Estrutura:</strong></p>
+<ul>
+<li><code>modelagem-sistemas/</code> - UML, POO, padrões de projeto</li>
+<li><code>versionamento/</code> - Git, GitHub, workflows e boas práticas</li>
+<li><code>disciplina-projetos/</code> - Projetos com impacto social, gestão ágil</li>
+</ul>
+<p><a href="05-engenharia-software/">📖 Explorar Engenharia de Software →</a></p>
+<hr>
+<h2 id="%F0%9F%9A%80-como-usar-este-reposit%C3%B3rio">🚀 Como Usar Este Repositório</h2>
+<h3 id="%F0%9F%91%A5-p%C3%BAblico-alvo">👥 Público-alvo</h3>
+<ul>
+<li><strong>Estudantes de graduação</strong> em Ciência da Computação, Informática e áreas relacionadas</li>
+<li><strong>Professores</strong> buscando material didático estruturado</li>
+<li><strong>Desenvolvedores iniciantes</strong> querendo aprender novas tecnologias</li>
+<li><strong>Profissionais</strong> em transição de carreira para TI</li>
+</ul>
+<h3 id="%F0%9F%93%8B-pr%C3%A9-requisitos-gerais">📋 Pré-requisitos Gerais</h3>
+<ul>
+<li><strong>Conhecimento básico</strong> de lógica de programação</li>
+<li><strong>Ambiente de desenvolvimento</strong> configurado (IDEs, editores)</li>
+<li><strong>Git</strong> para versionamento de código</li>
+<li><strong>Curiosidade e dedicação</strong> para aprender! 🎯</li>
+</ul>
+<h3 id="%F0%9F%93%96-como-navegar">📖 Como Navegar</h3>
+<ol>
+<li><strong>Escolha sua área de interesse</strong> nas seções acima</li>
+<li><strong>Acesse o diretório correspondente</strong> e leia o README específico</li>
+<li><strong>Siga a sequência recomendada</strong> de estudos em cada área</li>
+<li><strong>Pratique com os exemplos</strong> fornecidos</li>
+<li><strong>Resolva os exercícios</strong> propostos</li>
+<li><strong>Experimente modificações</strong> para consolidar o aprendizado</li>
+</ol>
+<h3 id="%F0%9F%9B%A0%EF%B8%8F-tecnologias-abordadas">🛠️ Tecnologias Abordadas</h3>
+<table>
+<thead>
+<tr>
+<th>Área</th>
+<th>Tecnologias</th>
+<th>Ferramentas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fundamentos</strong></td>
+<td>Arquitetura, Sistemas Numéricos, Lógica Digital</td>
+<td>Simuladores de circuitos</td>
+</tr>
+<tr>
+<td><strong>Programação</strong></td>
+<td>Java, PHP, Python, C#</td>
+<td>IDEs, Git, Maven, Composer</td>
+</tr>
+<tr>
+<td><strong>Banco de Dados</strong></td>
+<td>SQL, PL/SQL, Oracle, MySQL, PostgreSQL</td>
+<td>Oracle DB, SQL Developer, MySQL Workbench</td>
+</tr>
+<tr>
+<td><strong>Ciência de Dados</strong></td>
+<td>Python, Pandas, NumPy, Matplotlib</td>
+<td>Jupyter Notebook, Scikit-learn</td>
+</tr>
+<tr>
+<td><strong>Engenharia de Software</strong></td>
+<td>UML, Git, GitHub, Metodologias Ágeis</td>
+<td>Draw.io, GitHub Projects, Scrum</td>
+</tr>
+</tbody>
+</table>
+<h2 id="%F0%9F%A4%9D-como-contribuir">🤝 Como contribuir</h2>
+<p>Contribuições são muito bem-vindas! Este é um projeto educacional colaborativo.</p>
+<h3 id="%F0%9F%92%A1-formas-de-contribuir">💡 Formas de Contribuir</h3>
+<ul>
+<li>🐛 <strong>Reportar erros</strong> nos códigos ou documentação</li>
+<li>📝 <strong>Melhorar exemplos</strong> existentes ou adicionar novos</li>
+<li>🔧 <strong>Corrigir bugs</strong> ou problemas técnicos</li>
+<li>📚 <strong>Adicionar novos conteúdos</strong> ou tecnologias</li>
+<li>🌍 <strong>Melhorar documentação</strong> e traduzir conteúdos</li>
+</ul>
+<h3 id="%F0%9F%93%8B-guias-de-contribui%C3%A7%C3%A3o">📋 Guias de Contribuição</h3>
+<ul>
+<li><a href="https://github.com/luiscarlosjunior/aulas-graduacao/wiki/Como-contribuir">Como contribuir</a> - Guia completo</li>
+<li><a href="contributing.md">Guia de estilo para colaboradores</a> - Padrões do projeto</li>
+<li><a href="https://www.perforce.com/blog/qac/9-best-practices-for-code-review">Guia de revisão de código</a> - Boas práticas</li>
+<li><a href="https://gist.github.com/leocomelli/2545add34e4fec21ec16">Comandos Git essenciais</a> - Referência rápida</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%93%88-status-do-projeto">📈 Status do Projeto</h2>
+<ul>
+<li>✅ <strong>Fundamentos de Computação</strong>: Conteúdo completo de organização de computadores (20 aulas)</li>
+<li>✅ <strong>Programação</strong>: Conteúdo completo e atualizado (Java, PHP, Python, C#, Java EE, Java Web)</li>
+<li>✅ <strong>Banco de Dados</strong>: Curso SQL estruturado com 17 módulos + projetos práticos</li>
+<li>✅ <strong>Engenharia de Software</strong>: Modelagem UML, Git/GitHub completo, disciplina de projetos</li>
+<li>🔄 <strong>Ciência de Dados</strong>: Em expansão contínua</li>
+<li>🔄 <strong>Métodos Numéricos</strong>: Notebooks em desenvolvimento</li>
+</ul>
+<h2 id="%F0%9F%8E%AF-objetivos-educacionais">🎯 Objetivos Educacionais</h2>
+<p>Este repositório visa proporcionar uma <strong>formação completa</strong> em ciência da computação através de:</p>
+<ul>
+<li><strong>📖 Teoria fundamentada</strong>: Conceitos sólidos e atualizados</li>
+<li><strong>💻 Prática intensiva</strong>: Muitos exemplos e exercícios</li>
+<li><strong>🛠️ Projetos reais</strong>: Aplicações práticas do conhecimento</li>
+<li><strong>🌟 Padrões profissionais</strong>: Boas práticas da indústria</li>
+<li><strong>🚀 Preparação para o mercado</strong>: Skills relevantes e demandadas</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%93%9E-suporte-e-contato">📞 Suporte e Contato</h2>
+<ul>
+<li><strong>📚 Dúvidas técnicas</strong>: Consulte os READMEs específicos de cada área</li>
+<li><strong>🐛 Problemas</strong>: Abra uma <a href="https://github.com/luiscarlosjunior/aulas-graduacao/issues">issue</a></li>
+<li><strong>💡 Sugestões</strong>: Use as <a href="https://github.com/luiscarlosjunior/aulas-graduacao/discussions">discussions</a></li>
+</ul>
+<h2 id="%F0%9F%93%84-licen%C3%A7a">📄 Licença</h2>
+<p>Este material é disponibilizado para fins <strong>educacionais</strong> como parte dos cursos de graduação. Sinta-se livre para usar, modificar e compartilhar respeitando os princípios acadêmicos.</p>
+<hr>
+<div align="center">
+</div><p><strong>🎓 Desenvolvido com dedicação para formar os profissionais de TI do futuro</strong></p>
+<p><em>Universidade Nove de Julho - Ciência da Computação</em></p>
+<p>⭐ <strong>Se este repositório te ajudou, considere dar uma estrela!</strong> ⭐</p>
+
+
+</body>
+
+</html>
